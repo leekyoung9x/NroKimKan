@@ -10,10 +10,7 @@ import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.JSONValue;
 
-import java.sql.CallableStatement;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
+import java.sql.*;
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
@@ -48,6 +45,7 @@ public class TopWhis {
                         break;
                 }
             }
+            TopWhis.TruncateTable("top_whis");
         }
     }
 
@@ -79,6 +77,39 @@ public class TopWhis {
         }
 
         return result;
+    }
+
+    public static void TruncateTable(String tableName) {
+        Connection connection = null;
+        Statement statement = null;
+
+        try {
+            // Kết nối đến cơ sở dữ liệu
+            connection = DBService.gI().getConnectionForGame();
+            statement = connection.createStatement();
+
+            // Thực hiện lệnh TRUNCATE TABLE
+            String sql = "TRUNCATE TABLE " + tableName;
+            statement.executeUpdate(sql);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            // Đóng các tài nguyên (kết nối và câu lệnh)
+            if (statement != null) {
+                try {
+                    statement.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+            if (connection != null) {
+                try {
+                    connection.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
     }
 
     public static List<TopWhisModel> GetTop() {
