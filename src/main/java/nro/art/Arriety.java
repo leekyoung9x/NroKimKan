@@ -9,7 +9,9 @@ package nro.art;
  */
 public class Arriety {
 
-    public static String BUILD = "Béo Đần";
-    public static String TESTER = "Put Sỏi";
+    public static String NAME = "Nguyễn Hữu Thành";
+    public static int AGE = 1997;
+    public static String ADDRESS = "Sơn La";
+    public static String NICK_NAME = "Arriety";
 
 }

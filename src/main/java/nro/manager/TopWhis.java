@@ -11,11 +11,20 @@ import org.json.simple.JSONObject;
 import org.json.simple.JSONValue;
 
 import java.sql.*;
+import java.sql.CallableStatement;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
+import nro.consts.ConstPlayer;
+import nro.models.boss.Boss;
+import nro.models.boss.BossFactory;
+import nro.services.PlayerService;
+import nro.services.Service;
 
 public class TopWhis {
 
@@ -283,7 +292,6 @@ public class TopWhis {
     public static void AddHistory(Player pl) {
         Connection con = null;
         CallableStatement ps = null;
-
         try {
             Duration duration = Duration.between(pl.getTimeCache(), LocalDateTime.now());
             double seconds = duration.toNanos() / 1_000_000_000.0;
@@ -292,7 +300,7 @@ public class TopWhis {
             String sql = "{CALL Proc_Insert_TopWhis_History(?, ?)}";
             ps = con.prepareCall(sql);
             ps.setDouble(1, pl.id);
-            ps.setDouble(2, seconds);    // Thiết lập giá trị cho cột 'age'
+            ps.setDouble(2, seconds);// Thiết lập giá trị cho cột 'age'
 
             int rowsAffected = ps.executeUpdate();
         } catch (Exception e) {
@@ -309,5 +317,38 @@ public class TopWhis {
                 ex.printStackTrace();
             }
         }
+    }
+
+    public static void SwitchToWhisBoss(Player player, int whisId, int level) {
+        Service.getInstance().sendEffectHideNPCPlayer(player, (byte) 56, (byte) 0);
+        Boss whis = BossFactory.createWhisBoss(whisId + player.id, level, player.id);
+        whis.zone = player.zone;
+        whis.name = whis.name + "[" + level + "]";
+        whis.typePk = ConstPlayer.NON_PK;
+        whis.location.x = 370;
+        whis.location.y = 360;
+        whis.setStatus((byte) 71);
+        whis.joinMap();
+
+        if (player.zone != null) {
+            player.location.x = 475;
+            player.location.y = 360;
+            player.zone.mapInfo(player, 56);
+            player.zone.loadAnotherToMe(player);
+            player.zone.load_Me_To_Another(player);
+        }
+        Service.getInstance().chat(whis, "Ngon thì zô đây nhót!");
+
+        new Thread(() -> {
+            try {
+                Thread.sleep(5000);
+                player.setTimeCache(LocalDateTime.now());
+                whis.typePk = ConstPlayer.PK_ALL;
+                PlayerService.gI().sendTypePk(whis);
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
+            whis.setStatus((byte) 3);
+        }).start();
     }
 }

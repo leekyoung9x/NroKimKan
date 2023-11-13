@@ -22,11 +22,11 @@ import java.util.logging.Level;
 public class HistoryTransactionDAO {
 
     public static void insert(Player player1, Player player2,
-                              int goldP1, int goldP2, List<Item> itemP1, List<Item> itemP2,
-                              List<Item> bag1Before, List<Item> bag2Before,
-                              List<Item> bag1After,
-                              List<Item> bag2After,
-                              long gold1Before, long gold2Before, long gold1After, long gold2After) {
+            int goldP1, int goldP2, List<Item> itemP1, List<Item> itemP2,
+            List<Item> bag1Before, List<Item> bag2Before,
+            List<Item> bag1After,
+            List<Item> bag2After,
+            long gold1Before, long gold2Before, long gold1After, long gold2After) {
         PreparedStatement ps = null;
         try (Connection con = DBService.gI().getConnectionForSaveHistory();) {
             String itemsTrade1 = "Gold: " + goldP1;
@@ -116,8 +116,7 @@ public class HistoryTransactionDAO {
     public static void deleteHistory() {
         PreparedStatement ps = null;
         try (Connection con = DBService.gI().getConnectionForAutoSave();) {
-            ps = con.prepareStatement("delete from history_transaction where time_tran < '"
-                    + TimeUtil.getTimeBeforeCurrent(3 * 24 * 60 * 60 * 1000, "yyyy-MM-dd") + "'");
+            ps = con.prepareStatement("delete from history_transaction where time_tran < '" + TimeUtil.getTimeBeforeCurrent(3 * 24 * 60 * 60 * 1000, "yyyy-MM-dd") + "'");
             ps.executeUpdate();
         } catch (Exception e) {
             e.printStackTrace();
@@ -125,7 +124,6 @@ public class HistoryTransactionDAO {
             try {
                 ps.close();
             } catch (SQLException ex) {
-//                java.util.logging.Logger.getLogger(HistoryTransactionDAO.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
     }

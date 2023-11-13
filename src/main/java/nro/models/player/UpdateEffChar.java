@@ -28,15 +28,15 @@ public class UpdateEffChar {
                 int playerIdInt = (int) player.id;
                 if (TopWhis.TOP_ONE == player.id) {
                     Service.getInstance().addEffectChar(player, 58, 1, -1, -1, -1);
-                    System.out.println(player.id);
+//                    System.out.println(player.id);
                 }
                 if (TopWhis.TOP_THREE == player.id) {
                     Service.getInstance().addEffectChar(player, 57, 1, -1, -1, -1);
-                    System.out.println(player.id);
+//                    System.out.println(player.id);
                 }
                 if (TopWhis.TOP_TWO == player.id) {
                     Service.getInstance().addEffectChar(player, 56, 1, -1, -1, -1);
-                    System.out.println(player.id);
+//                    System.out.println(player.id);
                 }
                 switch (playerIdInt) {
                     case 16803:

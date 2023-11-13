@@ -33,6 +33,7 @@ import nro.utils.Util;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import nro.art.ServerLog;
 import nro.manager.TopToTask;
 import nro.models.boss.Boss;
 import nro.models.boss.BossManager;
@@ -1102,6 +1103,7 @@ public class Service {
             }
             msg.writer().writeInt(pl.inventory.gem);
             msg.writer().writeInt(pl.inventory.ruby);
+            ServerLog.logSubRuby(pl.name, pl.inventory.ruby);
             pl.sendMessage(msg);
             msg.cleanup();
         } catch (Exception e) {

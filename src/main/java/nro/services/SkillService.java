@@ -21,6 +21,7 @@ import nro.utils.Util;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.util.*;
+import java.util.concurrent.locks.ReentrantLock;
 import nro.models.boss.Boss;
 import nro.models.boss.BossFactory;
 
@@ -306,25 +307,31 @@ public class SkillService {
                     break;
                 }
                 if (!player.zone.map.isMapOffline) {
-                    List<Player> playersMap = player.zone.getHumanoids();
-                    for (Player pl : playersMap) {
-                        if (pl != null && !player.equals(pl)) {
-                            if (!pl.nPoint.khangTDHS) {
-                                int distance = Util.getDistance(player, pl);
-                                int rangeStun = SkillUtil.getRangeStun(player.playerSkill.skillSelect.point);
-                                if (distance <= rangeStun && canAttackPlayer(player, pl)) {
-                                    if (player.isPet && ((Pet) player).master.equals(pl)) {
-                                        continue;
+                    ReentrantLock lock = new ReentrantLock();
+                    lock.lock();
+                    try {
+                        List<Player> playersMap = player.zone.getHumanoids();
+                        for (Player pl : playersMap) {
+                            if (pl != null && !player.equals(pl)) {
+                                if (!pl.nPoint.khangTDHS) {
+                                    int distance = Util.getDistance(player, pl);
+                                    int rangeStun = SkillUtil.getRangeStun(player.playerSkill.skillSelect.point);
+                                    if (distance <= rangeStun && canAttackPlayer(player, pl)) {
+                                        if (player.isPet && ((Pet) player).master.equals(pl)) {
+                                            continue;
+                                        }
+                                        EffectSkillService.gI().startStun(pl, System.currentTimeMillis(), timeStun);
+                                        if (pl.typePk != ConstPlayer.NON_PK) {
+                                            players.add(pl);
+                                        }
                                     }
-                                    EffectSkillService.gI().startStun(pl, System.currentTimeMillis(), timeStun);
-                                    if (pl.typePk != ConstPlayer.NON_PK) {
-                                        players.add(pl);
-                                    }
+                                } else {
+                                    Service.getInstance().chat(pl, "Lew Lew Lew đòi choáng");
                                 }
-                            } else {
-                                Service.getInstance().chat(pl, "Lew Lew Lew đòi choáng");
                             }
                         }
+                    } catch (Exception e) {
+                        lock.unlock();
                     }
                 }
                 for (Mob mob : player.zone.mobs) {

@@ -31,6 +31,22 @@ public class ServerLog {
         }
     }
 
+    public static void logSubRuby(String name, int quantity) {
+        try {
+            Calendar cl = Calendar.getInstance();
+            Date dt = cl.getTime();
+            String str = toTimeString(Date.from(Instant.now()));
+            String filename = "subRuby/Sub_" + dateFormat.format(dt) + ".txt";
+            FileWriter fw = new FileWriter(filename, true);
+            BufferedWriter bw = new BufferedWriter(fw);
+            bw.write("Player: " + name + "- sl:  " + quantity + "- Time : " + str + "\n");
+            bw.close();
+            fw.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
     public static void logRewardDay(String name, String item, int quantity) {
         try {
             Calendar calender = Calendar.getInstance();

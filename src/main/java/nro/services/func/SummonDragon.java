@@ -720,6 +720,11 @@ public class SummonDragon {
                         }
                         break;
                     case 1:
+                        if (playerSummonShenron == null) {
+                            Service.getInstance().sendThongBao(playerSummonShenron, "Da xay  ra loi");
+                            reOpenShenronWishes(playerSummonShenron);
+                            return;
+                        }
                         if (InventoryService.gI().getCountEmptyBag(playerSummonShenron) > 0) {
                             Item ctBiden = ItemService.gI().createNewItem((short) 990);
                             ctBiden.itemOptions.add(new ItemOption(50, Util.nextInt(20, 30)));

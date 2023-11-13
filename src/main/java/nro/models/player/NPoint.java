@@ -1195,7 +1195,7 @@ public class NPoint {
 
     public void powerSub(long point) {
         if (!player.isBoss && !player.isMiniPet) {
-            if (this.player.zone.map == null) {
+            if (this.player.zone == null) {
                 Service.getInstance().sendThongBao(player, "Đã có lỗi xảy ra");
                 return;
             }

@@ -1,5 +1,6 @@
 package nro.models.npc;
 
+import java.time.Instant;
 import java.time.LocalDateTime;
 import nro.attr.Attribute;
 import nro.attr.AttributeManager;
@@ -38,6 +39,7 @@ import nro.utils.Util;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.logging.Level;
@@ -57,7 +59,6 @@ import static nro.services.func.SummonDragon.*;
 public class NpcFactory {
 
     private static boolean nhanDeTu = true;
-    private Session ss;
 
     // playerid - object
     public static final java.util.Map<Long, Object> PLAYERID_OBJECT = new HashMap<Long, Object>();
@@ -1620,11 +1621,11 @@ public class NpcFactory {
                                                 break;
                                             case 2:
                                                 // con đường rắn độc
+                                                if (!player.getSession().actived) {
+                                                    Service.getInstance().sendThongBao(player, "Vui lòng kích hoạt tài khoản để sửa dụng chức năng này!");
+                                                    return;
+                                                }
                                                 if (player.clan != null) {
-                                                    if (!player.getSession().actived) {
-                                                        Service.getInstance().sendThongBao(player, "Vui lòng kích hoạt tài khoản để sửa dụng chức năng này!");
-                                                        return;
-                                                    }
                                                     Calendar calendar = Calendar.getInstance();
                                                     int dayOfWeek = calendar.get(Calendar.DAY_OF_WEEK);
                                                     if (!(dayOfWeek == Calendar.MONDAY
@@ -2781,9 +2782,9 @@ public class NpcFactory {
                         }
                     };
                     break;
-
                 case ConstNpc.WHIS:
                     npc = new Npc(mapId, status, cx, cy, tempId, avartar) {
+
                         @Override
                         public void openBaseMenu(Player player) {
                             if (canOpenNpc(player)) {
@@ -2795,12 +2796,16 @@ public class NpcFactory {
                                     case 154:
                                         int level = TopWhis.GetLevel(player.id);
                                         this.createOtherMenu(player, ConstNpc.MENU_WHIS_200,
-                                                "Ngươi muốn gì nào", new String[]{"Nói chuyện", "Hành tinh\nBill", "Top 100", "[LV:" + level + "]"});
-
+                                                "Ngươi muốn gì nào",
+                                                new String[]{"Nói chuyện",
+                                                    "Hành tinh\nBill",
+                                                    "Top 100", "[LV:" + level + "]"});
                                         break;
                                     case 200:
                                         this.createOtherMenu(player, ConstNpc.MENU_WHIS,
-                                                "Ngươi muốn gì nào", "Nói chuyện", "Học\n Tuyệt kĩ");
+                                                "Ngươi muốn gì nào",
+                                                "Nói chuyện",
+                                                "Học\n Tuyệt kĩ");
                                         break;
                                     default:
                                         super.openBaseMenu(player);
@@ -2863,40 +2868,14 @@ public class NpcFactory {
                                                     case 3:
                                                         int level = TopWhis.GetLevel(player.id);
                                                         int whisId = TopWhis.GetMaxPlayerId();
-
-                                                        Service.getInstance().sendEffectHideNPCPlayer(player, (byte) 56, (byte) 0);
-
-                                                        // Thực hiện action ở đây
-                                                        Boss whis = BossFactory.createWhisBoss(whisId + player.id, level, player.id);
-                                                        whis.zone = player.zone;
-                                                        whis.name = whis.name + "[" + level + "]";
-                                                        whis.typePk = ConstPlayer.NON_PK;
-                                                        whis.location.x = 370;
-                                                        whis.location.y = 360;
-                                                        whis.setStatus((byte) 71);
-                                                        whis.joinMap();
-
-                                                        if (player.zone != null) {
-                                                            player.location.x = 475;
-                                                            player.location.y = 360;
-                                                            player.zone.mapInfo(player, 56);
-                                                            player.zone.loadAnotherToMe(player);
-                                                            player.zone.load_Me_To_Another(player);
+                                                        int coin = 500;
+                                                        if (player.inventory.ruby < coin) {
+                                                            this.npcChat(player, "Mày chưa đủ xền");
+                                                            return;
                                                         }
-
-                                                        Service.getInstance().chat(whis, "Ngon thì zô đây nhót!");
-
-                                                        new Thread(() -> {
-                                                            try {
-                                                                Thread.sleep(5000);
-                                                                player.setTimeCache(LocalDateTime.now());
-                                                                whis.typePk = ConstPlayer.PK_ALL;
-                                                                PlayerService.gI().sendTypePk(whis);
-                                                            } catch (InterruptedException e) {
-                                                                throw new RuntimeException(e);
-                                                            }
-                                                            whis.setStatus((byte) 3);
-                                                        }).start();
+                                                        player.inventory.gold -= coin;
+                                                        Service.getInstance().sendMoney(player);
+                                                        TopWhis.SwitchToWhisBoss(player, whisId, level);
                                                         break;
                                                 }
                                                 break;

@@ -38,9 +38,9 @@ public class NamekBallWar {
         PlayerService.gI().changeAndSendTypePK(player, ConstPlayer.PK_ALL);
         item.setHolding(true);
         holders[item.getIndex()] = player;
-        Service.getInstance().sendFlagBag(player);
         item.reAppearItem();
         item.setHolderName(player.name);
+        Service.getInstance().sendFlagBag(player);
         Service.getInstance().sendThongBao(player, "Bạn đang giữ viên ngọc rồng Namek " + (item.getIndex() + 1) + " sao");
     }
 

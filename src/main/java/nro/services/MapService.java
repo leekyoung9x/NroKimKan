@@ -346,6 +346,10 @@ public class MapService {
         return mapId == 129;
     }
 
+    public boolean isMapCDRD(int mapId) {
+        return mapId >= 141 && mapId <= 144;
+    }
+
     public boolean isMapFuture(int mapId) {
         return mapId >= 92 && mapId <= 103;
     }
@@ -387,14 +391,10 @@ public class MapService {
     }
 
     public boolean isMapSetKichHoat(int mapId) {
-        return (mapId >= 1 && mapId <= 3)
-                || (mapId == 8 || mapId == 9 || mapId == 11)
-                || (mapId >= 15 && mapId <= 17);
+        return (mapId >= 1 && mapId <= 3) || (mapId == 8 || mapId == 9 || mapId == 11) || (mapId >= 15 && mapId <= 17);
     }
 
     public boolean isMapTuongLai(int mapId) {
-        return (mapId >= 92 && mapId <= 94)
-                || (mapId >= 96 && mapId <= 100)
-                || mapId == 102 || mapId == 103;
+        return (mapId >= 92 && mapId <= 94) || (mapId >= 96 && mapId <= 100) || mapId == 102 || mapId == 103;
     }
 }

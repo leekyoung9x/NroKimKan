@@ -16,6 +16,8 @@ import nro.utils.Log;
 import nro.utils.Util;
 
 import java.io.IOException;
+import java.util.Arrays;
+import java.util.List;
 
 /**
  * @Build by Arriety
@@ -291,10 +293,25 @@ public class FriendAndEnemyService {
             if (pl != null) {
                 if (player.isAdmin() || player.nPoint.teleport) {
                     int mapid = pl.zone.map.mapId;
+                    List<Integer> clone = Arrays.asList(114, 115, 116, 117, 118,
+                            119, 120, 121, 122, 123,
+                            53, 54, 55, 56, 57,
+                            58, 59, 60, 61, 62,
+                            160, 161, 162, 163, 164,
+                            124, 125, 126, 127, 128);
+                    if (clone.contains(mapid)) {
+                        Service.getInstance().sendThongBao(player, "Tele cái máu nhoàn");
+                        return;
+                    }
+//                    if (!(MapService.gI().isMapBanDoKhoBau(mapid)
+//                            && !(MapService.gI().isMapCDRD(mapid)
+//                            && !(MapService.gI().isMapMabuWar14H(mapid)
+//                            && !(MapService.gI().isMapHTTV(mapid)))))) {
+//                        Service.getInstance().sendThongBao(player, "Build active");
+//                        return;
+//                    }
                     if (!pl.itemTime.isUseAnDanh || player.isAdmin()) {
-                        if (player.isAdmin() || !pl.zone.isFullPlayer() || !(mapid >= 85 && mapid <= 91
-                                || !(mapid >= 141 && mapid <= 143) || !(mapid >= 58 && mapid <= 62)
-                                || !(mapid >= 160 && mapid <= 164) && !(MapService.gI().isMapMabuWar(mapid)))) {
+                        if (player.isAdmin() || !pl.zone.isFullPlayer()) {
                             ChangeMapService.gI().changeMapYardrat(player, pl.zone, pl.location.x + Util.nextInt(-5, 5), pl.location.y);
                         } else {
                             Service.getInstance().sendThongBao(player, "Không thể thực hiện");

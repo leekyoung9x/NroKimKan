@@ -1,6 +1,5 @@
 package nro.server;
 
-import com.sun.source.util.TaskEvent;
 import nro.consts.*;
 import nro.data.DataGame;
 import nro.data.ItemData;
@@ -29,6 +28,7 @@ import java.util.Iterator;
 import nro.models.boss.BossManager;
 import nro.models.item.Item;
 import nro.models.item.ItemOption;
+import nro.models.player.Inventory;
 
 public class Controller {
 
@@ -515,7 +515,6 @@ public class Controller {
                         break;
                 }
             } catch (IOException e) {
-//                Log.error(Controller.class, e);
             }
         }
     }
@@ -524,7 +523,6 @@ public class Controller {
         if (_msg != null) {
             try {
                 byte cmd = _msg.reader().readByte();
-//                System.out.println("CMD receive -28 / " + cmd);
                 switch (cmd) {
                     case 2:
                         createChar(_session, _msg);
@@ -699,14 +697,7 @@ public class Controller {
                 }).start();
             }
         }
-        //last time use skill
         Service.getInstance().sendTimeSkill(player);
-//        if (TaskService.gI().getIdTask(player) == ConstTask.TASK_0_0) {
-//            NpcService.gI().createTutorial(player, -1,
-//                    "Chào mừng " + player.name + " đến với " + Manager.SERVER_NAME + "\n"
-//                    + "Nhiệm vụ đầu tiên của bạn là di chuyển\n"
-//                    + "Bạn hãy di chuyển nhân vật theo mũi tên chỉ hướng");
-//        }
         NotiManager.getInstance().sendNoti(player);
         ConsignmentShop.getInstance().sendExpirationNotification(player);
         player.timeFixInventory = System.currentTimeMillis() + 500;

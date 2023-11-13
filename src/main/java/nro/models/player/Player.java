@@ -55,6 +55,7 @@ import nro.models.phuban.DragonNamecWar.*;
  */
 public class Player {
 
+
     public BillEgg billEgg;
     public EggLinhThu egglinhthu;
 
@@ -80,6 +81,7 @@ public class Player {
     public long lastTimeChatGlobal;
     public long lastTimeChatPrivate;
     public long lastTimeChangeMap;
+
     public Date firstTimeLogin;
     public boolean canGeFirstTimeLogin;
 
