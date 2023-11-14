@@ -183,6 +183,11 @@ public class ConstNpc {
     public static final int REGISTER_TRANH_NGOC = 800;
     public static final int LOG_OUT_TRANH_NGOC = 801;
 
+    public static final int KEO_BUA_BAO = 2602;
+    public static final int SEND_KEO_BUA_BAO = 2603;
+    public static final int DAT_KEO_BUA_BAO = 2604;
+    public static final int ACCEPT_KEO_BUA_BAO = 2605;
+
     // menu whist
     public static final int MENU_WHIS = 1906;
     public static final int MENU_WHIS_200 = 1907;

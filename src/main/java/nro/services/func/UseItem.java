@@ -307,6 +307,9 @@ public class UseItem {
                         case 2043:
                             openboxsukien(pl, item, 7);
                             break;
+                        case 736:
+                            openboxsukien(pl, item, 8);
+                            break;
                         case 211: //nho tím
                         case 212: //nho xanh
                             eatGrapes(pl, item);
@@ -1476,6 +1479,35 @@ public class UseItem {
                         switch (tempID) {
                             case 861:
                                 it.quantity = Util.nextInt(100, 1000);
+                                break;
+                        }
+                        icon[1] = it.template.iconID;
+                        InventoryService.gI().subQuantityItemsBag(pl, item, 1);
+                        CombineServiceNew.gI().sendEffectOpenItem(pl, icon[0], icon[1]);
+                        InventoryService.gI().addItemBag(pl, it, 0);
+                        InventoryService.gI().sendItemBags(pl);
+                        break;
+                    } else {
+                        Service.getInstance().sendThongBao(pl, "Hàng trang đã đầy");
+                    }
+                    break;
+                case 8:
+                    if (InventoryService.gI().getCountEmptyBag(pl) > 0) {
+                        short[] icon = new short[2];
+                        icon[0] = item.template.iconID;
+                        int tempID;
+                        tempID = 1265;
+                        Item it = ItemService.gI().createNewItem((short) tempID);
+                        switch (tempID) {
+                            case 1265:
+                                it.itemOptions.add(new ItemOption(50, Util.nextInt(1, 5)));
+                                it.itemOptions.add(new ItemOption(77, Util.nextInt(1, 30)));
+                                it.itemOptions.add(new ItemOption(103, Util.nextInt(1, 30)));
+                                it.itemOptions.add(new ItemOption(5, Util.nextInt(50, 125)));
+                                if (!Util.isTrue(1, 100)) {
+                                    it.itemOptions.add(new ItemOption(93, 1));
+                                }
+                                it.itemOptions.add(new ItemOption(74, 0));
                                 break;
                         }
                         icon[1] = it.template.iconID;

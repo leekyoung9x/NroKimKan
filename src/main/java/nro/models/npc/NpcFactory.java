@@ -1,8 +1,5 @@
 package nro.models.npc;
 
-import java.time.Instant;
-import java.time.LocalDateTime;
-import nro.attr.Attribute;
 import nro.attr.AttributeManager;
 import nro.consts.*;
 import nro.dialog.ConfirmDialog;
@@ -39,18 +36,15 @@ import nro.utils.Util;
 
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import nro.manager.TopWhis;
 import nro.models.map.mabu.MabuWar14h;
-import nro.models.phuban.DragonNamecWar.TranhNgoc;
-import nro.models.phuban.DragonNamecWar.TranhNgocService;
+import nro.models.phuban.DragonNamecWar.*;
 
 import static nro.server.Manager.*;
-import nro.server.io.Session;
 import static nro.services.func.SummonDragon.*;
 
 /**
@@ -2005,9 +1999,8 @@ public class NpcFactory {
                                         "Xin chào, tôi có 1 sự kiện đặc biệt bạn có muốn tham gia không?\n"
                                         + "Số tiền nạp tích lũy của bạn hiện tại là: ["
                                         + player.getSession().poinCharging + "]",
-                                        "1 hộp quà\n[10.000 điểm]",
-                                        "12 hộp quà\n[100.000 điểm]",
-                                        "1Pet vv\n[100.000 điểm]");
+                                        "1 hộp quà\n[1.000 điểm]",
+                                        "12 hộp quà\n[10.000 điểm]");
                             }
                         }
 
@@ -2019,22 +2012,9 @@ public class NpcFactory {
                                         switch (select) {
                                             case 0:
                                                 if (InventoryService.gI().getCountEmptyBag(player) > 0) {
-                                                    if (player.getSession().poinCharging >= 10_000) {
-                                                        if (PlayerDAO.subPoin(player, 10_000)) {
-//                                                            Item pet = ItemService.gI().createNewItem((short) 909);
-//                                                            pet.itemOptions.add(new ItemOption(50, 25));
-//                                                            pet.itemOptions.add(new ItemOption(77, 20));
-//                                                            pet.itemOptions.add(new ItemOption(103, 20));
-//                                                            pet.itemOptions.add(new ItemOption(5, 10));
-//                                                            pet.itemOptions.add(new ItemOption(14, 10));
-//                                                            if (!Util.isTrue(1, 10)) {
-//                                                                pet.itemOptions.add(new ItemOption(93, 1));
-//                                                            }
-//                                                            pet.itemOptions.add(new ItemOption(74, 0));
-//                                                            InventoryService.gI().addItemBag(player, pet, 0);
-//                                                            InventoryService.gI().sendItemBags(player);
-//                                                            Service.getInstance().sendThongBao(player, "Success");
-                                                            Item pet = ItemService.gI().createNewItem((short) 2037);
+                                                    if (player.getSession().poinCharging >= 1000) {
+                                                        if (PlayerDAO.subPoin(player, 1000)) {
+                                                            Item pet = ItemService.gI().createNewItem((short) 736);
                                                             pet.itemOptions.add(new ItemOption(74, 0));
                                                             pet.itemOptions.add(new ItemOption(30, 0));
                                                             InventoryService.gI().addItemBag(player, pet, 0);
@@ -2052,19 +2032,9 @@ public class NpcFactory {
                                                 break;
                                             case 1:
                                                 if (InventoryService.gI().getCountEmptyBag(player) > 0) {
-                                                    if (player.getSession().poinCharging >= 100_000) {
-                                                        if (PlayerDAO.subPoin(player, 100_000)) {
-//                                                            Item pet = ItemService.gI().createNewItem((short) 909);
-//                                                            pet.itemOptions.add(new ItemOption(50, 25));
-//                                                            pet.itemOptions.add(new ItemOption(77, 20));
-//                                                            pet.itemOptions.add(new ItemOption(103, 20));
-//                                                            pet.itemOptions.add(new ItemOption(5, 10));
-//                                                            pet.itemOptions.add(new ItemOption(14, 10));
-//                                                            pet.itemOptions.add(new ItemOption(74, 0));
-//                                                            InventoryService.gI().addItemBag(player, pet, 0);
-//                                                            InventoryService.gI().sendItemBags(player);
-//                                                            Service.getInstance().sendThongBao(player, "Success");
-                                                            Item pet = ItemService.gI().createNewItem((short) 2037);
+                                                    if (player.getSession().poinCharging >= 10_000) {
+                                                        if (PlayerDAO.subPoin(player, 10_000)) {
+                                                            Item pet = ItemService.gI().createNewItem((short) 736);
                                                             pet.itemOptions.add(new ItemOption(74, 0));
                                                             pet.itemOptions.add(new ItemOption(30, 0));
                                                             pet.quantity = 12;
@@ -2082,28 +2052,28 @@ public class NpcFactory {
                                                 }
                                                 break;
                                             case 2:
-                                                if (InventoryService.gI().getCountEmptyBag(player) > 0) {
-                                                    if (player.getSession().poinCharging >= 100_000) {
-                                                        if (PlayerDAO.subPoin(player, 100_000)) {
-                                                            Item pet = ItemService.gI().createNewItem((short) 909);
-                                                            pet.itemOptions.add(new ItemOption(50, 25));
-                                                            pet.itemOptions.add(new ItemOption(77, 20));
-                                                            pet.itemOptions.add(new ItemOption(103, 20));
-                                                            pet.itemOptions.add(new ItemOption(5, 10));
-                                                            pet.itemOptions.add(new ItemOption(14, 10));
-                                                            pet.itemOptions.add(new ItemOption(74, 0));
-                                                            InventoryService.gI().addItemBag(player, pet, 0);
-                                                            InventoryService.gI().sendItemBags(player);
-                                                            Service.getInstance().sendThongBao(player, "Success");
-                                                        } else {
-                                                            this.npcChat(player, "Lỗi vui lòng báo admin...");
-                                                        }
-                                                    } else {
-                                                        Service.getInstance().sendThongBao(player, "Số dư poin không đủ vui lòng nạp thêm tại:\nNROKIMKAN.ONLINE");
-                                                    }
-                                                } else {
-                                                    Service.getInstance().sendThongBao(player, "Hàng trang đã đầy");
-                                                }
+//                                                if (InventoryService.gI().getCountEmptyBag(player) > 0) {
+//                                                    if (player.getSession().poinCharging >= 100_000) {
+//                                                        if (PlayerDAO.subPoin(player, 100_000)) {
+//                                                            Item pet = ItemService.gI().createNewItem((short) 909);
+//                                                            pet.itemOptions.add(new ItemOption(50, 25));
+//                                                            pet.itemOptions.add(new ItemOption(77, 20));
+//                                                            pet.itemOptions.add(new ItemOption(103, 20));
+//                                                            pet.itemOptions.add(new ItemOption(5, 10));
+//                                                            pet.itemOptions.add(new ItemOption(14, 10));
+//                                                            pet.itemOptions.add(new ItemOption(74, 0));
+//                                                            InventoryService.gI().addItemBag(player, pet, 0);
+//                                                            InventoryService.gI().sendItemBags(player);
+//                                                            Service.getInstance().sendThongBao(player, "Success");
+//                                                        } else {
+//                                                            this.npcChat(player, "Lỗi vui lòng báo admin...");
+//                                                        }
+//                                                    } else {
+//                                                        Service.getInstance().sendThongBao(player, "Số dư poin không đủ vui lòng nạp thêm tại:\nNROKIMKAN.ONLINE");
+//                                                    }
+//                                                } else {
+//                                                    Service.getInstance().sendThongBao(player, "Hàng trang đã đầy");
+//                                                }
                                                 break;
 
                                         }

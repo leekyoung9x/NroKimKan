@@ -17,6 +17,7 @@ public class IDMark {
     private int shopId; //shop ope
     private byte typeLuckyRound; //type lucky round
     private byte isTranhNgoc = -1;
+    public byte KeoBuaBao = -1;
     @Getter
     @Setter
     private short idItemUpToTop;
