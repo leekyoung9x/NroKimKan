@@ -127,8 +127,13 @@ public class Client implements Runnable {
             if (player.isHoldNamecBall) {
                 NamekBallWar.gI().dropBall(player);
             }
-            TranhNgoc.gI().removePlayersCadic(player);
-            TranhNgoc.gI().removePlayersFide(player);
+            TranhNgoc tn = ServerManager.gI().getTranhNgocManager().findByPLayerId(player.id);
+
+            if (tn != null) {
+                tn.removePlayersCadic(player);
+                tn.removePlayersFide(player);
+            }
+
             player.beforeDispose = true;
             player.mapIdBeforeLogout = player.zone.map.mapId;
             MapService.gI().exitMap(player);

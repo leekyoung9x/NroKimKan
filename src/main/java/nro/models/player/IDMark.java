@@ -16,20 +16,11 @@ public class IDMark {
     private int typeInput; //input
     private int shopId; //shop ope
     private byte typeLuckyRound; //type lucky round
-    private byte isTranhNgoc = -1;
     public byte KeoBuaBao = -1;
     @Getter
     @Setter
     private short idItemUpToTop;
     public boolean isUseTuiBaoVeNangCap;
-
-    public byte getTranhNgoc() {
-        return isTranhNgoc;
-    }
-
-    public void setTranhNgoc(byte tn) {
-        this.isTranhNgoc = tn;
-    }
 
     public void setTypeLuckyRound(byte type) {
         this.typeLuckyRound = type;

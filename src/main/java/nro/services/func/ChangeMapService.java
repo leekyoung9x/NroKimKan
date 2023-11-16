@@ -184,24 +184,6 @@ public class ChangeMapService {
         changeMap(pl, zoneJoin, -1, -1, x, y, TELEPORT_YARDRAT);
     }
 
-    public Zone getZoneTranhNgoc(byte type) {
-        Zone z = null;
-        Map map = MapService.gI().getMapById(ConstTranhNgocNamek.MAP_ID);
-        if (map != null) {
-            for (int i = 0; i < map.zones.size(); i++) {
-                Zone zone = map.zones.get(i);
-                if (type == 1 && zone.getPlayersCadic().size() < 10) {
-                    z = zone;
-                    break;
-                } else if (type == 2 && zone.getPlayersFide().size() < 10) {
-                    z = zone;
-                    break;
-                }
-            }
-        }
-        return z;
-    }
-
     public void changeMap(Player pl, Zone zoneJoin, int mapId, int zoneId, int x, int y, byte typeSpace) {
         TransactionService.gI().cancelTrade(pl);
         if (zoneJoin == null) {
@@ -231,20 +213,7 @@ public class ChangeMapService {
             }
         }
         zoneJoin = checkMapCanJoin(pl, zoneJoin);
-        if (pl.iDMark.getTranhNgoc() != -1) {
-            zoneJoin = getZoneTranhNgoc(pl.iDMark.getTranhNgoc());
-            if (pl.iDMark.getTranhNgoc() == 1) {
-                zoneJoin.addPlayersCadic(pl);
-            } else if (pl.iDMark.getTranhNgoc() == 2) {
-                zoneJoin.addPlayersFide(pl);
-            }
-            if (!zoneJoin.startZoneTranhNgoc) {
-                zoneJoin.lastTimeStartTranhNgoc = System.currentTimeMillis();
-                zoneJoin.startZoneTranhNgoc = true;
-            }
-            Service.getInstance().changeFlag(pl, pl.iDMark.getTranhNgoc());
-            TranhNgocService.getInstance().sendCreatePhoBan(pl);
-        }
+
         if (zoneJoin != null) {
             boolean currMapIsCold = MapService.gI().isMapCold(pl.zone.map);
             boolean nextMapIsCold = MapService.gI().isMapCold(zoneJoin.map);

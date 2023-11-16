@@ -6,8 +6,7 @@ import nro.jdbc.daos.AccountDAO;
 import nro.jdbc.daos.HistoryTransactionDAO;
 import nro.jdbc.daos.PlayerDAO;
 import nro.login.LoginSession;
-import nro.manager.ConsignManager;
-import nro.manager.TopManager;
+import nro.manager.*;
 import nro.models.boss.BossFactory;
 import nro.models.boss.BossManager;
 import nro.models.map.challenge.MartialCongressManager;
@@ -35,8 +34,6 @@ import java.util.Scanner;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
-import nro.manager.TopCoin;
-import nro.manager.TopWhis;
 
 /**
  *
@@ -67,6 +64,8 @@ public class ServerManager {
     private long lastUpdateAttribute;
     @Getter
     private DungeonManager dungeonManager;
+
+    private TranhNgocManager tranhNgocManager;
 
     public void init() {
         Manager.gI();
@@ -267,6 +266,13 @@ public class ServerManager {
                 }
             }
         }, "Update top whis").start();
+
+        this.tranhNgocManager = new TranhNgocManager();
+        new Thread(this.tranhNgocManager, "Tranh ngoc").start();
+    }
+
+    public TranhNgocManager getTranhNgocManager() {
+        return this.tranhNgocManager;
     }
 
     public void close(long delay) {

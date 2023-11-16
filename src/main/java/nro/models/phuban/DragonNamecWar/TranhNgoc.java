@@ -5,9 +5,21 @@
 package nro.models.phuban.DragonNamecWar;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.concurrent.ExecutorService;
+
+import lombok.Getter;
+import lombok.Setter;
+import nro.consts.ConstItem;
 import nro.consts.ConstTranhNgocNamek;
+import nro.models.map.ItemMap;
+import nro.models.map.Map;
+import nro.models.map.tranhngoc.TranhNgocZone;
 import nro.models.player.Player;
+import nro.server.ServerManager;
+import nro.services.MapService;
+import nro.services.Service;
 import nro.services.func.ChangeMapService;
 import nro.utils.TimeUtil;
 import nro.utils.Util;
@@ -17,8 +29,13 @@ import nro.utils.Util;
  * @Build Arriety
  */
 public class TranhNgoc {
+    @Getter
+    @Setter
+    private int id;
 
-    private static TranhNgoc i;
+    private boolean is_open;
+    private boolean is_finish;
+    private boolean closed;
 
     private static long TIME_REGISTER;
     private static long TIME_OPEN;
@@ -26,23 +43,40 @@ public class TranhNgoc {
 
     public static final byte HOUR_REGISTER = 19;
     public static final byte MIN_REGISTER = 0;
-    public static final byte HOUR_OPEN = 19;
-    public static final byte MIN_OPEN = 10;
+    public static final byte HOUR_OPEN = 1;
+    public static final byte MIN_OPEN = 26;
 
     public static final byte HOUR_CLOSE = 20;
     public static final byte MIN_CLOSE = 0;
 
-    private final List<Player> playersFide = new ArrayList<>();
-    private final List<Player> playersCadic = new ArrayList<>();
+    private List<Player> playersFide;
+    private List<Player> playersCadic;
+    private Map map;
+    private TranhNgocZone zone;
 
     private int day = -1;
 
-    public static TranhNgoc gI() {
-        if (i == null) {
-            i = new TranhNgoc();
-        }
-        i.setTime();
-        return i;
+    public int numOfPlayers;
+
+    public int pointFide;
+    public int pointCadic;
+
+    public long lastTimeStartTranhNgoc;
+
+    public TranhNgoc() {
+        this.playersFide = new ArrayList<>();
+        this.playersCadic = new ArrayList<>();
+        ServerManager.gI().getTranhNgocManager().add(this);
+        this.init();
+        this.map = MapService.gI().getMapById(ConstTranhNgocNamek.MAP_ID);
+        this.setTime();
+    }
+
+    private void init() {
+        final ExecutorService threadPool = ServerManager.gI().getTranhNgocManager().getThreadPool();
+        final Map map = MapService.gI().getMapById(ConstTranhNgocNamek.MAP_ID);
+        final TranhNgocZone road = new TranhNgocZone(map, this.id, 10);
+        this.zone = road;
     }
 
     public List<Player> getPlayersCadic() {
@@ -53,26 +87,59 @@ public class TranhNgoc {
         return this.playersFide;
     }
 
-    public void addPlayersCadic(Player player) {
-        synchronized (playersCadic) {
-            if (!this.playersCadic.contains(player)) {
-                this.playersCadic.add(player);
+    public boolean isCadic(Player player) {
+        for (Player pl : this.playersCadic) {
+            if (pl.id == player.id) {
+                return true;
             }
         }
+
+        return false;
     }
 
-    public void addPlayersFide(Player player) {
-        synchronized (playersFide) {
-            if (!this.playersFide.contains(player)) {
-                this.playersFide.add(player);
+    public boolean isFide(Player player) {
+        for (Player pl : this.playersFide) {
+            if (pl.id == player.id) {
+                return true;
             }
         }
+
+        return false;
+    }
+
+    public boolean addPlayersCadic(Player player) {
+        boolean result = false;
+
+        synchronized (playersCadic) {
+            if (numOfPlayers < 10 && this.playersCadic.size() < 5 && !this.playersCadic.contains(player)) {
+                this.playersCadic.add(player);
+                numOfPlayers++;
+                result = true;
+            }
+        }
+
+        return result;
+    }
+
+    public boolean addPlayersFide(Player player) {
+        boolean result = false;
+
+        synchronized (playersFide) {
+            if (numOfPlayers < 10 && this.playersFide.size() < 5 && !this.playersFide.contains(player)) {
+                this.playersFide.add(player);
+                numOfPlayers++;
+                result = true;
+            }
+        }
+
+        return result;
     }
 
     public void removePlayersCadic(Player player) {
         synchronized (playersCadic) {
             if (this.playersCadic.contains(player)) {
                 this.playersCadic.remove(player);
+                numOfPlayers--;
             }
         }
     }
@@ -81,64 +148,120 @@ public class TranhNgoc {
         synchronized (playersFide) {
             if (this.playersFide.contains(player)) {
                 this.playersFide.remove(player);
+                numOfPlayers--;
             }
         }
     }
 
     public void setTime() {
-        if (i.day == -1 || i.day != TimeUtil.getCurrDay()) {
-            i.day = TimeUtil.getCurrDay();
-            try {
-                TranhNgoc.TIME_OPEN = TimeUtil.getTime(TimeUtil.getTimeNow("dd/MM/yyyy") + " " + HOUR_OPEN + ":" + MIN_OPEN + ":" + 0, "dd/MM/yyyy HH:mm:ss");
-                TranhNgoc.TIME_CLOSE = TimeUtil.getTime(TimeUtil.getTimeNow("dd/MM/yyyy") + " " + HOUR_CLOSE + ":" + MIN_CLOSE + ":" + 0, "dd/MM/yyyy HH:mm:ss");
-                TranhNgoc.TIME_REGISTER = TimeUtil.getTime(TimeUtil.getTimeNow("dd/MM/yyyy") + " " + HOUR_REGISTER + ":" + MIN_REGISTER + ":" + 0, "dd/MM/yyyy HH:mm:ss");
-            } catch (Exception e) {
-            }
+        try {
+            TranhNgoc.TIME_OPEN = TimeUtil.getTime(TimeUtil.getTimeNow("dd/MM/yyyy") + " " + HOUR_OPEN + ":" + MIN_OPEN + ":" + 0, "dd/MM/yyyy HH:mm:ss");
+            TranhNgoc.TIME_CLOSE = TimeUtil.getTime(TimeUtil.getTimeNow("dd/MM/yyyy") + " " + HOUR_CLOSE + ":" + MIN_CLOSE + ":" + 0, "dd/MM/yyyy HH:mm:ss");
+            TranhNgoc.TIME_REGISTER = TimeUtil.getTime(TimeUtil.getTimeNow("dd/MM/yyyy") + " " + HOUR_REGISTER + ":" + MIN_REGISTER + ":" + 0, "dd/MM/yyyy HH:mm:ss");
+        } catch (Exception e) {
         }
+
     }
 
-    public void update(Player player) {
+    public void update() {
         try {
-            if (player.zone != null) {
-                long currentTime = System.currentTimeMillis();
-                if (Util.canDoWithTime(player.lastTimeUpdateBallWar, 1000)) {
-                    player.lastTimeUpdateBallWar = currentTime;
-                    if (player.zone.map.mapId == ConstTranhNgocNamek.MAP_ID) {
-                        try {
-                            if (!isTimeStartWar() || (!player.zone.getPlayersFide().contains(player) && !player.zone.getPlayersCadic().contains(player))) {
-                                kickOutOfMap(player);
-                            }
-                        } catch (Exception ex) {
-                            ex.printStackTrace();
-                        }
-                    } else {
-                        if (isTimeStartWar() && (playersFide.contains(player) || playersCadic.contains(player))) {
-                            ChangeMapService.gI().changeMapInYard(player, ConstTranhNgocNamek.MAP_ID, -1, -1);
+            if (!is_open) {
+                if (isTimeStartWar()) {
+                    is_open = true;
+
+                    for (final Player player : this.getPlayersCadic()) {
+                        if (player != null && player.zone.map.mapId != ConstTranhNgocNamek.MAP_ID) {
+                            ChangeMapService.gI().changeMapInYard(player, this.zone, -1);
+                            Service.getInstance().changeFlag(player, 1);
+                            TranhNgocService.getInstance().sendCreatePhoBan(player);
                         }
                     }
+                    for (final Player player : this.getPlayersFide()) {
+                        if (player != null && player.zone.map.mapId != ConstTranhNgocNamek.MAP_ID) {
+                            ChangeMapService.gI().changeMapInYard(player, this.zone, -1);
+                            Service.getInstance().changeFlag(player, 2);
+                            TranhNgocService.getInstance().sendCreatePhoBan(player);
+                        }
+                    }
+
+                    lastTimeStartTranhNgoc = System.currentTimeMillis();
+                    this.zone.is_open = true;
                 }
+            } else {
+                updateZoneTranhNgoc();
             }
+
+            if (this.is_finish) {
+                this.close();
+            }
+
+            this.zone.update();
+
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
-    private void kickOutOfMap(Player player) {
-        synchronized (player) {
-            player.iDMark.setTranhNgoc((byte) -1);
-            ChangeMapService.gI().changeMapBySpaceShip(player, player.gender + 21, -1, 250);
-            player.isHoldNamecBallTranhDoat = false;
-            player.tempIdNamecBallHoldTranhDoat = -1;
-        }
-    }
-
-    public boolean isTimeRegisterWar() {
-        long now = System.currentTimeMillis();
-        return now > TIME_REGISTER && now < TIME_OPEN;
-    }
-
     public boolean isTimeStartWar() {
         long now = System.currentTimeMillis();
         return now > TIME_OPEN && now < TIME_CLOSE;
+    }
+
+    public boolean isClosed() {
+        return this.closed;
+    }
+
+    public void close() {
+        if (!this.closed) {
+            this.closed = true;
+            this.zone.close();
+            playersCadic.clear();
+            playersFide.clear();
+        }
+    }
+
+    public void setClosed(final boolean closed) {
+        this.closed = closed;
+    }
+
+    private void updateZoneTranhNgoc() {
+        if (is_open) {
+            if (Util.canDoWithTime(this.lastTimeStartTranhNgoc, ConstTranhNgocNamek.TIME)) {
+                if (pointCadic > pointFide) {
+                    SendWin(true);
+                } else if (pointFide > pointCadic) {
+                    SendWin(false);
+                } else {
+                    TranhNgocService.getInstance().sendEndPhoBan(this, ConstTranhNgocNamek.DRAW, true);
+                    TranhNgocService.getInstance().sendEndPhoBan(this, ConstTranhNgocNamek.DRAW, false);
+                }
+
+            } else {
+                if (pointCadic == 1) {
+                    SendWin(true);
+                } else if (pointFide == 1) {
+                    SendWin(false);
+                }
+            }
+        }
+    }
+
+    private void SendWin(boolean is_cadic) {
+        if (is_cadic) {
+            TranhNgocService.getInstance().sendEndPhoBan(this, ConstTranhNgocNamek.WIN, false);
+            TranhNgocService.getInstance().sendEndPhoBan(this, ConstTranhNgocNamek.LOSE, true);
+            TranhNgocService.getInstance().givePrice(getPlayersCadic(), ConstTranhNgocNamek.WIN, pointCadic);
+            TranhNgocService.getInstance().givePrice(getPlayersFide(), ConstTranhNgocNamek.LOSE, pointFide);
+        } else {
+            TranhNgocService.getInstance().sendEndPhoBan(this, ConstTranhNgocNamek.WIN, true);
+            TranhNgocService.getInstance().sendEndPhoBan(this, ConstTranhNgocNamek.LOSE, false);
+            TranhNgocService.getInstance().givePrice(getPlayersFide(), ConstTranhNgocNamek.WIN, pointFide);
+            TranhNgocService.getInstance().givePrice(getPlayersCadic(), ConstTranhNgocNamek.LOSE, pointCadic);
+        }
+        playersCadic.clear();
+        playersFide.clear();
+        pointCadic = 0;
+        pointFide = 0;
+        is_finish = true;
     }
 }

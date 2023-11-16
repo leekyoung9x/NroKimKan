@@ -46,9 +46,7 @@ public class Zone {
     private final List<Player> bosses; //boss
     private final List<Player> pets; //pet
     private final List<Player> minipets; //minpet
-    private final List<ItemMap> items;
-    private final List<Player> playersFide;
-    private final List<Player> playersCadic;
+    protected final List<ItemMap> items;
     public int countItemAppeaerd = 0;
     public Map map;
     public int zoneId;
@@ -59,11 +57,6 @@ public class Zone {
     public boolean initBossMabu;
     public boolean finishMabuWar;
     //tranh ngọc namek
-    public int pointFide;
-    public int pointCadic;
-    public long lastTimeStartTranhNgoc;
-    public boolean startZoneTranhNgoc;
-    public long lastTimeDropBall;
     public List<TrapMap> trapMaps;
     public byte effDragon = -1;
     @Setter
@@ -83,8 +76,6 @@ public class Zone {
         this.mobs = new ArrayList<>();
         this.items = new ArrayList<>();
         this.trapMaps = new ArrayList<>();
-        this.playersFide = new ArrayList<>();
-        this.playersCadic = new ArrayList<>();
     }
 
     public short[] getXYMabuMap() {
@@ -166,77 +157,6 @@ public class Zone {
         }
     }
 
-    private void updateZoneTranhNgoc() {
-        if (!TranhNgoc.gI().isTimeStartWar() && startZoneTranhNgoc) {
-            startZoneTranhNgoc = false;
-            playersCadic.clear();
-            playersFide.clear();
-            pointCadic = 0;
-            pointFide = 0;
-            return;
-        }
-        if (startZoneTranhNgoc) {
-            if (Util.canDoWithTime(this.lastTimeStartTranhNgoc, ConstTranhNgocNamek.TIME)) {
-                startZoneTranhNgoc = false;
-                if (pointCadic > pointFide) {
-                    TranhNgocService.getInstance().sendEndPhoBan(this, ConstTranhNgocNamek.WIN, false);
-                    TranhNgocService.getInstance().sendEndPhoBan(this, ConstTranhNgocNamek.LOSE, true);
-                    TranhNgocService.getInstance().givePrice(getPlayersCadic(), ConstTranhNgocNamek.WIN, pointCadic);
-                    TranhNgocService.getInstance().givePrice(getPlayersFide(), ConstTranhNgocNamek.LOSE, pointFide);
-                } else if (pointFide > pointCadic) {
-                    TranhNgocService.getInstance().sendEndPhoBan(this, ConstTranhNgocNamek.WIN, true);
-                    TranhNgocService.getInstance().sendEndPhoBan(this, ConstTranhNgocNamek.LOSE, false);
-                    TranhNgocService.getInstance().givePrice(getPlayersFide(), ConstTranhNgocNamek.WIN, pointFide);
-                    TranhNgocService.getInstance().givePrice(getPlayersCadic(), ConstTranhNgocNamek.LOSE, pointCadic);
-                } else {
-                    TranhNgocService.getInstance().sendEndPhoBan(this, ConstTranhNgocNamek.DRAW, true);
-                    TranhNgocService.getInstance().sendEndPhoBan(this, ConstTranhNgocNamek.DRAW, false);
-                }
-                items.clear();
-                playersCadic.clear();
-                playersFide.clear();
-                pointCadic = 0;
-                pointFide = 0;
-            } else {
-                if (pointCadic == 7) {
-                    startZoneTranhNgoc = false;
-                    TranhNgocService.getInstance().sendEndPhoBan(this, ConstTranhNgocNamek.WIN, false);
-                    TranhNgocService.getInstance().sendEndPhoBan(this, ConstTranhNgocNamek.LOSE, true);
-                    TranhNgocService.getInstance().givePrice(getPlayersCadic(), ConstTranhNgocNamek.WIN, pointCadic);
-                    TranhNgocService.getInstance().givePrice(getPlayersFide(), ConstTranhNgocNamek.LOSE, pointFide);
-                    items.clear();
-                    playersCadic.clear();
-                    playersFide.clear();
-                    pointCadic = 0;
-                    pointFide = 0;
-                } else if (pointFide == 7) {
-                    startZoneTranhNgoc = false;
-                    TranhNgocService.getInstance().sendEndPhoBan(this, ConstTranhNgocNamek.WIN, true);
-                    TranhNgocService.getInstance().sendEndPhoBan(this, ConstTranhNgocNamek.LOSE, false);
-                    TranhNgocService.getInstance().givePrice(getPlayersFide(), ConstTranhNgocNamek.WIN, pointFide);
-                    TranhNgocService.getInstance().givePrice(getPlayersCadic(), ConstTranhNgocNamek.LOSE, pointCadic);
-                    items.clear();
-                    playersCadic.clear();
-                    playersFide.clear();
-                    pointCadic = 0;
-                    pointFide = 0;
-                }
-            }
-            if (Util.canDoWithTime(lastTimeDropBall, ConstTranhNgocNamek.LAST_TIME_DROP_BALL)) {
-                int id = Util.nextInt(ConstItem.NGOC_RONG_NAMEK_1_SAO, ConstItem.NGOC_RONG_NAMEK_7_SAO);
-                ItemMap it = this.getItemMapByTempId(id);
-                if (it == null && !findPlayerHaveBallTranhDoat(id)) {
-                    lastTimeDropBall = System.currentTimeMillis();
-                    int x = Util.nextInt(20, map.mapWidth);
-                    int y = map.yPhysicInTop(x, Util.nextInt(20, map.mapHeight - 200));
-                    ItemMap itemMap = new ItemMap(this, id, 1, x, y, -1);
-                    itemMap.isNamecBallTranhDoat = true;
-                    Service.getInstance().dropItemMap(this, itemMap);
-                }
-            }
-        }
-    }
-
     public boolean findPlayerHaveBallTranhDoat(int id) {
         for (Player pl : this.getPlayers()) {
             if (pl != null && pl.isHoldNamecBallTranhDoat && pl.tempIdNamecBallHoldTranhDoat == id) {
@@ -262,7 +182,6 @@ public class Zone {
         updateMob();
         updatePlayer();
         updateItem();
-        updateZoneTranhNgoc();
         if (map.mapId == ConstMap.DAI_HOI_VO_THUAT) {
             updateReferee();
         }
@@ -295,46 +214,6 @@ public class Zone {
 
     public List<Player> getHumanoids() {
         return this.humanoids;
-    }
-
-    public List<Player> getPlayersCadic() {
-        return this.playersCadic;
-    }
-
-    public List<Player> getPlayersFide() {
-        return this.playersFide;
-    }
-
-    public void addPlayersCadic(Player player) {
-        synchronized (playersCadic) {
-            if (!this.playersCadic.contains(player)) {
-                this.playersCadic.add(player);
-            }
-        }
-    }
-
-    public void addPlayersFide(Player player) {
-        synchronized (playersFide) {
-            if (!this.playersFide.contains(player)) {
-                this.playersFide.add(player);
-            }
-        }
-    }
-
-    public void removePlayersCadic(Player player) {
-        synchronized (playersCadic) {
-            if (this.playersCadic.contains(player)) {
-                this.playersCadic.remove(player);
-            }
-        }
-    }
-
-    public void removePlayersFide(Player player) {
-        synchronized (playersFide) {
-            if (this.playersFide.contains(player)) {
-                this.playersFide.remove(player);
-            }
-        }
     }
 
     public List<Player> getBosses() {
@@ -507,10 +386,7 @@ public class Zone {
                             NamekBallWar.gI().pickBall(player, ball);
                             return;
                         }
-                        if (itemMap.isNamecBallTranhDoat) {
-                            TranhNgocService.getInstance().pickBall(player, itemMap);
-                            return;
-                        }
+
                         Item item = ItemService.gI().createItemFromItemMap(itemMap);
                         int maxQuantity = 0;
                         if (ItemService.gI().isItemNoLimitQuantity(item.template.id)) {
