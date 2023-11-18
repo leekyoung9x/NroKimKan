@@ -176,6 +176,8 @@ public class BossFactory {
     public static final byte DOI_NHI = -126;
     public static final byte WHIS_TOP = -127;
 
+    public static final byte CLONE_PLAYER = -128;
+
     private static final Logger logger = Logger.getLogger(BossFactory.class);
 
     public static final int[] MAP_APPEARED_QILIN = {ConstMap.VACH_NUI_ARU_42, ConstMap.VACH_NUI_MOORI_43, ConstMap.VACH_NUI_KAKAROT,

@@ -11,8 +11,6 @@ import nro.models.map.war.NamekBallWar;
 import nro.models.mob.Mob;
 import nro.models.npc.Npc;
 import nro.models.npc.NpcManager;
-import nro.models.phuban.DragonNamecWar.TranhNgoc;
-import nro.models.phuban.DragonNamecWar.TranhNgocService;
 import nro.models.player.Pet;
 import nro.models.player.Player;
 import nro.power.CaptionManager;
@@ -33,7 +31,6 @@ import nro.models.boss.list_boss.WhisTop;
 import static nro.services.func.ChangeMapService.NON_SPACE_SHIP;
 
 /**
- * @author 💖 Trần Lại 💖
  * @Build by Arriety
  */
 public class Zone {

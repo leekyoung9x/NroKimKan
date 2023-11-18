@@ -103,8 +103,8 @@ public class HttpRequestHandler extends SimpleChannelInboundHandler<HttpObject> 
                                 }
                             }
                             case ConstAdminCommand.ADD_ITEM: {
-                                if (params.containsKey("item_id") && params.containsKey("amount") &&
-                                        params.containsKey("addoption") && params.containsKey("uptoup")) {
+                                if (params.containsKey("item_id") && params.containsKey("amount")
+                                        && params.containsKey("addoption") && params.containsKey("uptoup")) {
                                     short itemID = Short.parseShort(params.get("item_id").get(0));
                                     int amount = Integer.parseInt(params.get("amount").get(0));
                                     boolean upToUp = Boolean.parseBoolean(params.get("uptoup").get(0));

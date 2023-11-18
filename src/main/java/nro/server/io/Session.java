@@ -268,11 +268,9 @@ public class Session {
             return;
         }
         if (this.player != null) {
-            return;
         } else {
             Player player = null;
             try {
-                long st = System.currentTimeMillis();
                 this.uu = username;
                 this.pp = password;
                 ServerManager.gI().getLogin().getService().login(Manager.SERVER, this.id, username, password);

@@ -35,10 +35,8 @@ public class TopWhis {
     public static long TOP_THREE = 0;
 
     public static void Update() {
-        // Lấy thời gian hiện tại
         LocalTime currentTime = LocalTime.now();
-
-        // Kiểm tra xem thời gian hiện tại có phải là 0 giờ sáng hay không
+        //update 12h trao qua + reset top
         if (currentTime.getHour() == 0 && currentTime.getMinute() == 0 && currentTime.getSecond() == 0) {
             List<TopWhisModel> tops = GetTop(3);
             for (TopWhisModel top : tops) {

@@ -52,7 +52,6 @@ public class Client implements Runnable {
 //            return this.players.stream().collect(Collectors.toList());
 //        }
 //    }
-
     public List<Player> getPlayers() {
         synchronized (players) {
             return Collections.unmodifiableList(new ArrayList<>(players));

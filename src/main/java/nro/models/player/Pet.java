@@ -12,7 +12,7 @@ import nro.utils.TimeUtil;
 import nro.utils.Util;
 
 /**
- * Arriety
+ * @Build by Arriety
  */
 public class Pet extends Player {
 

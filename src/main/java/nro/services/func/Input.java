@@ -110,21 +110,25 @@ public class Input {
                         Player pBuffItem = Client.gI().getPlayer(text[0]);
                         if (pBuffItem != null) {
                             String txtBuff = "Buff to player: " + pBuffItem.name + "\b";
+
                             switch (idItemBuff) {
                                 case -1:
                                     pBuffItem.inventory.gold = Math.min(pBuffItem.inventory.gold + (long) slItemBuff, Inventory.LIMIT_GOLD);
                                     txtBuff += slItemBuff + " vàng\b";
                                     Service.getInstance().sendMoney(player);
+                                    ServerLog.logAdmin(pBuffItem.name, slItemBuff);
                                     break;
                                 case -2:
                                     pBuffItem.inventory.gem = Math.min(pBuffItem.inventory.gem + slItemBuff, 2000000000);
                                     txtBuff += slItemBuff + " ngọc\b";
                                     Service.getInstance().sendMoney(player);
+                                    ServerLog.logAdmin(pBuffItem.name, slItemBuff);
                                     break;
                                 case -3:
                                     pBuffItem.inventory.ruby = Math.min(pBuffItem.inventory.ruby + slItemBuff, 2000000000);
                                     txtBuff += slItemBuff + " ngọc khóa\b";
                                     Service.getInstance().sendMoney(player);
+                                    ServerLog.logAdmin(pBuffItem.name, slItemBuff);
                                     break;
                                 default:
                                     Item itemBuffTemplate = ItemService.gI().createNewItem((short) idItemBuff);
@@ -132,6 +136,7 @@ public class Input {
                                     itemBuffTemplate.quantity = slItemBuff;
                                     txtBuff += "x" + slItemBuff + " " + itemBuffTemplate.template.name + "\b";
                                     InventoryService.gI().addItemBag(pBuffItem, itemBuffTemplate, slItemBuff);
+                                    ServerLog.logAdmin(pBuffItem.name, slItemBuff);
                                     InventoryService.gI().sendItemBags(pBuffItem);
                                     break;
                             }

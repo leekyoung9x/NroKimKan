@@ -402,7 +402,6 @@ public class Service {
             msg.writer().writeShort(y);
             player.sendMessage(msg);
             msg.cleanup();
-
         } catch (Exception e) {
         }
     }
@@ -467,7 +466,6 @@ public class Service {
                 return;
             }
             if (text.equals("admin")) {
-                String str = "";
                 NpcService.gI().createMenuConMeo(player, ConstNpc.MENU_ADMIN, -1,
                         "Quản trị admin Aurora \n"
                         + "|1|Online: " + Client.gI().getPlayers().size() + "\n"

@@ -35,7 +35,8 @@ public class NPoint {
     private Player player;
     public boolean isCrit;
     public boolean isCrit100;
-
+    public boolean eatOsin;
+    
     private Intrinsic intrinsic;
     private int percentDameIntrinsic;
     public int dameAfter;

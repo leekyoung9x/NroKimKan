@@ -15,7 +15,6 @@ public class TopCoin implements Runnable {
 
     @Getter
     private String namePlayer = "";
-    private int tongNap = 0;
     private static final TopCoin INSTANCE = new TopCoin();
 
     public static TopCoin getInstance() {
@@ -29,15 +28,11 @@ public class TopCoin implements Runnable {
             while (con != null) {
                 try (PreparedStatement ps = con.prepareStatement("SELECT player.id, player.name, player.head, player.gender, player.data_point, tongnap FROM player INNER JOIN account ON account.id = player.account_id WHERE tongnap > 0 ORDER BY tongnap DESC LIMIT 1;"); ResultSet rs = ps.executeQuery()) {
                     if (rs.next()) {
-//                        player.id = rs.getInt("id");
                         String nameTemp = rs.getString("name");
                         if (!namePlayer.equals(nameTemp)) {
                             namePlayer = nameTemp;
-                            tongNap = rs.getInt("tongnap");
+                            rs.getInt("tongnap");
                         }
-
-//                        player.head = rs.getShort("head");
-//                        player.gender = rs.getByte("gender");
                     }
                 }
                 Thread.sleep(1000);
