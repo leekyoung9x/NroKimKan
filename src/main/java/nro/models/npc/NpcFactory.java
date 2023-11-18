@@ -429,7 +429,7 @@ public class NpcFactory {
                                                     }
                                                     return;
                                                 }
-                                                Service.getInstance().sendPopUpMultiLine(player, 0, 7184, "Sự kiện sẽ mở đăng ký vào lúc " + TranhNgoc.HOUR_REGISTER + ":" + TranhNgoc.MIN_REGISTER + "0" + "\nSự kiện sẽ bắt đầu vào " + TranhNgoc.HOUR_OPEN + ":" + TranhNgoc.MIN_OPEN + " và kết thúc vào " + TranhNgoc.HOUR_CLOSE + ":" + TranhNgoc.HOUR_CLOSE);
+                                                Service.getInstance().sendPopUpMultiLine(player, 0, 7184, "Sự kiện sẽ mở đăng ký vào lúc " + TimeUtil.ShowTime(TranhNgoc.HOUR_REGISTER, TranhNgoc.MIN_REGISTER) + "\nSự kiện sẽ bắt đầu vào " + TimeUtil.ShowTime(TranhNgoc.HOUR_OPEN, TranhNgoc.MIN_OPEN) + " và kết thúc vào " + TimeUtil.ShowTime(TranhNgoc.HOUR_CLOSE, TranhNgoc.HOUR_CLOSE));
                                                 break;
                                             case 1:// Shop
                                                 ShopService.gI().openShopSpecial(player, this, ConstNpc.SHOP_CHIEN_LUC, 0, -1);
