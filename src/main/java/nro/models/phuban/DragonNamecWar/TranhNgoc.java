@@ -5,15 +5,12 @@
 package nro.models.phuban.DragonNamecWar;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
 
 import lombok.Getter;
 import lombok.Setter;
-import nro.consts.ConstItem;
 import nro.consts.ConstTranhNgocNamek;
-import nro.models.map.ItemMap;
 import nro.models.map.Map;
 import nro.models.map.tranhngoc.TranhNgocZone;
 import nro.models.player.Player;
@@ -29,6 +26,7 @@ import nro.utils.Util;
  * @Build Arriety
  */
 public class TranhNgoc {
+
     @Getter
     @Setter
     private int id;
@@ -37,24 +35,21 @@ public class TranhNgoc {
     private boolean is_finish;
     private boolean closed;
 
-    private static long TIME_REGISTER;
     private static long TIME_OPEN;
     private static long TIME_CLOSE;
+    private static long TIME_REGISTER;
 
     public static final byte HOUR_REGISTER = 19;
     public static final byte MIN_REGISTER = 0;
-    public static final byte HOUR_OPEN = 1;
-    public static final byte MIN_OPEN = 26;
+    public static final byte HOUR_OPEN = 19;
+    public static final byte MIN_OPEN = 10;
 
     public static final byte HOUR_CLOSE = 20;
     public static final byte MIN_CLOSE = 0;
 
     private List<Player> playersFide;
     private List<Player> playersCadic;
-    private Map map;
     private TranhNgocZone zone;
-
-    private int day = -1;
 
     public int numOfPlayers;
 
@@ -68,7 +63,7 @@ public class TranhNgoc {
         this.playersCadic = new ArrayList<>();
         ServerManager.gI().getTranhNgocManager().add(this);
         this.init();
-        this.map = MapService.gI().getMapById(ConstTranhNgocNamek.MAP_ID);
+        MapService.gI().getMapById(ConstTranhNgocNamek.MAP_ID);
         this.setTime();
     }
 
@@ -93,7 +88,6 @@ public class TranhNgoc {
                 return true;
             }
         }
-
         return false;
     }
 
@@ -103,13 +97,11 @@ public class TranhNgoc {
                 return true;
             }
         }
-
         return false;
     }
 
     public boolean addPlayersCadic(Player player) {
         boolean result = false;
-
         synchronized (playersCadic) {
             if (numOfPlayers < 10 && this.playersCadic.size() < 5 && !this.playersCadic.contains(player)) {
                 this.playersCadic.add(player);
@@ -131,7 +123,6 @@ public class TranhNgoc {
                 result = true;
             }
         }
-
         return result;
     }
 
@@ -158,9 +149,10 @@ public class TranhNgoc {
             TranhNgoc.TIME_OPEN = TimeUtil.getTime(TimeUtil.getTimeNow("dd/MM/yyyy") + " " + HOUR_OPEN + ":" + MIN_OPEN + ":" + 0, "dd/MM/yyyy HH:mm:ss");
             TranhNgoc.TIME_CLOSE = TimeUtil.getTime(TimeUtil.getTimeNow("dd/MM/yyyy") + " " + HOUR_CLOSE + ":" + MIN_CLOSE + ":" + 0, "dd/MM/yyyy HH:mm:ss");
             TranhNgoc.TIME_REGISTER = TimeUtil.getTime(TimeUtil.getTimeNow("dd/MM/yyyy") + " " + HOUR_REGISTER + ":" + MIN_REGISTER + ":" + 0, "dd/MM/yyyy HH:mm:ss");
+
+            TimeUtil.getTime(TimeUtil.getTimeNow("dd/MM/yyyy") + " " + HOUR_REGISTER + ":" + MIN_REGISTER + ":" + 0, "dd/MM/yyyy HH:mm:ss");
         } catch (Exception e) {
         }
-
     }
 
     public void update() {
@@ -168,7 +160,6 @@ public class TranhNgoc {
             if (!is_open) {
                 if (isTimeStartWar()) {
                     is_open = true;
-
                     for (final Player player : this.getPlayersCadic()) {
                         if (player != null && player.zone.map.mapId != ConstTranhNgocNamek.MAP_ID) {
                             ChangeMapService.gI().changeMapInYard(player, this.zone, -1);
@@ -183,23 +174,24 @@ public class TranhNgoc {
                             TranhNgocService.getInstance().sendCreatePhoBan(player);
                         }
                     }
-
                     lastTimeStartTranhNgoc = System.currentTimeMillis();
                     this.zone.is_open = true;
                 }
             } else {
                 updateZoneTranhNgoc();
             }
-
             if (this.is_finish) {
                 this.close();
             }
-
             this.zone.update();
-
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    public static boolean isTimeRegWar() {
+        long now = System.currentTimeMillis();
+        return now > TIME_REGISTER && now < TIME_OPEN;
     }
 
     public boolean isTimeStartWar() {
@@ -235,11 +227,10 @@ public class TranhNgoc {
                     TranhNgocService.getInstance().sendEndPhoBan(this, ConstTranhNgocNamek.DRAW, true);
                     TranhNgocService.getInstance().sendEndPhoBan(this, ConstTranhNgocNamek.DRAW, false);
                 }
-
             } else {
-                if (pointCadic == 1) {
+                if (pointCadic == 7) {
                     SendWin(true);
-                } else if (pointFide == 1) {
+                } else if (pointFide == 7) {
                     SendWin(false);
                 }
             }

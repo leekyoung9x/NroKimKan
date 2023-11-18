@@ -401,48 +401,35 @@ public class NpcFactory {
                                 switch (player.iDMark.getIndexMenu()) {
                                     case ConstNpc.BASE_MENU: {
                                         switch (select) {
-//                                            case 0:
-//                                                if (TranhNgoc.gI().isTimeRegisterWar()) {
-//                                                    if (player.iDMark.getTranhNgoc() == -1) {
-//                                                        this.createOtherMenu(player, ConstNpc.REGISTER_TRANH_NGOC,
-//                                                                "Ngọc rồng Namếc đang bị 2 thế lực tranh giành\nHãy chọn cấp độ tham gia tùy theo sức mạnh bản thân\nPhe Cadic: " + TranhNgoc.gI().getPlayersCadic().size() + "\nPhe Fide: " + TranhNgoc.gI().getPlayersFide().size(),
-//                                                                "Tham gia phe Cadic", "Tham gia phe Fide", "Đóng");
-//                                                    } else {
-//                                                        this.createOtherMenu(player, ConstNpc.LOG_OUT_TRANH_NGOC,
-//                                                                "Ngọc rồng Namếc đang bị 2 thế lực tranh giành\nHãy chọn cấp độ tham gia tùy theo sức mạnh bản thân\nPhe Cadic: " + TranhNgoc.gI().getPlayersCadic().size() + "\nPhe Fide: " + TranhNgoc.gI().getPlayersFide().size(),
-//                                                                "Hủy\nĐăng Ký", "Đóng");
-//                                                    }
-//                                                    return;
-//                                                }
-//                                                Service.getInstance().sendPopUpMultiLine(player, 0, 7184, "Sự kiện sẽ mở đăng ký vào lúc " + TranhNgoc.HOUR_REGISTER + ":" + TranhNgoc.MIN_REGISTER + "\nSự kiện sẽ bắt đầu vào " + TranhNgoc.HOUR_OPEN + ":" + TranhNgoc.MIN_OPEN + " và kết thúc vào " + TranhNgoc.HOUR_CLOSE + ":" + TranhNgoc.HOUR_CLOSE);
-//                                                break;
                                             case 0:
-                                                TranhNgoc tn = ServerManager.gI().getTranhNgocManager().findByPLayerId(player.id);
-                                                String message = "Ngọc rồng Namếc đang bị 2 thế lực tranh giành\nHãy chọn cấp độ tham gia tùy theo sức mạnh bản thân";
-
-                                                if (tn == null) {
-                                                    if (ServerManager.gI().getTranhNgocManager().numOfTranhNgoc() == 0) {
-                                                        tn = new TranhNgoc();
-                                                    } else {
-                                                        tn = ServerManager.gI().getTranhNgocManager().getAvableTranhNgoc();
-                                                    }
+                                                if (TranhNgoc.isTimeRegWar()) {
+                                                    TranhNgoc tn = ServerManager.gI().getTranhNgocManager().findByPLayerId(player.id);
+                                                    String message = "Ngọc rồng Namếc đang bị 2 thế lực tranh giành\nHãy chọn cấp độ tham gia tùy theo sức mạnh bản thân";
                                                     if (tn == null) {
-                                                        message = "Ngọc rồng Namếc đang bị 2 thế lực tranh giành\nHãy chọn cấp độ tham gia tùy theo sức mạnh bản thân";
+                                                        if (ServerManager.gI().getTranhNgocManager().numOfTranhNgoc() == 0) {
+                                                            tn = new TranhNgoc();
+                                                        } else {
+                                                            tn = ServerManager.gI().getTranhNgocManager().getAvableTranhNgoc();
+                                                        }
+                                                        if (tn == null) {
+                                                            message = "Ngọc rồng Namếc đang bị 2 thế lực tranh giành\nHãy chọn cấp độ tham gia tùy theo sức mạnh bản thân";
+                                                        } else {
+                                                            message = "Ngọc rồng Namếc đang bị 2 thế lực tranh giành\nHãy chọn cấp độ tham gia tùy theo sức mạnh bản thân\nPhe Cadic: " + tn.getPlayersCadic().size() + "\nPhe Fide: " + tn.getPlayersFide().size();
+                                                        }
+                                                        this.createOtherMenu(player, ConstNpc.REGISTER_TRANH_NGOC,
+                                                                message,
+                                                                "Tham gia phe Cadic", "Tham gia phe Fide", "Đóng");
                                                     } else {
-                                                        message = "Ngọc rồng Namếc đang bị 2 thế lực tranh giành\nHãy chọn cấp độ tham gia tùy theo sức mạnh bản thân\nPhe Cadic: " + tn.getPlayersCadic().size() + "\nPhe Fide: " + tn.getPlayersFide().size();
+                                                        if (tn != null) {
+                                                            message = "Ngọc rồng Namếc đang bị 2 thế lực tranh giành\nHãy chọn cấp độ tham gia tùy theo sức mạnh bản thân\nPhe Cadic: " + tn.getPlayersCadic().size() + "\nPhe Fide: " + tn.getPlayersFide().size();
+                                                        }
+                                                        this.createOtherMenu(player, ConstNpc.LOG_OUT_TRANH_NGOC,
+                                                                message,
+                                                                "Hủy\nĐăng Ký", "Đóng");
                                                     }
-                                                    this.createOtherMenu(player, ConstNpc.REGISTER_TRANH_NGOC,
-                                                            message,
-                                                            "Tham gia phe Cadic", "Tham gia phe Fide", "Đóng");
-                                                } else {
-                                                    if (tn != null) {
-                                                        message = "Ngọc rồng Namếc đang bị 2 thế lực tranh giành\nHãy chọn cấp độ tham gia tùy theo sức mạnh bản thân\nPhe Cadic: " + tn.getPlayersCadic().size() + "\nPhe Fide: " + tn.getPlayersFide().size();
-                                                    }
-
-                                                    this.createOtherMenu(player, ConstNpc.LOG_OUT_TRANH_NGOC,
-                                                            message,
-                                                            "Hủy\nĐăng Ký", "Đóng");
+                                                    return;
                                                 }
+                                                Service.getInstance().sendPopUpMultiLine(player, 0, 7184, "Sự kiện sẽ mở đăng ký vào lúc " + TranhNgoc.HOUR_REGISTER + ":" + TranhNgoc.MIN_REGISTER + "0" + "\nSự kiện sẽ bắt đầu vào " + TranhNgoc.HOUR_OPEN + ":" + TranhNgoc.MIN_OPEN + " và kết thúc vào " + TranhNgoc.HOUR_CLOSE + ":" + TranhNgoc.HOUR_CLOSE);
                                                 break;
                                             case 1:// Shop
                                                 ShopService.gI().openShopSpecial(player, this, ConstNpc.SHOP_CHIEN_LUC, 0, -1);

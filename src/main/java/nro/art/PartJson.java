@@ -93,7 +93,6 @@ public class PartJson {
         for (PartInfo part : parts) {
             sqlBuilder.append("INSERT INTO part (id, type, DATA) VALUES (");
             sqlBuilder.append(i).append(", "); // using i
-//            sqlBuilder.append(part.getType()).append(", ");// close
             sqlBuilder.append("'").append(part.toString()).append("'");
             sqlBuilder.append(");\n");
             i++; // con cac

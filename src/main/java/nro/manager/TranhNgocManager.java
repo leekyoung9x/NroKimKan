@@ -9,7 +9,12 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
 
+/**
+ *
+ * @Build by Arriety
+ */
 public class TranhNgocManager extends ReentrantReadWriteLock implements Runnable {
+
     private final ExecutorService threadPool;
     private final List<TranhNgoc> list;
     private boolean running;
@@ -38,8 +43,7 @@ public class TranhNgocManager extends ReentrantReadWriteLock implements Runnable
             if (now2 - now < 1000L) {
                 try {
                     Thread.sleep(1000L - (now2 - now));
-                }
-                catch (Exception e) {
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
             }
@@ -61,8 +65,7 @@ public class TranhNgocManager extends ReentrantReadWriteLock implements Runnable
                     }
                 }
             }
-        }
-        finally {
+        } finally {
             this.readLock().unlock();
         }
         return null;
@@ -76,8 +79,7 @@ public class TranhNgocManager extends ReentrantReadWriteLock implements Runnable
                     return tn;
                 }
             }
-        }
-        finally {
+        } finally {
             this.readLock().unlock();
         }
         return null;
@@ -91,23 +93,19 @@ public class TranhNgocManager extends ReentrantReadWriteLock implements Runnable
             for (final TranhNgoc tn : this.list) {
                 if (is_cadic) {
                     registerStatus = tn.addPlayersCadic(player);
-
                     if (registerStatus) {
                         break;
                     }
                 } else {
                     registerStatus = tn.addPlayersFide(player);
-
                     if (registerStatus) {
                         break;
                     }
                 }
             }
-        }
-        finally {
+        } finally {
             this.readLock().unlock();
         }
-
         return registerStatus;
     }
 
@@ -118,8 +116,7 @@ public class TranhNgocManager extends ReentrantReadWriteLock implements Runnable
             for (final TranhNgoc tn : this.list) {
                 try {
                     tn.update();
-                }
-                catch (Exception e) {
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
                 if (tn.isClosed()) {
@@ -127,8 +124,7 @@ public class TranhNgocManager extends ReentrantReadWriteLock implements Runnable
                 }
             }
             this.list.removeAll(remove);
-        }
-        finally {
+        } finally {
             this.readLock().unlock();
         }
     }
@@ -138,8 +134,7 @@ public class TranhNgocManager extends ReentrantReadWriteLock implements Runnable
         try {
             tn.setId(this.generateID());
             this.list.add(tn);
-        }
-        finally {
+        } finally {
             this.writeLock().unlock();
         }
     }

@@ -8,7 +8,6 @@ import java.util.List;
 import nro.consts.ConstTranhNgocNamek;
 import nro.models.item.Item;
 import nro.models.map.ItemMap;
-import nro.models.map.Zone;
 import nro.models.player.Player;
 import nro.server.ServerManager;
 import nro.server.io.Message;
@@ -94,28 +93,6 @@ public class TranhNgocService {
         }
     }
 
-    public void sendEndPhoBan(Zone zone, byte type, boolean isFide) {
-//        Message msg;
-//        try {
-//            msg = new Message(20);
-//            msg.writer().writeByte(0);
-//            msg.writer().writeByte(2);
-//            msg.writer().writeByte(type);
-//            if (zone != null) {
-//                List<Player> players = isFide ? zone.getPlayersFide() : zone.getPlayersCadic();
-//                synchronized (players) {
-//                    for (Player pl : players) {
-//                        if (pl != null) {
-//                            pl.sendMessage(msg);
-//                        }
-//                    }
-//                }
-//                msg.cleanup();
-//            }
-//        } catch (Exception e) {
-//        }
-    }
-
     public void sendUpdateTime(Player pl, short second) {
         Message msg;
         try {
@@ -149,30 +126,29 @@ public class TranhNgocService {
 
     public void givePrice(List<Player> players, byte type, int point) {
         switch (type) {
-//            case ConstTranhNgocNamek.LOSE:
-//                int pointDiff = ConstTranhNgocNamek.MAX_POINT - point;
-//                for (Player pl : players) {
-//                    if (pl != null) {
-//                        Item mcl = InventoryService.gI().findItemBagByTemp(pl, 2000);
-//                        if (mcl != null) {
-//                            InventoryService.gI().subQuantityItemsBag(pl, mcl, pointDiff);
-//                            InventoryService.gI().sendItemBags(pl);
-//                        }
-//                        TranhNgoc.gI().removePlayersCadic(pl);
-//                        TranhNgoc.gI().removePlayersFide(pl);
-//                    }
-//                }
-//                break;
+            case ConstTranhNgocNamek.LOSE:
+                int pointDiff = ConstTranhNgocNamek.MAX_POINT - point;
+                for (Player pl : players) {
+                    if (pl != null) {
+                        Item mcl = InventoryService.gI().findItemBagByTemp(pl, 2000);
+                        if (mcl != null) {
+                            InventoryService.gI().subQuantityItemsBag(pl, mcl, pointDiff);
+                            InventoryService.gI().sendItemBags(pl);
+                            Service.getInstance().sendThongBao(pl, "Haizzz thật là nhục nhã\nkiểu này sao báo lại với đội trưởng đây");
+                        } else {
+                            Service.getInstance().sendThongBao(pl, "Bạn không có mảnh chiến lực\nnên tôi xóa đi 1 item trong túi bạn");
+                        }
+                    }
+                }
+                break;
             case ConstTranhNgocNamek.WIN:
                 for (Player pl : players) {
                     if (pl != null) {
                         Item mcl = ItemService.gI().createNewItem((short) 2000);
                         mcl.quantity = point;
-                        InventoryService.gI().addItemBag(pl, mcl, 99999);
+                        InventoryService.gI().addItemBag(pl, mcl, 0);
                         InventoryService.gI().sendItemBags(pl);
-                        // TODO
-//                        TranhNgoc.gI().removePlayersCadic(pl);
-//                        TranhNgoc.gI().removePlayersFide(pl);
+                        Service.getInstance().sendThongBao(pl, "Chúc mừng bạn đã nhận được " + mcl.template.name);
                     }
                 }
                 break;
@@ -227,6 +203,5 @@ public class TranhNgocService {
         Service.getInstance().dropItemMap(player.zone, itemMap);
         Service.getInstance().sendFlagBag(player);
         player.tempIdNamecBallHoldTranhDoat = -1;
-//        Service.getInstance().sendThongBao(player, "Nhót");
     }
 }
