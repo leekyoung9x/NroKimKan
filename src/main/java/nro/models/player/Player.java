@@ -55,7 +55,6 @@ import nro.models.phuban.DragonNamecWar.*;
  */
 public class Player {
 
-
     public BillEgg billEgg;
     public EggLinhThu egglinhthu;
 
@@ -343,6 +342,9 @@ public class Player {
                     if (this.isPl()) {
                         MabuWar.gI().update(this);
                         MabuWar14h.gI().update(this);
+//                        if (Util.canDoWithTime(lastTimeUpdate, 60000)) {
+//                            this.playerTask.achivements.get(ConstAchive.HOAT_DONG_CHAM_CHI).count++;
+//                        }
                     }
                     if (isGotoFuture && Util.canDoWithTime(lastTimeGoToFuture, 6000)) {
                         ChangeMapService.gI().changeMapBySpaceShip(this, 102, -1, Util.nextInt(60, 200));

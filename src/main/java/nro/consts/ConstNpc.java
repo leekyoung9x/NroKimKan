@@ -122,6 +122,12 @@ public class ConstNpc {
     public static final int MENU_OPEN_SUKIEN = 503;
     public static final int MENU_OPENED_SUKIEN = 504;
 
+    //index napthe
+    public static final int MENU_DOI_THE = 19061997;
+    public static final int NAP_THE = 19061998;
+    public static final int VIETTEL = 19061999;
+    public static final int VINAPHONE = 19062000;
+
     //index than vu tru
     public static final int MENU_DI_CHUYEN = 500;
     public static final int MENU_CHON_CAP_DO = 5000;

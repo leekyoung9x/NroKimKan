@@ -156,6 +156,10 @@ public class CombineServiceNew {
                             }
                         }
                     }
+                    if (stole == null) {
+                        this.baHatMit.createOtherMenu(player, ConstNpc.IGNORE_MENU, "Thieu da", "Đóng");
+                        return;
+                    }
                     if (stole == null && stole.quantity < 99) {
                         this.baHatMit.createOtherMenu(player, ConstNpc.IGNORE_MENU, "Thieu da", "Đóng");
                         return;

@@ -72,6 +72,10 @@ public class Whis extends Boss {
     @Override
     public void joinMap() {
         super.joinMap();
-        BossFactory.createBoss(BossFactory.BILL).zone = this.zone;
+        if (this.zone != null) {
+            BossFactory.createBoss(BossFactory.BILL).zone = this.zone;
+        } else {
+            BossManager.gI().removeBoss(this);
+        }
     }
 }

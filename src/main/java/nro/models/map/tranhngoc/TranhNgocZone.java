@@ -4,7 +4,6 @@ import nro.consts.ConstItem;
 import nro.consts.ConstTranhNgocNamek;
 import nro.models.map.ItemMap;
 import nro.models.map.Map;
-import nro.models.map.Satellite;
 import nro.models.map.Zone;
 import nro.models.phuban.DragonNamecWar.TranhNgocService;
 import nro.models.player.Player;
@@ -14,6 +13,10 @@ import nro.utils.Util;
 
 import java.util.List;
 
+/**
+ *
+ * @Build by Arriety
+ */
 public class TranhNgocZone extends Zone {
 
     public long lastTimeDropBall;
@@ -77,7 +80,6 @@ public class TranhNgocZone extends Zone {
     public void kickAllPlayer() {
         List<Player> players = this.getPlayers();
         int size = players.size();
-
         for (int i = size - 1; i >= 0; i--) {
             Player player = players.get(i);
             synchronized (player) {
@@ -87,7 +89,6 @@ public class TranhNgocZone extends Zone {
                 player.tempIdNamecBallHoldTranhDoat = -1;
             }
         }
-
         is_closed = true;
     }
 }

@@ -437,6 +437,9 @@ public class Controller {
                         MenuController.getInstance().openMenuNPC(_session, npcId, player);
                     }
                     break;
+                case 42:
+                    Service.getInstance().regisAccount(_session, _msg);
+                    break;
                 case 34:
                     if (player != null) {
                         int selectSkill = _msg.reader().readShort();
@@ -631,7 +634,7 @@ public class Controller {
     }
 
     public void login2(Session session, Message msg) {
-        Service.getInstance().sendThongBaoOK(session, "Temporary close function!");
+        Service.getInstance().switchToRegisterScr(session);
     }
 
     public void sendInfo(Session session) {

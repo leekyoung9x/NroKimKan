@@ -22,6 +22,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.logging.Level;
 
@@ -1135,6 +1136,35 @@ public class PlayerDAO {
                 }
             }
         }
+    }
 
+    public static void LogNapTIen(String uid, String menhgia, String seri, String code, String trangthai, String tranid, String tinhtrang, String loaithe) {
+        String UPDATE_PASS = "INSERT INTO naptien(uid, sotien, seri,code, loaithe,time, noidung, tinhtrang, tranid, magioithieu) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        PreparedStatement ps = null;
+        try {
+            try (Connection con = DBService.gI().getConnectionForGetPlayer();) {
+                ps = con.prepareStatement(UPDATE_PASS);
+                con.setAutoCommit(false);
+                ps.setString(1, uid);
+                ps.setString(2, menhgia);
+                ps.setString(3, seri);
+                ps.setString(4, code);
+                ps.setString(5, loaithe);
+                ps.setString(6, new SimpleDateFormat("HH:mm - dd/MM/yyyy").format(new Date()));
+                ps.setString(7, trangthai);
+                ps.setString(8, tinhtrang);
+                ps.setString(9, tranid);
+                ps.setString(10, "0");
+                ps.executeUpdate();
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                ps.close();
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+            }
+        }
     }
 }

@@ -42,7 +42,7 @@ public class TranhNgoc {
     public static final byte HOUR_REGISTER = 19;
     public static final byte MIN_REGISTER = 0;
     public static final byte HOUR_OPEN = 19;
-    public static final byte MIN_OPEN = 10;
+    public static final byte MIN_OPEN = 30;
 
     public static final byte HOUR_CLOSE = 20;
     public static final byte MIN_CLOSE = 0;
@@ -191,6 +191,15 @@ public class TranhNgoc {
 
     public static boolean isTimeRegWar() {
         long now = System.currentTimeMillis();
+        try {
+            if (TranhNgoc.TIME_OPEN == 0 || TranhNgoc.TIME_REGISTER == 0) {
+                TranhNgoc.TIME_OPEN = TimeUtil.getTime(TimeUtil.getTimeNow("dd/MM/yyyy") + " " + HOUR_OPEN + ":" + MIN_OPEN + ":" + 0, "dd/MM/yyyy HH:mm:ss");
+                TranhNgoc.TIME_CLOSE = TimeUtil.getTime(TimeUtil.getTimeNow("dd/MM/yyyy") + " " + HOUR_CLOSE + ":" + MIN_CLOSE + ":" + 0, "dd/MM/yyyy HH:mm:ss");
+                TranhNgoc.TIME_REGISTER = TimeUtil.getTime(TimeUtil.getTimeNow("dd/MM/yyyy") + " " + HOUR_REGISTER + ":" + MIN_REGISTER + ":" + 0, "dd/MM/yyyy HH:mm:ss");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         return now > TIME_REGISTER && now < TIME_OPEN;
     }
 

@@ -6,7 +6,8 @@ import nro.jdbc.daos.AccountDAO;
 import nro.jdbc.daos.HistoryTransactionDAO;
 import nro.jdbc.daos.PlayerDAO;
 import nro.login.LoginSession;
-import nro.manager.*;
+import nro.manager.ConsignManager;
+import nro.manager.TopManager;
 import nro.models.boss.BossFactory;
 import nro.models.boss.BossManager;
 import nro.models.map.challenge.MartialCongressManager;
@@ -34,6 +35,9 @@ import java.util.Scanner;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
+import nro.manager.TopCoin;
+import nro.manager.TopWhis;
+import nro.manager.TranhNgocManager;
 
 /**
  *
@@ -55,6 +59,8 @@ public class ServerManager {
     public static ServerSocket listenSocket;
     public static boolean isRunning;
 
+    private TranhNgocManager tranhNgocManager;
+
     @Getter
     private LoginSession login;
     public static boolean updateTimeLogin;
@@ -65,8 +71,6 @@ public class ServerManager {
     @Getter
     private DungeonManager dungeonManager;
 
-    private TranhNgocManager tranhNgocManager;
-
     public void init() {
         Manager.gI();
         HistoryTransactionDAO.deleteHistory();
@@ -75,6 +79,10 @@ public class ServerManager {
         if (updateTimeLogin) {
             AccountDAO.updateLastTimeLoginAllAccount();
         }
+    }
+
+    public TranhNgocManager getTranhNgocManager() {
+        return this.tranhNgocManager;
     }
 
     public static ServerManager gI() {
@@ -97,8 +105,7 @@ public class ServerManager {
         new Thread(TopCoin.getInstance(), "Update Top Coin").start();
         activeLogin();
         autoTask();
-//        (new AutoMaintenance(3, 0, 0)).start();
-        (new AutoMaintenance(12, 0, 0)).start();
+        (new AutoMaintenance(23, 0, 0)).start();
         activeServerSocket();
     }
 
@@ -266,13 +273,8 @@ public class ServerManager {
                 }
             }
         }, "Update top whis").start();
-
         this.tranhNgocManager = new TranhNgocManager();
         new Thread(this.tranhNgocManager, "Tranh ngoc").start();
-    }
-
-    public TranhNgocManager getTranhNgocManager() {
-        return this.tranhNgocManager;
     }
 
     public void close(long delay) {

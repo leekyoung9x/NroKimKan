@@ -16,6 +16,7 @@ import java.util.Map;
 import nro.art.ServerLog;
 import nro.models.item.ItemOption;
 import nro.models.player.Inventory;
+import nro.services.card.NapThe;
 
 /**
  * Build Arriety
@@ -32,10 +33,12 @@ public class Input {
     public static final int CHOOSE_LEVEL_CDRD = 7700;
     public static final int TANG_NGOC_HONG = 505;
     public static final int ADD_ITEM = 506;
-
-    public static final int TRADE_RUBY = 508;
-
     public static final int SEND_ITEM_OP = 507;
+    public static final int TRADE_RUBY = 508;
+    public static final int NAP_THE = 509;
+
+    public static String LOAI_THE;
+    public static String MENH_GIA;
 
     public static final byte NUMERIC = 0;
     public static final byte ANY = 1;
@@ -62,13 +65,14 @@ public class Input {
                 text[i] = msg.reader().readUTF();
             }
             switch (player.iDMark.getTypeInput()) {
+                case NAP_THE:
+                    NapThe.SendCard(player, LOAI_THE, MENH_GIA, text[0], text[1]);
+                    break;
                 case CHANGE_PASSWORD:
                     Service.getInstance().changePassword(player, text[0], text[1], text[2]);
                     break;
                 case GIFT_CODE:
                     GiftService.gI().use(player, text[0]);
-//                    String giftcode = text[0];
-//                    this.addItemGiftCodeToPlayer(pl, giftcode);
                     break;
                 case FIND_PLAYER:
                     pl = Client.gI().getPlayer(text[0]);
@@ -80,9 +84,6 @@ public class Input {
                         Service.getInstance().sendThongBao(player, "Người chơi không tồn tại hoặc đang offline");
                     }
                     break;
-//                case NAP_THE:
-//                    NapThe.SendCard(player, LOAI_THE, MENH_GIA, text[0], text[1]);
-//                    break;
                 case CHANGE_NAME:
                     Player plChanged = (Player) PLAYER_ID_OBJECT.get((int) player.id);
                     if (plChanged != null) {
@@ -164,10 +165,11 @@ public class Input {
                         Service.getInstance().sendThongBao(player, "Số dư không đủ vui lòng nạp thêm!\n Web: NROKIMKAN.ONLINE");
                     } else {
                         PlayerDAO.subVND2(player, cuantity);
-                        player.inventory.ruby += cuantity;
+                        player.inventory.ruby += cuantity * 2;
                         Service.getInstance().sendMoney(player);
-                        ServerLog.logTradeRuby(player.name, cuantity);
-                        Service.getInstance().sendThongBao(player, "Đã đổi thành công " + cuantity);
+                        ServerLog.logTradeRuby("quy doi x2 " + player.name, cuantity);
+                        ServerLog.logTradeRuby(player.name, cuantity * 2);
+                        Service.getInstance().sendThongBao(player, "Đã đổi thành công");
                     }
                     break;
                 case CHOOSE_LEVEL_BDKB: {
@@ -307,6 +309,12 @@ public class Input {
     public void createFormAddItem(Player pl) {
         createForm(pl, ADD_ITEM, "Add Item", new SubInput("ID VẬT PHẨM", NUMERIC),
                 new SubInput("SỐ LƯỢNG", NUMERIC));
+    }
+
+    public void createFormNapThe(Player pl, String loaiThe, String menhGia) {
+        LOAI_THE = loaiThe;
+        MENH_GIA = menhGia;
+        createForm(pl, NAP_THE, "Nạp thẻ\nLoại thẻ: " + loaiThe + "\nMệnh giá: " + menhGia, new SubInput("Số Seri", ANY), new SubInput("Mã thẻ", ANY));
     }
 
     public class SubInput {
