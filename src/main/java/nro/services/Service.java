@@ -4,6 +4,7 @@ import nro.consts.Cmd;
 import nro.consts.ConstNpc;
 import nro.consts.ConstPlayer;
 import nro.data.DataGame;
+import nro.jdbc.DBService;
 import nro.jdbc.daos.AccountDAO;
 import nro.manager.TopManager;
 import nro.models.Part;
@@ -31,6 +32,7 @@ import nro.utils.TimeUtil;
 import nro.utils.Util;
 
 import java.io.IOException;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 import nro.art.ServerLog;
@@ -1863,4 +1865,70 @@ public class Service {
 //            e.printStackTrace();
 //        }
 //    }
+
+    public void regisAccount(Session session, Message _msg) {
+        try {
+            PreparedStatement ps = null;
+            int key = -1;
+            int sl = 0;
+
+            String day = _msg.reader().readUTF();
+            String month = _msg.reader().readUTF();
+            String year = _msg.reader().readUTF();
+            String address = _msg.reader().readUTF();
+            String cmnd = _msg.reader().readUTF();
+            String dayCmnd = _msg.reader().readUTF();
+            String noiCapCmnd = _msg.reader().readUTF();
+            String user = _msg.reader().readUTF();
+            String pass = _msg.reader().readUTF();
+
+            if (!(user.length() >= 4 && user.length() <= 18)) {
+                sendThongBaoOK(session, "Tài khoản phải có độ dài 4-18 ký tự");
+                return;
+            }
+
+            if (!(pass.length() >= 6 && pass.length() <= 18)) {
+                sendThongBaoOK(session, "Mật khẩu phải có độ dài 6-18 ký tự");
+                return;
+            }
+
+            try (Connection con = DBService.gI().getConnectionForGetPlayer();) {
+                ps = con.prepareStatement("SELECT COUNT(1) AS sl FROM account WHERE ip_address = ?");
+                ps.setString(1, session.ipAddress);
+                ResultSet rset = ps.executeQuery();
+                rset.next();
+                sl = rset.getInt("sl");
+
+                if (sl > 5) {
+                    sendThongBaoOK(session, "Số lượng account tối đa có thể đăng ký cho 1 Ip là 5");
+                } else {
+                    ps = con.prepareStatement("select * from account where username = ?");
+                    ps.setString(1, user);
+                    if (ps.executeQuery().next()) {
+                        sendThongBaoOK(session, "Tạo thất bại do tài khoản đã tồn tại");
+                    } else {
+                        ps = con.prepareStatement("insert into account(username,password) values (?,?)", Statement.RETURN_GENERATED_KEYS);
+                        ps.setString(1, user);
+                        ps.setString(2, pass);
+                        ps.executeUpdate();
+                        ResultSet rs = ps.getGeneratedKeys();
+                        rs.next();
+                        key = rs.getInt(1);
+                        sendThongBaoOK(session, "Tạo tài khoản thành công!");
+                    }
+                }
+            } catch (Exception e) {
+                Log.error(AccountDAO.class, e);
+            } finally {
+                try {
+                    ps.close();
+                } catch (SQLException ex) {
+                    ex.printStackTrace();
+                }
+            }
+
+        } catch (Exception e) {
+            sendThongBaoOK(session, "Tạo tài khoản thất bại");
+        }
+    }
 }
