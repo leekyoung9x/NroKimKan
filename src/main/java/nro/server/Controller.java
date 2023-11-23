@@ -109,6 +109,9 @@ public class Controller {
                         IntrinsicService.gI().showMenu(player);
                     }
                     break;
+                case 42:
+                    Service.getInstance().regisAccount(_session, _msg);
+                    break;
                 case -34:
                     if (player != null) {
                         switch (_msg.reader().readByte()) {
@@ -635,6 +638,10 @@ public class Controller {
 
     public void login2(Session session, Message msg) {
         Service.getInstance().switchToRegisterScr(session);
+<<<<<<< HEAD
+=======
+//        Service.getInstance().sendThongBaoOK(session, "Temporary close function!");
+>>>>>>> c0e2a5889341bc230fabfa6ee69613f12587f263
     }
 
     public void sendInfo(Session session) {
