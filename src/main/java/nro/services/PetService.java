@@ -228,6 +228,7 @@ public class PetService {
         pet.gender = (gender != null && gender.length != 0) ? gender[0] : (byte) Util.nextInt(0, 2);
         pet.id = -player.id;
         pet.nPoint.power = isMabu || isBerus ? 1500000 : 2000;
+        pet.setLevel(0);
         pet.typePet = (byte) (isMabu ? 1 : isBerus ? 2 : 0);
         pet.nPoint.stamina = 1000;
         pet.nPoint.maxStamina = 1000;

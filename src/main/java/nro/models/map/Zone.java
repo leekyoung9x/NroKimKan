@@ -588,18 +588,23 @@ public class Zone {
     public void infoPlayer(Player plReceive, Player plInfo) {
         Message msg;
         try {
-            String name;
+            String name = "";
             msg = new Message(-5);
             msg.writer().writeInt((int) plInfo.id);
+
             if (plInfo.clan != null) {
                 msg.writer().writeInt(plInfo.clan.id);
                 name = "[" + plInfo.clan.name + "]" + plInfo.name;
             } else if (plInfo.isBoss && ((Boss) plInfo).isMabuBoss) {
                 msg.writer().writeInt(-100);
+            } else if (plInfo.isPet) {
+                msg.writer().writeInt(-1);
+                name = plInfo.name + "[Level " + ((Pet)plInfo).getLevel() + "]";
             } else {
                 msg.writer().writeInt(-1);
                 name = plInfo.name;
             }
+
             int level = CaptionManager.getInstance().getLevel(plInfo);
             msg.writer().writeByte(level);
             msg.writer().writeBoolean(false);
@@ -607,7 +612,7 @@ public class Zone {
             msg.writer().writeByte(plInfo.gender);
             msg.writer().writeByte(plInfo.gender);
             msg.writer().writeShort(plInfo.getHead());
-            msg.writer().writeUTF(plInfo.name);
+            msg.writer().writeUTF(name);
             msg.writer().writeInt(plInfo.nPoint.hp);
             msg.writer().writeInt(plInfo.nPoint.hpMax);
             msg.writer().writeShort(plInfo.getBody());

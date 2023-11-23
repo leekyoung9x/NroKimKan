@@ -589,13 +589,15 @@ public class NPoint {
         }
         //pet mabư
         if (this.player.isPet) {
+            int percent = ((Pet) this.player).getLevel() * 3;
+
             if (((Pet) this.player).typePet == 1
                     && ((Pet) this.player).master.fusion.typeFusion == ConstPlayer.HOP_THE_PORATA || ((Pet) this.player).master.fusion.typeFusion == ConstPlayer.HOP_THE_PORATA2) {
-                this.hpMax += calPercent(this.hpMax, 5);
+                this.hpMax += calPercent(this.hpMax, percent + 5);
             }
             if (((Pet) this.player).typePet == 2
                     && ((Pet) this.player).master.fusion.typeFusion == ConstPlayer.HOP_THE_PORATA || ((Pet) this.player).master.fusion.typeFusion == ConstPlayer.HOP_THE_PORATA2) {
-                this.hpMax += calPercent(this.hpMax, 15);
+                this.hpMax += calPercent(this.hpMax, percent + 15);
             }
         }
         if (this.player.zone != null && MapService.gI().isMapBlackBallWar(this.player.zone.map.mapId)) {
@@ -700,13 +702,15 @@ public class NPoint {
         }
         //pet mabư
         if (this.player.isPet) {
+            int percent = ((Pet) this.player).getLevel() * 3;
+
             if (((Pet) this.player).typePet == 1
                     && ((Pet) this.player).master.fusion.typeFusion == ConstPlayer.HOP_THE_PORATA || ((Pet) this.player).master.fusion.typeFusion == ConstPlayer.HOP_THE_PORATA2) {
-                this.mpMax += ((long) this.mpMax * 5 / 100);
+                this.mpMax += ((long) this.mpMax * (percent + 5) / 100);
             }
             if (((Pet) this.player).typePet == 2
                     && ((Pet) this.player).master.fusion.typeFusion == ConstPlayer.HOP_THE_PORATA || ((Pet) this.player).master.fusion.typeFusion == ConstPlayer.HOP_THE_PORATA2) {
-                this.mpMax += ((long) this.mpMax * 15 / 100);
+                this.mpMax += ((long) this.mpMax * (percent + 15) / 100);
             }
         }
         //hợp thể
@@ -798,13 +802,15 @@ public class NPoint {
         }
         //pet mabư
         if (this.player.isPet) {
+            int percent = ((Pet) this.player).getLevel() * 3;
+
             if (((Pet) this.player).typePet == 1
                     && ((Pet) this.player).master.fusion.typeFusion == ConstPlayer.HOP_THE_PORATA || ((Pet) this.player).master.fusion.typeFusion == ConstPlayer.HOP_THE_PORATA2) {
-                this.dame += calPercent(this.dame, 5);
+                this.dame += calPercent(this.dame, percent + 5);
             }
             if (((Pet) this.player).typePet == 2
                     && ((Pet) this.player).master.fusion.typeFusion == ConstPlayer.HOP_THE_PORATA || ((Pet) this.player).master.fusion.typeFusion == ConstPlayer.HOP_THE_PORATA2) {
-                this.dame += calPercent(this.dame, 15);
+                this.dame += calPercent(this.dame, percent + 15);
             }
         }
         //thức ăn

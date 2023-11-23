@@ -1,5 +1,7 @@
 package nro.models.player;
 
+import lombok.Getter;
+import lombok.Setter;
 import nro.consts.ConstPlayer;
 import nro.models.item.CaiTrang;
 import nro.models.mob.Mob;
@@ -55,6 +57,10 @@ public class Pet extends Player {
     public int version() {
         return 214;
     }
+
+    @Getter
+    @Setter
+    private int level;
 
     public Pet(Player master) {
         this.master = master;

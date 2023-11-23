@@ -31,15 +31,7 @@ import nro.utils.TimeUtil;
 import nro.utils.Util;
 
 import java.io.IOException;
-<<<<<<< HEAD
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
-=======
 import java.sql.*;
->>>>>>> c0e2a5889341bc230fabfa6ee69613f12587f263
 import java.util.ArrayList;
 import java.util.List;
 import nro.art.ServerLog;
@@ -1501,7 +1493,7 @@ public class Service {
                 msg.writer().writeInt(pl.pet.nPoint.mp); //mp
                 msg.writer().writeInt(pl.pet.nPoint.mpMax); //mpfull
                 msg.writer().writeInt(pl.pet.nPoint.dame); //damefull
-                msg.writer().writeUTF(pl.pet.name); //name
+                msg.writer().writeUTF(pl.pet.name + "[Level " + pl.pet.getLevel() + "]"); //name
                 msg.writer().writeUTF(getCurrStrLevel(pl.pet)); //curr level
                 msg.writer().writeLong(pl.pet.nPoint.power); //power
                 msg.writer().writeLong(pl.pet.nPoint.tiemNang); //tiềm năng
@@ -1901,102 +1893,6 @@ public class Service {
             msg.cleanup();
         } catch (Exception e) {
             e.printStackTrace();
-        }
-    }
-
-//    public void showTopCoin(Player player) {
-//        List<Player> list = TopCoin.getInstance().load();
-//        Message msg = new Message(Cmd.TOP);
-//        try {
-//            msg.writer().writeByte(0);
-//            msg.writer().writeUTF("Top Nạp");
-//            msg.writer().writeByte(list.size());
-//            for (int i = 0; i < list.size(); i++) {
-//                Player pl = list.get(i);
-//                msg.writer().writeInt(i + 1);
-//                msg.writer().writeInt((int) pl.id);
-//                msg.writer().writeShort(pl.getHead());
-//                if (player.isVersionAbove(220)) {
-//                    Part part = PartManager.getInstance().find(pl.getHead());
-//                    msg.writer().writeShort(part.getIcon(0));
-//                }
-//                msg.writer().writeShort(pl.getBody());
-//                msg.writer().writeShort(pl.getLeg());
-//                msg.writer().writeUTF(pl.name);
-//                msg.writer().writeUTF(Client.gI().getPlayer(pl.id) != null ? "Online" : "");
-//                msg.writer().writeUTF("Số tiền: " + Util.numberToMoney(pl.tongnap) + "Đ");
-////                msg.writer().writeUTF(" ặ ặ");
-//            }
-//            player.sendMessage(msg);
-//            msg.cleanup();
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
-//    }
-
-    public void regisAccount(Session session, Message _msg) {
-        try {
-            PreparedStatement ps = null;
-            int key = -1;
-            int sl = 0;
-
-            String day = _msg.reader().readUTF();
-            String month = _msg.reader().readUTF();
-            String year = _msg.reader().readUTF();
-            String address = _msg.reader().readUTF();
-            String cmnd = _msg.reader().readUTF();
-            String dayCmnd = _msg.reader().readUTF();
-            String noiCapCmnd = _msg.reader().readUTF();
-            String user = _msg.reader().readUTF();
-            String pass = _msg.reader().readUTF();
-
-            if (!(user.length() >= 4 && user.length() <= 18)) {
-                sendThongBaoOK(session, "Tài khoản phải có độ dài 4-18 ký tự");
-                return;
-            }
-
-            if (!(pass.length() >= 6 && pass.length() <= 18)) {
-                sendThongBaoOK(session, "Mật khẩu phải có độ dài 6-18 ký tự");
-                return;
-            }
-
-            try (Connection con = DBService.gI().getConnectionForGetPlayer();) {
-                ps = con.prepareStatement("SELECT COUNT(1) AS sl FROM account WHERE ip_address = ?");
-                ps.setString(1, session.ipAddress);
-                ResultSet rset = ps.executeQuery();
-                rset.next();
-                sl = rset.getInt("sl");
-
-                if (sl > 5) {
-                    sendThongBaoOK(session, "Số lượng account tối đa có thể đăng ký cho 1 Ip là 5");
-                } else {
-                    ps = con.prepareStatement("select * from account where username = ?");
-                    ps.setString(1, user);
-                    if (ps.executeQuery().next()) {
-                        sendThongBaoOK(session, "Tạo thất bại do tài khoản đã tồn tại");
-                    } else {
-                        ps = con.prepareStatement("insert into account(username,password) values (?,?)", Statement.RETURN_GENERATED_KEYS);
-                        ps.setString(1, user);
-                        ps.setString(2, pass);
-                        ps.executeUpdate();
-                        ResultSet rs = ps.getGeneratedKeys();
-                        rs.next();
-                        key = rs.getInt(1);
-                        sendThongBaoOK(session, "Tạo tài khoản thành công!");
-                    }
-                }
-            } catch (Exception e) {
-                Log.error(AccountDAO.class, e);
-            } finally {
-                try {
-                    ps.close();
-                } catch (SQLException ex) {
-                    ex.printStackTrace();
-                }
-            }
-
-        } catch (Exception e) {
-            sendThongBaoOK(session, "Tạo tài khoản thất bại");
         }
     }
 }

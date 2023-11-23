@@ -778,6 +778,7 @@ public class PlayerDAO {
                         jPetInfo.put("is_mabu", player.pet.typePet);
                         jPetInfo.put("status", player.pet.status);
                         jPetInfo.put("type_fusion", player.fusion.typeFusion);
+                        jPetInfo.put("level", player.pet.getLevel());
                         int timeLeftFusion = (int) (Fusion.TIME_FUSION - (System.currentTimeMillis() - player.fusion.lastTimeFusion));
                         jPetInfo.put("left_fusion", timeLeftFusion < 0 ? 0 : timeLeftFusion);
                         petInfo = jPetInfo.toJSONString();

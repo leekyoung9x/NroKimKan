@@ -673,6 +673,12 @@ public class GodGK {
                                 - (Fusion.TIME_FUSION - Integer.parseInt(String.valueOf(dataObject.get("left_fusion"))));
                         pet.status = Byte.parseByte(String.valueOf(dataObject.get("status")));
 
+                        try {
+                            pet.setLevel(Integer.parseInt(String.valueOf(dataObject.get("level"))));
+                        } catch (Exception e) {
+                            pet.setLevel(0);
+                        }
+
                         //data chỉ số
                         dataObject = (JSONObject) jv.parse(rs.getString("pet_point"));
                         pet.nPoint.stamina = Short.parseShort(String.valueOf(dataObject.get("stamina")));
