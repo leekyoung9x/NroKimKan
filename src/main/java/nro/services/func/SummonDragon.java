@@ -2,6 +2,7 @@ package nro.services.func;
 
 import nro.consts.Cmd;
 import nro.consts.ConstNpc;
+import nro.consts.ConstPet;
 import nro.consts.ConstPlayer;
 import nro.models.item.Item;
 import nro.models.item.ItemOption;
@@ -40,9 +41,9 @@ public class SummonDragon {
     public static final short NGOC_RONG_6_SAO = 19;
     public static final short NGOC_RONG_7_SAO = 20;
 
-    public static final short[] NGOC_RONG_BANG = {702, 703, 704, 705, 706, 707, 708};
+    public static final short[] NGOC_RONG_BANG = {925, 926, 927, 928, 929, 930, 931};
     public static final short[] NGOC_RONG_DEN = {807, 808, 809, 810, 811, 812, 813};
-    public static final short[] NGOC_RONG_HALLOWEEN = {925, 926, 927, 928, 929, 930, 931};
+    public static final short[] NGOC_RONG_HALLOWEEN = {702, 703, 704, 705, 706, 707, 708};
     public static final short[] NGOC_RONG_NAMEK = {353, 354, 355, 356, 357, 358, 359};
     public static final short NGOC_RONG_SIEU_CAP = 1015;
     public static final String SUMMON_SHENRON_TUTORIAL
@@ -84,12 +85,12 @@ public class SummonDragon {
     //-----------------------------------------------------------------------------
     public static final String ICE_SHENRON_SAY
             = "Ta sẽ ban cho người 1 điều ước, ngươi có 5 phút, hãy suy nghĩ thật kỹ trước khi quyết định"
-            + "\n 1) Tăng 100% tnsm cho sư phụ và đệ tử trong 10p"
+            + "\n 1) Nâng cấp LEVER đệ tử Videl"
             + "\n 2) Tăng 20% sức đánh Khi trong trạng thái hợp thể trong vòng 10p"
             + "\n 3) Tăng 20% Hp,Ki khi trong trạng thái hợp thể trong vòng 10p"
             + "\n 4) 5k Hồng ngọc"
             + "\n 5) Đổi skill 5 đệ tử"
-            + "\n 6) Cải trang Bill bí ngô random chỉ số ngẫu nhiên"
+            + "\n 6) Cải trang Videl bí ngô random chỉ số ngẫu nhiên"
             + "\n 7) Xe tuần lộc heo";
 
     public static final String[] ICE_SHENRON_WISHES
@@ -297,7 +298,7 @@ public class SummonDragon {
     }
 
     public void summonIceShenron(Player pl) {
-        if (pl.zone.map.mapId == 5) {
+        if (MapService.gI().isMapCold(pl.zone.map)) {
             if (checkShenronBall(pl, DRAGON_ICE_SHENRON)) {
                 if (isIcecShenronAppear) {
                     Service.getInstance().sendThongBao(pl, "Không thể thực hiện");
@@ -316,7 +317,7 @@ public class SummonDragon {
                 sendWhishesShenron(pl);
             }
         } else {
-            Service.getInstance().sendThongBao(pl, "Chỉ được gọi rồng siêu cấp ở Đảo Kame");
+            Service.getInstance().sendThongBao(pl, "Chỉ được gọi rồng ở Cold");
         }
     }
 
@@ -794,11 +795,24 @@ public class SummonDragon {
                 break;
             case ConstNpc.ICE_SHENRON:
                 switch (this.select) {
-                    case 0:// tang 100% tnsm
-                        playerSummonShenron.itemTime.lastTimerateHit = System.currentTimeMillis();
-                        playerSummonShenron.itemTime.rateDragonHit = true;
-                        Service.getInstance().point(playerSummonShenron);
-                        ItemTimeService.gI().sendAllItemTime(playerSummonShenron);
+                    case 0:// nang cap lv de tu
+                        if (playerSummonShenron != null) {
+                            if (playerSummonShenron.pet != null) {
+                                Service.getInstance().sendThongBao(playerSummonShenron, "Ngươi làm gì có đệ tử?");
+                                break;
+                            }
+                            if (playerSummonShenron.pet.typePet == ConstPet.VIDEL) {
+                                Service.getInstance().sendThongBao(playerSummonShenron, "Ngươi làm gì có đệ tử Videl?");
+                                break;
+                            }
+                            if (playerSummonShenron.pet.getLever() >= 15) {
+                                Service.getInstance().sendThongBao(playerSummonShenron, "Max Lever rồi thằng nhót");
+                                break;
+                            }
+                            playerSummonShenron.pet.setLever(playerSummonShenron.pet.getLever() + 1);
+                            playerSummonShenron.zone.loadAnotherToMe(playerSummonShenron);
+                            playerSummonShenron.zone.load_Me_To_Another(playerSummonShenron);
+                        }
                         break;
                     case 1:// tang sd
                         playerSummonShenron.itemTime.lastTimeDameDr = System.currentTimeMillis();
@@ -834,7 +848,7 @@ public class SummonDragon {
                         break;
                     case 5:// ct
                         if (InventoryService.gI().getCountEmptyBag(playerSummonShenron) > 0) {
-                            Item billPumpkin = ItemService.gI().createNewItem((short) 739);
+                            Item billPumpkin = ItemService.gI().createNewItem((short) 827);
                             billPumpkin.itemOptions.add(new ItemOption(50, Util.nextInt(30, 60)));
                             billPumpkin.itemOptions.add(new ItemOption(77, Util.nextInt(30, 60)));
                             billPumpkin.itemOptions.add(new ItemOption(103, Util.nextInt(30, 60)));

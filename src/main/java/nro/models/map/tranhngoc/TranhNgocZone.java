@@ -56,7 +56,6 @@ public class TranhNgocZone extends Zone {
             if (is_closed) {
                 items.clear();
             }
-
             if (Util.canDoWithTime(lastTimeDropBall, ConstTranhNgocNamek.LAST_TIME_DROP_BALL)) {
                 int id = Util.nextInt(ConstItem.NGOC_RONG_NAMEK_1_SAO, ConstItem.NGOC_RONG_NAMEK_7_SAO);
                 ItemMap it = this.getItemMapByTempId(id);

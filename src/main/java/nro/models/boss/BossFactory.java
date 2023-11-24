@@ -232,7 +232,7 @@ public class BossFactory {
                     createBoss(BO_XUONG);
                 }
                 for (int i = 0; i < 5; i++) {
-                    createBoss(DOI_NHI);
+                    createBoss(HOA_HONG);
                 }
 //                for (int i = 0; i < 10; i++) {
 //                    createBoss(THO_DAI_KA);
@@ -242,9 +242,9 @@ public class BossFactory {
                         if (!map.isMapOffline && map.type == ConstMap.MAP_NORMAL
                                 && map.tileId > 0 && !MapService.gI().isMapVS(map.mapId)) {
                             if (map.mapWidth > 50 && map.mapHeight > 50) {
-                                if (Manager.EVENT_SEVER == ConstEvent.SU_KIEN_20_11) {
-                                    new HoaHong(map.mapId);
-                                }
+//                                if (Manager.EVENT_SEVER == ConstEvent.SU_KIEN_20_11) {
+                                new HoaHong(map.mapId);
+//                                }
                                 if (Manager.EVENT_SEVER == ConstEvent.SU_KIEN_NOEL) {
                                     new SantaClaus(map.mapId);
                                 }
@@ -252,11 +252,11 @@ public class BossFactory {
                         }
                     }
                 }
-                if (Manager.EVENT_SEVER == ConstEvent.SU_KIEN_TET) {
-                    for (int mapID : MAP_APPEARED_QILIN) {
-                        new Qilin(mapID);
-                    }
-                }
+//                if (Manager.EVENT_SEVER == ConstEvent.SU_KIEN_TET) {
+//                    for (int mapID : MAP_APPEARED_QILIN) {
+//                        new HoaHong(mapID);
+//                    }
+//                }
             } catch (Exception e) {
                 logger.error("Err initboss", e);
             }
@@ -340,9 +340,6 @@ public class BossFactory {
                 break;
             case MA_TROI:
                 boss = new MaTroi();
-                break;
-            case DOI_NHI:
-                boss = new DoiNhi();
                 break;
             case BO_XUONG:
                 boss = new BoXuong();

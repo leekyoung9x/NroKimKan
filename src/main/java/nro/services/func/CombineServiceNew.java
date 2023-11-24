@@ -57,7 +57,6 @@ public class CombineServiceNew {
     public static final int DOI_MANH_KICH_HOAT = 505;
     public static final int NANG_CAP_VAT_PHAM = 506;
     public static final int NANG_CAP_BONG_TAI = 507;
-    public static final int MO_CHI_SO_BONG_TAI = 519;
     public static final int LAM_PHEP_NHAP_DA = 508;
     public static final int NHAP_NGOC_RONG = 509;
     public static final int CHE_TAO_DO_THIEN_SU = 510;
@@ -69,6 +68,8 @@ public class CombineServiceNew {
     public static final int TRADE_DO_THAN_LINH = 516;
     public static final int NANG_CAP_DO_KICH_HOAT = 517;
     public static final int UPGRADE_CAITRANG = 518;
+    public static final int MO_CHI_SO_BONG_TAI = 519;
+    public static final int UPGRADE_LINHTHU = 520;
 
     private static final int GOLD_MOCS_BONG_TAI = 500_000_000;
 
@@ -81,6 +82,7 @@ public class CombineServiceNew {
     private static final int RATIO_NANG_CAP = 44;
 
     private final Npc baHatMit;
+    private final Npc bulmatl;
     private final Npc whis;
 
     private static CombineServiceNew i;
@@ -88,6 +90,7 @@ public class CombineServiceNew {
     public CombineServiceNew() {
         this.baHatMit = NpcManager.getNpc(ConstNpc.BA_HAT_MIT);
         this.whis = NpcManager.getNpc(ConstNpc.WHIS);
+        this.bulmatl = NpcManager.getNpc(ConstNpc.BUNMA_TL);
     }
 
     public static CombineServiceNew gI() {
@@ -139,6 +142,64 @@ public class CombineServiceNew {
             }
         }
         switch (player.combineNew.typeCombine) {
+            case UPGRADE_LINHTHU:
+                if (InventoryService.gI().getCountEmptyBag(player) < 1) {
+                    this.bulmatl.createOtherMenu(player, ConstNpc.IGNORE_MENU, "Bạn phải có ít nhất 1 ô trống hành trang", "Đóng");
+                    return;
+                }
+                if (player.combineNew.itemsCombine.size() == 4) {
+                    Item itemLinhThu = null;
+                    Item stone = null;
+                    Item HLT = null;// hon linh thu
+                    Item TTT = null;// thang tinh thach
+                    for (Item item : player.combineNew.itemsCombine) {
+                        if (item.isNotNullItem()) {
+                            switch (item.template.id) {
+                                case 2029:
+                                    HLT = item;
+                                    break;
+                                case 2031:
+                                    TTT = item;
+                                    break;
+                            }
+                            if (isLinhThu(item)) {
+                                itemLinhThu = item;
+                            } else if (isStone(item)) {
+                                stone = item;
+                            }
+                        }
+                    }
+                    if (player.inventory.ruby < 10_000) {
+                        this.bulmatl.createOtherMenu(player, ConstNpc.IGNORE_MENU, "Cần 10k Ruby", "Đóng");
+                        return;
+                    }
+                    if (itemLinhThu == null) {
+                        this.bulmatl.createOtherMenu(player, ConstNpc.IGNORE_MENU, "Cần linh thú", "Đóng");
+                        return;
+                    }
+                    if (HLT == null || HLT.quantity < 99) {
+                        this.bulmatl.createOtherMenu(player, ConstNpc.IGNORE_MENU, "Cần x99 Hồn Linh Thú", "Đóng");
+                        return;
+                    }
+                    if (TTT == null) {
+                        this.bulmatl.createOtherMenu(player, ConstNpc.IGNORE_MENU, "Cần Thăng Tinh Thạch", "Đóng");
+                        return;
+                    }
+                    if (stone == null) {
+                        this.bulmatl.createOtherMenu(player, ConstNpc.IGNORE_MENU, "Cần Stone linh thú", "Đóng");
+                        return;
+                    }
+                    String npcSay = "|1|Cậu đang có\n|8|" + itemLinhThu.template.name + "\n"
+                            + "|5|" + HLT.quantity + " Hồn linh thú\n"
+                            + "|5|" + TTT.quantity + " Thăng tinh thạch\n"
+                            + "|5|" + stone.quantity + " " + stone.template.name + "\n"
+                            + "|1|Tôi sẽ giúp cậu nâng cấp linh thú này\n"
+                            + "|1|Cậu có đồng ý không!";
+                    this.bulmatl.createOtherMenu(player, ConstNpc.MENU_START_COMBINE, npcSay, "Đồng Ý", "Từ chối");
+                } else {
+                    this.bulmatl.createOtherMenu(player, ConstNpc.IGNORE_MENU, "Bạn không đủ nguyên liệu", "Đóng");
+                }
+                break;
             case UPGRADE_CAITRANG:
                 if (player.combineNew.itemsCombine.size() == 0) {
                     this.baHatMit.createOtherMenu(player, ConstNpc.IGNORE_MENU, "Hãy đưa ta 1  món đồ kích hoạt thường bất kỳ và x5 mảnh Thần Linh", "Đóng");
@@ -1003,6 +1064,9 @@ public class CombineServiceNew {
                 return;
             }
             switch (player.combineNew.typeCombine) {
+                case UPGRADE_LINHTHU:
+                    upgradeLinhThu(player);
+                    break;
                 case UPGRADE_CAITRANG:
                     upgradeDisguise(player);
                     break;
@@ -1737,6 +1801,120 @@ public class CombineServiceNew {
         }
     }
 
+    private boolean checkStone(Item linhthu, Item stone) {
+        if (linhthu != null && stone != null) {
+            if (linhthu.template.id == 2014 && stone.template.id == 1977) {//Aether 
+                return true;
+            } else if (linhthu.template.id == 2015 && stone.template.id == 1978) {//Aurora 
+                return true;
+            } else if (linhthu.template.id == 2016 && stone.template.id == 1979) {//Power 
+                return true;
+            } else if (linhthu.template.id == 2017 && stone.template.id == 1980) {//Mind 
+                return true;
+            } else if (linhthu.template.id == 2018 && stone.template.id == 1981) {//Space 
+                return true;
+            } else {
+                return false;
+            }
+        } else {
+            return false;
+        }
+    }
+
+    private boolean isStone(Item item) {// da
+        return item.template.id >= 1977 && item.template.id <= 1981;
+    }
+
+    private boolean isLinhThu(Item item) {// xac dinh item linh thu
+        return item.template.id >= 2014 && item.template.id <= 2018;
+    }
+
+    private int getTile(Item ttt) {// tile thanh cong
+        int tile = 0;
+        if (ttt.template.id == 2031) {
+            tile = 20;
+        } else if (ttt.quantity >= 10) {
+            tile = Util.nextInt(20, 40);
+        }
+        return tile;
+    }
+
+    private void upgradeLinhThu(Player player) {
+        if (player.combineNew.itemsCombine.size() == 4) {
+            Item itemLinhThu = null;
+            Item stone = null;
+            Item HLT = null;// hon linh thu
+            Item TTT = null;// thang tinh thach
+            for (Item item : player.combineNew.itemsCombine) {
+                if (item.isNotNullItem()) {
+                    switch (item.template.id) {
+                        case 2029:
+                            HLT = item;
+                            break;
+                        case 2031:
+                            TTT = item;
+                            break;
+                    }
+                    if (isLinhThu(item)) {
+                        itemLinhThu = item;
+                    } else if (isStone(item)) {
+                        stone = item;
+                    }
+                }
+            }
+            if (checkStone(itemLinhThu, stone) && HLT != null) {
+                if (player.inventory.ruby < 10_000) {
+                    Service.getInstance().sendThongBao(player, "Không đủ ruby để thực hiện");
+                    reOpenItemCombine(player);
+                    return;
+                }
+                player.inventory.ruby -= 10_000;
+                int tile = getTile(TTT);
+                if (Util.isTrue(tile, 100)) {
+                    itemLinhThu.itemOptions.clear();
+                    switch (itemLinhThu.template.id) {
+                        case 2014:// hoa
+                            itemLinhThu.itemOptions.add(new ItemOption(50, Util.nextInt(7, 32)));
+                            itemLinhThu.itemOptions.add(new ItemOption(168, 0));
+                            break;
+                        case 2015:
+                            itemLinhThu.itemOptions.add(new ItemOption(94, Util.nextInt(7, 32)));
+                            itemLinhThu.itemOptions.add(new ItemOption(192, 0));
+                            break;
+                        case 2016:
+                            itemLinhThu.itemOptions.add(new ItemOption(77, Util.nextInt(7, 32)));
+                            itemLinhThu.itemOptions.add(new ItemOption(80, Util.nextInt(30, 70)));
+                            break;
+                        case 2017:
+                            itemLinhThu.itemOptions.add(new ItemOption(108, Util.nextInt(7, 32)));
+                            itemLinhThu.itemOptions.add(new ItemOption(111, 0));
+                            break;
+                        case 2018:// 13 23
+                            itemLinhThu.itemOptions.add(new ItemOption(103, Util.nextInt(7, 32)));
+                            itemLinhThu.itemOptions.add(new ItemOption(173, Util.nextInt(30, 70)));
+                            break;
+                    }
+                    sendEffectSuccessCombine(player);
+                } else {
+                    Service.getInstance().sendThongBao(player, "Xịt nhót");
+                    sendEffectFailCombine(player);
+                }
+                InventoryService.gI().subQuantityItemsBag(player, HLT, 1);
+                InventoryService.gI().subQuantityItemsBag(player, stone, 1);
+                if (TTT.quantity < 10) {
+                    InventoryService.gI().subQuantityItemsBag(player, TTT, 1);
+                } else {
+                    InventoryService.gI().subQuantityItemsBag(player, TTT, 10);
+                }
+                InventoryService.gI().sendItemBags(player);
+                Service.getInstance().sendMoney(player);
+                reOpenItemCombine(player);
+            } else {
+                Service.getInstance().sendThongBao(player, "Không đúng Hệ với Linh Thú hoặc thiếu Hồn Linh Thú");
+            }
+        }
+    }
+
     private void nangCapVatPham(Player player) {
         if (player.combineNew.itemsCombine.size() >= 2 && player.combineNew.itemsCombine.size() < 4) {
             if (player.combineNew.itemsCombine.stream().filter(item -> item.isNotNullItem() && item.template.type < 5).count() != 1) {
@@ -1772,7 +1950,6 @@ public class CombineServiceNew {
                     Service.getInstance().sendThongBao(player, "Không đủ vàng để thực hiện");
                     return;
                 }
-
                 if (itemDNC.quantity < countDaNangCap) {
                     return;
                 }
@@ -1806,8 +1983,7 @@ public class CombineServiceNew {
                                 || io.optionTemplate.id == 22
                                 || io.optionTemplate.id == 23) {
                             option = io;
-                        } else if (io.optionTemplate.id == 27
-                                || io.optionTemplate.id == 28) {
+                        } else if (io.optionTemplate.id == 27 || io.optionTemplate.id == 28) {
                             option2 = io;
                         }
                     }
@@ -2557,6 +2733,8 @@ public class CombineServiceNew {
     // tab combine
     private String getTextTopTabCombine(int type) {
         switch (type) {
+            case UPGRADE_LINHTHU:
+                return "Ta sẽ giúp ngươi\n làm điều đó";
             case UPGRADE_CAITRANG:
                 return "Ta sẽ giúp ngươi\n làm điều đó";
             case NANG_CAP_DO_KICH_HOAT:
@@ -2598,6 +2776,8 @@ public class CombineServiceNew {
 
     private String getTextInfoTabCombine(int type) {
         switch (type) {
+            case UPGRADE_LINHTHU:
+                return "Vào hàng trang\nChọn x1 Linh thú bất kì, x1 Stone cùng hệ Linh Thú\nx1 Thăng Tinh Thạch\nx10 Thăng Tinh Thạch để tỉ lệ Thành Công cao hơn\nx99 Hồn Linh Thú\nXong rồi ấn Nâng Cấp";
             case UPGRADE_CAITRANG:
                 return "Vào hành trang\nChọn x1 cải trang jaki chun\nvà  Lọ nước hồi sinh";
             case NANG_CAP_DO_KICH_HOAT:

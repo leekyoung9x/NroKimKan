@@ -165,10 +165,9 @@ public class Input {
                         Service.getInstance().sendThongBao(player, "Số dư không đủ vui lòng nạp thêm!\n Web: NROKIMKAN.ONLINE");
                     } else {
                         PlayerDAO.subVND2(player, cuantity);
-                        player.inventory.ruby += cuantity * 2;
+                        player.inventory.ruby += cuantity;
                         Service.getInstance().sendMoney(player);
-                        ServerLog.logTradeRuby("quy doi x2 " + player.name, cuantity);
-                        ServerLog.logTradeRuby(player.name, cuantity * 2);
+                        ServerLog.logTradeRuby(player.name, cuantity);
                         Service.getInstance().sendThongBao(player, "Đã đổi thành công");
                     }
                     break;

@@ -196,13 +196,13 @@ public class SnakeRoad extends Dungeon {
                     Service.getInstance().dropItemMap(r, itemMap);
                 }
             }
-            if (level >= 110) {
-                int num = Util.nextInt(2, 6);
-                for (int i = 0; i < num; i++) {
-                    ItemMap itemMap = new ItemMap(r, 702, Util.nextInt(1, 5), 250 + (i * 20), 312, -1);
-                    Service.getInstance().dropItemMap(r, itemMap);
-                }
-            }
+//            if (level >= 110) {
+//                int num = Util.nextInt(2, 6);
+//                for (int i = 0; i < num; i++) {
+//                    ItemMap itemMap = new ItemMap(r, 702, Util.nextInt(1, 5), 250 + (i * 20), 312, -1);
+//                    Service.getInstance().dropItemMap(r, itemMap);
+//                }
+//            }
         }
     }
 

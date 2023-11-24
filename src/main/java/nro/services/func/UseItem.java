@@ -287,11 +287,6 @@ public class UseItem {
                             }
                             Input.gI().createFormTangRuby(pl);
                             break;
-//                        case 2006: //phiếu cải trang hải tặc
-//                        case 2007: //phiếu cải trang hải tặc
-//                        case 2008: //phiếu cải trang hải tặc
-//                            openPhieuCaiTrangHaiTac(pl, item);
-//                            break;
                         case 2012: //Hop Qua Kich Hoat
                             openboxsukien(pl, item, 1);
                             break;
@@ -467,8 +462,12 @@ public class UseItem {
         List<NamekBall> balls = NamekBallManager.gI().getList();
         StringBuffer sb = new StringBuffer();
         for (NamekBall namekBall : balls) {
-            Map m = namekBall.zone.map;
-            sb.append(namekBall.getIndex() + 1).append(" Sao: ").append(m.mapName).append(namekBall.getHolderName() == null ? "" : " - " + namekBall.getHolderName()).append("\n");
+            if (namekBall.zone != null) {
+                Map m = namekBall.zone.map;
+                sb.append(namekBall.getIndex() + 1).append(" Sao: ").append(m.mapName).append(namekBall.getHolderName() == null ? "" : " - " + namekBall.getHolderName()).append("\n");
+            } else {
+                Service.getInstance().sendThongBao(pl, "Đã xảy ra lỗi");
+            }
         }
         final int star = Util.nextInt(0, 6);
         final NamekBall ball = NamekBallManager.gI().findByIndex(star);

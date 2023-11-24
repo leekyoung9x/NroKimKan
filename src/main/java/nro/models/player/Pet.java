@@ -2,6 +2,7 @@ package nro.models.player;
 
 import lombok.Getter;
 import lombok.Setter;
+import nro.consts.ConstPet;
 import nro.consts.ConstPlayer;
 import nro.models.item.CaiTrang;
 import nro.models.mob.Mob;
@@ -17,6 +18,10 @@ import nro.utils.Util;
  * @Build by Arriety
  */
 public class Pet extends Player {
+
+    @Getter
+    @Setter
+    private int lever;
 
     private static final short ARANGE_CAN_ATTACK = 200;
     private static final short ARANGE_ATT_SKILL1 = 50;
@@ -57,10 +62,6 @@ public class Pet extends Player {
     public int version() {
         return 214;
     }
-
-    @Getter
-    @Setter
-    private int level;
 
     public Pet(Player master) {
         this.master = master;
@@ -639,10 +640,12 @@ public class Pet extends Player {
 
     public short getAvatar() {
         switch (this.typePet) {
-            case 1:
+            case ConstPet.MABU:
                 return 297;
-            case 2:
+            case ConstPet.BILL:
                 return 508;
+            case ConstPet.VIDEL:
+                return 810;
             default:
                 return PET_ID[3][this.gender];
         }
@@ -656,10 +659,12 @@ public class Pet extends Player {
             return 412;
         } else if (effectSkin != null && effectSkin.isHoaDa) {
             return 454;
-        } else if (this.typePet == 1 && !this.isTransform) {
+        } else if (this.typePet == ConstPet.MABU && !this.isTransform) {
             return 297;
-        } else if (this.typePet == 2 && !this.isTransform) {
+        } else if (this.typePet == ConstPet.BILL && !this.isTransform) {
             return 508;
+        } else if (this.typePet == ConstPet.VIDEL && !this.isTransform) {
+            return 810;
         } else if (inventory.itemsBody.get(5).isNotNullItem()) {
             CaiTrang ct = Manager.getCaiTrangByItemId(inventory.itemsBody.get(5).template.id);
             if (ct != null) {
@@ -681,10 +686,12 @@ public class Pet extends Player {
             return 413;
         } else if (effectSkin != null && effectSkin.isHoaDa) {
             return 455;
-        } else if (this.typePet == 1 && !this.isTransform) {
+        } else if (this.typePet == ConstPet.MABU && !this.isTransform) {
             return 298;
-        } else if (this.typePet == 2 && !this.isTransform) {
+        } else if (this.typePet == ConstPet.BILL && !this.isTransform) {
             return 509;
+        } else if (this.typePet == ConstPet.VIDEL && !this.isTransform) {
+            return 811;
         } else if (inventory.itemsBody.get(5).isNotNullItem()) {
             CaiTrang ct = Manager.getCaiTrangByItemId(inventory.itemsBody.get(5).template.id);
             if (ct != null && ct.getID()[1] != -1) {
@@ -709,10 +716,12 @@ public class Pet extends Player {
             return 414;
         } else if (effectSkin != null && effectSkin.isHoaDa) {
             return 456;
-        } else if (this.typePet == 1 && !this.isTransform) {
+        } else if (this.typePet == ConstPet.MABU && !this.isTransform) {
             return 299;
-        } else if (this.typePet == 2 && !this.isTransform) {
+        } else if (this.typePet == ConstPet.BILL && !this.isTransform) {
             return 510;
+        } else if (this.typePet == ConstPet.VIDEL && !this.isTransform) {
+            return 812;
         } else if (inventory.itemsBody.get(5).isNotNullItem()) {
             CaiTrang ct = Manager.getCaiTrangByItemId(inventory.itemsBody.get(5).template.id);
             if (ct != null && ct.getID()[2] != -1) {
@@ -848,12 +857,17 @@ public class Pet extends Player {
 
     public void transform() {
         switch (this.typePet) {
-            case 1:
+            case ConstPet.MABU:
                 this.isTransform = !this.isTransform;
                 Service.getInstance().Send_Caitrang(this);
                 Service.getInstance().chat(this, "Bư bư bư....");
                 break;
-            case 2:
+            case ConstPet.BILL:
+                this.isTransform = !this.isTransform;
+                Service.getInstance().Send_Caitrang(this);
+                Service.getInstance().chat(this, "Dit cuu chusng mayyy....");
+                break;
+            case ConstPet.VIDEL:
                 this.isTransform = !this.isTransform;
                 Service.getInstance().Send_Caitrang(this);
                 Service.getInstance().chat(this, "Dit cuu chusng mayyy....");

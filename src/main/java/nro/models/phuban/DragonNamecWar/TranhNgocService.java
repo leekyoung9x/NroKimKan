@@ -55,7 +55,6 @@ public class TranhNgocService {
         Message msg;
         try {
             final TranhNgoc tn = ServerManager.gI().getTranhNgocManager().findByPLayerId(pl.id);
-
             if (tn != null) {
                 msg = new Message(20);
                 msg.writer().writeByte(0);

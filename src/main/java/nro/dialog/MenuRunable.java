@@ -9,5 +9,6 @@ import lombok.Setter;
 @Setter
 @Getter
 public abstract class MenuRunable implements Runnable {
+
     private int indexSelected;
 }

@@ -26,6 +26,23 @@ public class NpcService {
         createMenu(player, indexMenu, ConstNpc.RONG_THIENG, -1, npcSay, menuSelect);
     }
 
+    public void createOtherMenu(Player player, int tempId, int indexMenu, String npcSay, String... menuSelect) {
+        Message msg;
+        try {
+            player.iDMark.setIndexMenu(indexMenu);
+            msg = new Message(32);
+            msg.writer().writeShort(tempId);
+            msg.writer().writeUTF(npcSay);
+            msg.writer().writeByte(menuSelect.length);
+            for (String menu : menuSelect) {
+                msg.writer().writeUTF(menu);
+            }
+            player.sendMessage(msg);
+            msg.cleanup();
+        } catch (Exception e) {
+        }
+    }
+
     public void createMenuConMeo(Player player, int indexMenu, int avatar, String npcSay, String... menuSelect) {
         createMenu(player, indexMenu, ConstNpc.CON_MEO, avatar, npcSay, menuSelect);
     }

@@ -5,11 +5,11 @@ import nro.models.player.Pet;
 import nro.models.player.Player;
 import nro.utils.SkillUtil;
 import nro.utils.Util;
+import nro.consts.ConstPet;
 
 /**
  *
- * @author 💖 Trần Lại 💖
- * @copyright 💖 GirlkuN 💖
+ * @Build by Arriety
  *
  */
 public class PetService {
@@ -26,7 +26,7 @@ public class PetService {
     public void createNormalPet(Player player, int gender, byte... limitPower) {
         new Thread(() -> {
             try {
-                createNewPet(player, false, false, (byte) gender);
+                createNewPet(player, ConstPet.NORMAL, (byte) gender);
                 if (limitPower != null && limitPower.length == 1) {
                     player.pet.nPoint.limitPower = limitPower[0];
                     player.pet.nPoint.initPowerLimit();
@@ -41,7 +41,7 @@ public class PetService {
     public void createNormalPet(Player player, byte... limitPower) {
         new Thread(() -> {
             try {
-                createNewPet(player, false, false);
+                createNewPet(player, ConstPet.NORMAL);
                 if (limitPower != null && limitPower.length == 1) {
                     player.pet.nPoint.limitPower = limitPower[0];
                 }
@@ -55,7 +55,7 @@ public class PetService {
     public void createMabuPet(Player player, byte... limitPower) {
         new Thread(() -> {
             try {
-                createNewPet(player, true, false);
+                createNewPet(player, ConstPet.MABU);
                 if (limitPower != null && limitPower.length == 1) {
                     player.pet.nPoint.limitPower = limitPower[0];
                     player.pet.nPoint.initPowerLimit();
@@ -70,7 +70,7 @@ public class PetService {
     public void createMabuPet(Player player, int gender, byte... limitPower) {
         new Thread(() -> {
             try {
-                createNewPet(player, true, false, (byte) gender);
+                createNewPet(player, ConstPet.MABU, (byte) gender);
                 if (limitPower != null && limitPower.length == 1) {
                     player.pet.nPoint.limitPower = limitPower[0];
                     player.pet.nPoint.initPowerLimit();
@@ -82,10 +82,10 @@ public class PetService {
         }).start();
     }
 
-    public void createBerusPet(Player player, byte... limitPower) {
+    public void createBerusPet(Player player, int gender, byte... limitPower) {
         new Thread(() -> {
             try {
-                createNewPet(player, false, true);
+                createNewPet(player, ConstPet.BILL, (byte) gender);
                 if (limitPower != null && limitPower.length == 1) {
                     player.pet.nPoint.limitPower = limitPower[0];
                 }
@@ -97,15 +97,15 @@ public class PetService {
         }).start();
     }
 
-    public void createBerusPet(Player player, int gender, byte... limitPower) {
+    public void createVidelPet(Player player, int gender, byte... limitPower) {
         new Thread(() -> {
             try {
-                createNewPet(player, false, true, (byte) gender);
+                createNewPet(player, ConstPet.VIDEL, (byte) gender);
                 if (limitPower != null && limitPower.length == 1) {
                     player.pet.nPoint.limitPower = limitPower[0];
                 }
                 Thread.sleep(1000);
-                Service.getInstance().chatJustForMe(player, player.pet, "Thần hủy diệt hiện thân tất cả quỳ xuống...");
+                Service.getInstance().chatJustForMe(player, player.pet, "Ta sẽ đem hạnh phúc đến Noel này...");
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -121,28 +121,6 @@ public class PetService {
         player.pet.dispose();
         player.pet = null;
         createNormalPet(player, gender, limitPower);
-    }
-
-    public void changeNormalPet(Player player) {
-        byte limitPower = player.pet.nPoint.limitPower;
-        if (player.fusion.typeFusion != ConstPlayer.NON_FUSION) {
-            player.pet.unFusion();
-        }
-        MapService.gI().exitMap(player.pet);
-        player.pet.dispose();
-        player.pet = null;
-        createNormalPet(player, limitPower);
-    }
-
-    public void changeMabuPet(Player player) {
-        byte limitPower = player.pet.nPoint.limitPower;
-        if (player.fusion.typeFusion != ConstPlayer.NON_FUSION) {
-            player.pet.unFusion();
-        }
-        MapService.gI().exitMap(player.pet);
-        player.pet.dispose();
-        player.pet = null;
-        createMabuPet(player, limitPower);
     }
 
     public void changeMabuPet(Player player, int gender) {
@@ -165,6 +143,17 @@ public class PetService {
         player.pet.dispose();
         player.pet = null;
         createBerusPet(player, gender, limitPower);
+    }
+
+    public void changeVidelPet(Player player, int gender) {
+        byte limitPower = player.pet.nPoint.limitPower;
+        if (player.fusion.typeFusion != ConstPlayer.NON_FUSION) {
+            player.pet.unFusion();
+        }
+        MapService.gI().exitMap(player.pet);
+        player.pet.dispose();
+        player.pet = null;
+        createVidelPet(player, gender, limitPower);
     }
 
     public void changeNamePet(Player player, String name) {
@@ -191,7 +180,6 @@ public class PetService {
     }
 
     private int[] getDataPetNormal() {
-        int[] hpmp = {1700, 1800, 1900, 2000, 2100, 2200};
         int[] petData = new int[5];
         petData[0] = Util.nextInt(40, 105) * 20; //hp
         petData[1] = Util.nextInt(40, 105) * 20; //mp
@@ -221,15 +209,52 @@ public class PetService {
         return petData;
     }
 
-    private void createNewPet(Player player, boolean isMabu, boolean isBerus, byte... gender) {
-        int[] data = isMabu ? isBerus ? getDataPetMabu() : getDataPetBerus() : getDataPetNormal();
+    private int[] getDataPetVidel() {
+        int[] petData = new int[5];
+        petData[0] = Util.nextInt(40, 120) * 20; //hp
+        petData[1] = Util.nextInt(40, 120) * 20; //mp
+        petData[2] = Util.nextInt(20, 150); //dame
+        petData[3] = Util.nextInt(9, 50); //def
+        petData[4] = Util.nextInt(0, 2); //crit
+        return petData;
+    }
+
+    private void createNewPet(Player player, byte typePet, byte... gender) {
+        int[] data = new int[0];
         Pet pet = new Pet(player);
-        pet.name = "$" + (isMabu ? "Mabư" : isBerus ? "Berus" : "Đệ tử");
+
+        pet.nPoint.power = 1500000;
+
+        switch (typePet) {
+            case ConstPet.NORMAL: {
+                data = getDataPetNormal();
+                pet.name = "$Đệ tử";
+                pet.nPoint.power = 2000;
+                pet.typePet = ConstPet.NORMAL;
+                break;
+            }
+            case ConstPet.MABU: {
+                data = getDataPetMabu();
+                pet.name = "$Mabư";
+                pet.typePet = ConstPet.MABU;
+                break;
+            }
+            case ConstPet.BILL: {
+                data = getDataPetBerus();
+                pet.name = "$Berus";
+                pet.typePet = ConstPet.BILL;
+                break;
+            }
+            case ConstPet.VIDEL: {
+                data = getDataPetVidel();
+                pet.name = "$Videl";
+                pet.typePet = ConstPet.VIDEL;
+                break;
+            }
+        }
+
         pet.gender = (gender != null && gender.length != 0) ? gender[0] : (byte) Util.nextInt(0, 2);
         pet.id = -player.id;
-        pet.nPoint.power = isMabu || isBerus ? 1500000 : 2000;
-        pet.setLevel(0);
-        pet.typePet = (byte) (isMabu ? 1 : isBerus ? 2 : 0);
         pet.nPoint.stamina = 1000;
         pet.nPoint.maxStamina = 1000;
         pet.nPoint.hpg = data[0];

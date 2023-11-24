@@ -24,7 +24,6 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 /**
- *
  * @Build by Arriety
  */
 @Getter

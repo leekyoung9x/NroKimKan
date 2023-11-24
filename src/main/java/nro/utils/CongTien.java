@@ -31,8 +31,7 @@ public class CongTien {
                         String userName = a[0];
                         if (isNumber(a[1])) {
                             long money = Long.parseLong(a[1]);
-                            PreparedStatement ps = con.prepareStatement(String.format("UPDATE `account` SET `vnd`=`vnd`+'%s',`tongnap`=`tongnap`+'%s' WHERE `username` = '%s'",
-                                    money, money, userName));
+                            PreparedStatement ps = con.prepareStatement(String.format("UPDATE `account` SET `vnd`= `vnd`+ '%s',`tongnap`=`tongnap`+'%s',`pointNap`=`pointNap`+'%s' WHERE `username` = '%s'", money, money, money, userName));
                             if (ps != null) {
                                 if (ps.executeUpdate() == 1) {
                                     System.out.println("Success " + userName);

@@ -22,6 +22,7 @@ import nro.utils.Util;
 
 import java.util.ArrayList;
 import java.util.List;
+import nro.consts.ConstPet;
 import nro.manager.TopWhis;
 import nro.server.ServerNotify;
 
@@ -36,7 +37,7 @@ public class NPoint {
     public boolean isCrit;
     public boolean isCrit100;
     public boolean eatOsin;
-    
+
     private Intrinsic intrinsic;
     private int percentDameIntrinsic;
     public int dameAfter;
@@ -589,15 +590,20 @@ public class NPoint {
         }
         //pet mabư
         if (this.player.isPet) {
-            int percent = ((Pet) this.player).getLevel() * 3;
-
-            if (((Pet) this.player).typePet == 1
-                    && ((Pet) this.player).master.fusion.typeFusion == ConstPlayer.HOP_THE_PORATA || ((Pet) this.player).master.fusion.typeFusion == ConstPlayer.HOP_THE_PORATA2) {
-                this.hpMax += calPercent(this.hpMax, percent + 5);
-            }
-            if (((Pet) this.player).typePet == 2
-                    && ((Pet) this.player).master.fusion.typeFusion == ConstPlayer.HOP_THE_PORATA || ((Pet) this.player).master.fusion.typeFusion == ConstPlayer.HOP_THE_PORATA2) {
-                this.hpMax += calPercent(this.hpMax, percent + 15);
+            int percent = ((Pet) this.player).getLever() * 3;
+            if (((Pet) this.player).master.fusion.typeFusion == ConstPlayer.HOP_THE_PORATA
+                    || ((Pet) this.player).master.fusion.typeFusion == ConstPlayer.HOP_THE_PORATA2) {
+                switch (((Pet) this.player).typePet) {
+                    case ConstPet.MABU:
+                        this.hpMax += calPercent(this.hpMax, 5);
+                        break;
+                    case ConstPet.BILL:
+                        this.hpMax += calPercent(this.hpMax, 15);
+                        break;
+                    case ConstPet.VIDEL:
+                        this.hpMax += calPercent(this.hpMax, percent);
+                        break;
+                }
             }
         }
         if (this.player.zone != null && MapService.gI().isMapBlackBallWar(this.player.zone.map.mapId)) {
@@ -702,15 +708,20 @@ public class NPoint {
         }
         //pet mabư
         if (this.player.isPet) {
-            int percent = ((Pet) this.player).getLevel() * 3;
-
-            if (((Pet) this.player).typePet == 1
-                    && ((Pet) this.player).master.fusion.typeFusion == ConstPlayer.HOP_THE_PORATA || ((Pet) this.player).master.fusion.typeFusion == ConstPlayer.HOP_THE_PORATA2) {
-                this.mpMax += ((long) this.mpMax * (percent + 5) / 100);
-            }
-            if (((Pet) this.player).typePet == 2
-                    && ((Pet) this.player).master.fusion.typeFusion == ConstPlayer.HOP_THE_PORATA || ((Pet) this.player).master.fusion.typeFusion == ConstPlayer.HOP_THE_PORATA2) {
-                this.mpMax += ((long) this.mpMax * (percent + 15) / 100);
+            int percent = ((Pet) this.player).getLever() * 3;
+            if (((Pet) this.player).master.fusion.typeFusion == ConstPlayer.HOP_THE_PORATA
+                    || ((Pet) this.player).master.fusion.typeFusion == ConstPlayer.HOP_THE_PORATA2) {
+                switch (((Pet) this.player).typePet) {
+                    case ConstPet.MABU:
+                        this.mpMax += calPercent(this.mpMax, 5);
+                        break;
+                    case ConstPet.BILL:
+                        this.mpMax += calPercent(this.mpMax, 15);
+                        break;
+                    case ConstPet.VIDEL:
+                        this.mpMax += calPercent(this.mpMax, percent);
+                        break;
+                }
             }
         }
         //hợp thể
@@ -802,15 +813,20 @@ public class NPoint {
         }
         //pet mabư
         if (this.player.isPet) {
-            int percent = ((Pet) this.player).getLevel() * 3;
-
-            if (((Pet) this.player).typePet == 1
-                    && ((Pet) this.player).master.fusion.typeFusion == ConstPlayer.HOP_THE_PORATA || ((Pet) this.player).master.fusion.typeFusion == ConstPlayer.HOP_THE_PORATA2) {
-                this.dame += calPercent(this.dame, percent + 5);
-            }
-            if (((Pet) this.player).typePet == 2
-                    && ((Pet) this.player).master.fusion.typeFusion == ConstPlayer.HOP_THE_PORATA || ((Pet) this.player).master.fusion.typeFusion == ConstPlayer.HOP_THE_PORATA2) {
-                this.dame += calPercent(this.dame, percent + 15);
+            int percent = ((Pet) this.player).getLever() * 3;
+            if (((Pet) this.player).master.fusion.typeFusion == ConstPlayer.HOP_THE_PORATA
+                    || ((Pet) this.player).master.fusion.typeFusion == ConstPlayer.HOP_THE_PORATA2) {
+                switch (((Pet) this.player).typePet) {
+                    case ConstPet.MABU:
+                        this.dame += calPercent(this.dame, 5);
+                        break;
+                    case ConstPet.BILL:
+                        this.dame += calPercent(this.dame, 15);
+                        break;
+                    case ConstPet.VIDEL:
+                        this.dame += calPercent(this.dame, percent);
+                        break;
+                }
             }
         }
         //thức ăn
@@ -1177,7 +1193,7 @@ public class NPoint {
 //        System.out.println(dameAttack);
         dameAttack = Util.nextInt((int) (dameAttack - calPercent(dameAttack, 5)), (int) (dameAttack + calPercent(dameAttack, 5)));
 
-        if (dameAttack >= 10_000_000 && player.isPl()) {
+        if (dameAttack >= 50_000_000 && player.isPl()) {
             String skillName = player.playerSkill.skillSelect.template.name;
             String str = player.name + " đã đánh một " + skillName + " với sát thương " + Util.numberToMoney(dameAttack);
             switch (skillSelect.template.id) {
@@ -1316,13 +1332,13 @@ public class NPoint {
             }
             long tn = tiemNang;
             if (this.player.charms.tdTriTue > System.currentTimeMillis()) {
-                tlexp += 100;
+                tiemNang += 100;
             }
             if (this.player.charms.tdTriTue3 > System.currentTimeMillis()) {
-                tlexp += 200;
+                tiemNang += 200;
             }
             if (this.player.charms.tdTriTue4 > System.currentTimeMillis()) {
-                tlexp += 300;
+                tiemNang += 300;
             }
             if (this.power >= 60000000000L) {
                 tiemNang -= (tiemNang * 80 / 100);
@@ -1576,8 +1592,7 @@ public class NPoint {
         if (player != null && player.effectSkill != null) {
             if (player.effectSkill.isCharging && player.effectSkill.countCharging < 10) {
                 int tiLeHoiPhuc = SkillUtil.getPercentCharge(player.playerSkill.skillSelect.point);
-                if (player.effectSkill.isCharging && !player.isDie() && !player.effectSkill.isHaveEffectSkill()
-                        && (hp < hpMax || mp < mpMax)) {
+                if (player.effectSkill.isCharging && !player.isDie() && !player.effectSkill.isHaveEffectSkill() && (hp < hpMax || mp < mpMax)) {
                     PlayerService.gI().hoiPhuc(player, (int) calPercent(hpMax, tiLeHoiPhuc), (int) calPercent(mpMax, tiLeHoiPhuc));
                     if (player.effectSkill.countCharging % 3 == 0) {
                         Service.getInstance().chat(player, "Phục hồi năng lượng " + getCurrPercentHP() + "%");

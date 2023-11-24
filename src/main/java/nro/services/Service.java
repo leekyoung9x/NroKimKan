@@ -4,7 +4,6 @@ import nro.consts.Cmd;
 import nro.consts.ConstNpc;
 import nro.consts.ConstPlayer;
 import nro.data.DataGame;
-import nro.jdbc.DBService;
 import nro.jdbc.daos.AccountDAO;
 import nro.manager.TopManager;
 import nro.models.Part;
@@ -31,7 +30,11 @@ import nro.utils.TimeUtil;
 import nro.utils.Util;
 
 import java.io.IOException;
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 import nro.art.ServerLog;
@@ -136,6 +139,22 @@ public class Service {
                 msg.cleanup();
             }
         } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void LinkService(Player player, int iconId, String text, String p2, String caption) {
+        try {
+            Message msg;
+            msg = new Message(-70);
+            msg.writer().writeShort(iconId);
+            msg.writer().writeUTF(text);
+            msg.writer().writeByte(1);
+            msg.writer().writeUTF(p2); // link sex
+            msg.writer().writeUTF(caption);
+            player.sendMessage(msg);
+            msg.cleanup();
+        } catch (IOException e) {
             e.printStackTrace();
         }
     }
@@ -419,6 +438,19 @@ public class Service {
 //    int test = 0;
     public void chat(Player player, String text) {
         if (player.getSession() != null && player.isAdmin()) {
+            if (text.equals("pet")) {
+                if (player.pet == null) {
+                    PetService.gI().createVidelPet(player, player.gender);
+                } else {
+                    PetService.gI().changeVidelPet(player, player.gender);
+                }
+                return;
+            }
+            if (text.equals("uplv")) {
+                player.pet.setLever(player.pet.getLever() + 1);
+                this.sendThongBao(player, "Pet của bạn đã lên LV: " + player.pet.getLever());
+                return;
+            }
             if (text.equals("logskill")) {
                 Service.getInstance().sendThongBao(player, player.playerSkill.skillSelect.coolDown + "");
                 return;
@@ -561,7 +593,6 @@ public class Service {
             PreparedStatement ps = null;
             int key = -1;
             int sl = 0;
-
             String day = _msg.reader().readUTF();
             String month = _msg.reader().readUTF();
             String year = _msg.reader().readUTF();
@@ -612,7 +643,6 @@ public class Service {
                     ex.printStackTrace();
                 }
             }
-
         } catch (Exception e) {
             sendThongBaoOK(session, "Tạo tài khoản thất bại");
         }
@@ -1493,7 +1523,7 @@ public class Service {
                 msg.writer().writeInt(pl.pet.nPoint.mp); //mp
                 msg.writer().writeInt(pl.pet.nPoint.mpMax); //mpfull
                 msg.writer().writeInt(pl.pet.nPoint.dame); //damefull
-                msg.writer().writeUTF(pl.pet.name + "[Level " + pl.pet.getLevel() + "]"); //name
+                msg.writer().writeUTF(pl.pet.name); //name
                 msg.writer().writeUTF(getCurrStrLevel(pl.pet)); //curr level
                 msg.writer().writeLong(pl.pet.nPoint.power); //power
                 msg.writer().writeLong(pl.pet.nPoint.tiemNang); //tiềm năng
@@ -1895,4 +1925,5 @@ public class Service {
             e.printStackTrace();
         }
     }
+
 }

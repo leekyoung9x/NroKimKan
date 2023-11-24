@@ -65,7 +65,7 @@ public class EggLinhThu {
             try {
                 destroyEgg();
                 Thread.sleep(4000);
-                int[] list_linh_thu = new int[]{2021, 2006, 2020, 2007, 2019};
+                int[] list_linh_thu = new int[]{2014, 2015, 2016, 2017, 2018};
                 Item linhThu = ItemService.gI().createNewItem((short) list_linh_thu[Util.nextInt(list_linh_thu.length)]);
                 laychiso(player, linhThu, 0);
                 InventoryService.gI().addItemBag(player, linhThu, 0);
@@ -104,25 +104,25 @@ public class EggLinhThu {
 
     private void laychiso(Player player, Item linhthu, int lvnow) {
         switch (linhthu.template.id) {
-            case 2019:
-                linhthu.itemOptions.add(new ItemOption(77, Util.nextInt(20, 27)));//%HP
-                linhthu.itemOptions.add(new ItemOption(22, 10 + 3 * lvnow));//HP
+            case 2014:// hoa
+                linhthu.itemOptions.add(new ItemOption(50, Util.nextInt(7, 21)));
+                linhthu.itemOptions.add(new ItemOption(168, 0));
                 break;
-            case 2020:
-                linhthu.itemOptions.add(new ItemOption(14, 5 + 1 * lvnow));//%cm
-                linhthu.itemOptions.add(new ItemOption(5, Util.nextInt(10, 27)));//%sdcm
+            case 2015:
+                linhthu.itemOptions.add(new ItemOption(94, Util.nextInt(7, 21)));
+                linhthu.itemOptions.add(new ItemOption(192, 0));
                 break;
-            case 2021:
-                linhthu.itemOptions.add(new ItemOption(50, Util.nextInt(20, 27)));//%sd
-                linhthu.itemOptions.add(new ItemOption(0, 1000 + 300 * lvnow));//sd
+            case 2016:
+                linhthu.itemOptions.add(new ItemOption(77, Util.nextInt(7, 21)));
+                linhthu.itemOptions.add(new ItemOption(80, Util.nextInt(21, 30)));
                 break;
-            case 2006:
-                linhthu.itemOptions.add(new ItemOption(94, Util.nextInt(20, 27)));//%giap
-                linhthu.itemOptions.add(new ItemOption(47, 1000 + 300 * lvnow));//sd
+            case 2017:
+                linhthu.itemOptions.add(new ItemOption(108, Util.nextInt(7, 21)));
+                linhthu.itemOptions.add(new ItemOption(111, 0));
                 break;
-            case 2007:
-                linhthu.itemOptions.add(new ItemOption(103, Util.nextInt(20, 27)));//%ki
-                linhthu.itemOptions.add(new ItemOption(23, 10 + 3 * lvnow));//KI
+            case 2018:
+                linhthu.itemOptions.add(new ItemOption(103, Util.nextInt(7, 21)));
+                linhthu.itemOptions.add(new ItemOption(173, Util.nextInt(21, 30)));
                 break;
         }
         InventoryService.gI().sendItemBags(player);

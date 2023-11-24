@@ -2632,7 +2632,7 @@ public class TaskService {
                         break;
                 }
                 if (Util.isTrue(20, 100)) {
-                    Item it = ItemService.gI().createNewItem((short) Util.nextInt(703, 706));
+                    Item it = ItemService.gI().createNewItem((short) 2037);
                     it.itemOptions.add(new ItemOption(74, 0));
                     InventoryService.gI().addItemBag(player, it, 0);
                     InventoryService.gI().sendItemBags(player);

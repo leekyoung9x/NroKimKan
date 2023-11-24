@@ -112,6 +112,9 @@ public class ShopService {
             case ConstNpc.SHOP_CHIEN_LUC:
                 shop = getShop(ConstNpc.TRUONG_LAO_GURU, 0, -1);
                 break;
+            case ConstNpc.SHOP_BUNMA_LINH_THU:
+                shop = getShop(ConstNpc.BUNMA_TL, 1, -1);
+                break;
         }
         if (shop != null) {
             for (TabShop tab : shop.tabShops) {

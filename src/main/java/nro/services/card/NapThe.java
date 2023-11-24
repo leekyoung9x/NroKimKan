@@ -33,14 +33,13 @@ public class NapThe {
     }
 
     public static void SendCard(Player p, String loaiThe, String menhGia, String soSeri, String maPin) {
-        String partnerId = "41073776723"; //0086879143
-        String partnerKey = "3b40946d97b60bb65766bc0c1c52e373"; //edc3a8086e2db06925438495b0cf88df
+        String partnerId = "72461046463";
+        String partnerKey = "16502d49bf5e949c3f27238c2a762115";
         String api = MD5Hash(partnerKey + maPin + soSeri);
         int requestID = Util.nextInt(100000000, 999999999);
         String t = String.valueOf(requestID);
         try {
             OkHttpClient client = new OkHttpClient().newBuilder().build();
-//            MediaType mediaType = MediaType.parse("application/json");
             RequestBody body = new MultipartBody.Builder().setType(MultipartBody.FORM)
                     .addFormDataPart("telco", loaiThe)
                     .addFormDataPart("code", maPin)
@@ -52,30 +51,16 @@ public class NapThe {
                     .addFormDataPart("command", "charging")
                     .build();
 
-            Request request = new Request.Builder().url("https://thesieure.com/chargingws/v2")
-                    .post(body).addHeader("Content-Type", "application/json").build();
-
+            Request request = new Request.Builder().url("https://thesieure.com/chargingws/v2").post(body).addHeader("Content-Type", "application/json").build();
             okhttp3.Response response = client.newCall(request).execute();
             String jsonString = response.body().string();
             Object obj = JSONValue.parse(jsonString);
             JSONObject jsonObject = (JSONObject) obj;
             int name = (int) jsonObject.get("status");
-            if (name == 99) {
-                PlayerDAO.LogNapTIen(p.getSession().uu, menhGia, soSeri, maPin, "Thẻ chờ xử lý", t, "0", loaiThe);
-                NpcService.gI().createMenuConMeo(p, (p.gender), ConstNpc.IGNORE_MENU, "|4|Gửi thẻ thành công\b"
-                        + "|5|Hãy chờ một lúc và thoát game vào lại để cập nhật số tiền.\b"
-                        + "|5|Hoặc lên trang chủ và theo dõi lịch sử giao dịch\b"
-                        + "|3|Thông tin thẻ\b"
-                        + "|1|Seri: " + soSeri + "\b"
-                        + "|1|Mã thẻ: " + maPin + "\b"
-                        + "|1|Mệnh giá: " + menhGia + "VNĐ\b"
-                        + "|1|Thời gian : " + java.time.LocalDate.now() + " " + java.time.LocalTime.now() + "\b"
-                        + "|8|Số tiền hiện tại trong tài khoản: " + p.getSession().vnd + "VNĐ", "Đồng ý");
-            }
             switch (name) {
                 case 1:
                     PlayerDAO.LogNapTIen(p.getSession().uu, menhGia, soSeri, maPin, "Thẻ thành công đúng mệnh giá", t, "0", loaiThe);
-                    NpcService.gI().createMenuConMeo(p, (p.gender), ConstNpc.IGNORE_MENU, "|4|Gửi thẻ thành công\b"
+                    NpcService.gI().createOtherMenu(p, (p.gender), ConstNpc.IGNORE_MENU, "|4|Gửi thẻ thành công\b"
                             + "|5|Hãy chờ một lúc và thoát game vào lại để cập nhật số tiền.\b"
                             + "|5|Hoặc lên trang chủ và theo dõi lịch sử giao dịch\b"
                             + "|3|Thông tin thẻ\b"
@@ -97,7 +82,20 @@ public class NapThe {
                 case 100:
                     Service.getInstance().sendThongBao(p, "Gửi thẻ thất bại");
                     break;
+                case 99:
+                    PlayerDAO.LogNapTIen(p.getSession().uu, menhGia, soSeri, maPin, "Thẻ chờ xử lý", t, "0", loaiThe);
+                    NpcService.gI().createOtherMenu(p, (p.gender), ConstNpc.IGNORE_MENU, "|4|Gửi thẻ thành công\b"
+                            + "|5|Hãy chờ một lúc và thoát game vào lại để cập nhật số tiền.\b"
+                            + "|5|Hoặc lên trang chủ và theo dõi lịch sử giao dịch\b"
+                            + "|3|Thông tin thẻ\b"
+                            + "|1|Seri: " + soSeri + "\b"
+                            + "|1|Mã thẻ: " + maPin + "\b"
+                            + "|1|Mệnh giá: " + menhGia + "VNĐ\b"
+                            + "|1|Thời gian : " + java.time.LocalDate.now() + " " + java.time.LocalTime.now() + "\b"
+                            + "|8|Số tiền hiện tại trong tài khoản: " + p.getSession().vnd + "VNĐ", "Đồng ý");
+                    break;
                 default:
+                    Service.getInstance().sendThongBao(p, "Đã có lỗi xảy ra, vui lòng báo với admin");
                     break;
             }
         } catch (Exception e) {
@@ -119,5 +117,4 @@ public class NapThe {
         }
         return null;
     }
-
 }

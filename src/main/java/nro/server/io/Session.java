@@ -338,7 +338,7 @@ public class Session {
 
             CheckTop(player);
             // nhận quà đăng nhập hàng ngày
-            RewardService.gI().rewardFirstTimeLoginPerDay(player);
+//            RewardService.gI().rewardFirstTimeLoginPerDay(player);
         }
     }
 

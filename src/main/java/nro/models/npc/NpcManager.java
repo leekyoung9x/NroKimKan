@@ -54,6 +54,13 @@ public class NpcManager {
                         npc.cx = Util.nextInt(20, player.zone.map.mapWidth - 20);
                         npc.cy = player.zone.map.yPhysicInTop(npc.cx, 0);
                     }
+                } else if (npc.tempId == ConstNpc.NOEL) {
+                    if (Util.isTrue(10, 100)) {
+                        continue;
+                    } else {
+                        npc.cx = Util.nextInt(20, player.zone.map.mapWidth - 20);
+                        npc.cy = player.zone.map.yPhysicInTop(npc.cx, 0);
+                    }
                 }
                 list.add(npc);
             }

@@ -101,7 +101,7 @@ public class RewardService {
                                     break;
                             }
                             initNotTradeOption(itemMap);
-                            initEventOption(itemMap);
+//                            initEventOption(itemMap);
 
                             //end init option
                             if (itemMap.itemTemplate.id >= 555 && itemMap.itemTemplate.id <= 567) {
@@ -122,13 +122,13 @@ public class RewardService {
 //                    initQuantityGold(itemMap);
 //                    list.add(itemMap);
 //                }
-                if (MapService.gI().isMapBanDoKhoBau(mapid)) {
-                    if (Util.isTrue(1, 14)) {
-                        ItemMap itemMap = new ItemMap(mob.zone, 708, 1, x, yEnd, player.id);
-                        itemMap.options.add(new ItemOption(74, 0));
-                        list.add(itemMap);
-                    }
-                }
+//                if (MapService.gI().isMapBanDoKhoBau(mapid)) {
+//                    if (Util.isTrue(1, 14)) {
+//                        ItemMap itemMap = new ItemMap(mob.zone, 708, 1, x, yEnd, player.id);
+//                        itemMap.options.add(new ItemOption(74, 0));
+//                        list.add(itemMap);
+//                    }
+//                }
                 if (mob.tempId == ConstMob.HIRUDEGARN) {
                     RandomCollection<Integer> rd = new RandomCollection<>();
                     rd.add(40, 568, "DDijt nhau au au");
@@ -954,24 +954,6 @@ public class RewardService {
         }
     }
 
-    //vật phẩm sự kiện
-    private void initEventOption(ItemMap item) {
-        switch (item.itemTemplate.id) {
-            case 2013:
-                item.options.add(new ItemOption(74, 0));
-                break;
-            case 2014:
-                item.options.add(new ItemOption(74, 0));
-                break;
-            case 2015:
-                item.options.add(new ItemOption(74, 0));
-                break;
-        }
-    }
-    //hạn sử dụng
-    //hạn sử dụng
-
-    //vật phẩm không thể giao dịch
     private void initNotTradeOption(ItemMap item) {
         switch (item.itemTemplate.id) {
             case 2009:

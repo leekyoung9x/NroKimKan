@@ -674,9 +674,9 @@ public class GodGK {
                         pet.status = Byte.parseByte(String.valueOf(dataObject.get("status")));
 
                         try {
-                            pet.setLevel(Integer.parseInt(String.valueOf(dataObject.get("level"))));
+                            pet.setLever(Integer.parseInt(String.valueOf(dataObject.get("level"))));
                         } catch (Exception e) {
-                            pet.setLevel(0);
+                            pet.setLever(0);
                         }
 
                         //data chỉ số

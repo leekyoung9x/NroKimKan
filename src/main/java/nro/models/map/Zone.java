@@ -433,7 +433,6 @@ public class Zone {
                                                 InventoryService.gI().sendItemBags(player);
                                                 break;
                                         }
-
                                 }
                                 msg.writer().writeShort(item.quantity);
                                 player.sendMessage(msg);
@@ -597,14 +596,13 @@ public class Zone {
                 name = "[" + plInfo.clan.name + "]" + plInfo.name;
             } else if (plInfo.isBoss && ((Boss) plInfo).isMabuBoss) {
                 msg.writer().writeInt(-100);
-            } else if (plInfo.isPet) {
+            } else if (plInfo.isPet && ((Pet) plInfo).typePet == ConstPet.VIDEL) {
                 msg.writer().writeInt(-1);
-                name = plInfo.name + "[Level " + ((Pet)plInfo).getLevel() + "]";
+                name = plInfo.name + "[Level " + ((Pet) plInfo).getLever() + "]";
             } else {
                 msg.writer().writeInt(-1);
                 name = plInfo.name;
             }
-
             int level = CaptionManager.getInstance().getLevel(plInfo);
             msg.writer().writeByte(level);
             msg.writer().writeBoolean(false);

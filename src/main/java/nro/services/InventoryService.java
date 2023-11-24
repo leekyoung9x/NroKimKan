@@ -695,33 +695,6 @@ public class InventoryService {
         return null;
     }
 
-    public Item finditemnguyenlieuGiokeo(Player player) {
-        for (Item item : player.inventory.itemsBag) {
-            if (item.isNotNullItem() && (item.template.id == 2016) && item.quantity >= 3) {
-                return item;
-            }
-        }
-        return null;
-    }
-
-    public Item finditemnguyenlieuVe(Player player) {
-        for (Item item : player.inventory.itemsBag) {
-            if (item.isNotNullItem() && (item.template.id == 2018) && item.quantity >= 3) {
-                return item;
-            }
-        }
-        return null;
-    }
-
-    public Item finditemnguyenlieuHopmaquy(Player player) {
-        for (Item item : player.inventory.itemsBag) {
-            if (item.isNotNullItem() && (item.template.id == 2017) && item.quantity >= 3) {
-                return item;
-            }
-        }
-        return null;
-    }
-
     public Item finditemBongHoa(Player player, int soluong) {
         for (Item item : player.inventory.itemsBag) {
             if (item.isNotNullItem() && (item.template.id == 589) && item.quantity >= soluong) {

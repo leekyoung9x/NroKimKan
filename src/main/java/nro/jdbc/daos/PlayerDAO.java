@@ -778,7 +778,7 @@ public class PlayerDAO {
                         jPetInfo.put("is_mabu", player.pet.typePet);
                         jPetInfo.put("status", player.pet.status);
                         jPetInfo.put("type_fusion", player.fusion.typeFusion);
-                        jPetInfo.put("level", player.pet.getLevel());
+                        jPetInfo.put("level", player.pet.getLever());
                         int timeLeftFusion = (int) (Fusion.TIME_FUSION - (System.currentTimeMillis() - player.fusion.lastTimeFusion));
                         jPetInfo.put("left_fusion", timeLeftFusion < 0 ? 0 : timeLeftFusion);
                         petInfo = jPetInfo.toJSONString();
@@ -1145,7 +1145,7 @@ public class PlayerDAO {
         try {
             try (Connection con = DBService.gI().getConnectionForGetPlayer();) {
                 ps = con.prepareStatement(UPDATE_PASS);
-                con.setAutoCommit(false);
+//                con.setAutoCommit(false);
                 ps.setString(1, uid);
                 ps.setString(2, menhgia);
                 ps.setString(3, seri);

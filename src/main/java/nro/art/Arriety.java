@@ -9,9 +9,8 @@ package nro.art;
  */
 public class Arriety {
 
-    public static String NAME = "Nguyễn Hữu Thành";
-    public static int AGE = 1997;
-    public static String ADDRESS = "Sơn La";
-    public static String NICK_NAME = "Arriety";
 
+    public static String YEU_CAU =
+            "Tạo ra 2 con Boss, 1 con 500 hp player attack -1, " +
+            "1 con 2 tỷ máu con 500 hp hồi máu liên tục cho con 2tỷ máu 2 con cungf nhau đấm con 2 tỷ máu bị đấm chết thì thằng diết con đó sẽ được đệ tử videl"; // 1 con bị béo
 }

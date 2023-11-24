@@ -8,12 +8,10 @@ package nro.models.boss.event;
 import nro.models.boss.Boss;
 import nro.models.boss.BossData;
 import nro.models.boss.BossFactory;
-import nro.models.item.ItemOption;
 import nro.models.map.ItemMap;
 import nro.models.player.Player;
 import nro.services.Service;
 import nro.services.func.ChangeMapService;
-import nro.utils.TimeUtil;
 import nro.utils.Util;
 
 import java.util.logging.Level;
@@ -39,7 +37,6 @@ public class HoaHong extends Boss {
 
     @Override
     public void attack() {
-
     }
 
     @Override
@@ -55,10 +52,7 @@ public class HoaHong extends Boss {
     @Override
     public void rewards(Player pl) {
         try {
-            ItemMap itemMap = new ItemMap(this.zone, 589, 1,
-                    pl.location.x, this.zone.map.yPhysicInTop(pl.location.x, pl.location.y - 24), pl.id);
-            long e = TimeUtil.getTime("30-11-2022", "dd-MM-yyyy");
-            itemMap.options.add(new ItemOption(196, (int) (e / 1000)));
+            ItemMap itemMap = new ItemMap(this.zone, 610, 1, pl.location.x, this.zone.map.yPhysicInTop(pl.location.x, pl.location.y - 24), pl.id);
             Service.getInstance().dropItemMap(this.zone, itemMap);
         } catch (Exception ex) {
             Logger.getLogger(HoaHong.class.getName()).log(Level.SEVERE, null, ex);
@@ -93,8 +87,8 @@ public class HoaHong extends Boss {
         ChangeMapService.gI().changeMap(this, this.zone, x, this.zone.map.yPhysicInTop(x, 0));
     }
 
-    protected void notifyPlayeKill(Player player) {
-
+    @Override
+    public void notifyPlayeKill(Player player) {
     }
 
 }

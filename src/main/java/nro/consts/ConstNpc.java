@@ -107,6 +107,7 @@ public class ConstNpc {
     public static final byte EVENT = 73;
     public static final byte FIDE = 74;
     public static final byte CADIC = 75;
+    public static final byte NOEL = 76;
     //----------------------index menu------------------------------------------
     //index menu base
     public static final int IGNORE_MENU = 712002;
@@ -283,4 +284,5 @@ public class ConstNpc {
     public static final int SHOP_SANTA_SPEC = 520;
     public static final int SHOP_SANTA_SPEC_50 = 521;
     public static final int SHOP_CHIEN_LUC = 522;
+    public static final int SHOP_BUNMA_LINH_THU = 523;
 }

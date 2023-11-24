@@ -75,6 +75,19 @@ public class TimeUtil {
         return date.getMinutes();
     }
 
+    public static String ShowTime(int gio, int phut) {
+        String result = "";
+        if (gio >= 0 && gio <= 23 && phut >= 0 && phut <= 59) {
+            String gioStr = String.format("%02d", gio);
+            String phutStr = String.format("%02d", phut);
+
+            result = gioStr + ":" + phutStr;
+        } else {
+            result = "Giờ hoặc phút không hợp lệ";
+        }
+        return result;
+    }
+
     public static String getTimeLeft(long lastTime, int secondTarget) {
         int secondPassed = (int) ((System.currentTimeMillis() - lastTime) / 1000);
         int secondsLeft = secondTarget - secondPassed;
@@ -190,23 +203,5 @@ public class TimeUtil {
             return String.format("%02d:%02d:%02d", hours, minutes, seconds);
         }
         return String.format("%02d:%02d", minutes, seconds);
-    }
-
-    public static String ShowTime(int gio, int phut) {
-        String result = "";
-
-        // Đảm bảo giờ và phút nằm trong khoảng hợp lệ
-        if (gio >= 0 && gio <= 23 && phut >= 0 && phut <= 59) {
-            // Chuyển đổi giờ và phút thành chuỗi và định dạng
-            String gioStr = String.format("%02d", gio);
-            String phutStr = String.format("%02d", phut);
-
-            // Hiển thị kết quả
-            result = gioStr + ":" + phutStr;
-        } else {
-            result = "Giờ hoặc phút không hợp lệ";
-        }
-
-        return result;
     }
 }

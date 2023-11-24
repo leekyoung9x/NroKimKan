@@ -326,10 +326,8 @@ public class Resources {
                 session.sendMessage(msg);
                 msg.cleanup();
             }
-            System.err.println("Zip mob: " + id);
         } catch (Exception e) {
             System.err.println("Mob Loi: " + id);
-            e.printStackTrace();
         }
     }
 

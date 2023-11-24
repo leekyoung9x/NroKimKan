@@ -24,11 +24,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.Iterator;
 import nro.models.boss.BossManager;
-import nro.models.item.Item;
-import nro.models.item.ItemOption;
-import nro.models.player.Inventory;
 
 public class Controller {
 
@@ -108,9 +104,6 @@ public class Controller {
                     if (player != null) {
                         IntrinsicService.gI().showMenu(player);
                     }
-                    break;
-                case 42:
-                    Service.getInstance().regisAccount(_session, _msg);
                     break;
                 case -34:
                     if (player != null) {
@@ -413,7 +406,7 @@ public class Controller {
                     break;
                 case 11:
                     byte modId = _msg.reader().readByte();
-                    Resources.getInstance().loadMoData(_session, modId);
+                    Resources.requestMobTemplate(_session, modId);
                     break;
                 case 44:
                     if (player != null) {
@@ -439,6 +432,9 @@ public class Controller {
                         int npcId = _msg.reader().readShort();
                         MenuController.getInstance().openMenuNPC(_session, npcId, player);
                     }
+                    break;
+                case 42:
+                    Service.getInstance().regisAccount(_session, _msg);
                     break;
                 case 34:
                     if (player != null) {
@@ -706,27 +702,21 @@ public class Controller {
         player.timeFixInventory = System.currentTimeMillis() + 500;
     }
 
-    private void clearVTSK(Player player) {// clear item duoi khi
+    private void clearVTSK(Player player) {// clear item 
         if (player != null && player.inventory != null && player.inventory.itemsBag != null) {
-//            player.inventory.itemsBag.stream().filter(item -> item.isNotNullItem() && item.template.id == 579).forEach(item -> {
-//                InventoryService.gI().subQuantityItemsBag(player, item, item.quantity);
-//            });
-//            player.inventory.itemsBox.stream().filter(item -> item.isNotNullItem() && item.template.id == 579).forEach(item -> {
-//                InventoryService.gI().subQuantityItemsBox(player, item, item.quantity);
-//            });
-            for (Item item : player.inventory.itemsBag) {
-                if (item.isNotNullItem() && item.template.id == 1260) {
-                    if (item.itemOptions != null) {
-                        Iterator<ItemOption> iterator = item.itemOptions.iterator();
-                        while (iterator.hasNext()) {
-                            ItemOption option = iterator.next();
-                            if (option.optionTemplate.id == 30 || option.optionTemplate.id == 93) {
-                                iterator.remove();
-                            }
-                        }
-                    }
-                }
-            }
+            player.inventory.itemsBag.stream().filter(item -> item.isNotNullItem() && item.template.id == 1172).forEach(item -> {
+                InventoryService.gI().subQuantityItemsBag(player, item, item.quantity);
+            });
+            player.inventory.itemsBox.stream().filter(item -> item.isNotNullItem() && item.template.id == 1172).forEach(item -> {
+                InventoryService.gI().subQuantityItemsBox(player, item, item.quantity);
+            });
+            player.inventory.itemsBag.stream().filter(item -> item.isNotNullItem() && item.template.id >= 702 && item.template.id <= 708).forEach(item -> {
+                InventoryService.gI().subQuantityItemsBag(player, item, item.quantity);
+            });
+
+            player.inventory.itemsBox.stream().filter(item -> item.isNotNullItem() && item.template.id >= 702 && item.template.id <= 708).forEach(item -> {
+                InventoryService.gI().subQuantityItemsBox(player, item, item.quantity);
+            });
             InventoryService.gI().sendItemBags(player);
         }
     }
