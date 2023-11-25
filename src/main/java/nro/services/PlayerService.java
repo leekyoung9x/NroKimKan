@@ -99,7 +99,6 @@ public class PlayerService {
             }
         }
         msg.cleanup();
-
     }
 
     public void sendInfoHp(Player player) {

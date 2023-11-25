@@ -1799,8 +1799,8 @@ public class UseItem {
             SummonDragon.gI().openMenuSummonShenron(pl, (byte) 1015, SummonDragon.DRAGON_BLACK_SHENRON);
         } else if (tempId >= SummonDragon.NGOC_RONG_BANG[0] && tempId <= SummonDragon.NGOC_RONG_BANG[6]) {
             switch (tempId) {
-                case 702:
-                    SummonDragon.gI().openMenuSummonShenron(pl, (byte) 702, SummonDragon.DRAGON_ICE_SHENRON);
+                case 925:
+                    SummonDragon.gI().openMenuSummonShenron(pl, (byte) 925, SummonDragon.DRAGON_ICE_SHENRON);
                     break;
                 default:
                     Service.getInstance().sendThongBao(pl, "Bạn chỉ có thể gọi rồng băng từ ngọc 1 sao");

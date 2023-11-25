@@ -93,14 +93,7 @@ public class SummonDragon {
             + "\n 6) Cải trang Videl bí ngô random chỉ số ngẫu nhiên"
             + "\n 7) Xe tuần lộc heo";
 
-    public static final String[] ICE_SHENRON_WISHES
-            = new String[]{"Điều\nước 1",
-                "Điều\nước 2",
-                "Điều\nước 3",
-                "Điều\nước 4",
-                "Điều\nước 5",
-                "Điều\nước 6",
-                "Điều\nước 7"};
+    public static final String[] ICE_SHENRON_WISHES = new String[]{"Điều\nước 1", "Điều\nước 2", "Điều\nước 3", "Điều\nước 4", "Điều\nước 5", "Điều\nước 6", "Điều\nước 7"};
 
     private static SummonDragon instance;
     private final Map pl_dragonStar;
@@ -362,7 +355,7 @@ public class SummonDragon {
             case (byte) NGOC_RONG_SIEU_CAP:
                 NpcService.gI().createMenuRongThieng(pl, ConstNpc.BLACK_SHENRON, BLACK_SHENRON_SAY, BLACK_SHENRON_WISHES);
                 break;
-            case (byte) 702:
+            case (byte) 925:
                 NpcService.gI().createMenuRongThieng(pl, ConstNpc.ICE_SHENRON, ICE_SHENRON_SAY, ICE_SHENRON_WISHES);
                 break;
         }
@@ -797,11 +790,11 @@ public class SummonDragon {
                 switch (this.select) {
                     case 0:// nang cap lv de tu
                         if (playerSummonShenron != null) {
-                            if (playerSummonShenron.pet != null) {
+                            if (playerSummonShenron.pet == null) {
                                 Service.getInstance().sendThongBao(playerSummonShenron, "Ngươi làm gì có đệ tử?");
                                 break;
                             }
-                            if (playerSummonShenron.pet.typePet == ConstPet.VIDEL) {
+                            if (playerSummonShenron.pet.typePet != ConstPet.VIDEL) {
                                 Service.getInstance().sendThongBao(playerSummonShenron, "Ngươi làm gì có đệ tử Videl?");
                                 break;
                             }
@@ -852,7 +845,7 @@ public class SummonDragon {
                             billPumpkin.itemOptions.add(new ItemOption(50, Util.nextInt(30, 60)));
                             billPumpkin.itemOptions.add(new ItemOption(77, Util.nextInt(30, 60)));
                             billPumpkin.itemOptions.add(new ItemOption(103, Util.nextInt(30, 60)));
-                            billPumpkin.itemOptions.add(new ItemOption(163, 0));
+                            billPumpkin.itemOptions.add(new ItemOption(116, 0));
                             billPumpkin.itemOptions.add(new ItemOption(93, Util.nextInt(1, 3)));
                             InventoryService.gI().addItemBag(playerSummonShenron, billPumpkin, 0);
                             InventoryService.gI().sendItemBags(playerSummonShenron);

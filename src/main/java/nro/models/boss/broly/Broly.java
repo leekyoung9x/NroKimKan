@@ -21,6 +21,7 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import nro.models.boss.BossManager;
 
 /**
  *
@@ -28,10 +29,10 @@ import java.util.Map;
  *
  */
 public class Broly extends Boss {
-
+    
     static final int MAX_HP = 16777080;
     private static final int DIS_ANGRY = 100;
-
+    
     private static final int HP_CREATE_SUPER_1 = 1000000;
     private static final int HP_CREATE_SUPER_2 = 2000000;
     private static final int HP_CREATE_SUPER_3 = 4000000;
@@ -42,7 +43,7 @@ public class Broly extends Boss {
     private static final int HP_CREATE_SUPER_8 = 14000000;
     private static final int HP_CREATE_SUPER_9 = 15000000;
     private static final int HP_CREATE_SUPER_10 = 16000000;
-
+    
     private static final byte RATIO_CREATE_SUPER_10 = 10;
     private static final byte RATIO_CREATE_SUPER_20 = 20;
     private static final byte RATIO_CREATE_SUPER_30 = 30;
@@ -53,27 +54,27 @@ public class Broly extends Boss {
     private static final byte RATIO_CREATE_SUPER_80 = 80;
     private static final byte RATIO_CREATE_SUPER_90 = 90;
     private static final byte RATIO_CREATE_SUPER_100 = 100;
-
+    
     private final Map angryPlayers;
     private final List<Player> playersAttack;
-
+    
     public Broly() {
         super(BossFactory.BROLY, BossData.BROLY);
         this.angryPlayers = new HashMap();
         this.playersAttack = new LinkedList<>();
     }
-
+    
     protected Broly(byte id, BossData bossData) {
         super(id, bossData);
         this.angryPlayers = new HashMap();
         this.playersAttack = new LinkedList<>();
     }
-
+    
     @Override
     public void initTalk() {
         this.textTalkAfter = new String[]{"Các ngươi chờ đấy, ta sẽ quay lại sau"};
     }
-
+    
     @Override
     public void attack() {
         try {
@@ -101,10 +102,10 @@ public class Broly extends Boss {
                 }
             }
         } catch (Exception ex) {
-
+            
         }
     }
-
+    
     @Override
     public void idle() {
         if (this.countIdle >= this.maxIdle) {
@@ -115,7 +116,7 @@ public class Broly extends Boss {
             this.countIdle++;
         }
     }
-
+    
     @Override
     public int injured(Player plAtt, int damage, boolean piercing, boolean isMobAttack) {
         if (!this.isDie()) {
@@ -137,10 +138,10 @@ public class Broly extends Boss {
             return 0;
         }
     }
-
+    
     private int maxCountResetPoint;
     private int countResetPoint;
-
+    
     private void resetPoint(int damageInjured) {
         if (this.nPoint.hpg < MAX_HP && this.countResetPoint++ >= maxCountResetPoint) {
             this.nPoint.hpg += damageInjured;
@@ -165,7 +166,7 @@ public class Broly extends Boss {
             countResetPoint = 0;
         }
     }
-
+    
     @Override
     public Player getPlayerAttack() throws Exception {
         try {
@@ -179,7 +180,7 @@ public class Broly extends Boss {
         } catch (Exception e) {
             this.playersAttack.remove(plAttack);
         }
-
+        
         if (!playersAttack.isEmpty()) {
             this.targetCountChangePlayerAttack = Util.nextInt(10, 20);
             this.countChangePlayerAttack = 0;
@@ -193,7 +194,7 @@ public class Broly extends Boss {
             throw new Exception();
         }
     }
-
+    
     private void addPlayerAttack(Player plAtt) {
         boolean haveInList = false;
         for (Player pl : playersAttack) {
@@ -208,7 +209,7 @@ public class Broly extends Boss {
                     + plAtt.name.replaceAll("$", "").replaceAll("#", ""));
         }
     }
-
+    
     protected boolean charge() {
         if (this.effectSkill.isCharging && Util.isTrue(15, 100)) {
             this.effectSkill.isCharging = false;
@@ -227,19 +228,19 @@ public class Broly extends Boss {
         }
         return false;
     }
-
+    
     @Override
     protected void goToXY(int x, int y, boolean isTeleport) {
         EffectSkillService.gI().stopCharge(this);
         super.goToXY(x, y, isTeleport);
     }
-
+    
     protected void effectCharger() {
         if (Util.isTrue(15, ConstRatio.PER100)) {
             EffectSkillService.gI().sendEffectCharge(this);
         }
     }
-
+    
     private void angry() {
 //        if (this.playersAttack.size() < 5 && Util.isTrue(7, ConstRatio.PER100)) {
 //
@@ -274,7 +275,7 @@ public class Broly extends Boss {
 //            }
 //        }
     }
-
+    
     private boolean isInListPlayersAttack(Player player) {
         for (Player pl : playersAttack) {
             if (player.equals(pl)) {
@@ -283,7 +284,7 @@ public class Broly extends Boss {
         }
         return false;
     }
-
+    
     @Override
     public void checkPlayerDie(Player pl) {
         if (pl.isDie()) {
@@ -293,15 +294,19 @@ public class Broly extends Boss {
             this.plAttack = null;
         }
     }
-
+    
     @Override
     public void joinMap() {
-        this.zone = getMapCanJoin(mapJoin[Util.nextInt(0, mapJoin.length - 1)]); 
-        int x = Util.nextInt(50, this.zone.map.mapWidth - 50);
-        ChangeMapService.gI().changeMap(this, this.zone, x, this.zone.map.yPhysicInTop(x, 0));
-        ServerNotify.gI().notify("Boss " + this.name + " vừa xuất hiện tại " + this.zone.map.mapName + "");
+        if (this.zone != null) {
+            this.zone = getMapCanJoin(mapJoin[Util.nextInt(0, mapJoin.length - 1)]);
+            int x = Util.nextInt(50, this.zone.map.mapWidth - 50);
+            ChangeMapService.gI().changeMap(this, this.zone, x, this.zone.map.yPhysicInTop(x, 0));
+            ServerNotify.gI().notify("Boss " + this.name + " vừa xuất hiện tại " + this.zone.map.mapName + "");
+        } else {
+            BossManager.gI().removeBoss(this);
+        }
     }
-
+    
     @Override
     public void respawn() {
         super.respawn();
@@ -313,7 +318,7 @@ public class Broly extends Boss {
             this.angryPlayers.clear();
         }
     }
-
+    
     @Override
     public Zone getMapCanJoin(int mapId) {
         return super.getMapCanJoin(mapId);
@@ -334,18 +339,18 @@ public class Broly extends Boss {
 //        }
 //        return map;
     }
-
+    
     @Override
     public void leaveMap() {
         MapService.gI().exitMap(this);
     }
-
+    
     @Override
     public void die() {
         this.secondTimeRestToNextTimeAppear = Util.nextInt(20, 30);
         super.die();
     }
-
+    
     @Override
     public void rewards(Player pl) {
         if (true) {
@@ -396,10 +401,10 @@ public class Broly extends Boss {
         }
         generalRewards(pl);
     }
-
+    
     @Override
     protected boolean useSpecialSkill() {
         return false;
     }
-
+    
 }

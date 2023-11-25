@@ -194,6 +194,8 @@ public class CombineServiceNew {
                             + "|5|" + TTT.quantity + " Thăng tinh thạch\n"
                             + "|5|" + stone.quantity + " " + stone.template.name + "\n"
                             + "|1|Tôi sẽ giúp cậu nâng cấp linh thú này\n"
+                            + "|8|Bạn đưa tôi 10 thăng tinh thạch tôi sẽ giúp bạn\n"
+                            + "|8|Tôi sẽ giúp bạn có tỉ lệ thành công cao hơn\n"
                             + "|1|Cậu có đồng ý không!";
                     this.bulmatl.createOtherMenu(player, ConstNpc.MENU_START_COMBINE, npcSay, "Đồng Ý", "Từ chối");
                 } else {

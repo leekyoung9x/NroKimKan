@@ -72,6 +72,9 @@ public class ItemTime {
     public boolean isUseMayDo;
     public long lastTimeUseMayDo;
 
+    public boolean isMayDo;
+    public long lastTimeMayDo;
+
     public boolean isOpenPower;
     public long lastTimeOpenPower;
 

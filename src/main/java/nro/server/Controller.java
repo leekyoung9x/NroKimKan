@@ -278,7 +278,7 @@ public class Controller {
                     int effId = _msg.reader().readShort();
                     int idT = effId;
                     if (effId == 25) {
-                        idT = 51;
+                        idT = 59;
                     }
                     Resources.effData(_session, effId, idT);
                     break;
