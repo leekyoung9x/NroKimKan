@@ -26,6 +26,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.locks.ReentrantLock;
 import java.util.stream.Collectors;
+
 import nro.models.boss.list_boss.WhisTop;
 
 import static nro.services.func.ChangeMapService.NON_SPACE_SHIP;
@@ -484,6 +485,22 @@ public class Zone {
     public Player getRandomPlayerInMap() {
         if (!this.notBosses.isEmpty()) {
             return this.notBosses.get(Util.nextInt(0, this.notBosses.size() - 1));
+        } else {
+            return null;
+        }
+    }
+
+    public Player getRandomPlayerInMap(List<Player> players) {
+        List<Player> playerList = new ArrayList<>();
+
+        for (Player player : players) {
+            if (player != null && player.zone != null && player.zone.map.mapId == this.map.mapId && player.zone.zoneId == this.zoneId && !playerList.contains(player)) {
+                playerList.add(player);
+            }
+        }
+
+        if (!playerList.isEmpty()) {
+            return playerList.get(Util.nextInt(0, playerList.size() - 1));
         } else {
             return null;
         }

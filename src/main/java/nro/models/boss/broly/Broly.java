@@ -230,7 +230,7 @@ public class Broly extends Boss {
     }
     
     @Override
-    protected void goToXY(int x, int y, boolean isTeleport) {
+    public void goToXY(int x, int y, boolean isTeleport) {
         EffectSkillService.gI().stopCharge(this);
         super.goToXY(x, y, isTeleport);
     }

@@ -533,7 +533,7 @@ public abstract class Boss extends Player implements BossInterface {
         goToXY(pl.location.x, pl.location.y, isTeleport);
     }
 
-    protected void goToXY(int x, int y, boolean isTeleport) {
+    public void goToXY(int x, int y, boolean isTeleport) {
         if (!isTeleport) {
             byte dir = (byte) (this.location.x - x < 0 ? 1 : -1);
             byte move = (byte) Util.nextInt(50, 100);

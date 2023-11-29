@@ -78,10 +78,6 @@ public class WhisTop extends Boss {
                     leaveMap();
                 }
             } else {
-//                if (plAtt.nPoint.eatOsin) {
-//                    dame = dame / 100 * (100 - level);
-//                    return dame;
-//                }
                 Service.getInstance().sendThongBao(plAtt, "Hụt");
             }
             return dame;

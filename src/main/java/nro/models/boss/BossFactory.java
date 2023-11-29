@@ -2,6 +2,7 @@ package nro.models.boss;
 
 import nro.consts.ConstEvent;
 import nro.consts.ConstMap;
+import nro.consts.ConstPlayer;
 import nro.models.boss.NgucTu.Cumber;
 import nro.models.boss.NgucTu.SuperCumber;
 import nro.models.boss.baconsoi.Basil;
@@ -16,6 +17,10 @@ import nro.models.boss.cold.*;
 import nro.models.boss.event.HoaHong;
 import nro.models.boss.event.Qilin;
 import nro.models.boss.event.SantaClaus;
+import nro.models.boss.event.noel.NoelBoss;
+import nro.models.boss.event.noel.NoelBossBall;
+import nro.models.boss.event.noel.NoelBossOne;
+import nro.models.boss.event.noel.NoelBossTwo;
 import nro.models.boss.fide.*;
 import nro.models.boss.halloween.BoXuong;
 import nro.models.boss.halloween.DoiNhi;
@@ -31,8 +36,10 @@ import nro.models.map.Map;
 import nro.models.map.Zone;
 import nro.models.map.mabu.MabuWar;
 import nro.models.map.mabu.MabuWar14h;
+import nro.models.player.Player;
 import nro.server.Manager;
 import nro.services.MapService;
+import nro.services.PlayerService;
 import org.apache.log4j.Logger;
 
 /**
@@ -177,16 +184,23 @@ public class BossFactory {
     public static final byte WHIS_TOP = -127;
 
     public static final byte CLONE_PLAYER = -128;
+    public static final int NOEL_BOSS_ONE = -129;
+    public static final int NOEL_BOSS_TWO = -130;
+    public static final int NOEL_BOSS_BALL = -131;
+    public static final int NOEL_BOSS_BALL_2 = -132;
+    public static final int NOEL_BOSS_BALL_3 = -133;
+    public static final int NOEL_BOSS_BALL_4 = -134;
+    public static final int NOEL_BOSS_BALL_5 = -135;
 
     private static final Logger logger = Logger.getLogger(BossFactory.class);
 
     public static final int[] MAP_APPEARED_QILIN = {ConstMap.VACH_NUI_ARU_42, ConstMap.VACH_NUI_MOORI_43, ConstMap.VACH_NUI_KAKAROT,
-        ConstMap.LANG_ARU, ConstMap.LANG_MORI, ConstMap.LANG_KAKAROT, ConstMap.DOI_HOA_CUC, ConstMap.DOI_NAM_TIM, ConstMap.DOI_HOANG,
-        ConstMap.TRAM_TAU_VU_TRU, ConstMap.TRAM_TAU_VU_TRU_25, ConstMap.TRAM_TAU_VU_TRU_26, ConstMap.LANG_PLANT, ConstMap.RUNG_NGUYEN_SINH,
-        ConstMap.RUNG_CO, ConstMap.RUNG_THONG_XAYDA, ConstMap.RUNG_DA, ConstMap.THUNG_LUNG_DEN, ConstMap.BO_VUC_DEN, ConstMap.THANH_PHO_VEGETA,
-        ConstMap.THUNG_LUNG_TRE, ConstMap.RUNG_NAM, ConstMap.RUNG_BAMBOO, ConstMap.RUNG_XUONG, ConstMap.RUNG_DUONG_XI, ConstMap.NAM_KAME,
-        ConstMap.DAO_BULONG, ConstMap.DONG_KARIN, ConstMap.THI_TRAN_MOORI, ConstMap.THUNG_LUNG_MAIMA, ConstMap.NUI_HOA_TIM, ConstMap.NUI_HOA_VANG,
-        ConstMap.NAM_GURU, ConstMap.DONG_NAM_GURU, ConstMap.THUNG_LUNG_NAMEC
+            ConstMap.LANG_ARU, ConstMap.LANG_MORI, ConstMap.LANG_KAKAROT, ConstMap.DOI_HOA_CUC, ConstMap.DOI_NAM_TIM, ConstMap.DOI_HOANG,
+            ConstMap.TRAM_TAU_VU_TRU, ConstMap.TRAM_TAU_VU_TRU_25, ConstMap.TRAM_TAU_VU_TRU_26, ConstMap.LANG_PLANT, ConstMap.RUNG_NGUYEN_SINH,
+            ConstMap.RUNG_CO, ConstMap.RUNG_THONG_XAYDA, ConstMap.RUNG_DA, ConstMap.THUNG_LUNG_DEN, ConstMap.BO_VUC_DEN, ConstMap.THANH_PHO_VEGETA,
+            ConstMap.THUNG_LUNG_TRE, ConstMap.RUNG_NAM, ConstMap.RUNG_BAMBOO, ConstMap.RUNG_XUONG, ConstMap.RUNG_DUONG_XI, ConstMap.NAM_KAME,
+            ConstMap.DAO_BULONG, ConstMap.DONG_KARIN, ConstMap.THI_TRAN_MOORI, ConstMap.THUNG_LUNG_MAIMA, ConstMap.NUI_HOA_TIM, ConstMap.NUI_HOA_VANG,
+            ConstMap.NAM_GURU, ConstMap.DONG_NAM_GURU, ConstMap.THUNG_LUNG_NAMEC
     };
 
     private BossFactory() {
@@ -472,4 +486,44 @@ public class BossFactory {
         return new WhisTop(bossId, level, player_id);
     }
 
+    public static NoelBoss createNoelBoss(long bossId, Player player) {
+        NoelBoss boss = null;
+
+        switch ((int) bossId) {
+            case NOEL_BOSS_ONE -> {
+                boss = new NoelBossOne();
+            }
+            case NOEL_BOSS_TWO -> {
+                boss = new NoelBossTwo();
+            }
+        }
+
+        if (boss != null) {
+            boss.setStatus(Boss.ATTACK);
+            boss.zone = player.zone;
+            boss.typePk = ConstPlayer.PK_ALL;
+            boss.location.x = player.location.x;
+            boss.location.y = player.location.y;
+            boss.joinMap();
+            boss.AddPlayerCanAttack(player);
+        }
+
+        return boss;
+    }
+
+    public static NoelBossBall createNoelBossBall(long bossId, Player player, Boss baseBoss) {
+        NoelBossBall boss = null;
+
+        boss = new NoelBossBall(bossId, player);
+        if (boss != null) {
+            boss.setStatus(Boss.ATTACK);
+            boss.zone = player.zone;
+            boss.typePk = ConstPlayer.NON_PK;
+            boss.location.x = baseBoss.location.x;
+            boss.location.y = baseBoss.location.y;
+            boss.joinMap();
+        }
+
+        return boss;
+    }
 }
