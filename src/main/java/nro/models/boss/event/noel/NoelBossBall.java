@@ -40,7 +40,7 @@ public class NoelBossBall extends NoelBoss {
     @Override
     public synchronized void attack() {
         try {
-            if (target == null || target.isDie() || target.isMiniPet || target.effectSkin.isVoHinh || target.zone.map.mapId != 106) {
+            if (target == null || target.zone == null || target.zone.map == null || target.isDie() || target.isMiniPet || target.effectSkin.isVoHinh || target.zone.map.mapId != 106) {
                 this.leaveMap();
                 return;
             }
