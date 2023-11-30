@@ -51,6 +51,11 @@ public class NoelBossBall extends NoelBoss {
             if (Util.getDistance(this, target) <= 30) {
                 if (can_attack) {
                     if (target instanceof NoelBoss) {
+                        target.nPoint.setHp(target.nPoint.hpMax);
+                        target.nPoint.setMp(target.nPoint.mpMax);
+                        PlayerService.gI().sendInfoHpMp(target);
+                        Service.getInstance().sendInfoPlayerEatPea(target);
+                        Service.getInstance().chat(target, "Vậy ra đây là năng lượng của thiên thể sao? Ta cảm thấy thật tràn trề năng lượng!!!");
                         this.leaveMap();
                     } else {
                         target.injured(this, target.nPoint.hp, false, false);
