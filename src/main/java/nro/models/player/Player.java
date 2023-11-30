@@ -7,6 +7,7 @@ import nro.consts.ConstPlayer;
 import nro.consts.ConstTask;
 import nro.data.DataGame;
 import nro.dialog.ConfirmDialog;
+import nro.models.boss.event.noel.NoelBossBall;
 import nro.models.clan.Buff;
 import nro.models.item.CaiTrang;
 import nro.models.boss.event.EscortedBoss;
@@ -755,6 +756,22 @@ public class Player {
         } else {
             return 0;
         }
+    }
+
+    private Integer GetDameByNoelBall(Player plAtt, int damage) {
+        if (plAtt instanceof NoelBossBall) {
+            if (isDie()) {
+                if (plAtt != null && plAtt.zone != null) {
+                    if (MapService.gI().isMapMabuWar(plAtt.zone.map.mapId) && MabuWar.gI().isTimeMabuWar()) {
+                        plAtt.addPowerPoint(5);
+                        Service.getInstance().sendPowerInfo(plAtt, "TL", plAtt.getPowerPoint());
+                    }
+                }
+                setDie(plAtt);
+            }
+            return damage;
+        }
+        return null;
     }
 
     private void setDie(Player plAtt) {
