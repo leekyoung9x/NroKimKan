@@ -105,8 +105,16 @@ public class NoelBoss extends Boss {
     public void checkPlayerDie(Player pl) {
         if (pl.nPoint.hp <= 0) {
             Service.getInstance().sendThongBao(pl, "Hãy quay lại khi mạnh hơn");
-            leaveMap();
+            // Xử lý nếu muốn nó đấm thằng khác thì comment đoạn code trên vào
+            Player player = this.zone.getRandomPlayerInMap();
+            if (player != null) {
+                this.players.clear();
+                AddPlayerCanAttack(player);
+            } else {
+                leaveMap();
+            }
         }
+
     }
 
     @Override
