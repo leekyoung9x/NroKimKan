@@ -5,33 +5,18 @@
 package nro.models.boss.event.noel;
 
 import nro.consts.ConstPlayer;
-import nro.consts.ConstRatio;
 import nro.models.boss.Boss;
 import nro.models.boss.BossData;
 import nro.models.boss.BossFactory;
-import nro.models.boss.BossManager;
 import nro.models.player.Player;
 import nro.models.skill.Skill;
-import nro.services.PlayerService;
-import nro.services.Service;
-import nro.services.SkillService;
-import nro.utils.Log;
-import nro.utils.SkillUtil;
-import nro.utils.Util;
-
-import java.time.LocalDateTime;
-import java.time.temporal.ChronoUnit;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Random;
+import nro.services.PetService;
 
 /**
  * @author by Arriety
  */
 public class NoelBossOne extends NoelBoss {
 
-    private LocalDateTime last_time_attack;
 
     public NoelBossOne() {
         super(BossFactory.NOEL_BOSS_ONE, new BossData(
@@ -40,126 +25,23 @@ public class NoelBossOne extends NoelBoss {
                 Boss.DAME_NORMAL, //type dame
                 Boss.HP_NORMAL, //type hp
                 1_000_000_000, //dame
-                new int[][]{{1_5_000_000}}, //hp
+                new int[][]{{1_515_000_000}}, //hp
                 new short[]{810, 811, 812}, //outfit
                 new short[]{106}, //map join
                 new int[][]{ //skill
-                        {Skill.DRAGON, 1, 1000}, {Skill.DRAGON, 2, 2000}, {Skill.DRAGON, 3, 3000}, {Skill.DRAGON, 7, 7000},
-                        {Skill.THAI_DUONG_HA_SAN, 1, 7_000},},
+                    {Skill.DRAGON, 1, 1000}, {Skill.DRAGON, 2, 2000}, {Skill.DRAGON, 3, 3000}, {Skill.DRAGON, 7, 7000},
+                    {Skill.THAI_DUONG_HA_SAN, 1, 7_000},},
                 _15_PHUT
         ));
     }
 
     @Override
-    public synchronized void attack() {
-        try {
-            Player pl = getPlayerAttack();
-            if (pl == null || pl.isDie() || pl.isMiniPet || pl.effectSkin.isVoHinh) {
-                return;
-            }
-            this.playerSkill.skillSelect = this.getSkillAttack();
-            if (Util.getDistance(this, pl) <= this.getRangeCanAttackWithSkillSelect()) {
-                if (this.last_time_attack == null) {
-                    this.last_time_attack = LocalDateTime.now();
-                }
-                if (ChronoUnit.SECONDS.between(this.last_time_attack, LocalDateTime.now()) >= 10) {
-                    List<Player> playerInMaps = new ArrayList<>();
-                    List<Player> playerCanAttack = new ArrayList<>();
-
-                    for (Player player : this.players) {
-                        if (player != null && player.zone != null && player.zone.map.mapId == 106) {
-                            playerInMaps.add(player);
-                        }
-                    }
-
-                    // Nếu số phần tử trong danh sách là lớn hơn hoặc bằng 4
-                    if (playerInMaps.size() >= 5) {
-                        // Xáo trộn danh sách đầu vào để lấy phần tử ngẫu nhiên
-                        Collections.shuffle(playerInMaps);
-
-                        // Lấy 4 phần tử đầu tiên sau khi đã xáo trộn
-                        playerCanAttack = playerInMaps.subList(0, 5);
-                    } else {
-                        // Nếu số phần tử trong danh sách nhỏ hơn 4, lấy ngẫu nhiên phần tử và thêm vào danh sách
-                        Random random = new Random();
-                        for (int i = 0; i < 5; i++) {
-                            // Nếu danh sách đã hết phần tử, lấy ngẫu nhiên từ danh sách ban đầu
-                            if (i < playerInMaps.size()) {
-                                playerCanAttack.add(playerInMaps.get(i));
-                            } else {
-                                playerCanAttack.add(playerInMaps.get(random.nextInt(playerInMaps.size())));
-                            }
-                        }
-                    }
-
-                    NoelBossBall ball;
-
-                    Boss heal = BossManager.gI().getBossById(BossFactory.NOEL_BOSS_TWO);
-
-                    if (heal != null) {
-                        ball = BossFactory.createNoelBossBall(BossFactory.NOEL_BOSS_BALL, heal, this);
-                    } else {
-                        ball = BossFactory.createNoelBossBall(BossFactory.NOEL_BOSS_BALL, playerCanAttack.get(0), this);
-                    }
-
-                    NoelBossBall ball1 = BossFactory.createNoelBossBall(BossFactory.NOEL_BOSS_BALL_2, playerCanAttack.get(1), this);
-                    NoelBossBall ball2 = BossFactory.createNoelBossBall(BossFactory.NOEL_BOSS_BALL_3, playerCanAttack.get(2), this);
-                    NoelBossBall ball3 = BossFactory.createNoelBossBall(BossFactory.NOEL_BOSS_BALL_4, playerCanAttack.get(3), this);
-                    NoelBossBall ball4 = BossFactory.createNoelBossBall(BossFactory.NOEL_BOSS_BALL_5, playerCanAttack.get(4), this);
-
-                    Service.getInstance().chat(this, "Tinh hà vẫn lạc");
-
-                    for (Player play : this.zone.getPlayers()) {
-                        BossXuatHien(play, ball, pl);
-                        BossXuatHien(play, ball1, pl);
-                        BossXuatHien(play, ball2, pl);
-                        BossXuatHien(play, ball3, pl);
-                        BossXuatHien(play, ball4, pl);
-                    }
-
-                    this.last_time_attack = LocalDateTime.now();
-                } else {
-                    if (Util.isTrue(15, ConstRatio.PER100)) {
-                        if (SkillUtil.isUseSkillChuong(this)) {
-                            goToXY(pl.location.x + (Util.getOne(-1, 1) * Util.nextInt(20, 80)),
-                                    Util.nextInt(10) % 2 == 0 ? pl.location.y : pl.location.y - Util.nextInt(0, 50), false);
-                        } else {
-                            goToXY(pl.location.x + (Util.getOne(-1, 1) * Util.nextInt(10, 30)),
-                                    Util.nextInt(10) % 2 == 0 ? pl.location.y : pl.location.y - Util.nextInt(0, 50), false);
-                        }
-                    }
-                    SkillService.gI().useSkill(this, pl, null);
-                    checkPlayerDie(pl);
-                }
-            } else {
-                goToPlayer(pl, false);
-            }
-        } catch (Exception ex) {
-            Log.error(Boss.class, ex);
+    public void rewards(Player pl) {
+        if (pl.pet == null) {
+            PetService.gI().createVidelPet(pl, pl.gender);
+        } else {
+            PetService.gI().changeVidelPet(pl, pl.gender);
         }
     }
 
-    private static void BossXuatHien(Player play, NoelBossBall ball, Player pl) {
-        ball.zone.loadAnotherToMe(play);
-        ball.zone.load_Me_To_Another(play);
-
-        new Thread(() -> {
-            try {
-                Thread.sleep(50);
-
-                for (int i = 0; i < 4; i++) {
-                    new Thread(() -> {
-                        ball.goToXY(pl.location.x + (Util.getOne(-1, 1) * Util.nextInt(30, 500)),
-                                pl.location.y - Util.nextInt(50, 500), false);
-                    }).start();
-                    Thread.sleep(1000);
-                }
-                ball.goToXY(pl.location.x, pl.location.y, false);
-                ball.setCan_attack(true);
-            } catch (Exception e) {
-                throw new RuntimeException(e);
-            }
-        }).start();
-
-    }
 }

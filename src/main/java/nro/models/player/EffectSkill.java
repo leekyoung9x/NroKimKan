@@ -134,7 +134,7 @@ public class EffectSkill {
             SkillService.gI().useSkill(player, null, null);
         }
         if (player.isPl()) {
-           if (this.isTaskHoldMabu == 1 && Util.canDoWithTime(this.lastTimeHoldMabu, 2000)) {
+            if (this.isTaskHoldMabu == 1 && Util.canDoWithTime(this.lastTimeHoldMabu, 2000)) {
                 if (player.zone.map.mapId != 128) {
                     player.pet.goHome();
                     ChangeMapService.gI().changeMapInYard(player, 128, -1, -1);

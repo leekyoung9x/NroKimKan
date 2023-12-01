@@ -23,7 +23,6 @@ import nro.models.map.phoban.BanDoKhoBau;
 import nro.models.map.phoban.DoanhTrai;
 import nro.models.map.war.BlackBallWar;
 import nro.models.map.war.NamekBallWar;
-import nro.models.npc.specialnpc.EventNoel;
 import nro.models.player.NPoint;
 import nro.models.player.Player;
 import nro.server.Maintenance;
@@ -43,6 +42,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import nro.manager.TopWhis;
 import nro.models.map.mabu.MabuWar14h;
+import nro.models.npc.specialnpc.EventNoel;
 import nro.models.phuban.DragonNamecWar.*;
 
 import static nro.server.Manager.*;
@@ -1597,50 +1597,50 @@ public class NpcFactory {
                         }
                     };
                     break;
-                case ConstNpc.NOEL:
+                case ConstNpc.GOKU_NOEL:
                     if (mapId == 106) {
                         npc = new EventNoel(mapId, status, cx, cy, tempId, avartar);
-                    } else {
-                        npc = new Npc(mapId, status, cx, cy, tempId, avartar) {
-                            @Override
-                            public void openBaseMenu(Player player) {
-                                this.createOtherMenu(player, ConstNpc.BASE_MENU,
-                                        "Hô hô hô, ta là Ông già Noel\nCon muốn ta giúp gì nào?",
-                                        "Đổi\nHộp quà", "Trả\nTuần Lộc", "Từ chối");
-                            }
+                    }
+                    break;
+                case ConstNpc.NOEL:
+                    npc = new Npc(mapId, status, cx, cy, tempId, avartar) {
+                        @Override
+                        public void openBaseMenu(Player player) {
+                            this.createOtherMenu(player, ConstNpc.BASE_MENU,
+                                    "Hô hô hô, ta là Ông già Noel\nCon muốn ta giúp gì nào?",
+                                    "Đổi\nHộp quà", "Trả\nTuần Lộc", "Từ chối");
+                        }
 
-                            @Override
-                            public void confirmMenu(Player player, int select) {
-                                if (player.iDMark.isBaseMenu()) {
-                                    switch (select) {
-                                        case 0:
-                                            Item hoa = InventoryService.gI().findItem(player.inventory.itemsBag, 610);
-                                            if (hoa == null) {
-                                                this.npcChat(player, "Con giống Oprah Winfrey vậy, không có 1 bông hoa nào cả...");
-                                                break;
-                                            }
-                                            if (InventoryService.gI().getCountEmptyBag(player) > 0) {
-                                                Item hop = ItemService.gI().createNewItem((short) 2037);
-                                                hop.itemOptions.add(new ItemOption(74, 0));
-                                                InventoryService.gI().addItemBag(player, hop, 0);
-                                                InventoryService.gI().subQuantityItemsBag(player, hoa, 1);
-                                                InventoryService.gI().sendItemBags(player);
-                                                Service.getInstance().sendThongBao(player, "Trao đổi thành công!");
-                                            } else {
-                                                Service.getInstance().sendThongBao(player, "Hàng trang đã đầy");
-                                            }
+                        @Override
+                        public void confirmMenu(Player player, int select) {
+                            if (player.iDMark.isBaseMenu()) {
+                                switch (select) {
+                                    case 0:
+                                        Item hoa = InventoryService.gI().findItem(player.inventory.itemsBag, 610);
+                                        if (hoa == null) {
+                                            this.npcChat(player, "Con giống Oprah Winfrey vậy, không có 1 bông hoa nào cả...");
                                             break;
-                                        case 1:
-                                            break;
-                                        default:
-                                            Service.getInstance().sendThongBao(player, "Không thể thực hiện");
-                                            System.out.println("DDijt me may");
-                                            break;
-                                    }
+                                        }
+                                        if (InventoryService.gI().getCountEmptyBag(player) > 0) {
+                                            Item hop = ItemService.gI().createNewItem((short) 2037);
+                                            hop.itemOptions.add(new ItemOption(74, 0));
+                                            InventoryService.gI().addItemBag(player, hop, 0);
+                                            InventoryService.gI().subQuantityItemsBag(player, hoa, 1);
+                                            InventoryService.gI().sendItemBags(player);
+                                            Service.getInstance().sendThongBao(player, "Trao đổi thành công!");
+                                        } else {
+                                            Service.getInstance().sendThongBao(player, "Hàng trang đã đầy");
+                                        }
+                                        break;
+                                    case 1:
+                                        break;
+                                    default:
+                                        Service.getInstance().sendThongBao(player, "Không thể thực hiện");
+                                        break;
                                 }
                             }
-                        };
-                    }
+                        }
+                    };
                     break;
                 case ConstNpc.THAN_MEO_KARIN:
                     npc = new Npc(mapId, status, cx, cy, tempId, avartar) {

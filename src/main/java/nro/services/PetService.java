@@ -106,6 +106,7 @@ public class PetService {
                 }
                 Thread.sleep(1000);
                 Service.getInstance().chatJustForMe(player, player.pet, "Ta sẽ đem hạnh phúc đến Noel này...");
+                Service.getInstance().sendThongBao(player, "Bạn đã nhận được Đệ Tử Videl");
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -153,7 +154,7 @@ public class PetService {
         MapService.gI().exitMap(player.pet);
         player.pet.dispose();
         player.pet = null;
-        createVidelPet(player, gender, limitPower);
+        createVidelPet(player, gender);
     }
 
     public void changeNamePet(Player player, String name) {

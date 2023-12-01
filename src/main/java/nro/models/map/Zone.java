@@ -26,7 +26,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.locks.ReentrantLock;
 import java.util.stream.Collectors;
-
 import nro.models.boss.list_boss.WhisTop;
 
 import static nro.services.func.ChangeMapService.NON_SPACE_SHIP;

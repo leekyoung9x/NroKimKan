@@ -4,16 +4,16 @@ import nro.consts.ConstNpc;
 import nro.consts.ConstTask;
 import nro.models.player.Player;
 import nro.server.Manager;
-import nro.services.MapService;
 import nro.services.TaskService;
 
 import java.util.ArrayList;
 import java.util.List;
-
 import nro.utils.Util;
 
 /**
+ *
  * Arriety
+ *
  */
 public class NpcManager {
 
@@ -54,8 +54,8 @@ public class NpcManager {
                         npc.cx = Util.nextInt(20, player.zone.map.mapWidth - 20);
                         npc.cy = player.zone.map.yPhysicInTop(npc.cx, 0);
                     }
-                } else if (npc.tempId == ConstNpc.NOEL && player.zone.map.mapId != 106) {
-                     if (Util.isTrue(10, 100)) {
+                } else if (npc.tempId == ConstNpc.NOEL) {
+                    if (Util.isTrue(10, 100)) {
                         continue;
                     } else {
                         npc.cx = Util.nextInt(20, player.zone.map.mapWidth - 20);

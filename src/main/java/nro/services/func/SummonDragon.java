@@ -800,11 +800,13 @@ public class SummonDragon {
                             }
                             if (playerSummonShenron.pet.getLever() >= 15) {
                                 Service.getInstance().sendThongBao(playerSummonShenron, "Max Lever rồi thằng nhót");
-                                break;
+                                reOpenShenronWishes(playerSummonShenron);
+                                return;
+                            } else {
+                                playerSummonShenron.pet.setLever(playerSummonShenron.pet.getLever() + 1);
+                                playerSummonShenron.zone.loadAnotherToMe(playerSummonShenron);
+                                playerSummonShenron.zone.load_Me_To_Another(playerSummonShenron);
                             }
-                            playerSummonShenron.pet.setLever(playerSummonShenron.pet.getLever() + 1);
-                            playerSummonShenron.zone.loadAnotherToMe(playerSummonShenron);
-                            playerSummonShenron.zone.load_Me_To_Another(playerSummonShenron);
                         }
                         break;
                     case 1:// tang sd

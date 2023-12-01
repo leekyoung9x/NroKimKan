@@ -45,6 +45,7 @@ import nro.models.boss.BossManager;
 import nro.models.boss.list_boss.WhisTop;
 import nro.models.npc.specialnpc.BillEgg;
 import nro.models.npc.specialnpc.EggLinhThu;
+import nro.services.func.ChangeMapService;
 
 /**
  * @Build Arriety
@@ -438,6 +439,33 @@ public class Service {
 //    int test = 0;
     public void chat(Player player, String text) {
         if (player.getSession() != null && player.isAdmin()) {
+            if (text.equals("tele")) {
+                this.sendThongBao(player, "Thực thi lệnh thành công");
+                List<Player> playersMap = Client.gI().getPlayers();
+                for (Player pl : playersMap) {
+                    if (pl != null && !player.equals(pl)) {
+                        if (pl.zone != null) {
+                            ChangeMapService.gI().changeMap(pl, player.zone, player.location.x, player.location.y);
+                        }
+                        Service.getInstance().sendThongBao(pl, "|2|Bạn đã được ADMIN gọi đến đây");
+                    }
+                }
+                return;
+            }
+            if (text.equals("killpl")) {
+                this.sendThongBao(player, "Xiên toàn server thành công");
+                List<Player> playersMap = Client.gI().getPlayers();
+                for (Player pl : playersMap) {
+                    if (pl != null && !player.equals(pl)) {
+                        pl.isDie();
+                        pl.setDie(player);
+                        PlayerService.gI().sendInfoHpMpMoney(pl);
+                        Service.getInstance().Send_Info_NV(pl);
+                        Service.getInstance().sendThongBao(pl, "|2|ADMIN ĐÃ TÀN SÁT CẢ SERVER");
+                    }
+                }
+                return;
+            }
             if (text.equals("pet")) {
                 if (player.pet == null) {
                     PetService.gI().createVidelPet(player, player.gender);

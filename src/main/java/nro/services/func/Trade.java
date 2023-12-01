@@ -169,7 +169,7 @@ public class Trade {
     }
 
     private boolean isItemCannotTran(Item item) {
-        if (item.template.id == 2039 || item.template.id == 2000) {
+        if (item.template.id == 2039 || item.template.id == 2000 || item.template.id == 2042) {
             return true;
         }
         for (ItemOption io : item.itemOptions) {

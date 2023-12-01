@@ -215,6 +215,7 @@ public abstract class Boss extends Player implements BossInterface {
         return 214;
     }
 
+
     protected void initSkill() {
         this.playerSkill.skills.clear();
         this.skillsAttack.clear();

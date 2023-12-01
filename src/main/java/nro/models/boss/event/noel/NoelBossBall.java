@@ -2,21 +2,17 @@ package nro.models.boss.event.noel;
 
 import lombok.Setter;
 import nro.consts.ConstPlayer;
-import nro.consts.ConstRatio;
 import nro.models.boss.Boss;
 import nro.models.boss.BossData;
-import nro.models.map.mabu.MabuWar;
 import nro.models.player.Player;
 import nro.models.skill.Skill;
-import nro.services.MapService;
 import nro.services.PlayerService;
 import nro.services.Service;
-import nro.services.SkillService;
 import nro.utils.Log;
-import nro.utils.SkillUtil;
 import nro.utils.Util;
 
 public class NoelBossBall extends NoelBoss {
+
     private Player target;
 
     @Setter
@@ -33,10 +29,9 @@ public class NoelBossBall extends NoelBoss {
                 new short[]{609, 610, 610}, //outfit
                 new short[]{106}, //map join
                 new int[][]{ //skill
-                        {Skill.DRAGON, 1, 1000}, {Skill.DRAGON, 2, 2000}, {Skill.DRAGON, 3, 3000}, {Skill.DRAGON, 7, 2000}, {Skill.MASENKO, 7, 2000}, {Skill.MASENKO, 1, 2000}},
+                    {Skill.DRAGON, 1, 1000}, {Skill.DRAGON, 2, 2000}, {Skill.DRAGON, 3, 3000}, {Skill.DRAGON, 7, 2000}, {Skill.MASENKO, 7, 2000}, {Skill.MASENKO, 1, 2000}},
                 _15_PHUT
         ));
-
         target = player;
     }
 

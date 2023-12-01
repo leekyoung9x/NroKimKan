@@ -465,16 +465,21 @@ public class InventoryService {
         if (index < 0 || index >= player.inventory.itemsBody.size()) {
             return;
         }
-        Item item = player.pet.inventory.itemsBody.get(index);
-        if (item.isNotNullItem()) {
-            player.pet.inventory.itemsBody.set(index, putItemBag(player, item));
-            sendItemBags(player);
-            sendItemBody(player);
-            Service.getInstance().Send_Caitrang(player.pet);
-            Service.getInstance().Send_Caitrang(player);
-            Service.getInstance().point(player);
-            Service.getInstance().showInfoPet(player);
+        if (player.pet != null) {
+            Item item = player.pet.inventory.itemsBody.get(index);
+            if (item.isNotNullItem()) {
+                player.pet.inventory.itemsBody.set(index, putItemBag(player, item));
+                sendItemBags(player);
+                sendItemBody(player);
+                Service.getInstance().Send_Caitrang(player.pet);
+                Service.getInstance().Send_Caitrang(player);
+                Service.getInstance().point(player);
+                Service.getInstance().showInfoPet(player);
+            }
+        } else {
+            Service.getInstance().sendThongBao(player, "Bạn làm gì có đệ tử ?");
         }
+
     }
 
     //--------------------------------------------------------------------------

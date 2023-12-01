@@ -7,7 +7,6 @@ import nro.consts.ConstPlayer;
 import nro.consts.ConstTask;
 import nro.data.DataGame;
 import nro.dialog.ConfirmDialog;
-import nro.models.boss.event.noel.NoelBossBall;
 import nro.models.clan.Buff;
 import nro.models.item.CaiTrang;
 import nro.models.boss.event.EscortedBoss;
@@ -45,6 +44,7 @@ import lombok.Setter;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import nro.models.boss.event.noel.NoelBossBall;
 import nro.models.item.ItemOption;
 import nro.models.map.mabu.MabuWar14h;
 import nro.models.npc.specialnpc.BillEgg;
@@ -697,10 +697,31 @@ public class Player {
         return -1;
     }
 
+    private Integer GetDameByNoelBall(Player plAtt, int damage) {
+        if (plAtt instanceof NoelBossBall) {
+            if (isDie()) {
+                if (plAtt != null && plAtt.zone != null) {
+                    if (MapService.gI().isMapMabuWar(plAtt.zone.map.mapId) && MabuWar.gI().isTimeMabuWar()) {
+                        plAtt.addPowerPoint(5);
+                        Service.getInstance().sendPowerInfo(plAtt, "TL", plAtt.getPowerPoint());
+                    }
+                }
+                setDie(plAtt);
+            }
+            return damage;
+        }
+        return null;
+    }
+
     //--------------------------------------------------------------------------
     public int injured(Player plAtt, int damage, boolean piercing, boolean isMobAttack) {
+        Integer tungngu = GetDameByNoelBall(plAtt, damage);
+        if (tungngu != null) {
+            return tungngu;
+        }
         int mstChuong = this.nPoint.mstChuong;
         int giamst = this.nPoint.tlGiamst;
+
         if (!this.isDie()) {
             if (this.isMiniPet) {
                 return 0;
@@ -758,23 +779,7 @@ public class Player {
         }
     }
 
-    private Integer GetDameByNoelBall(Player plAtt, int damage) {
-        if (plAtt instanceof NoelBossBall) {
-            if (isDie()) {
-                if (plAtt != null && plAtt.zone != null) {
-                    if (MapService.gI().isMapMabuWar(plAtt.zone.map.mapId) && MabuWar.gI().isTimeMabuWar()) {
-                        plAtt.addPowerPoint(5);
-                        Service.getInstance().sendPowerInfo(plAtt, "TL", plAtt.getPowerPoint());
-                    }
-                }
-                setDie(plAtt);
-            }
-            return damage;
-        }
-        return null;
-    }
-
-    private void setDie(Player plAtt) {
+    public void setDie(Player plAtt) {
 //        if (this.effectSkill.isMonkey) {
 //            rewardDuoiKhi(plAtt);
 //        }
@@ -810,12 +815,14 @@ public class Player {
         if (this.effectSkin.isSocola) {
             reward(plAtt);
         }
-        if (MapService.gI().isMapMabuWar(this.zone.map.mapId)) {
-            if (this.powerPoint < 20) {
-                this.powerPoint = 0;
-            }
-            if (this.percentPowerPont < 100) {
-                this.percentPowerPont = 0;
+        if (this.zone != null) {
+            if (MapService.gI().isMapMabuWar(this.zone.map.mapId)) {
+                if (this.powerPoint < 20) {
+                    this.powerPoint = 0;
+                }
+                if (this.percentPowerPont < 100) {
+                    this.percentPowerPont = 0;
+                }
             }
         }
         //kết thúc pk
@@ -831,7 +838,6 @@ public class Player {
     }
 
     public void rewardDuoiKhi(Player pl) {
-//        System.out.println("REWARDDDDDDDDDDDDDDDDDDDDDĐD");
         if (pl != null) {
             int x = this.location.x;
             int y = this.zone.map.yPhysicInTop(x, this.location.y - 24);

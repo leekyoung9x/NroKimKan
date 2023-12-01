@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class NoelBoss extends Boss {
+
     protected List<Player> players = new ArrayList<>();
 
     protected static final int _15_PHUT = 900;
@@ -22,7 +23,6 @@ public class NoelBoss extends Boss {
 
     @Override
     public void rewards(Player pl) {
-
     }
 
     @Override
@@ -93,19 +93,16 @@ public class NoelBoss extends Boss {
 
     @Override
     public void initTalk() {
-
     }
 
     @Override
     public void idle() {
-
     }
 
     @Override
     public void checkPlayerDie(Player pl) {
         if (pl.nPoint.hp <= 0) {
             Service.getInstance().sendThongBao(pl, "Hãy quay lại khi mạnh hơn");
-            // Xử lý nếu muốn nó đấm thằng khác thì comment đoạn code trên vào
             Player player = this.zone.getRandomPlayerInMap();
             if (player != null) {
                 this.players.clear();
@@ -114,7 +111,6 @@ public class NoelBoss extends Boss {
                 leaveMap();
             }
         }
-
     }
 
     @Override

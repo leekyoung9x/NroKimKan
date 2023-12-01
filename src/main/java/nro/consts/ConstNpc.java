@@ -108,6 +108,7 @@ public class ConstNpc {
     public static final byte FIDE = 74;
     public static final byte CADIC = 75;
     public static final byte NOEL = 76;
+    public static final byte GOKU_NOEL = 78;
     //----------------------index menu------------------------------------------
     //index menu base
     public static final int IGNORE_MENU = 712002;

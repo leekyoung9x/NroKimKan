@@ -18,39 +18,39 @@ import java.util.List;
  *
  */
 public class EffectSkin {
-    
+
     private static final String[] textOdo = new String[]{
         "Hôi quá", "Tránh ra đi thằng ở dơ", "Mùi gì kinh quá vậy?",
         "Kinh tởm quá", "Biến đi thằng ở dơ", "Kính ngài ở dơ"
     };
-    
+
     private Player player;
-    
+
     public EffectSkin(Player player) {
         this.player = player;
         this.xHPKI = 1;
     }
-    
+
     public long lastTimeAttack;
     private long lastTimeOdo;
-    
+
     private long lastTimeXinhQua;
-    
+
     private long lastTimeXenHutHpKi;
-    
+
     public long lastTimeAddTimeTrainArmor;
     public long lastTimeSubTimeTrainArmor;
-    
+
     public boolean isVoHinh;
     public boolean isHoaDa;
     public long lastTimeHoaDa;
     public int timeHoaDa;
-    
+
     public long lastTimeXHPKI;
     public int xHPKI;
-    
+
     public boolean isPhuHo;
-    
+
     public long lastTimeUpdateCTHT;
     public long lastTimeInoHashi;
     private long lastTimeEffNezuko;
@@ -85,7 +85,7 @@ public class EffectSkin {
     public long lastTimeInvisible;
     public int timeInvisible;
     public long lastTimeYacon;
-    
+
     public void update() {
         updateVoHinh();
         if (this.player.effectSkin != null && this.player != null && this.player.zone != null && !this.player.zone.map.isMapOffline) {
@@ -101,7 +101,7 @@ public class EffectSkin {
             updateBuiBui();
             setxDameChuong();
             updateYacon();
-            
+
             updateBunma();
         }
         if (!this.player.isBoss && !this.player.isPet) {
@@ -141,7 +141,7 @@ public class EffectSkin {
             EffSkinService.gI().removeInvisible(this.player);
         }
     }
-    
+
     private void updateYacon() {
         try {
             if (this.player.nPoint.wearingYacon) {
@@ -155,7 +155,7 @@ public class EffectSkin {
             Log.error("update Yacon()" + e.getMessage());
         }
     }
-    
+
     private void setxDameChuong() {
         try {
             if (this.player.nPoint.tlDameChuong > 0) {
@@ -168,7 +168,7 @@ public class EffectSkin {
             Log.error("update setxDameChuong()" + e.getMessage());
         }
     }
-    
+
     private void updateBuiBui() {
         try {
             if (this.player.nPoint.wearingBuiBui) {
@@ -192,7 +192,7 @@ public class EffectSkin {
             Log.error("updateBuiBui() err: " + e.getMessage());
         }
     }
-    
+
     private void updateMabu() {
         try {
             if (this.player.nPoint.wearingMabu) {
@@ -219,7 +219,7 @@ public class EffectSkin {
             Log.error("updateMabu() err" + e.getMessage());
         }
     }
-    
+
     private void updateDrabula() {
         try {
             if (this.player.nPoint.wearingDrabula) {
@@ -247,7 +247,7 @@ public class EffectSkin {
             Log.error("updateDrabula() err" + e.getMessage());
         }
     }
-    
+
     private void updateNezuko() {
         try {
             if (this.player.nPoint.wearingNezuko) {
@@ -261,7 +261,7 @@ public class EffectSkin {
             Log.error("updateNezuko() err" + e.getMessage());
         }
     }
-    
+
     private void updateTanjiro() {
         try {
             if (this.player.nPoint.wearingTanjiro) {
@@ -275,7 +275,7 @@ public class EffectSkin {
             Log.error("updateTanjiro() err" + e.getMessage());
         }
     }
-    
+
     private void updateInoHashi() {
         try {
             if (this.player.nPoint.wearingInoHashi) {
@@ -289,14 +289,14 @@ public class EffectSkin {
             Log.error("updateInoHashi() err" + e.getMessage());
         }
     }
-    
+
     private void updateInosuke() {
         try {
             if (this.player.nPoint.wearingInosuke) {
                 if (Util.canDoWithTime(lastTimeEffInosuke, 120000)) {
                     Service.getInstance().chat(this.player, "Hơi thở của dã thú....");
                     EffSkinService.gI().setInosuke(this.player, System.currentTimeMillis(), 20000);
-                    
+
                     this.lastTimeEffInosuke = System.currentTimeMillis();
                 }
             }
@@ -304,21 +304,21 @@ public class EffectSkin {
             Log.error("updateInosuke() err" + e.getMessage());
         }
     }
-    
+
     private void updateZenitsu() {
         try {
             if (this.player.nPoint.wearingZenitsu) {
                 if (Util.canDoWithTime(lastTimeEffZenitsu, 2000)) {
                     Service.getInstance().chat(this.player, "Khò khò.......");
                     List<Player> players = new ArrayList<>();
-                    
+
                     List<Player> playersMap = this.player.zone.getNotBosses();
                     for (Player pl : playersMap) {
                         if (!this.player.equals(pl) && !pl.isBoss && !pl.isDie()
                                 && Util.getDistance(this.player, pl) <= 200) {
                             players.add(pl);
                         }
-                        
+
                     }
                     for (Player pl : players) {
                         Service.getInstance().chat(pl, "Hoang mang quá @@");
@@ -330,7 +330,7 @@ public class EffectSkin {
             Log.error("updateZenitsu() err" + e.getMessage());
         }
     }
-    
+
     private void updateCTHaiTac() {
         if (this.player.setClothes.ctHaiTac != -1
                 && this.player.zone != null
@@ -372,7 +372,7 @@ public class EffectSkin {
             }
         }
     }
-    
+
     private void updateXenHutXungQuanh() {
         try {
             int param = this.player.nPoint.tlHutHpMpXQ;
@@ -387,7 +387,7 @@ public class EffectSkin {
                                 && Util.getDistance(this.player, pl) <= 200) {
                             players.add(pl);
                         }
-                        
+
                     }
                     for (Mob mob : this.player.zone.mobs) {
                         if (mob != null && mob.point.getHP() > 1) {
@@ -429,14 +429,14 @@ public class EffectSkin {
             Log.error(EffectSkin.class, e, "update xenHutXungQuanh() err");
         }
     }
-    
+
     private void updateOdo() {
         try {
             int param = this.player.nPoint.tlHpGiamODo;
             if (param > 0) {
                 if (Util.canDoWithTime(lastTimeOdo, 10000)) {
                     List<Player> players = new ArrayList<>();
-                    
+
                     List<Player> playersMap = this.player.zone.getNotBosses();
                     for (Player pl : playersMap) {
                         if (!this.player.equals(pl) && !pl.isBoss && !pl.isDie()
@@ -463,7 +463,7 @@ public class EffectSkin {
             Log.error("update ODo err" + e.getMessage());
         }
     }
-    
+
     private void updateBunma() {
         try {
             if (this.player.setClothes.ctBunmaXecXi != -1 && this.player.zone != null && Util.canDoWithTime(lastTimeXinhQua, 10_000)) {
@@ -559,7 +559,7 @@ public class EffectSkin {
             Service.getInstance().point(this.player);
         }
     }
-    
+
     public void sendPlayerPrepareBom(Player player, int affterMiliseconds) {
         Message msg;
         try {
@@ -574,7 +574,7 @@ public class EffectSkin {
         } catch (Exception e) {
         }
     }
-    
+
     private void updateVoHinh() {
         if (this.player.nPoint.wearingVoHinh) {
             if (Util.canDoWithTime(lastTimeAttack, 5000)) {
@@ -584,7 +584,7 @@ public class EffectSkin {
             }
         }
     }
-    
+
     public void dispose() {
         this.player = null;
     }

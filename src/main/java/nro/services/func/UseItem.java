@@ -27,6 +27,7 @@ import org.apache.log4j.Logger;
 
 import java.util.Date;
 import java.util.List;
+import nro.models.npc.specialnpc.EggLinhThu;
 
 /**
  * @Build Arriety
@@ -330,6 +331,7 @@ public class UseItem {
                         case ConstItem.DUOI_KHI:
                         case 465:
                         case 466:
+                        case 2044:
                             useItemTime(pl, item);
                             break;
                         case 521: //tdlt
@@ -356,6 +358,13 @@ public class UseItem {
                         case 759: //sách nâng chiêu 4 đệ tử
                         case 2038:
                             upSkillPet(pl, item);
+                            break;
+                        case 2042:
+                            if (pl.egglinhthu == null) {
+                                UseItem.gI().openEggLinhThu(pl, item);
+                            } else {
+                                Service.getInstance().sendThongBao(pl, "Vui lòng mở trứng trước!");
+                            }
                             break;
                         case 1228:
                             UseItem.gI().hopQuaKichHoat(pl, item);
@@ -1626,6 +1635,13 @@ public class UseItem {
         PlayerService.gI().sendCurrentStamina(pl);
     }
 
+    private void openEggLinhThu(Player player, Item item) {
+        EggLinhThu.createEggLinhThu(player);
+        Service.getInstance().sendThongBao(player, "Bạn đã nhận được Trứng Linh Thú ở Sân Sau Siêu Thị\nLưu ý nếu không thấy Trứng vui lòng Thoát Game vào lại!");
+        InventoryService.gI().subQuantityItemsBag(player, item, 1);
+        InventoryService.gI().sendItemBags(player);
+    }
+
     private void openCSKB(Player pl, Item item) {
         if (InventoryService.gI().getCountEmptyBag(pl) > 0) {
             short[] temp = {76, 188, 189, 190, 381, 382, 383, 384, 385};
@@ -1761,6 +1777,10 @@ public class UseItem {
             case 379: //máy dò
                 pl.itemTime.lastTimeUseMayDo = System.currentTimeMillis();
                 pl.itemTime.isUseMayDo = true;
+                break;
+            case 2044:
+                pl.itemTime.timeMayDo = System.currentTimeMillis();
+                pl.itemTime.isMayDo = true;
                 break;
             case 663: //bánh pudding
             case 664: //xúc xíc

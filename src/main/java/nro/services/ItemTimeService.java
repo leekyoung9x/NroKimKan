@@ -76,6 +76,9 @@ public class ItemTimeService {
         if (player.itemTime.isUseMayDo) {
             sendItemTime(player, 2758, (int) ((TIME_MAY_DO - (System.currentTimeMillis() - player.itemTime.lastTimeUseMayDo)) / 1000));
         }
+        if (player.itemTime.isMayDo) {
+            sendItemTime(player, 11493, (int) ((TIME_MAY_DO - (System.currentTimeMillis() - player.itemTime.timeMayDo)) / 1000));
+        }
         if (player.itemTime.isEatMeal) {
             sendItemTime(player, player.itemTime.iconMeal, (int) ((TIME_EAT_MEAL - (System.currentTimeMillis() - player.itemTime.lastTimeEatMeal)) / 1000));
         }

@@ -217,6 +217,10 @@ public class PlayerDAO {
             dataItemNewTime.add(0);
             String itemTimeNew = dataItemNewTime.toJSONString();
 
+            JSONArray dataMayDo = new JSONArray();
+            dataMayDo.add(0);
+            String itemMayDo = dataMayDo.toJSONString();
+
             JSONArray dataTask = new JSONArray();
             dataTask.add(0);
             dataTask.add(0);
@@ -308,8 +312,8 @@ public class PlayerDAO {
                     + "data_inventory, data_location, data_point, data_magic_tree, items_body, "
                     + "items_bag, items_box, items_box_lucky_round, friends, enemies, data_intrinsic, data_item_time,"
                     + "data_task, data_mabu_egg, data_charm, skills, skills_shortcut, pet_info, pet_point, pet_body, pet_skill,"
-                    + "data_black_ball, thoi_vang, data_side_task,achivements, item_new_time) "
-                    + "values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
+                    + "data_black_ball, thoi_vang, data_side_task,achivements, item_new_time, time_may_do) "
+                    + "values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
 
             ps.setInt(1, userId);
             ps.setString(2, name);
@@ -343,6 +347,7 @@ public class PlayerDAO {
             ps.setString(30, "{}");
             ps.setString(31, achive);
             ps.setString(32, itemTimeNew);
+            ps.setString(33, itemMayDo);
             ps.executeUpdate();
 //            Log.success("Tạo player mới thành công!");
         } catch (Exception e) {
@@ -646,6 +651,10 @@ public class PlayerDAO {
                     dataItemTime.add(player.itemTime.isMaTroi ? (ItemTime.TIME_ITEM - (System.currentTimeMillis() - player.itemTime.lastTimeMaTroi)) : 0);
                     String itemTimeNew = dataItemNew.toJSONString();
 
+                    JSONArray dataMayDo = new JSONArray();
+                    dataMayDo.add(player.itemTime.isMayDo ? (ItemTime.TIME_MAY_DO - (System.currentTimeMillis() - player.itemTime.timeMayDo)) : 0);
+                    String itemMayDo = dataMayDo.toJSONString();
+
                     //data nhiệm vụ
                     JSONArray dataTask = new JSONArray();
                     dataTask.add(player.playerTask.taskMain.subTasks.get(player.playerTask.taskMain.index).count);
@@ -855,7 +864,7 @@ public class PlayerDAO {
                                 + "pet_info = ?, pet_point = ?, pet_body = ?, pet_skill = ? , power = ?, pet_power = ?, "
                                 + "data_black_ball = ?, data_side_task = ?, data_charm = ?, skills = ?, skills_shortcut = ?,"
                                 + "thoi_vang = ?, 1sao = ?, 2sao = ?, 3sao = ?, collection_book = ?, event_point = ?, firstTimeLogin = ?,"
-                                + " challenge = ?, sk_tet = ?, buy_limit = ?, moc_nap = ?,achivements = ? , reward_limit = ?, item_new_time = ?, data_bill_egg = ? , data_egg_linhthu = ? where id = ?");
+                                + " challenge = ?, sk_tet = ?, buy_limit = ?, moc_nap = ?,achivements = ? , reward_limit = ?, item_new_time = ?, data_bill_egg = ? , data_egg_linhthu = ? , time_may_do = ? where id = ?");
 
                         ps.setShort(1, player.head);
                         ps.setBoolean(2, player.haveTennisSpaceShip);
@@ -901,7 +910,8 @@ public class PlayerDAO {
                         ps.setString(42, itemTimeNew);
                         ps.setString(43, billEgg);
                         ps.setString(44, eggLinhThu);
-                        ps.setInt(45, (int) player.id);
+                        ps.setString(45, itemMayDo);
+                        ps.setInt(46, (int) player.id);
                         ps.executeUpdate();
                         if (updateTimeLogout) {
                             AccountDAO.updateAccoutLogout(player.getSession());

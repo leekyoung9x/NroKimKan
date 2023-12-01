@@ -73,7 +73,7 @@ public class ItemTime {
     public long lastTimeUseMayDo;
 
     public boolean isMayDo;
-    public long lastTimeMayDo;
+    public long timeMayDo;
 
     public boolean isOpenPower;
     public long lastTimeOpenPower;
@@ -209,6 +209,11 @@ public class ItemTime {
         if (isUseMayDo) {
             if (Util.canDoWithTime(lastTimeUseMayDo, TIME_MAY_DO)) {
                 isUseMayDo = false;
+            }
+        }
+        if (isMayDo) {
+            if (Util.canDoWithTime(timeMayDo, TIME_MAY_DO)) {
+                isMayDo = false;
             }
         }
         if (isUseTDLT) {

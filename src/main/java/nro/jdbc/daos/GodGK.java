@@ -379,6 +379,12 @@ public class GodGK {
                     player.playerIntrinsic.intrinsic.param2 = Short.parseShort(dataArray.get(3).toString());
                     dataArray.clear();
 
+                    dataArray = (JSONArray) jv.parse(rs.getString("time_may_do"));
+                    int maycoin = Integer.parseInt(String.valueOf(dataArray.get(0)));
+                    player.itemTime.timeMayDo = System.currentTimeMillis() - (ItemTime.TIME_MAY_DO - maycoin);
+                    player.itemTime.isMayDo = maycoin != 0;
+                    dataArray.clear();
+
                     dataArray = (JSONArray) jv.parse(rs.getString("item_new_time"));
                     int duoiKhi = Integer.parseInt(String.valueOf(dataArray.get(0)));
                     int timeBanh1Trung = Integer.parseInt(String.valueOf(dataArray.get(1)));

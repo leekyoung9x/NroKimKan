@@ -6,7 +6,7 @@ package nro.models.item;
 
 /**
  *
- * @author Kitak
+ * @author Arriety
  */
 public class CaiTrang {
 

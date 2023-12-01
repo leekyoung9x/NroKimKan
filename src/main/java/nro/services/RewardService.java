@@ -156,6 +156,14 @@ public class RewardService {
                         }
                     }
                 }
+                if (MapService.gI().isMapCold(player.zone.map)) {
+                    if (player.itemTime.isMayDo) {
+                        if (Util.isTrue(5, 100)) {
+                            ItemMap itemMap = new ItemMap(mob.zone, 2008, 1, x, yEnd, player.id);
+                            list.add(itemMap);
+                        }
+                    }
+                }
                 if (MapService.gI().isMapCold(player.zone.map)) {// drop item cold
                     if (player.setClothes.godClothes) {
                         if (Util.isTrue(10, 170)) {

@@ -703,11 +703,11 @@ public class ChangeMapService {
                         return null;
                     }
                     break;
-                case 84: // núi khỉ đỏ
-                    if (TaskService.gI().getIdTask(player) < ConstTask.TASK_24_0) {
-                        return null;
-                    }
-                    break;
+//                case 84: // núi khỉ đỏ
+//                    if (TaskService.gI().getIdTask(player) < ConstTask.TASK_24_0) {
+//                        return null;
+//                    }
+//                    break;
                 case 80: // núi khỉ vàng
                     if (TaskService.gI().getIdTask(player) < ConstTask.TASK_21_1) {
                         return null;

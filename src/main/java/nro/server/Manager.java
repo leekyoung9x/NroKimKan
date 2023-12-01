@@ -799,8 +799,7 @@ public class Manager {
             ps.executeUpdate();
             ps.close();
         } catch (SQLException ex) {
-            Logger.getLogger(Manager.class
-                    .getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(Manager.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 

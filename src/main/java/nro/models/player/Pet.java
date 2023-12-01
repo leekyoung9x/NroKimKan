@@ -74,11 +74,6 @@ public class Pet extends Player {
             return;
         }
         Service.getInstance().chatJustForMe(master, this, getTextStatus(status));
-//        if (status == GOHOME) {
-//            goHome();
-//        } else if (status == FUSION) {
-//            fusion(false);
-//        }
         switch (status) {
             case GOHOME:
                 goHome();
@@ -288,44 +283,6 @@ public class Pet extends Player {
                 return;
             }
             moveIdle();
-//            if (ANGRY) {
-//                Player pl = this.zone.getPlayerInMap((int) playerAttack.id);
-//                int disToPlayer = Util.getDistance(this, pl);
-//                if (pl.isDie() || pl == null || pl.cFlag == 0 ) {
-//                    playerAttack = null;
-//                    ANGRY = false;
-//                } else {
-//                    if (playerAttack != null) {
-//                        if (disToPlayer <= ARANGE_ATT_SKILL1) {
-//                            //đấm
-//                            this.playerSkill.skillSelect = getSkill(1);
-//                            if (SkillService.gI().canUseSkillWithCooldown(this)) {
-//                                if (SkillService.gI().canUseSkillWithMana(this)) {
-//                                    PlayerService.gI().playerMove(this, pl.location.x + Util.nextInt(-20, 20), pl.location.y);
-//                                    SkillService.gI().useSkill(this, pl, null);
-//                                } else {
-//                                    askPea();
-//                                }
-//                            }
-//                        } else {
-//                            if (disToPlayer <= ARANGE_CAN_ATTACK + 50) {
-//                                this.playerSkill.skillSelect = getSkill(2);
-//                                if (this.playerSkill.skillSelect.skillId != -1) {
-//                                    if (SkillService.gI().canUseSkillWithCooldown(this)) {
-//                                        if (SkillService.gI().canUseSkillWithMana(this)) {
-//                                            SkillService.gI().useSkill(this, pl, null);
-//                                        } else {
-//                                            askPea();
-//                                        }
-//                                    }
-//                                }
-//                            }
-//                        }
-//                    } else {
-//                        idle = true;
-//                    }
-//                }
-//            } else {
             switch (status) {
                 case FOLLOW:
 //                    followMaster(60);
@@ -408,36 +365,40 @@ public class Pet extends Player {
                         idle = true;
                     }
                     break;
-
                 case GOHOME:
                     if (this.zone != null && (this.zone.map.mapId == 21 || this.zone.map.mapId == 22 || this.zone.map.mapId == 23)) {
                         if (System.currentTimeMillis() - lastTimeMoveAtHome <= 5000) {
+                            Service.getInstance().sendThongBao(master, "Vui lòng đợi!!");
                             return;
                         } else {
-                            if (this.zone.map.mapId == 21) {
-                                if (directAtHome == -1) {
-                                    PlayerService.gI().playerMove(this, 250, 336);
-                                    directAtHome = 1;
-                                } else {
-                                    PlayerService.gI().playerMove(this, 200, 336);
-                                    directAtHome = -1;
-                                }
-                            } else if (this.zone.map.mapId == 22) {
-                                if (directAtHome == -1) {
-                                    PlayerService.gI().playerMove(this, 500, 336);
-                                    directAtHome = 1;
-                                } else {
-                                    PlayerService.gI().playerMove(this, 452, 336);
-                                    directAtHome = -1;
-                                }
-                            } else if (this.zone.map.mapId == 22) {
-                                if (directAtHome == -1) {
-                                    PlayerService.gI().playerMove(this, 250, 336);
-                                    directAtHome = 1;
-                                } else {
-                                    PlayerService.gI().playerMove(this, 200, 336);
-                                    directAtHome = -1;
-                                }
+                            switch (this.zone.map.mapId) {
+                                case 21:
+                                    if (directAtHome == -1) {
+                                        PlayerService.gI().playerMove(this, 250, 336);
+                                        directAtHome = 1;
+                                    } else {
+                                        PlayerService.gI().playerMove(this, 200, 336);
+                                        directAtHome = -1;
+                                    }
+                                    break;
+                                case 22:
+                                    if (directAtHome == -1) {
+                                        PlayerService.gI().playerMove(this, 500, 336);
+                                        directAtHome = 1;
+                                    } else {
+                                        PlayerService.gI().playerMove(this, 452, 336);
+                                        directAtHome = -1;
+                                    }
+                                    break;
+                                case 23:
+                                    if (directAtHome == -1) {
+                                        PlayerService.gI().playerMove(this, 250, 336);
+                                        directAtHome = 1;
+                                    } else {
+                                        PlayerService.gI().playerMove(this, 200, 336);
+                                        directAtHome = -1;
+                                    }
+                                    break;
                             }
                             Service.getInstance().chatJustForMe(master, this, "Hello sư phụ!");
                             lastTimeMoveAtHome = System.currentTimeMillis();
