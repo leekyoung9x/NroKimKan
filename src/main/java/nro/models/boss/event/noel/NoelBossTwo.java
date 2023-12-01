@@ -16,6 +16,7 @@ import nro.models.boss.Boss;
 import nro.models.boss.BossData;
 import nro.models.boss.BossFactory;
 import nro.models.boss.BossManager;
+import nro.models.map.mabu.MabuWar;
 import nro.models.player.Player;
 import nro.models.skill.Skill;
 import nro.services.MapService;
@@ -73,7 +74,14 @@ public class NoelBossTwo extends NoelBoss {
             Service.getInstance().sendThongBao(plAtt, "Tấn công vô hiệu do bạn chưa rửa tay");
             return 0;
         }
-        return 1;
+        damage = 1;
+        this.nPoint.subHP(damage);
+        if (isDie()) {
+            rewards(plAtt);
+            notifyPlayeKill(plAtt);
+            setDie(plAtt);
+        }
+        return damage;
     }
 
     @Override
