@@ -60,7 +60,6 @@ public class NoelBossBall extends NoelBoss {
                             setDie(this);
                         }
                         PlayerService.gI().sendInfoHpMpMoney(target);
-                        Service.getInstance().Send_Info_NV(target);
                         checkPlayerDie(target);
                         this.leaveMap();
                     }
