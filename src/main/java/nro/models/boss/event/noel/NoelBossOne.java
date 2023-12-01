@@ -37,11 +37,7 @@ public class NoelBossOne extends NoelBoss {
 
     @Override
     public void rewards(Player pl) {
-        if (pl.pet == null) {
-            PetService.gI().createVidelPet(pl, pl.gender);
-        } else {
-            PetService.gI().changeVidelPet(pl, pl.gender);
-        }
+        PetService.gI().createVidelPet(pl, pl.gender);
     }
 
 }
