@@ -4,8 +4,10 @@ import lombok.Setter;
 import nro.consts.ConstPlayer;
 import nro.models.boss.Boss;
 import nro.models.boss.BossData;
+import nro.models.map.mabu.MabuWar;
 import nro.models.player.Player;
 import nro.models.skill.Skill;
+import nro.services.MapService;
 import nro.services.PlayerService;
 import nro.services.Service;
 import nro.utils.Log;
@@ -53,8 +55,12 @@ public class NoelBossBall extends NoelBoss {
                         Service.getInstance().chat(target, "Vậy ra đây là năng lượng của thiên thể sao? Ta cảm thấy thật tràn trề năng lượng!!!");
                         this.leaveMap();
                     } else {
-                        target.injured(this, target.nPoint.hp, false, false);
+                        target.nPoint.subHP(target.nPoint.hp);
+                        if (isDie()) {
+                            setDie(this);
+                        }
                         PlayerService.gI().sendInfoHpMpMoney(target);
+                        Service.getInstance().Send_Info_NV(target);
                         checkPlayerDie(target);
                         this.leaveMap();
                     }
