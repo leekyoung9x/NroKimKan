@@ -160,6 +160,7 @@ public class MartialCongress {
 
     public void leave() {
         setTime(0);
+        PlayerService.gI().changeAndSendTypePK(player, ConstPlayer.NON_PK);
         EffectSkillService.gI().removeStun(player);
         Service.getInstance().sendThongBao(player, "Bạn bị xử thua vì rời khỏi võ đài");
         endChallenge();

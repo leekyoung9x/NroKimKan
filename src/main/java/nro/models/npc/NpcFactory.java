@@ -10,7 +10,7 @@ import nro.models.boss.BossFactory;
 import nro.models.boss.BossManager;
 import nro.models.clan.Clan;
 import nro.models.clan.ClanMember;
-import nro.models.consignment.ConsignmentShop;
+import nro.models.kygui.ConsignmentShop;
 import nro.models.item.Item;
 import nro.models.item.ItemOption;
 import nro.models.map.SantaCity;

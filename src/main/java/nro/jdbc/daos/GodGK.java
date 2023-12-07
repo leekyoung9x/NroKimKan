@@ -247,8 +247,7 @@ public class GodGK {
                             JSONArray options = (JSONArray) dataObject.get("option");
                             for (int j = 0; j < options.size(); j++) {
                                 JSONArray opt = (JSONArray) options.get(j);
-                                item.itemOptions.add(new ItemOption(Integer.parseInt(String.valueOf(opt.get(0))),
-                                        Integer.parseInt(String.valueOf(opt.get(1)))));
+                                item.itemOptions.add(new ItemOption(Integer.parseInt(String.valueOf(opt.get(0))), Integer.parseInt(String.valueOf(opt.get(1)))));
                             }
                             item.createTime = Long.parseLong(String.valueOf(dataObject.get("create_time")));
                             if (ItemService.gI().isOutOfDateTime(item)) {

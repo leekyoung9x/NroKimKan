@@ -1,8 +1,8 @@
 package nro.manager;
 
 import nro.jdbc.DBService;
-import nro.models.consignment.ConsignmentItem;
-import nro.models.consignment.ConsignmentShop;
+import nro.models.kygui.ConsignmentItem;
+import nro.models.kygui.ConsignmentShop;
 import nro.models.item.ItemOption;
 import nro.services.ItemService;
 import org.json.simple.JSONArray;

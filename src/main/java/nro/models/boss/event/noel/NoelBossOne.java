@@ -17,7 +17,6 @@ import nro.services.PetService;
  */
 public class NoelBossOne extends NoelBoss {
 
-
     public NoelBossOne() {
         super(BossFactory.NOEL_BOSS_ONE, new BossData(
                 "Videl Noel", //name

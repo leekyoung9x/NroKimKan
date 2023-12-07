@@ -16,7 +16,6 @@ import nro.models.boss.Boss;
 import nro.models.boss.BossData;
 import nro.models.boss.BossFactory;
 import nro.models.boss.BossManager;
-import nro.models.map.mabu.MabuWar;
 import nro.models.player.Player;
 import nro.models.skill.Skill;
 import nro.services.MapService;
@@ -80,6 +79,7 @@ public class NoelBossTwo extends NoelBoss {
             rewards(plAtt);
             notifyPlayeKill(plAtt);
             setDie(plAtt);
+            leaveMap();
         }
         return damage;
     }
@@ -133,22 +133,17 @@ public class NoelBossTwo extends NoelBoss {
                         }
                     }
                     NoelBossBall ball;
-
                     Boss heal = BossManager.gI().getBossById(BossFactory.NOEL_BOSS_TWO);
-
                     if (heal != null) {
                         ball = BossFactory.createNoelBossBall(BossFactory.NOEL_BOSS_BALL, heal, this);
                     } else {
                         ball = BossFactory.createNoelBossBall(BossFactory.NOEL_BOSS_BALL, playerCanAttack.get(0), this);
                     }
-
                     NoelBossBall ball1 = BossFactory.createNoelBossBall(BossFactory.NOEL_BOSS_BALL_2, playerCanAttack.get(1), this);
                     NoelBossBall ball2 = BossFactory.createNoelBossBall(BossFactory.NOEL_BOSS_BALL_3, playerCanAttack.get(2), this);
                     NoelBossBall ball3 = BossFactory.createNoelBossBall(BossFactory.NOEL_BOSS_BALL_4, playerCanAttack.get(3), this);
                     NoelBossBall ball4 = BossFactory.createNoelBossBall(BossFactory.NOEL_BOSS_BALL_5, playerCanAttack.get(4), this);
-
                     Service.getInstance().chat(this, "Tinh hà vẫn lạc");
-
                     for (Player play : this.zone.getPlayers()) {
                         BossXuatHien(play, ball, pl);
                         BossXuatHien(play, ball1, pl);
@@ -156,7 +151,6 @@ public class NoelBossTwo extends NoelBoss {
                         BossXuatHien(play, ball3, pl);
                         BossXuatHien(play, ball4, pl);
                     }
-
                     this.last_time_attack = LocalDateTime.now();
                 } else {
                     if (Util.isTrue(15, ConstRatio.PER100)) {
@@ -182,7 +176,6 @@ public class NoelBossTwo extends NoelBoss {
     private static void BossXuatHien(Player play, NoelBossBall ball, Player pl) {
         ball.zone.loadAnotherToMe(play);
         ball.zone.load_Me_To_Another(play);
-
         new Thread(() -> {
             try {
                 Thread.sleep(50);

@@ -2,7 +2,7 @@ package nro.services;
 
 import nro.models.item.ItemOptionTemplate;
 import nro.models.item.ItemTemplate;
-import nro.models.consignment.ConsignmentItem;
+import nro.models.kygui.ConsignmentItem;
 import nro.models.item.Item;
 import nro.models.item.ItemOption;
 import nro.models.map.ItemMap;

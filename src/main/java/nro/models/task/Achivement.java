@@ -8,7 +8,6 @@ import nro.consts.ConstAchive;
 /**
  * @build by arriety
  */
-
 @Setter
 @Getter
 @NoArgsConstructor
@@ -21,7 +20,6 @@ public class Achivement {
     private String detail;
 
     private int money;
-
 
     public int count;
 

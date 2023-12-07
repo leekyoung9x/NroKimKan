@@ -19,13 +19,8 @@ public class ItemData {
     //------------------------------------------------------ start update client
     public static void updateItem(Session session) {
         updateItemOptionItemplate(session);
-//        int count = 500;
-//        updateItemTemplate(session, count);
-//        updateItemTemplate(session, count, Manager.ITEM_TEMPLATES.size());
-
         updateItemTemplate(session, 750);
         updateItemTemplate(session, 750, Manager.ITEM_TEMPLATES.size());
-//        updateItemTemplate(session, 1500, Manager.ITEM_TEMPLATES.size());
     }
 
     private static void updateItemOptionItemplate(Session session) {

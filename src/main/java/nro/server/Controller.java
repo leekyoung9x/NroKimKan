@@ -4,7 +4,7 @@ import nro.consts.*;
 import nro.data.DataGame;
 import nro.data.ItemData;
 import nro.jdbc.DBService;
-import nro.models.consignment.ConsignmentShop;
+import nro.models.kygui.ConsignmentShop;
 import nro.models.map.war.BlackBallWar;
 import nro.models.npc.NpcManager;
 import nro.models.player.Player;

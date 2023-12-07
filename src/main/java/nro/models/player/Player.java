@@ -715,6 +715,10 @@ public class Player {
 
     //--------------------------------------------------------------------------
     public int injured(Player plAtt, int damage, boolean piercing, boolean isMobAttack) {
+//        Integer tungngu = GetDameByNoelBall(plAtt, damage);
+//        if (tungngu != null) {
+//            return tungngu;
+//        }
         int mstChuong = this.nPoint.mstChuong;
         int giamst = this.nPoint.tlGiamst;
 

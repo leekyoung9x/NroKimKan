@@ -869,6 +869,7 @@ public class SummonDragon {
                                 heo.itemOptions.add(new ItemOption(93, Util.nextInt(1, 3)));
                             }
                             InventoryService.gI().addItemBag(playerSummonShenron, heo, 0);
+                            InventoryService.gI().sendItemBags(playerSummonShenron);
                         } else {
                             Service.getInstance().sendThongBao(playerSummonShenron, "Hành trang đã đầy");
                             reOpenShenronWishes(playerSummonShenron);
