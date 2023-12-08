@@ -298,7 +298,8 @@ public class UseItem {
                             openboxsukien(pl, item, 2);
                             break;
                         case 2037:
-                            openboxsukien(pl, item, 6);
+//                            openboxsukien(pl, item, 6);
+                            Service.getInstance().sendThongBao(pl, "Su kien da ket thuc");
                             break;
                         case 2043:
                             openboxsukien(pl, item, 7);

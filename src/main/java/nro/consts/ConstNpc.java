@@ -115,6 +115,10 @@ public class ConstNpc {
     public static final int BASE_MENU = 752002;
     public static final int ESCORT_QILIN_MENU = 7520033;
 
+    //index menu noel 
+    public static final int MENU_NOI_CHUYEN = 19061997;
+    public static final int MENU_EP_NGOC_RONG = 19061998;
+
     //index quy lão kamê
     public static final int MENU_OPEN_DBKB = 500;
     public static final int MENU_OPENED_DBKB = 501;

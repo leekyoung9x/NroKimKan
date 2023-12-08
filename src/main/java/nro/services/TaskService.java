@@ -2631,15 +2631,15 @@ public class TaskService {
                         rubyReward = ConstTask.REWARD_RUBY;
                         break;
                 }
-                if (Util.isTrue(20, 100)) {
-                    Item it = ItemService.gI().createNewItem((short) 2037);
-                    it.itemOptions.add(new ItemOption(74, 0));
-                    InventoryService.gI().addItemBag(player, it, 0);
-                    InventoryService.gI().sendItemBags(player);
-                    Service.getInstance().sendThongBao(player, "Oi that la may man");
-                } else {
-                    Service.getInstance().sendThongBao(player, "Ban den nhu 1 con cho vay");
-                }
+//                if (Util.isTrue(20, 100)) {
+//                    Item it = ItemService.gI().createNewItem((short) 2037);
+//                    it.itemOptions.add(new ItemOption(74, 0));
+//                    InventoryService.gI().addItemBag(player, it, 0);
+//                    InventoryService.gI().sendItemBags(player);
+//                    Service.getInstance().sendThongBao(player, "Oi that la may man");
+//                } else {
+//                    Service.getInstance().sendThongBao(player, "Ban den nhu 1 con cho vay");
+//                }
                 player.inventory.addGold(goldReward);
                 player.inventory.addRuby(rubyReward);
                 Service.getInstance().sendMoney(player);

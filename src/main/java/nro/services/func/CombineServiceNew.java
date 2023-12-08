@@ -70,6 +70,7 @@ public class CombineServiceNew {
     public static final int UPGRADE_CAITRANG = 518;
     public static final int MO_CHI_SO_BONG_TAI = 519;
     public static final int UPGRADE_LINHTHU = 520;
+    public static final int EP_NGOC_RONG_BANG = 521;
 
     private static final int GOLD_MOCS_BONG_TAI = 500_000_000;
 
@@ -525,6 +526,37 @@ public class CombineServiceNew {
                     } else {
                         this.baHatMit.createOtherMenu(player, ConstNpc.IGNORE_MENU,
                                 "Cần 7 viên ngọc rồng 2 sao trở lên", "Đóng");
+                    }
+                } else {
+                    this.baHatMit.createOtherMenu(player, ConstNpc.IGNORE_MENU, "Hành trang cần ít nhất 1 chỗ trống",
+                            "Đóng");
+                }
+                break;
+            case EP_NGOC_RONG_BANG:
+                if (InventoryService.gI().getCountEmptyBag(player) > 0) {
+                    if (player.combineNew.itemsCombine.size() == 1) {
+                        Item item = player.combineNew.itemsCombine.get(0);
+                        if (item != null && item.isNotNullItem()) {
+                            if ((item.template.id > 925 && item.template.id <= 931) && item.quantity >= 7) {
+                                String npcSay = "|2|Con có muốn biến 7 " + item.template.name + " thành\n" + "1 viên "
+                                        + ItemService.gI().getTemplate((short) (item.template.id - 1)).name + "\n"
+                                        + "|7|Cần 7 " + item.template.name;
+                                this.baHatMit.createOtherMenu(player, ConstNpc.MENU_START_COMBINE, npcSay, "Làm phép",
+                                        "Từ chối");
+                            } else if ((item.template.id == 2009 && item.quantity >= 7)) {
+                                String npcSay = "|2|Con có muốn biến 7 " + item.template.name + " thành\n" + "1 viên "
+                                        + ItemService.gI().getTemplate((short) (931)).name + "\n" + "\n|7|Cần 7 "
+                                        + item.template.name + "\n|7|Cần 1k ruby";
+                                this.baHatMit.createOtherMenu(player, ConstNpc.MENU_START_COMBINE, npcSay, "Làm phép",
+                                        "Từ chối");
+                            } else {
+                                this.baHatMit.createOtherMenu(player, ConstNpc.IGNORE_MENU,
+                                        "Cần 7 viên Băng tâm thần thủy trở lên", "Đóng");
+                            }
+                        }
+                    } else {
+                        this.baHatMit.createOtherMenu(player, ConstNpc.IGNORE_MENU,
+                                "Thiếu vật phẩm", "Đóng");
                     }
                 } else {
                     this.baHatMit.createOtherMenu(player, ConstNpc.IGNORE_MENU, "Hành trang cần ít nhất 1 chỗ trống",
@@ -1088,6 +1120,9 @@ public class CombineServiceNew {
                     break;
                 case NHAP_NGOC_RONG:
                     nhapNgocRong(player);
+                    break;
+                case EP_NGOC_RONG_BANG:
+                    epNgocRongBang(player);
                     break;
                 case NANG_CAP_VAT_PHAM:
                     nangCapVatPham(player);
@@ -1797,6 +1832,40 @@ public class CombineServiceNew {
                         reOpenItemCombine(player);
                     } else {
                         Service.getInstance().sendThongBao(player, "Không đủ vàng, còn thiếu " + Util.numberToMoney(500000000 - player.inventory.gold) + " vàng");
+                    }
+                }
+            }
+        }
+    }
+
+    private void epNgocRongBang(Player player) {
+//        System.out.println("loggggggggggg");
+        if (InventoryService.gI().getCountEmptyBag(player) > 0) {
+            if (!player.combineNew.itemsCombine.isEmpty()) {
+                Item item = player.combineNew.itemsCombine.get(0);
+                if (item != null && item.isNotNullItem()) {
+                    if ((item.template.id > 925 && item.template.id <= 931) && item.quantity >= 7) {
+                        Item nr = ItemService.gI().createNewItem((short) (item.template.id - 1));
+                        InventoryService.gI().addItemBag(player, nr, 0);
+                        InventoryService.gI().subQuantityItemsBag(player, item, 7);
+                        InventoryService.gI().sendItemBags(player);
+                        reOpenItemCombine(player);
+                        sendEffectCombineDB(player, item.template.iconID);
+                        return;
+                    }
+                    if (player.inventory.ruby >= 1000) {
+                        if (item.template.id == 2009 && item.quantity >= 7) {
+                            Item nr = ItemService.gI().createNewItem((short) (931));
+                            InventoryService.gI().addItemBag(player, nr, 0);
+                            sendEffectCombineDB(player, (short) 8585);
+                        }
+                        InventoryService.gI().subQuantityItemsBag(player, item, 7);
+                        player.inventory.ruby -= 1000;
+                        Service.getInstance().sendMoney(player);
+                        InventoryService.gI().sendItemBags(player);
+                        reOpenItemCombine(player);
+                    } else {
+                        Service.getInstance().sendThongBao(player, "Không đủ ruby, còn thiếu " + Util.numberToMoney(1000 - player.inventory.ruby) + " ruby");
                     }
                 }
             }
@@ -2752,6 +2821,8 @@ public class CombineServiceNew {
                 return "Ta sẽ phù phép\ncho trang bị của ngươi\ntrở thành trang bị pha lê";
             case NHAP_NGOC_RONG:
                 return "Ta sẽ phù phép\ncho 7 viên Ngọc Rồng\nthành 1 viên Ngọc Rồng cấp cao";
+            case EP_NGOC_RONG_BANG:
+                return "Ta sẽ phù phép\ncho 7 viên Ngọc Rồng Băng\nthành 1 viên Ngọc Rồng cấp cao";
             case NANG_CAP_VAT_PHAM:
                 return "Ta sẽ phù phép cho trang bị của ngươi trở lên mạnh mẽ";
             case DOI_VE_HUY_DIET:
@@ -2797,6 +2868,8 @@ public class CombineServiceNew {
             case PHA_LE_HOA_TRANG_BI_X10:
                 return "Chọn trang bị\n(Áo, quần, găng, giày hoặc rađa)\nSau đó chọn 'Nâng cấp'\n Khi nâng cấp thành công hoặc đủ 5 lần thì sẽ dừng lại";
             case NHAP_NGOC_RONG:
+                return "Vào hành trang\nChọn 7 viên ngọc cùng sao\nSau đó chọn 'Làm phép'";
+            case EP_NGOC_RONG_BANG:
                 return "Vào hành trang\nChọn 7 viên ngọc cùng sao\nSau đó chọn 'Làm phép'";
             case NANG_CAP_VAT_PHAM:
                 return "vào hành trang\nChọn trang bị\n(Áo, quần, găng, giày hoặc rađa)\nChọn loại đá để nâng cấp\n"

@@ -248,7 +248,6 @@ public class Controller {
                     }
                     break;
                 case Cmd.GET_IMAGE_SOURCE:
-                    // System.out.println("-74");
                     Resources.getInstance().downloadResources(_session, _msg);
                     break;
                 case -81:
@@ -294,7 +293,7 @@ public class Controller {
                     break;
                 case Cmd.BACKGROUND_TEMPLATE:
                     int bgId = _msg.reader().readShort();
-                    Resources.getInstance().downloadBGTemplate(_session, bgId);
+                    Resources.sendItemBGTemplate(_session, bgId);
                     break;
                 case 22:
                     if (player != null) {
@@ -704,19 +703,19 @@ public class Controller {
 
     private void clearVTSK(Player player) {// clear item 
         if (player != null && player.inventory != null && player.inventory.itemsBag != null) {
-            player.inventory.itemsBag.stream().filter(item -> item.isNotNullItem() && item.template.id == 1172).forEach(item -> {
+            player.inventory.itemsBag.stream().filter(item -> item.isNotNullItem() && item.template.id == 2037).forEach(item -> {
                 InventoryService.gI().subQuantityItemsBag(player, item, item.quantity);
             });
-            player.inventory.itemsBox.stream().filter(item -> item.isNotNullItem() && item.template.id == 1172).forEach(item -> {
+            player.inventory.itemsBox.stream().filter(item -> item.isNotNullItem() && item.template.id == 2037).forEach(item -> {
                 InventoryService.gI().subQuantityItemsBox(player, item, item.quantity);
             });
-            player.inventory.itemsBag.stream().filter(item -> item.isNotNullItem() && item.template.id >= 702 && item.template.id <= 708).forEach(item -> {
-                InventoryService.gI().subQuantityItemsBag(player, item, item.quantity);
-            });
-
-            player.inventory.itemsBox.stream().filter(item -> item.isNotNullItem() && item.template.id >= 702 && item.template.id <= 708).forEach(item -> {
-                InventoryService.gI().subQuantityItemsBox(player, item, item.quantity);
-            });
+//            player.inventory.itemsBag.stream().filter(item -> item.isNotNullItem() && item.template.id >= 702 && item.template.id <= 708).forEach(item -> {
+//                InventoryService.gI().subQuantityItemsBag(player, item, item.quantity);
+//            });
+//
+//            player.inventory.itemsBox.stream().filter(item -> item.isNotNullItem() && item.template.id >= 702 && item.template.id <= 708).forEach(item -> {
+//                InventoryService.gI().subQuantityItemsBox(player, item, item.quantity);
+//            });
             InventoryService.gI().sendItemBags(player);
         }
     }

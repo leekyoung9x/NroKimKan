@@ -69,37 +69,6 @@ public class ChatGlobalService implements Runnable {
 
     }
 
-    public void chatTop1(Player player, String text) {
-
-//        if (!player.getSession().actived) {
-//            Service.getInstance().sendThongBaoFromAdmin(player,
-//                    "|5|VUI LÒNG KÍCH HOẠT TÀI KHOẢN TẠI\n|7|"+ Manager.DOMAIN +"\n|5|ĐỂ MỞ KHÓA TÍNH NĂNG CHAT THẾ GIỚI");
-//        } else 
-        if (waitingChat.size() >= COUNT_WAIT) {
-            Service.getInstance().sendThongBao(player, "Kênh thế giới hiện đang quá tải, không thể chat lúc này");
-        } else {
-            boolean haveInChatting = false;
-            for (ChatGlobal chat : listChatting) {
-                if (chat.text.equals(text)) {
-                    haveInChatting = true;
-                    break;
-                }
-            }
-            if (haveInChatting) {
-                return;
-            }
-            if (player.isAdmin() || Util.canDoWithTime(player.lastTimeChatGlobal, 180000)) {
-                Service.getInstance().sendMoney(player);
-                player.lastTimeChatGlobal = System.currentTimeMillis();
-                waitingChat.add(new ChatGlobal(player, text.length() > 100 ? text.substring(0, 100) : text));
-
-            } else {
-                Service.getInstance().sendThongBao(player, "Không thể chat thế giới lúc này, vui lòng đợi "
-                        + TimeUtil.getTimeLeft(player.lastTimeChatGlobal, 15));
-            }
-        }
-    }
-
     @Override
     public void run() {
         while (true) {

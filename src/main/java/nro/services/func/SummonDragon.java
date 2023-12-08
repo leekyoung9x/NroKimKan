@@ -88,7 +88,7 @@ public class SummonDragon {
             + "\n 1) Nâng cấp LEVER đệ tử Videl"
             + "\n 2) Tăng 20% sức đánh Khi trong trạng thái hợp thể trong vòng 10p"
             + "\n 3) Tăng 20% Hp,Ki khi trong trạng thái hợp thể trong vòng 10p"
-            + "\n 4) 5k Hồng ngọc"
+            + "\n 4) 15k Hồng ngọc"
             + "\n 5) Đổi skill 5 đệ tử"
             + "\n 6) Cải trang Videl bí ngô random chỉ số ngẫu nhiên"
             + "\n 7) Xe tuần lộc heo";
@@ -834,7 +834,7 @@ public class SummonDragon {
                         if (playerSummonShenron.pet.playerSkill.skills.get(1).skillId != -1
                                 && playerSummonShenron.pet.playerSkill.skills.get(2).skillId != -1
                                 && playerSummonShenron.pet.playerSkill.skills.get(3).skillId != -1) {
-                            playerSummonShenron.pet.openSkill5();
+                            playerSummonShenron.pet.randomSkill5();
                             Service.getInstance().sendThongBao(playerSummonShenron, "Đã đổi thành công chiêu 5 đệ tử");
                         } else {
                             Service.getInstance().sendThongBao(playerSummonShenron, "Ít nhất đệ tử ngươi phải có chiêu 4 chứ!");
@@ -863,11 +863,7 @@ public class SummonDragon {
                             heo.itemOptions.add(new ItemOption(50, Util.nextInt(10, 30)));
                             heo.itemOptions.add(new ItemOption(77, Util.nextInt(10, 30)));
                             heo.itemOptions.add(new ItemOption(103, Util.nextInt(10, 30)));
-                            if (Util.isTrue(1, 100)) {
-                                heo.itemOptions.add(new ItemOption(74, 0));
-                            } else {
-                                heo.itemOptions.add(new ItemOption(93, Util.nextInt(1, 3)));
-                            }
+                            heo.itemOptions.add(new ItemOption(74, 0));
                             InventoryService.gI().addItemBag(playerSummonShenron, heo, 0);
                             InventoryService.gI().sendItemBags(playerSummonShenron);
                         } else {

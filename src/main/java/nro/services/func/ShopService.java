@@ -741,8 +741,8 @@ public class ShopService {
             player.sendMessage(msg);
             msg.cleanup();
         } catch (Exception e) {
+            e.printStackTrace();
         }
-
     }
 
     private void getItemSideBoxReward(Player player, byte type, int index) {

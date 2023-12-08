@@ -23,7 +23,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import nro.manager.TopCoin;
-import nro.services.RewardService;
 
 public class Session {
 

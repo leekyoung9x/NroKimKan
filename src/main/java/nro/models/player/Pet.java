@@ -760,6 +760,16 @@ public class Pet extends Player {
         this.playerSkill.skills.set(4, skill);
     }
 
+    public void randomSkill5() {
+        Skill skill = null;
+        if (Util.isTrue(50, 100)) {
+            skill = SkillUtil.createSkill(Skill.HUYT_SAO, 1);
+        } else {
+            skill = SkillUtil.createSkill(Skill.DICH_CHUYEN_TUC_THOI, 1);
+        }
+        this.playerSkill.skills.set(4, skill);
+    }
+
     public void openSkill2() {
         Skill skill = null;
         int tiLeKame = 40;

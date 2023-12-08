@@ -18,9 +18,10 @@ import nro.services.Service;
 
 import java.time.Duration;
 import java.time.LocalDateTime;
+import nro.models.item.ItemOption;
+import nro.services.ItemService;
 
 /**
- *
  * @author Administrator
  */
 public class EventNoel extends Npc {
@@ -36,7 +37,6 @@ public class EventNoel extends Npc {
     private Boolean CheckBossAlive() {
         Boss bossOne = BossManager.gI().getBossById(BossFactory.NOEL_BOSS_ONE);
         Boss bossTwo = BossManager.gI().getBossById(BossFactory.NOEL_BOSS_TWO);
-
         return bossOne != null || bossTwo != null;
     }
 
@@ -44,12 +44,12 @@ public class EventNoel extends Npc {
     public void openBaseMenu(Player player) {
         if (CheckBossAlive()) {
             this.createOtherMenu(player, ConstNpc.BASE_MENU,
-                    "Rửa tay để được đấm boss?",
-                    "Có", "Gọi Boss");
+                    "Rửa tay loại bỏ lời nguyền băng giá để được đấm boss?",
+                    "Có", "Gọi Boss", "Nói chuyện");
         } else {
             this.createOtherMenu(player, ConstNpc.BASE_MENU,
-                    "Em còn trinh không?",
-                    "Có", "Gọi Boss");
+                    "Bạn có muốn gọi Boss Noel & Noel Videl không?",
+                    "Có", "Gọi Boss", "Nói chuyện");
         }
     }
 
@@ -107,6 +107,51 @@ public class EventNoel extends Npc {
                     BossFactory.createNoelBoss(BossFactory.NOEL_BOSS_TWO, player);
                     player.zone.loadAnotherToMe(player);
                     player.zone.load_Me_To_Another(player);
+                    break;
+                case 2:
+                    this.createOtherMenu(player, ConstNpc.MENU_NOI_CHUYEN,
+                            "|8|Chào bạn, tôi rất vui khi gặp bạn\n|6|Tôi sẽ cho bạn 2 lựa chọn!\n"
+                            + "|6|Đổi hoa lấy x5 Băng tâm thần thủy\n"
+                            + "|6|Đổi Carrot lấy x1 Băng tâm thần thủy",
+                            "Lựa chọn 1", "Lựa chọn 2");
+                    break;
+            }
+        } else if (player.iDMark.getIndexMenu() == ConstNpc.MENU_NOI_CHUYEN) {
+            switch (select) {
+                case 0:
+                    Item hoa = InventoryService.gI().findItem(player.inventory.itemsBag, 610);
+                    if (hoa == null) {
+                        this.npcChat(player, "Con giống Oprah Winfrey vậy, không có 1 bông hoa nào cả...");
+                        break;
+                    }
+                    if (InventoryService.gI().getCountEmptyBag(player) > 0) {
+                        Item hop = ItemService.gI().createNewItem((short) 2009);
+                        hop.itemOptions.add(new ItemOption(74, 0));
+                        hop.quantity = 5;
+                        InventoryService.gI().addItemBag(player, hop, 999);
+                        InventoryService.gI().subQuantityItemsBag(player, hoa, 1);
+                        InventoryService.gI().sendItemBags(player);
+                        Service.getInstance().sendThongBao(player, "Trao đổi thành công!");
+                    } else {
+                        Service.getInstance().sendThongBao(player, "Hàng trang đã đầy");
+                    }
+                    break;
+                case 1:
+                    Item carot = InventoryService.gI().findItem(player.inventory.itemsBag, 610);
+                    if (carot == null) {
+                        this.npcChat(player, "Thiếu carrot");
+                        break;
+                    }
+                    if (InventoryService.gI().getCountEmptyBag(player) > 0) {
+                        Item hop = ItemService.gI().createNewItem((short) 2009);
+                        hop.itemOptions.add(new ItemOption(74, 0));
+                        InventoryService.gI().addItemBag(player, hop, 0);
+                        InventoryService.gI().subQuantityItemsBag(player, carot, 1);
+                        InventoryService.gI().sendItemBags(player);
+                        Service.getInstance().sendThongBao(player, "Trao đổi thành công!");
+                    } else {
+                        Service.getInstance().sendThongBao(player, "Hàng trang đã đầy");
+                    }
                     break;
             }
         }

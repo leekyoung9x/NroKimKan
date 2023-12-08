@@ -46,7 +46,6 @@ import nro.models.npc.specialnpc.EventNoel;
 import nro.models.phuban.DragonNamecWar.*;
 
 import static nro.server.Manager.*;
-import static nro.services.func.CombineServiceNew.UPGRADE_LINHTHU;
 import static nro.services.func.SummonDragon.*;
 
 /**
@@ -1333,7 +1332,7 @@ public class NpcFactory {
                                                 "Pha lê\nhóa\ntrang bị",
                                                 "Chuyển hóa\nĐồ Thần Linh",
                                                 "Nâng cấp\nđồ Kích hoạt\nNormal",
-                                                "Upgrade\ndisguise");
+                                                "Upgrade\ndisguise", "Ép\n[Ngọc Rồng Băng]");
                                         break;
                                     case 121:
                                         this.createOtherMenu(player, ConstNpc.BASE_MENU,
@@ -1376,6 +1375,9 @@ public class NpcFactory {
                                                 case 4:
                                                     CombineServiceNew.gI().openTabCombine(player, CombineServiceNew.UPGRADE_CAITRANG);
                                                     break;
+                                                case 5:
+                                                    CombineServiceNew.gI().openTabCombine(player, CombineServiceNew.EP_NGOC_RONG_BANG);
+                                                    break;
                                             }
                                         } else if (player.iDMark.getIndexMenu() == ConstNpc.MENU_PHA_LE_HOA_TRANG_BI) {
                                             switch (select) {
@@ -1392,6 +1394,7 @@ public class NpcFactory {
                                                 case CombineServiceNew.TRADE_DO_THAN_LINH:
                                                 case CombineServiceNew.NANG_CAP_DO_KICH_HOAT:
                                                 case CombineServiceNew.UPGRADE_CAITRANG:
+                                                case CombineServiceNew.EP_NGOC_RONG_BANG:
                                                     if (select == 0) {
                                                         CombineServiceNew.gI().startCombine(player);
                                                     }
@@ -4367,5 +4370,4 @@ public class NpcFactory {
         }
         return "";
     }
-
 }
