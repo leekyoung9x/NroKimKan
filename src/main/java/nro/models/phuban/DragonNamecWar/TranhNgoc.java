@@ -189,6 +189,11 @@ public class TranhNgoc {
         }
     }
 
+    public void JoinMap(Player player, int index) {
+        ChangeMapService.gI().changeMapInYard(player, this.zone, -1);
+        Service.getInstance().changeFlag(player, index);
+    }
+
     public static boolean isTimeRegWar() {
         long now = System.currentTimeMillis();
         try {
@@ -203,8 +208,17 @@ public class TranhNgoc {
         return now > TIME_REGISTER && now < TIME_OPEN;
     }
 
-    public boolean isTimeStartWar() {
+    public static boolean isTimeStartWar() {
         long now = System.currentTimeMillis();
+        try {
+            if (TranhNgoc.TIME_OPEN == 0 || TranhNgoc.TIME_REGISTER == 0) {
+                TranhNgoc.TIME_OPEN = TimeUtil.getTime(TimeUtil.getTimeNow("dd/MM/yyyy") + " " + HOUR_OPEN + ":" + MIN_OPEN + ":" + 0, "dd/MM/yyyy HH:mm:ss");
+                TranhNgoc.TIME_CLOSE = TimeUtil.getTime(TimeUtil.getTimeNow("dd/MM/yyyy") + " " + HOUR_CLOSE + ":" + MIN_CLOSE + ":" + 0, "dd/MM/yyyy HH:mm:ss");
+                TranhNgoc.TIME_REGISTER = TimeUtil.getTime(TimeUtil.getTimeNow("dd/MM/yyyy") + " " + HOUR_REGISTER + ":" + MIN_REGISTER + ":" + 0, "dd/MM/yyyy HH:mm:ss");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         return now > TIME_OPEN && now < TIME_CLOSE;
     }
 

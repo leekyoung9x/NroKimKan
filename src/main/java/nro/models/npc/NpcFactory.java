@@ -477,8 +477,8 @@ public class NpcFactory {
                                     case ConstNpc.BASE_MENU: {
                                         switch (select) {
                                             case 0:
+                                                TranhNgoc tn = ServerManager.gI().getTranhNgocManager().findByPLayerId(player.id);
                                                 if (TranhNgoc.isTimeRegWar()) {
-                                                    TranhNgoc tn = ServerManager.gI().getTranhNgocManager().findByPLayerId(player.id);
                                                     String message = "Ngọc rồng Namếc đang bị 2 thế lực tranh giành\nHãy chọn cấp độ tham gia tùy theo sức mạnh bản thân";
                                                     if (tn == null) {
                                                         if (ServerManager.gI().getTranhNgocManager().numOfTranhNgoc() == 0) {
@@ -503,6 +503,12 @@ public class NpcFactory {
                                                                 "Hủy\nĐăng Ký", "Đóng");
                                                     }
                                                     return;
+                                                } else {
+                                                    if (TranhNgoc.isTimeStartWar() && !tn.isClosed()) {
+                                                        this.createOtherMenu(player, ConstNpc.REIN_TRANH_NGOC, // Xuân lol dm béo im mồm
+                                                                "Bạn có muốn quay lại tranh ngọc không?",
+                                                                "Có", "Đóng");
+                                                    }
                                                 }
                                                 Service.getInstance().sendPopUpMultiLine(player, 0, 7184, "Sự kiện sẽ mở đăng ký vào lúc " + TimeUtil.ShowTime(TranhNgoc.HOUR_REGISTER, TranhNgoc.MIN_REGISTER) + "\nSự kiện sẽ bắt đầu vào " + TimeUtil.ShowTime(TranhNgoc.HOUR_OPEN, TranhNgoc.MIN_OPEN) + " và kết thúc vào " + TimeUtil.ShowTime(TranhNgoc.HOUR_CLOSE, TranhNgoc.HOUR_CLOSE));
                                                 break;
@@ -517,7 +523,6 @@ public class NpcFactory {
                                     }
                                     case ConstNpc.REGISTER_TRANH_NGOC: {
                                         TranhNgoc tranhNgoc;
-
                                         if (!player.getSession().actived) {
                                             Service.getInstance().sendThongBao(player, "Vui lòng kích hoạt tài khoản để sửa dụng chức năng này!");
                                             return;
@@ -578,6 +583,20 @@ public class NpcFactory {
                                                 break;
                                         }
                                         break;
+                                    }
+                                    case ConstNpc.REIN_TRANH_NGOC: {
+                                        switch (select) {
+                                            case 0:
+                                                TranhNgoc tn = ServerManager.gI().getTranhNgocManager().findByPLayerId(player.id);
+                                                if (player != null && player.zone.map.mapId != ConstTranhNgocNamek.MAP_ID && tn != null) {
+                                                    if (tn.isCadic(player)) {
+                                                        tn.JoinMap(player, 1);
+                                                    } else {
+                                                        tn.JoinMap(player, 2);
+                                                    }
+                                                }
+                                                break;
+                                        }
                                     }
                                 }
                             }

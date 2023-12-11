@@ -211,13 +211,12 @@ public class MobService {
         mob.point.maxHp = level * 9472 * mob.level * 2 + level * 4263 * mob.tempId;
     }
 
-    public static void main(String[] args) {
-        int level = 110;
-        int tn = 100;
-        tn += (level / 5 * 50);
-        System.out.println(tn);
-    }
-
+//    public static void main(String[] args) {
+//        int level = 110;
+//        int tn = 100;
+//        tn += (level / 5 * 50);
+//        System.out.println(tn);
+//    }
     public void dropItemTask(Player player, Mob mob) {
         ItemMap itemMap = null;
         switch (mob.tempId) {

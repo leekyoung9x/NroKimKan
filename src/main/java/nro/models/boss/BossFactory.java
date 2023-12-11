@@ -193,7 +193,6 @@ public class BossFactory {
     public static final int NOEL_BOSS_BALL_5 = -135;
 
     private static final Logger logger = Logger.getLogger(BossFactory.class);
-
     public static final int[] MAP_APPEARED_QILIN = {ConstMap.VACH_NUI_ARU_42, ConstMap.VACH_NUI_MOORI_43, ConstMap.VACH_NUI_KAKAROT,
         ConstMap.LANG_ARU, ConstMap.LANG_MORI, ConstMap.LANG_KAKAROT, ConstMap.DOI_HOA_CUC, ConstMap.DOI_NAM_TIM, ConstMap.DOI_HOANG,
         ConstMap.TRAM_TAU_VU_TRU, ConstMap.TRAM_TAU_VU_TRU_25, ConstMap.TRAM_TAU_VU_TRU_26, ConstMap.LANG_PLANT, ConstMap.RUNG_NGUYEN_SINH,
@@ -227,7 +226,6 @@ public class BossFactory {
                 createBoss(MAP_DAU_DINH);
                 createBoss(RAMBO);
                 createBoss(TIEU_DOI_TRUONG);
-//                createBoss(TIEU_DOI_TRUONGNM);
                 createBoss(FIDE_DAI_CA_1);
                 createBoss(ANDROID_20);
                 createBoss(KINGKONG);
@@ -248,15 +246,11 @@ public class BossFactory {
                 for (int i = 0; i < 5; i++) {
                     createBoss(HOA_HONG);
                 }
-//                for (int i = 0; i < 10; i++) {
-//                    createBoss(THO_DAI_KA);
-//                }
                 for (Map map : Manager.MAPS) {
                     if (map != null && !map.zones.isEmpty()) {
                         if (!map.isMapOffline && map.type == ConstMap.MAP_NORMAL
                                 && map.tileId > 0 && !MapService.gI().isMapVS(map.mapId)) {
                             if (map.mapWidth > 50 && map.mapHeight > 50) {
-//                                if (Manager.EVENT_SEVER == ConstEvent.SU_KIEN_20_11) {
                                 new HoaHong(map.mapId);
 //                                }
                                 if (Manager.EVENT_SEVER == ConstEvent.SU_KIEN_NOEL) {
@@ -266,11 +260,6 @@ public class BossFactory {
                         }
                     }
                 }
-//                if (Manager.EVENT_SEVER == ConstEvent.SU_KIEN_TET) {
-//                    for (int mapID : MAP_APPEARED_QILIN) {
-//                        new HoaHong(mapID);
-//                    }
-//                }
             } catch (Exception e) {
                 logger.error("Err initboss", e);
             }

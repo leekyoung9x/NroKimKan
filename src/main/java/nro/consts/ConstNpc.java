@@ -194,6 +194,7 @@ public class ConstNpc {
 
     public static final int REGISTER_TRANH_NGOC = 800;
     public static final int LOG_OUT_TRANH_NGOC = 801;
+    public static final int REIN_TRANH_NGOC = 802;
 
     public static final int KEO_BUA_BAO = 2602;
     public static final int SEND_KEO_BUA_BAO = 2603;
@@ -209,6 +210,7 @@ public class ConstNpc {
     public static final int menutd = 1106;
     public static final int menunm = 1107;
     public static final int menuxd = 1108;
+
     //index menu rong thieng
     public static final int SHENRON_CONFIRM = 501;
     public static final int SHENRON_1_1 = 502;

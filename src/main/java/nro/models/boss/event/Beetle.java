@@ -12,6 +12,7 @@ import nro.services.func.ChangeMapService;
  * @build by arriety
  */
 public class Beetle extends EscortedBoss {
+
     public Beetle(byte id, BossData data, Player owner) {
         super(id, data);
         setEscort(owner);
