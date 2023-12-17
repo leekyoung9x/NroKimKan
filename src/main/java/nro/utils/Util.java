@@ -5,6 +5,7 @@ import nro.models.mob.Mob;
 import nro.models.npc.Npc;
 import nro.models.player.Player;
 
+import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -49,6 +50,15 @@ public class Util {
                         (e1, e2) -> e1,
                         LinkedHashMap::new
                 ));
+    }
+
+    public static String formatCurrency(double amount) {
+        String result = "";
+
+        DecimalFormat decimalFormat = new DecimalFormat("#,##0");
+        result = decimalFormat.format(amount);
+
+        return result.replaceAll(",", ".");
     }
 
     public static String numberToMoney(long power) {

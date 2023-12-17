@@ -90,6 +90,21 @@ public class NpcService {
         }
     }
 
+    public void createTutorial(Player player, int npcId, int avatar, String npcSay) {
+        Message msg;
+        try {
+            msg = new Message(38);
+            msg.writer().writeShort(npcId);
+            msg.writer().writeUTF(npcSay);
+            if (avatar != -1) {
+                msg.writer().writeShort(avatar);
+            }
+            player.sendMessage(msg);
+            msg.cleanup();
+        } catch (Exception e) {
+        }
+    }
+
     public int getAvatar(int npcId) {
         for (Npc npc : Manager.NPCS) {
             if (npc.tempId == npcId) {

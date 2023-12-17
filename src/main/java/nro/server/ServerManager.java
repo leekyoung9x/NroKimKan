@@ -6,8 +6,7 @@ import nro.jdbc.daos.AccountDAO;
 import nro.jdbc.daos.HistoryTransactionDAO;
 import nro.jdbc.daos.PlayerDAO;
 import nro.login.LoginSession;
-import nro.manager.ConsignManager;
-import nro.manager.TopManager;
+import nro.manager.*;
 import nro.models.boss.BossFactory;
 import nro.models.boss.BossManager;
 import nro.models.map.challenge.MartialCongressManager;
@@ -35,12 +34,8 @@ import java.util.Scanner;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
-import nro.manager.TopCoin;
-import nro.manager.TopWhis;
-import nro.manager.TranhNgocManager;
 
 /**
- *
  * @Build Arriety
  */
 public class ServerManager {
@@ -60,6 +55,7 @@ public class ServerManager {
     public static boolean isRunning;
 
     private TranhNgocManager tranhNgocManager;
+    private SieuHangControl sieuHangControl;
 
     @Getter
     private LoginSession login;
@@ -83,6 +79,10 @@ public class ServerManager {
 
     public TranhNgocManager getTranhNgocManager() {
         return this.tranhNgocManager;
+    }
+
+    public SieuHangControl getSieuHangController() {
+        return this.sieuHangControl;
     }
 
     public static ServerManager gI() {
@@ -275,6 +275,24 @@ public class ServerManager {
         }, "Update top whis").start();
         this.tranhNgocManager = new TranhNgocManager();
         new Thread(this.tranhNgocManager, "Tranh ngoc").start();
+
+        this.sieuHangControl = new SieuHangControl();
+        new Thread(this.sieuHangControl, "Sieu hang").start();
+
+        new Thread(() -> {
+            while (isRunning) {
+                try {
+                    long start = System.currentTimeMillis();
+                    SieuHangManager.Update();
+                    long timeUpdate = System.currentTimeMillis() - start;
+                    if (timeUpdate < delay) {
+                        Thread.sleep(delay - timeUpdate);
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        }, "Update top whis").start();
     }
 
     public void close(long delay) {

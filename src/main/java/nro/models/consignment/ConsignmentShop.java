@@ -162,63 +162,63 @@ public class ConsignmentShop {
     }
 
     private void consign(Player player, short itemID, byte monneyType, int money, int quantity) {
-        if (player.nPoint.power < 100_000_000_000L) {
-            Service.getInstance().sendThongBao(player, "There is not enough power to modify this function");
-            show(player);
-            return;
-        }
-        if (!player.getSession().actived) {
-            Service.getInstance().sendThongBao(player, "Bạn chưa phải là thành viên của Ngọc rồng KIMKO");
-            show(player);
-            return;
-        }
-        Item it = InventoryService.gI().findItem(player, itemID, quantity);
-        boolean canBeConsignment = false;
-        for (ItemOption otn : it.itemOptions) {
-            if (otn.optionTemplate.id == 86 || otn.optionTemplate.id == 87) {
-                canBeConsignment = true;
-                break;
-            }
-        }
-        if (!canBeConsignment) {
-            Service.getInstance().sendThongBao(player, "Vật phẩm không thể ký gửi");
-            show(player);
-            return;
-        }
-        if (quantity < 0 || quantity > 99) {
-            Service.getInstance().sendThongBao(player, "Chỉ có thể kí gửi tối đa x99");
-            return;
-        }
-        if (money <= 9 || money >= 1_000_000_000) {
-            Service.getInstance().sendThongBao(player, "Vui lòng ký gửi trên 10 đơn vị, đến 1 tỷ đơn vị");
-            return;
-        }
-        if (findItemConsign(player.id, itemID) != null) {
-            Service.getInstance().sendThongBao(player, "Không thể kí gửi nhiều vật phẩm giống nhau");
-            return;
-        }
-        Item item = InventoryService.gI().findItem(player, itemID, quantity);
-        if (item == null) {
-            Service.getInstance().sendThongBao(player, "Không tìm thấy vật phẩm");
-            return;
-        }
-        ConsignmentItem consignmentItem = ItemService.gI().convertToConsignmentItem(item);
-        if (monneyType == 0) {
-            consignmentItem.setPriceGold(money);
-        } else {
-            consignmentItem.setPriceGem(money);
-        }
-        consignmentItem.createTime = System.currentTimeMillis();
-        consignmentItem.setConsignID(getMaxId() + 1);
-        consignmentItem.setConsignorID(player.id);
-        consignmentItem.setTab(getTabByType(consignmentItem.template.type));
-        consignmentItem.quantity = quantity;
-        addItem(consignmentItem);
-        InventoryService.gI().subQuantityItemsBag(player, item, quantity);
-        InventoryService.gI().sendItemBags(player);
-        Service.getInstance().sendMoney(player);
-        show(player);
-        Service.getInstance().sendThongBao(player, "Kí gửi vật phẩm thành công");
+//        if (player.nPoint.power < 100_000_000_000L) {
+//            Service.getInstance().sendThongBao(player, "There is not enough power to modify this function");
+//            show(player);
+//            return;
+//        }
+//        if (!player.getSession().actived) {
+//            Service.getInstance().sendThongBao(player, "Bạn chưa phải là thành viên của Ngọc rồng KIMKO");
+//            show(player);
+//            return;
+//        }
+//        Item it = InventoryService.gI().findItem(player, itemID, quantity);
+//        boolean canBeConsignment = false;
+//        for (ItemOption otn : it.itemOptions) {
+//            if (otn.optionTemplate.id == 86 || otn.optionTemplate.id == 87) {
+//                canBeConsignment = true;
+//                break;
+//            }
+//        }
+//        if (!canBeConsignment) {
+//            Service.getInstance().sendThongBao(player, "Vật phẩm không thể ký gửi");
+//            show(player);
+//            return;
+//        }
+//        if (quantity < 0 || quantity > 99) {
+//            Service.getInstance().sendThongBao(player, "Chỉ có thể kí gửi tối đa x99");
+//            return;
+//        }
+//        if (money <= 9 || money >= 1_000_000_000) {
+//            Service.getInstance().sendThongBao(player, "Vui lòng ký gửi trên 10 đơn vị, đến 1 tỷ đơn vị");
+//            return;
+//        }
+//        if (findItemConsign(player.id, itemID) != null) {
+//            Service.getInstance().sendThongBao(player, "Không thể kí gửi nhiều vật phẩm giống nhau");
+//            return;
+//        }
+//        Item item = InventoryService.gI().findItem(player, itemID, quantity);
+//        if (item == null) {
+//            Service.getInstance().sendThongBao(player, "Không tìm thấy vật phẩm");
+//            return;
+//        }
+//        ConsignmentItem consignmentItem = ItemService.gI().convertToConsignmentItem(item);
+//        if (monneyType == 0) {
+//            consignmentItem.setPriceGold(money);
+//        } else {
+//            consignmentItem.setPriceGem(money);
+//        }
+//        consignmentItem.createTime = System.currentTimeMillis();
+//        consignmentItem.setConsignID(getMaxId() + 1);
+//        consignmentItem.setConsignorID(player.id);
+//        consignmentItem.setTab(getTabByType(consignmentItem.template.type));
+//        consignmentItem.quantity = quantity;
+//        addItem(consignmentItem);
+//        InventoryService.gI().subQuantityItemsBag(player, item, quantity);
+//        InventoryService.gI().sendItemBags(player);
+//        Service.getInstance().sendMoney(player);
+//        show(player);
+//        Service.getInstance().sendThongBao(player, "Kí gửi vật phẩm thành công");
     }
 
     public int getMaxId() {
@@ -292,17 +292,17 @@ public class ConsignmentShop {
                 }
             });
         });
-        player.inventory.itemsBag.stream().filter((item) -> (item.isNotNullItem() && item.template.id != ConstItem.THOI_VANG
-                && canConsign(item.template.type)
-                && item.canConsign())).forEachOrdered((it) -> {
-            ConsignmentItem consignmentItem = ItemService.gI().convertToConsignmentItem(it);
-            consignmentItem.setConsignorID(-1);
-            consignmentItem.setTab((byte) 4);
-            consignmentItem.setPriceGem(-1);
-            consignmentItem.setPriceGold(-1);
-            consignmentItem.setSold(false);
-            items.add(consignmentItem);
-        });
+//        player.inventory.itemsBag.stream().filter((item) -> (item.isNotNullItem() && item.template.id != ConstItem.THOI_VANG
+//                && canConsign(item.template.type)
+//                && item.canConsign())).forEachOrdered((it) -> {
+//            ConsignmentItem consignmentItem = ItemService.gI().convertToConsignmentItem(it);
+//            consignmentItem.setConsignorID(-1);
+//            consignmentItem.setTab((byte) 4);
+//            consignmentItem.setPriceGem(-1);
+//            consignmentItem.setPriceGold(-1);
+//            consignmentItem.setSold(false);
+//            items.add(consignmentItem);
+//        });
         return items;
     }
 

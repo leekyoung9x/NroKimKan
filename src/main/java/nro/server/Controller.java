@@ -4,10 +4,12 @@ import nro.consts.*;
 import nro.data.DataGame;
 import nro.data.ItemData;
 import nro.jdbc.DBService;
+import nro.manager.SieuHangManager;
 import nro.models.kygui.ConsignmentShop;
 import nro.models.map.war.BlackBallWar;
 import nro.models.npc.NpcManager;
 import nro.models.player.Player;
+import nro.models.sieu_hang.SieuHangModel;
 import nro.models.skill.PlayerSkill;
 import nro.noti.NotiManager;
 import nro.resources.Resources;
@@ -24,6 +26,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.List;
+
 import nro.models.boss.BossManager;
 
 public class Controller {
@@ -188,8 +192,14 @@ public class Controller {
                     }
                     break;
                 case Cmd.THACHDAU:
-                    int pId = _msg.reader().readInt();
-                    BossManager.gI().FindBoss(player, pId);
+                    if (player != null && player.zone != null && player.zone.map != null) {
+                        int idPk = _msg.reader().readInt();
+                        if (player.zone.map.mapId == ConstMap.DAI_HOI_VO_THUAT_113) {
+                            ServerManager.gI().getSieuHangController().InviteOther(player, idPk);
+                        } else {
+                            BossManager.gI().FindBoss(player, idPk);
+                        }
+                    }
                     break;
                 case -71:
                     if (player != null) {
@@ -293,7 +303,7 @@ public class Controller {
                     break;
                 case Cmd.BACKGROUND_TEMPLATE:
                     int bgId = _msg.reader().readShort();
-                    Resources.sendItemBGTemplate(_session, bgId);
+                    Resources.getInstance().downloadBGTemplate(_session, bgId);
                     break;
                 case 22:
                     if (player != null) {

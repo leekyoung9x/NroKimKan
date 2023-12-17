@@ -2,6 +2,7 @@ package nro.server.io;
 
 import nro.data.DataGame;
 import nro.jdbc.daos.GodGK;
+import nro.manager.SieuHangManager;
 import nro.models.item.Item;
 import nro.models.item.ItemOption;
 import nro.models.player.Player;
@@ -338,6 +339,8 @@ public class Session {
             CheckTop(player);
             // nhận quà đăng nhập hàng ngày
 //            RewardService.gI().rewardFirstTimeLoginPerDay(player);
+
+            SieuHangManager.GetRewardDay(player);
         }
     }
 

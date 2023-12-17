@@ -438,7 +438,7 @@ public class NPoint {
             }
         }
         List<Item> itemsBody = player.inventory.itemsBody;
-        if (!player.isBoss && !player.isMiniPet) {
+        if (!player.isBoss && !player.isMiniPet && itemsBody.size() >= 2) {
             Item pants = itemsBody.get(1);
             if (pants.isNotNullItem() && pants.getId() >= 691 && pants.getId() >= 693) {
                 player.event.setUseQuanHoa(true);
