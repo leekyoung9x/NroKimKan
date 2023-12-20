@@ -120,20 +120,6 @@ public class Broly extends Boss {
     
     @Override
     public int injured(Player plAtt, int damage, boolean piercing, boolean isMobAttack) {
-//        if (!this.isDie()) {
-//            if (plAtt != null) {
-//                int skill = plAtt.playerSkill.skillSelect.template.id;
-//                if (skill == Skill.KAMEJOKO || skill == Skill.ANTOMIC || skill == Skill.MASENKO || skill == Skill.LIEN_HOAN) {
-//                    damage = 1;
-//                    Service.getInstance().chat(plAtt, "Trời ơi, chưởng hoàn toàn vô hiệu lực với hắn..");
-//                } else if (skill == Skill.DRAGON || skill == Skill.DEMON || skill == Skill.GALICK) {
-//                }
-//                resetPoint(damage);
-//            }
-//            return super.injured(plAtt, damage, piercing, isMobAttack);
-//        } else {
-//            return 0;
-//        }
         int mstChuong = this.nPoint.mstChuong;
         int giamst = this.nPoint.tlGiamst;
 
@@ -159,7 +145,7 @@ public class Broly extends Boss {
 
             if (!piercing) {
                 if ((plAtt.playerSkill.skillSelect.template.id == Skill.ANTOMIC || plAtt.playerSkill.skillSelect.template.id == Skill.KAMEJOKO || plAtt.playerSkill.skillSelect.template.id == Skill.MASENKO)) {
-                    this.chat("Xí hụt");
+                    Service.getInstance().chat(plAtt, "Trời ơi, chưởng hoàn toàn vô hiệu lực với hắn..");
                     damage = 0;
                 }
                 if (!(plAtt.playerSkill.skillSelect.template.id == Skill.TU_SAT || plAtt.playerSkill.skillSelect.template.id == Skill.MAKANKOSAPPO || plAtt.playerSkill.skillSelect.template.id == Skill.QUA_CAU_KENH_KHI)) {
