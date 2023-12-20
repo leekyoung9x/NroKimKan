@@ -1,17 +1,16 @@
 package nro.models.boss.broly;
 
+import nro.consts.ConstPlayer;
 import nro.consts.ConstRatio;
 import nro.models.boss.Boss;
 import nro.models.boss.BossData;
 import nro.models.boss.BossFactory;
 import nro.models.map.Zone;
+import nro.models.map.mabu.MabuWar;
 import nro.models.player.Player;
 import nro.models.skill.Skill;
 import nro.server.ServerNotify;
-import nro.services.EffectSkillService;
-import nro.services.MapService;
-import nro.services.Service;
-import nro.services.SkillService;
+import nro.services.*;
 import nro.services.func.ChangeMapService;
 import nro.utils.Log;
 import nro.utils.SkillUtil;
@@ -29,6 +28,8 @@ import nro.models.boss.BossManager;
  *
  */
 public class Broly extends Boss {
+
+    boolean xhpnext;
     
     static final int MAX_HP = 16777080;
     private static final int DIS_ANGRY = 100;
@@ -119,21 +120,134 @@ public class Broly extends Boss {
     
     @Override
     public int injured(Player plAtt, int damage, boolean piercing, boolean isMobAttack) {
-        if (!this.isDie()) {
-            if (plAtt != null) {
-                int skill = plAtt.playerSkill.skillSelect.template.id;
-                if (skill == Skill.KAMEJOKO || skill == Skill.ANTOMIC || skill == Skill.MASENKO || skill == Skill.LIEN_HOAN) {
-                    damage = 1;
-                    Service.getInstance().chat(plAtt, "Trời ơi, chưởng hoàn toàn vô hiệu lực với hắn..");
-                } else if (skill == Skill.DRAGON || skill == Skill.DEMON || skill == Skill.GALICK) {
-//                if (damage > this.point.hpGoc / 100) {
-//                    damage = this.point.hpGoc / 100;
+//        if (!this.isDie()) {
+//            if (plAtt != null) {
+//                int skill = plAtt.playerSkill.skillSelect.template.id;
+//                if (skill == Skill.KAMEJOKO || skill == Skill.ANTOMIC || skill == Skill.MASENKO || skill == Skill.LIEN_HOAN) {
+//                    damage = 1;
+//                    Service.getInstance().chat(plAtt, "Trời ơi, chưởng hoàn toàn vô hiệu lực với hắn..");
+//                } else if (skill == Skill.DRAGON || skill == Skill.DEMON || skill == Skill.GALICK) {
 //                }
-                }
-                resetPoint(damage);
-//                addPlayerAttack(plAtt);
+//                resetPoint(damage);
+//            }
+//            return super.injured(plAtt, damage, piercing, isMobAttack);
+//        } else {
+//            return 0;
+//        }
+        int mstChuong = this.nPoint.mstChuong;
+        int giamst = this.nPoint.tlGiamst;
+
+        if (!this.isDie()) {
+            if (mstChuong > 0 && SkillUtil.isUseSkillChuong(plAtt)) {
+                PlayerService.gI().hoiPhuc(this, 0, damage * mstChuong / 100);
+                damage = 0;
             }
-            return super.injured(plAtt, damage, piercing, isMobAttack);
+
+            if (!piercing && Util.isTrue(this.nPoint.tlNeDon, 1000)) {
+                this.chat("Xí hụt");
+                return 0;
+            }
+
+            damage = this.nPoint.subDameInjureWithDeff(damage);
+
+            if (!piercing && effectSkill.isShielding) {
+                if (damage > nPoint.hpMax) {
+                    EffectSkillService.gI().breakShield(this);
+                }
+                damage = 1;
+            }
+
+            if (!piercing) {
+                if ((plAtt.playerSkill.skillSelect.template.id == Skill.ANTOMIC || plAtt.playerSkill.skillSelect.template.id == Skill.KAMEJOKO || plAtt.playerSkill.skillSelect.template.id == Skill.MASENKO)) {
+                    this.chat("Xí hụt");
+                    damage = 0;
+                }
+                if (!(plAtt.playerSkill.skillSelect.template.id == Skill.TU_SAT || plAtt.playerSkill.skillSelect.template.id == Skill.MAKANKOSAPPO || plAtt.playerSkill.skillSelect.template.id == Skill.QUA_CAU_KENH_KHI)) {
+                    if (damage >= this.nPoint.hpMax / 100) {
+                        damage = this.nPoint.hpMax / 100;
+                    }
+                }
+            }
+
+            if (giamst > 0) {
+                damage -= nPoint.calPercent(damage, giamst);
+            }
+
+            this.nPoint.subHP(damage);
+
+            if (!xhpnext && this.nPoint.hp > this.nPoint.hpMax * 2 / 3) {
+                xhpnext = true;
+            }
+            if (this.nPoint.hp <= this.nPoint.hpMax / 2 && xhpnext) {
+                this.nPoint.hpMax *= 1.5;
+                this.nPoint.dame = this.nPoint.dame + this.nPoint.hpMax / 50;
+                xhpnext = false;
+            }
+
+            if (isDie()) {
+                setDie(plAtt);
+                die();
+
+                if (this.nPoint.hpMax >= 1_000_000) {
+                    int hpbroly = (this.nPoint.hpMax / 100) * 150;
+                    if (hpbroly > 18_000_000) {
+                        hpbroly = 18_000_000;
+                    }
+                    int damebroly = (this.nPoint.dame / 100) * 150;
+                    if (damebroly > 1_000_000) {
+                        damebroly = 1_000_000;
+                    }
+                    BossData superBroly = new BossData(
+                            "Super Broly %1", //name
+                            ConstPlayer.XAYDA, //gender
+                            Boss.DAME_NORMAL, //type dame
+                            Boss.HP_NORMAL, //type hp
+                            damebroly, //dame
+                            new int[][]{{hpbroly}}, //hp
+                            new short[]{294, 295, 296}, //outfit
+                            new short[]{5, 6, 27, 28, 29, 30, 13, 10, 31, 32, 33, 34, 20, 19, 35, 36, 37, 38}, //map join
+                            new int[][]{ //skill
+                                    {Skill.DEMON, 3, 450}, {Skill.DEMON, 6, 400}, {Skill.DRAGON, 7, 650}, {Skill.DRAGON, 1, 500}, {Skill.GALICK, 5, 480},
+                                    {Skill.KAMEJOKO, 7, 2000}, {Skill.KAMEJOKO, 6, 1800}, {Skill.KAMEJOKO, 4, 1500}, {Skill.KAMEJOKO, 2, 1000},
+                                    {Skill.ANTOMIC, 3, 1200}, {Skill.ANTOMIC, 5, 1700}, {Skill.ANTOMIC, 7, 2000},
+                                    {Skill.MASENKO, 1, 800}, {Skill.MASENKO, 5, 1300}, {Skill.MASENKO, 6, 1500},
+                                    {Skill.TAI_TAO_NANG_LUONG, 1, 15000}, {Skill.TAI_TAO_NANG_LUONG, 3, 25000}, {Skill.TAI_TAO_NANG_LUONG, 7, 50000}
+                            },
+                            300
+                    );
+                    new Broly(BossFactory.SUPER_BROLY, superBroly);
+                } else {
+                    int[] idmapbroly = new int[]{5, 6, 10, 11, 12, 13, 19, 20, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38};
+                    int indexmapxh = Util.nextInt(idmapbroly.length);
+                    int hpbroly = this.nPoint.hpMax / 10;
+                    if (hpbroly < 500) {
+                        hpbroly = 500;
+                    }
+                    int damebroly = this.nPoint.dame / 10;
+                    if (damebroly < 50) {
+                        damebroly = 50;
+                    }
+                    BossData brolythuong = new BossData(
+                            "Broly %1", //name
+                            ConstPlayer.XAYDA, //gender
+                            Boss.DAME_PERCENT_HP_HUND, //type dame
+                            Boss.HP_NORMAL, //type hp
+                            damebroly, //dame
+                            new int[][]{{hpbroly}}, //hp
+                            new short[]{291, 292, 293}, //outfit
+                            new short[]{5, 6, 27, 28, 29, 30, 13, 10, 31, 32, 33, 34, 20, 19, 35, 36, 37, 38}, //map join
+                            new int[][]{ //skill
+                                    {Skill.DEMON, 3, 450}, {Skill.DEMON, 6, 400}, {Skill.DRAGON, 7, 650}, {Skill.DRAGON, 1, 500}, {Skill.GALICK, 5, 480},
+                                    {Skill.KAMEJOKO, 7, 2000}, {Skill.KAMEJOKO, 6, 1800}, {Skill.KAMEJOKO, 4, 1500}, {Skill.KAMEJOKO, 2, 1000},
+                                    {Skill.TAI_TAO_NANG_LUONG, 1, 15000}, {Skill.TAI_TAO_NANG_LUONG, 3, 25000}, {Skill.TAI_TAO_NANG_LUONG, 5, 25000},
+                                    {Skill.TAI_TAO_NANG_LUONG, 6, 30000}, {Skill.TAI_TAO_NANG_LUONG, 7, 50000}
+                            },
+                            -1 //số giây nghỉ
+                    );
+                    new Broly(BossFactory.BROLY, brolythuong);
+                }
+            }
+            return damage;
         } else {
             return 0;
         }
