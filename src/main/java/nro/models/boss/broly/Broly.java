@@ -191,7 +191,7 @@ public class Broly extends Boss {
                             damebroly, //dame
                             new int[][]{{hpbroly}}, //hp
                             new short[]{294, 295, 296}, //outfit
-                            new short[]{5, 6, 27, 28, 29, 30, 13, 10, 31, 32, 33, 34, 20, 19, 35, 36, 37, 38}, //map join
+                            new short[]{(short) this.zone.map.mapId}, //map join
                             new int[][]{ //skill
                                     {Skill.DEMON, 3, 450}, {Skill.DEMON, 6, 400}, {Skill.DRAGON, 7, 650}, {Skill.DRAGON, 1, 500}, {Skill.GALICK, 5, 480},
                                     {Skill.KAMEJOKO, 7, 2000}, {Skill.KAMEJOKO, 6, 1800}, {Skill.KAMEJOKO, 4, 1500}, {Skill.KAMEJOKO, 2, 1000},
@@ -201,7 +201,7 @@ public class Broly extends Boss {
                             },
                             300
                     );
-                    new Broly(BossFactory.SUPER_BROLY, superBroly);
+                    new SuperBroly(BossFactory.SUPER_BROLY, superBroly);
                 } else {
                     int[] idmapbroly = new int[]{5, 6, 10, 11, 12, 13, 19, 20, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38};
                     int indexmapxh = Util.nextInt(idmapbroly.length);
@@ -228,7 +228,7 @@ public class Broly extends Boss {
                                     {Skill.TAI_TAO_NANG_LUONG, 1, 15000}, {Skill.TAI_TAO_NANG_LUONG, 3, 25000}, {Skill.TAI_TAO_NANG_LUONG, 5, 25000},
                                     {Skill.TAI_TAO_NANG_LUONG, 6, 30000}, {Skill.TAI_TAO_NANG_LUONG, 7, 50000}
                             },
-                            -1 //số giây nghỉ
+                            60 //số giây nghỉ
                     );
                     new Broly(BossFactory.BROLY, brolythuong);
                 }
@@ -266,34 +266,34 @@ public class Broly extends Boss {
             countResetPoint = 0;
         }
     }
-    
-    @Override
-    public Player getPlayerAttack() throws Exception {
-        try {
-            if (countChangePlayerAttack < targetCountChangePlayerAttack
-                    && plAttack != null && plAttack.zone.equals(this.zone) && !plAttack.effectSkin.isVoHinh) {
-                if (!plAttack.isDie()) {
-                    this.countChangePlayerAttack++;
-                    return plAttack;
-                }
-            }
-        } catch (Exception e) {
-            this.playersAttack.remove(plAttack);
-        }
-        
-        if (!playersAttack.isEmpty()) {
-            this.targetCountChangePlayerAttack = Util.nextInt(10, 20);
-            this.countChangePlayerAttack = 0;
-            Player plAtt = playersAttack.get(Util.nextInt(0, playersAttack.size() - 1));
-            if (plAtt != null && plAtt.zone.equals(this.zone) && !plAtt.isDie() && !plAttack.effectSkin.isVoHinh) {
-                return (this.plAttack = plAtt);
-            } else {
-                throw new Exception();
-            }
-        } else {
-            throw new Exception();
-        }
-    }
+
+//    @Override
+//    public Player getPlayerAttack() throws Exception {
+//        try {
+//            if (countChangePlayerAttack < targetCountChangePlayerAttack
+//                    && plAttack != null && plAttack.zone.equals(this.zone) && !plAttack.effectSkin.isVoHinh) {
+//                if (!plAttack.isDie()) {
+//                    this.countChangePlayerAttack++;
+//                    return plAttack;
+//                }
+//            }
+//        } catch (Exception e) {
+//            this.playersAttack.remove(plAttack);
+//        }
+//
+//        if (!playersAttack.isEmpty()) {
+//            this.targetCountChangePlayerAttack = Util.nextInt(10, 20);
+//            this.countChangePlayerAttack = 0;
+//            Player plAtt = playersAttack.get(Util.nextInt(0, playersAttack.size() - 1));
+//            if (plAtt != null && plAtt.zone.equals(this.zone) && !plAtt.isDie() && !plAttack.effectSkin.isVoHinh) {
+//                return (this.plAttack = plAtt);
+//            } else {
+//                throw new Exception();
+//            }
+//        } else {
+//            throw new Exception();
+//        }
+//    }
     
     private void addPlayerAttack(Player plAtt) {
         boolean haveInList = false;
@@ -397,14 +397,10 @@ public class Broly extends Boss {
     
     @Override
     public void joinMap() {
-        if (this.zone != null) {
-            this.zone = getMapCanJoin(mapJoin[Util.nextInt(0, mapJoin.length - 1)]);
-            int x = Util.nextInt(50, this.zone.map.mapWidth - 50);
-            ChangeMapService.gI().changeMap(this, this.zone, x, this.zone.map.yPhysicInTop(x, 0));
-            ServerNotify.gI().notify("Boss " + this.name + " vừa xuất hiện tại " + this.zone.map.mapName + "");
-        } else {
-            BossManager.gI().removeBoss(this);
-        }
+        this.zone = getMapCanJoin(mapJoin[Util.nextInt(0, mapJoin.length - 1)]);
+        int x = Util.nextInt(50, this.zone.map.mapWidth - 50);
+        ChangeMapService.gI().changeMap(this, this.zone, x, this.zone.map.yPhysicInTop(x, 0));
+        ServerNotify.gI().notify("Boss " + this.name + " vừa xuất hiện tại " + this.zone.map.mapName + "");
     }
     
     @Override

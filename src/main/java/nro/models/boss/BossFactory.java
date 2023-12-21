@@ -209,7 +209,7 @@ public class BossFactory {
     public static boolean isYar(byte id) {
         return (id == TAP_SU_1 || id == TAP_SU_2 || id == TAP_SU_3 || id == TAP_SU_4 || id == TAP_SU_5 || id == TAN_BINH_1 || id == TAN_BINH_2
                 || id == TAN_BINH_3 || id == TAN_BINH_4 || id == TAN_BINH_5 || id == TAN_BINH_6 || id == DOI_TRUONG_1 || id == CHIEN_BINH_1 || id == CHIEN_BINH_2
-                || id == CHIEN_BINH_3 || id == CHIEN_BINH_4 || id == CHIEN_BINH_5 || id == CHIEN_BINH_6);
+                || id == CHIEN_BINH_3 || id == CHIEN_BINH_4 || id == CHIEN_BINH_5 || id == CHIEN_BINH_6 || id == HOA_HONG);
     }
 
     public static void initBoss() {
@@ -233,6 +233,9 @@ public class BossFactory {
                 createBoss(SANTA_CLAUS);
                 for (int i = 0; i < 5; i++) {
                     createBoss(SUPER_BROLY);
+                }
+                for (int i = 0; i < 5; i++) {
+                    createBoss(BROLY);
                 }
                 for (int i = 0; i < 10; i++) {
                     createBoss(RAITY);

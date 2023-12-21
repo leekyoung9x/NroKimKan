@@ -62,12 +62,14 @@ public class BossManager {
     public void showListBoss(Player player) {
         Message msg;
         try {
-            msg = new Message(-96);
-            msg.writer().writeByte(0);
-            msg.writer().writeUTF("Boss (SL: " + BOSSES_IN_GAME.size() + ")");
             long aliveBossCount = BOSSES_IN_GAME.stream().filter(boss -> boss != null).filter(boss -> !BossFactory.isYar((byte) boss.id))
                     .count();
-            msg.writer().writeByte((int) aliveBossCount);
+            int count = (int) (aliveBossCount > Byte.MAX_VALUE ? Byte.MAX_VALUE  : aliveBossCount);
+            msg = new Message(-96);
+            msg.writer().writeByte(0);
+            msg.writer().writeUTF("Boss (SL: " + count + ")");
+
+            msg.writer().writeByte(count);
             for (int i = 0; i < BOSSES_IN_GAME.size(); i++) {
                 Boss boss = BossManager.BOSSES_IN_GAME.get(i);
                 if (BossFactory.isYar((byte) boss.id)) {

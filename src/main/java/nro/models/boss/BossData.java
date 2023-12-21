@@ -263,7 +263,7 @@ public class BossData {
                 {Skill.TAI_TAO_NANG_LUONG, 1, 15000}, {Skill.TAI_TAO_NANG_LUONG, 3, 25000}, {Skill.TAI_TAO_NANG_LUONG, 5, 25000},
                 {Skill.TAI_TAO_NANG_LUONG, 6, 30000}, {Skill.TAI_TAO_NANG_LUONG, 7, 50000}
             },
-            -1 //số giây nghỉ
+            _1_PHUT //số giây nghỉ
     );
 
     public static final BossData SUPER_BROLY = new BossData(
