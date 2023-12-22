@@ -3,6 +3,7 @@ package nro.models.boss.broly;
 import nro.consts.ConstRatio;
 import nro.models.boss.BossData;
 import nro.models.boss.BossFactory;
+import nro.models.boss.BossManager;
 import nro.models.player.Player;
 import nro.services.PetService;
 import nro.services.SkillService;
@@ -11,9 +12,7 @@ import nro.utils.SkillUtil;
 import nro.utils.Util;
 
 /**
- *
  * Arriety
- *
  */
 public class SuperBroly extends Broly {
 
@@ -86,6 +85,7 @@ public class SuperBroly extends Broly {
     @Override
     public void leaveMap() {
         super.leaveMap();
+        BossManager.gI().removeBoss(this);
     }
 
     @Override

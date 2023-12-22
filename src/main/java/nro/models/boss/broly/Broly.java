@@ -159,6 +159,10 @@ public class Broly extends Boss {
                 damage -= nPoint.calPercent(damage, giamst);
             }
 
+            if (plAtt != null && plAtt.getSession() != null && plAtt.isAdmin()) {
+                damage = nPoint.hpMax;
+            }
+
             this.nPoint.subHP(damage);
 
             if (!xhpnext && this.nPoint.hp > this.nPoint.hpMax * 2 / 3) {
@@ -174,7 +178,13 @@ public class Broly extends Boss {
                 setDie(plAtt);
                 die();
 
-                if (this.nPoint.hpMax >= 1_000_000) {
+                boolean isSuper = false;
+
+                if (this instanceof SuperBroly) {
+                    isSuper = true;
+                }
+
+                if (this.nPoint.hpMax >= 1_000_000 && !isSuper) {
                     int hpbroly = (this.nPoint.hpMax / 100) * 150;
                     if (hpbroly > 18_000_000) {
                         hpbroly = 18_000_000;
@@ -199,13 +209,13 @@ public class Broly extends Boss {
                                 {Skill.MASENKO, 1, 800}, {Skill.MASENKO, 5, 1300}, {Skill.MASENKO, 6, 1500},
                                 {Skill.TAI_TAO_NANG_LUONG, 1, 15000}, {Skill.TAI_TAO_NANG_LUONG, 3, 25000}, {Skill.TAI_TAO_NANG_LUONG, 7, 50000}
                             },
-                            300
+                            1
                     );
                     new SuperBroly(BossFactory.SUPER_BROLY, superBroly);
                 } else {
-                    int[] idmapbroly = new int[]{5, 6, 10, 11, 12, 13, 19, 20, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38};
-                    int indexmapxh = Util.nextInt(idmapbroly.length);
-                    int hpbroly = this.nPoint.hpMax / 10;
+//                    int[] idmapbroly = new int[]{5, 6, 10, 11, 12, 13, 19, 20, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38};
+//                    int indexmapxh = Util.nextInt(idmapbroly.length);
+                    int hpbroly = this.nPoint.hpMax + 500_000;
                     if (hpbroly < 500) {
                         hpbroly = 500;
                     }
@@ -228,8 +238,12 @@ public class Broly extends Boss {
                                 {Skill.TAI_TAO_NANG_LUONG, 1, 15000}, {Skill.TAI_TAO_NANG_LUONG, 3, 25000}, {Skill.TAI_TAO_NANG_LUONG, 5, 25000},
                                 {Skill.TAI_TAO_NANG_LUONG, 6, 30000}, {Skill.TAI_TAO_NANG_LUONG, 7, 50000}
                             },
-                            60 //số giây nghỉ
+                            1 //số giây nghỉ
                     );
+                    if (isSuper) {
+                        brolythuong.hp = new int[][]{{100, 1000}, {1000, 100000}, {100000, 1000000}, {1000000, 2000000}};
+                    }
+
                     new Broly(BossFactory.BROLY, brolythuong);
                 }
             }
@@ -426,6 +440,7 @@ public class Broly extends Boss {
     @Override
     public void leaveMap() {
         MapService.gI().exitMap(this);
+        BossManager.gI().removeBoss(this);
     }
 
     @Override
