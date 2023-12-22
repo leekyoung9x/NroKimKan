@@ -18,6 +18,7 @@ import nro.utils.Log;
 import nro.utils.SkillUtil;
 import nro.utils.Util;
 import java.util.List;
+import java.util.Random;
 
 /**
  *
@@ -138,12 +139,25 @@ public class Mabu_14H extends BossMabuWar {
 
     @Override
     public void rewards(Player pl) {
-        try {
-            if (Util.isTrue(1, 15)) {
-                ItemMap itemMap = new ItemMap(this.zone, 1068, 1, this.location.x, this.zone.map.yPhysicInTop(this.location.x, 100), -1);
-                Service.getInstance().dropItemMap(this.zone, itemMap);
+        for (int i = 0; i < zone.getPlayers().size(); i++) {
+            Player plAll = zone.getPlayers().get(i);
+            if (plAll != null) {
+                if (plAll.effectSkill.isHoldMabu) {
+                    Service.getInstance().removeMabuEat(plAll);
+                }
+                plAll.effectSkill.lastTimeHoldMabu = System.currentTimeMillis();
+                ChangeMapService.gI().changeMap(plAll, 114, this.zoneHold, (short) -1, (short) 5);
             }
-            int[] listitem = {Util.nextInt(17, 18), 861};
+        }
+        try {
+            int[] itemDos = new int[]{556, 558, 560};
+            int randomDo = new Random().nextInt(itemDos.length);
+            if (Util.isTrue(15, 100)) {
+                if (Util.isTrue(1, 5)) {
+                    Service.getInstance().dropItemMap(this.zone, Util.ratiItem(zone, itemDos[randomDo], 1, this.location.x, this.location.y, pl.id));
+                }
+            }
+            int[] listitem = {Util.nextInt(18, 19), 861};
             ItemMap itemMap = new ItemMap(this.zone, listitem[Util.nextInt(0, listitem.length - 1)], 1, pl.location.x, this.zone.map.yPhysicInTop(pl.location.x, pl.location.y - 24), pl.id);
             Service.getInstance().dropItemMap(this.zone, itemMap);
         } catch (Exception ex) {

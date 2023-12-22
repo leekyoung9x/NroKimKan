@@ -15,7 +15,6 @@ import nro.models.boss.cell.*;
 import nro.models.boss.chill.*;
 import nro.models.boss.cold.*;
 import nro.models.boss.event.HoaHong;
-import nro.models.boss.event.Qilin;
 import nro.models.boss.event.SantaClaus;
 import nro.models.boss.event.noel.NoelBoss;
 import nro.models.boss.event.noel.NoelBossBall;
@@ -23,10 +22,9 @@ import nro.models.boss.event.noel.NoelBossOne;
 import nro.models.boss.event.noel.NoelBossTwo;
 import nro.models.boss.fide.*;
 import nro.models.boss.halloween.BoXuong;
-import nro.models.boss.halloween.DoiNhi;
 import nro.models.boss.halloween.MaTroi;
+import nro.models.boss.list_boss.NhanBan;
 import nro.models.boss.list_boss.Raity;
-import nro.models.boss.list_boss.ThoDaiKa;
 import nro.models.boss.list_boss.WhisTop;
 import nro.models.boss.mabu_war.*;
 import nro.models.boss.nappa.*;
@@ -37,6 +35,7 @@ import nro.models.map.Zone;
 import nro.models.map.mabu.MabuWar;
 import nro.models.map.mabu.MabuWar14h;
 import nro.models.player.Player;
+import nro.models.skill.Skill;
 import nro.server.Manager;
 import nro.services.MapService;
 import org.apache.log4j.Logger;
@@ -192,6 +191,8 @@ public class BossFactory {
     public static final int NOEL_BOSS_BALL_4 = -134;
     public static final int NOEL_BOSS_BALL_5 = -135;
 
+    public static final int CLONE_NHAN_BAN = -136;
+
     private static final Logger logger = Logger.getLogger(BossFactory.class);
     public static final int[] MAP_APPEARED_QILIN = {ConstMap.VACH_NUI_ARU_42, ConstMap.VACH_NUI_MOORI_43, ConstMap.VACH_NUI_KAKAROT,
         ConstMap.LANG_ARU, ConstMap.LANG_MORI, ConstMap.LANG_KAKAROT, ConstMap.DOI_HOA_CUC, ConstMap.DOI_NAM_TIM, ConstMap.DOI_HOANG,
@@ -209,7 +210,7 @@ public class BossFactory {
     public static boolean isYar(byte id) {
         return (id == TAP_SU_1 || id == TAP_SU_2 || id == TAP_SU_3 || id == TAP_SU_4 || id == TAP_SU_5 || id == TAN_BINH_1 || id == TAN_BINH_2
                 || id == TAN_BINH_3 || id == TAN_BINH_4 || id == TAN_BINH_5 || id == TAN_BINH_6 || id == DOI_TRUONG_1 || id == CHIEN_BINH_1 || id == CHIEN_BINH_2
-                || id == CHIEN_BINH_3 || id == CHIEN_BINH_4 || id == CHIEN_BINH_5 || id == CHIEN_BINH_6 || id == HOA_HONG);
+                || id == CHIEN_BINH_3 || id == CHIEN_BINH_4 || id == CHIEN_BINH_5 || id == CHIEN_BINH_6);
     }
 
     public static void initBoss() {
@@ -232,36 +233,7 @@ public class BossFactory {
                 createBoss(XEN_BO_HUNG_1);
                 createBoss(SANTA_CLAUS);
                 for (int i = 0; i < 5; i++) {
-                    createBoss(SUPER_BROLY);
-                }
-                for (int i = 0; i < 5; i++) {
                     createBoss(BROLY);
-                }
-                for (int i = 0; i < 10; i++) {
-                    createBoss(RAITY);
-                }
-                for (int i = 0; i < 5; i++) {
-                    createBoss(MA_TROI);
-                }
-                for (int i = 0; i < 5; i++) {
-                    createBoss(BO_XUONG);
-                }
-                for (int i = 0; i < 5; i++) {
-                    createBoss(HOA_HONG);
-                }
-                for (Map map : Manager.MAPS) {
-                    if (map != null && !map.zones.isEmpty()) {
-                        if (!map.isMapOffline && map.type == ConstMap.MAP_NORMAL
-                                && map.tileId > 0 && !MapService.gI().isMapVS(map.mapId)) {
-                            if (map.mapWidth > 50 && map.mapHeight > 50) {
-                                new HoaHong(map.mapId);
-//                                }
-                                if (Manager.EVENT_SEVER == ConstEvent.SU_KIEN_NOEL) {
-                                    new SantaClaus(map.mapId);
-                                }
-                            }
-                        }
-                    }
                 }
             } catch (Exception e) {
                 logger.error("Err initboss", e);
@@ -338,18 +310,21 @@ public class BossFactory {
         }).start();
     }
 
-    public static Boss createBoss(byte bossId) {
+    public static Boss createBoss(int bossId) {
         Boss boss = null;
         switch (bossId) {
-            case RAITY:
-                boss = new Raity();
+            case BROLY:
+                boss = new Broly();
                 break;
-            case MA_TROI:
-                boss = new MaTroi();
-                break;
-            case BO_XUONG:
-                boss = new BoXuong();
-                break;
+//            case RAITY:
+//                boss = new Raity();
+//                break;
+//            case MA_TROI:
+//                boss = new MaTroi();
+//                break;
+//            case BO_XUONG:
+//                boss = new BoXuong();
+//                break;
             case LAVENDER:
                 boss = new Lavender();
                 break;
@@ -364,12 +339,6 @@ public class BossFactory {
                 break;
             case CUMBER2:
                 boss = new SuperCumber();
-                break;
-            case BROLY:
-                boss = new Broly();
-                break;
-            case SUPER_BROLY:
-                boss = new SuperBroly();
                 break;
             case XEN_BO_HUNG_1:
                 boss = new XenBoHung1();
@@ -391,6 +360,9 @@ public class BossFactory {
                 break;
             case KUKU:
                 boss = new Kuku();
+                break;
+            case SUPER_BROLY:
+                boss = new SuperBroly();
                 break;
             case MAP_DAU_DINH:
                 boss = new MapDauDinh();
@@ -434,9 +406,6 @@ public class BossFactory {
             case ANDROID_20:
                 boss = new Android20();
                 break;
-            case SUPER_BROLY_RED:
-                boss = new SuperBrolyRed();
-                break;
             case POC:
                 boss = new Poc();
                 break;
@@ -446,12 +415,12 @@ public class BossFactory {
             case KINGKONG:
                 boss = new KingKong();
                 break;
-            case WHIS:
-                boss = new Whis();
-                break;
-            case BILL:
-                boss = new Bill();
-                break;
+//            case WHIS:
+//                boss = new Whis();
+//                break;
+//            case BILL:
+//                boss = new Bill();
+//                break;
             case CHILL:
                 boss = new Chill();
                 break;
@@ -478,9 +447,12 @@ public class BossFactory {
         return new WhisTop(bossId, level, player_id);
     }
 
+    public static Boss createBossNhanBan(Player player, BossData data) {
+        return new NhanBan(player, data);
+    }
+
     public static NoelBoss createNoelBoss(long bossId, Player player) {
         NoelBoss boss = null;
-
         switch ((int) bossId) {
             case NOEL_BOSS_ONE -> {
                 boss = new NoelBossOne();
@@ -489,7 +461,6 @@ public class BossFactory {
                 boss = new NoelBossTwo();
             }
         }
-
         if (boss != null) {
             boss.setStatus(Boss.ATTACK);
             boss.zone = player.zone;
@@ -499,7 +470,6 @@ public class BossFactory {
             boss.joinMap();
             boss.AddPlayerCanAttack(player);
         }
-
         return boss;
     }
 

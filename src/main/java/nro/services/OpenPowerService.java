@@ -27,12 +27,15 @@ public class OpenPowerService {
     public boolean openPowerBasic(Player player) {
         byte curLimit = player.nPoint.limitPower;
         if (curLimit < NPoint.MAX_LIMIT) {
-            if (player.nPoint.limitPower == 9 && !player.inventory.itemsBody.stream().limit(5).allMatch(it -> it.isNotNullItem() && it.template.name.contains("Thiên Sứ"))) {
-                if (!player.isPet) {
-                    Service.getInstance().sendThongBao(player, "Yêu cầu 5 đồ thiên sứ");
-                } else {
-                    Service.getInstance().sendThongBao(((Pet) player).master, "Yêu cầu 5 đồ thiên sứ");
-                }
+            if (player.nPoint.limitPower == 9) {
+//                    && !player.inventory.itemsBody.stream().limit(5).allMatch(it -> it.isNotNullItem()
+//                    && it.template.name.contains("Thiên Sứ"))) {
+//                if (!player.isPet) {
+//                    Service.getInstance().sendThongBao(player, "Yêu cầu 5 đồ thiên sứ");
+//                } else {
+//                    Service.getInstance().sendThongBao(((Pet) player).master, "Yêu cầu 5 đồ thiên sứ");
+//                }
+                Service.getInstance().sendThongBao(player, "Sức mạnh của bạn đã đạt tới mức tối đa");
                 return false;
             }
             if (!player.itemTime.isOpenPower && player.nPoint.canOpenPower()) {

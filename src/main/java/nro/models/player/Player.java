@@ -343,6 +343,7 @@ public class Player {
                     if (this.isPl()) {
                         MabuWar.gI().update(this);
                         MabuWar14h.gI().update(this);
+                        checkPlayerInMap();
 //                        if (Util.canDoWithTime(lastTimeUpdate, 60000)) {
 //                            this.playerTask.achivements.get(ConstAchive.HOAT_DONG_CHAM_CHI).count++;
 //                        }
@@ -382,6 +383,26 @@ public class Player {
             return true;
         }
         return false;
+    }
+
+    private void checkPlayerInMap() {
+        int mapid = this.zone.map.mapId;
+        if (MapService.gI().isMapNgucTu(mapid)) {
+            if (this.playerTask.taskMain.id < 22) {
+                ChangeMapService.gI().changeMapNonSpaceship(this, this.gender + 21, 400, 336);
+                Service.getInstance().sendBigMessage(this, 1139, "|1|Do phát hiện có hành vi bất thường nên\n "
+                        + "chúng tôi đã đưa bạn về nhà và xử phạt 50 ruby\n"
+                        + "|7|nếu còn tiếp tục tái phạm 5 lần bạn sẽ bị khóa account vĩnh viễn");
+            }
+        }
+        if (MapService.gI().isMapHTTV(mapid)) {
+            if (this.playerTask.taskMain.id < 24) {
+                ChangeMapService.gI().changeMapNonSpaceship(this, this.gender + 21, 400, 336);
+                Service.getInstance().sendBigMessage(this, 1139, "|1|Do phát hiện có hành vi bất thường nên\n "
+                        + "chúng tôi đã đưa bạn về nhà và xử phạt 50 ruby\n"
+                        + "|7|nếu còn tiếp tục tái phạm 5 lần bạn sẽ bị khóa account vĩnh viễn");
+            }
+        }
     }
 
     private void checkLocation() {
@@ -715,10 +736,10 @@ public class Player {
 
     //--------------------------------------------------------------------------
     public int injured(Player plAtt, int damage, boolean piercing, boolean isMobAttack) {
-        if (this.session != null && this.isAdmin()) {
-            return 0;
-        }
-
+//        Integer tungngu = GetDameByNoelBall(plAtt, damage);
+//        if (tungngu != null) {
+//            return tungngu;
+//        }
         int mstChuong = this.nPoint.mstChuong;
         int giamst = this.nPoint.tlGiamst;
 

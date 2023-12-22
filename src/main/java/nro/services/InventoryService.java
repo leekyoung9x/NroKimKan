@@ -132,10 +132,9 @@ public class InventoryService {
                     return false;
                 }
             case 988:
-                if (player.inventory.getGoldLimit() < 20_000_000_000L) {
-                    player.inventory.goldLimit += 100000000;
-                    Service.getInstance().sendThongBao(player, "Giới hạn vàng của bạn đã tăng lên 100Tr\n"
-                            + "Giới hạn vàng hiện tại của bạn là " + Util.numberToMoney(player.inventory.getGoldLimit()));
+                if (player.inventory.getGoldLimit() < 1000_000_000_000L) {
+                    player.inventory.goldLimit += 100_000_000_000L;
+                    Service.getInstance().sendThongBao(player, "Giới hạn vàng của bạn đã tăng lên 100Tr\n" + "Giới hạn vàng hiện tại của bạn là " + Util.numberToMoney(player.inventory.getGoldLimit()));
                     return true;
                 } else {
                     Service.getInstance().sendThongBaoOK(player, "Giới hạn vàng của bạn đã đạt tối đa");

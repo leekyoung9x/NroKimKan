@@ -34,22 +34,22 @@ public class TaskService {
      * Làm cùng số người trong bang
      */
     private static final byte NMEMBER_DO_TASK_TOGETHER = 2;
-
+    
     private static TaskService i;
-
+    
     public static TaskService gI() {
         if (i == null) {
             i = new TaskService();
         }
         return i;
     }
-
+    
     public void DoneTask(Player player, int id) {// ho tro nv
         if (player.isPl()) {
             doneTask(player, id);
         }
     }
-
+    
     public TaskMain getTaskMainById(Player player, int id) {
         for (TaskMain tm : Manager.TASKS) {
             if (tm.id == id) {
@@ -131,7 +131,7 @@ public class TaskService {
         Service.getInstance().sendThongBao(player, "Nhiệm vụ hiện tại của bạn là "
                 + player.playerTask.taskMain.subTasks.get(player.playerTask.taskMain.index).name);
     }
-
+    
     public boolean checkDoneTaskTalkNpc(Player player, Npc npc) {
         switch (npc.tempId) {
             case ConstNpc.QUY_LAO_KAME:
@@ -388,7 +388,7 @@ public class TaskService {
                 case BossFactory.ANDROID_20:
                     doneTask(player, ConstTask.TASK_22_3);
                     break;
-
+                
                 case BossFactory.POC:
                     doneTask(player, ConstTask.TASK_23_1);
                     break;
@@ -439,7 +439,7 @@ public class TaskService {
                 case BossFactory.MABU_MAP:
                     doneTask(player, ConstTask.TASK_26_6);
                     break;
-
+                
             }
         }
     }
@@ -981,7 +981,7 @@ public class TaskService {
         }
         return false;
     }
-
+    
     private void npcSay(Player player, int npcId, String text) {
         npcId = transformNpcId(player, npcId);
         text = transformName(player, text);
@@ -1034,7 +1034,7 @@ public class TaskService {
             this.sendUpdateCountSubTask(player);
         }
     }
-
+    
     private int transformMapId(Player player, int id) {
         if (id == ConstTask.MAP_NHA) {
             return (short) (player.gender + 21);
@@ -1069,7 +1069,7 @@ public class TaskService {
         }
         return id;
     }
-
+    
     private int transformNpcId(Player player, int id) {
         if (id == ConstTask.NPC_NHA) {
             return player.gender == ConstPlayer.TRAI_DAT
@@ -1132,7 +1132,7 @@ public class TaskService {
                         ? "Dende" : "Appule"));
         return text;
     }
-
+    
     public boolean isCurrentTask(Player player, int idTaskCustom) {
         switch (idTaskCustom) {
             case ConstTask.TASK_0_0:
@@ -1852,7 +1852,7 @@ public class TaskService {
         }
         return false;
     }
-
+    
     public int getIdTask(Player player) {
         if (player.isPet || player.isBoss || player.playerTask == null || player.playerTask.taskMain == null) {
             return -1;
@@ -2582,7 +2582,7 @@ public class TaskService {
         }
         return null;
     }
-
+    
     public void changeSideTask(Player player, byte level) {
         if (player.playerTask.sideTask.leftTask > 0) {
             player.playerTask.sideTask.reset();
@@ -2598,60 +2598,23 @@ public class TaskService {
                     "Bạn đã nhận hết nhiệm vụ hôm nay. Hãy chờ tới ngày mai rồi nhận tiếp");
         }
     }
-
+    
     public void removeSideTask(Player player) {
         Service.getInstance().sendThongBao(player, "Bạn vừa hủy bỏ nhiệm vụ " + player.playerTask.sideTask.getName());
         player.playerTask.sideTask.reset();
     }
-
+    
     public void paySideTask(Player player) {
         if (player.playerTask.sideTask.template != null) {
             if (player.playerTask.sideTask.isDone()) {
-                int goldReward = 0;
-                int rubyReward = 0;
-                switch (player.playerTask.sideTask.level) {
-                    case ConstTask.EASY:
-                        goldReward = ConstTask.GOLD_EASY;
-                        rubyReward = ConstTask.REWARD_RUBY;
-                        break;
-                    case ConstTask.NORMAL:
-                        goldReward = ConstTask.GOLD_NORMAL;
-                        rubyReward = ConstTask.REWARD_RUBY;
-                        break;
-                    case ConstTask.HARD:
-                        goldReward = ConstTask.GOLD_HARD;
-                        rubyReward = ConstTask.REWARD_RUBY;
-                        break;
-                    case ConstTask.VERY_HARD:
-                        goldReward = ConstTask.GOLD_VERY_HARD;
-                        rubyReward = ConstTask.REWARD_RUBY;
-                        break;
-                    case ConstTask.HELL:
-                        goldReward = ConstTask.GOLD_HELL;
-                        rubyReward = ConstTask.REWARD_RUBY;
-                        break;
-                }
-//                if (Util.isTrue(20, 100)) {
-//                    Item it = ItemService.gI().createNewItem((short) 2037);
-//                    it.itemOptions.add(new ItemOption(74, 0));
-//                    InventoryService.gI().addItemBag(player, it, 0);
-//                    InventoryService.gI().sendItemBags(player);
-//                    Service.getInstance().sendThongBao(player, "Oi that la may man");
-//                } else {
-//                    Service.getInstance().sendThongBao(player, "Ban den nhu 1 con cho vay");
-//                }
-                player.inventory.addGold(goldReward);
-                player.inventory.addRuby(rubyReward);
-                Service.getInstance().sendMoney(player);
-                Service.getInstance().sendThongBao(player, "Bạn nhận được "
-                        + Util.numberToMoney(goldReward) + " vàng và " + Util.numberToMoney(rubyReward) + " hồng ngọc");
+                RewardToTask.getInstance().rewardToTask(player);
                 player.playerTask.sideTask.reset();
             } else {
                 Service.getInstance().sendThongBao(player, "Bạn chưa hoàn thành nhiệm vụ");
             }
         }
     }
-
+    
     public void checkDoneSideTaskKillMob(Player player, Mob mob) {
         if (player.playerTask.sideTask.template != null) {
             if ((player.playerTask.sideTask.template.id == 0 && mob.tempId == ConstMob.KHUNG_LONG)
@@ -2717,7 +2680,7 @@ public class TaskService {
             }
         }
     }
-
+    
     public void checkDoneSideTaskPickItem(Player player, ItemMap item) {
         if (item != null && player.playerTask.sideTask.template != null) {
             if ((player.playerTask.sideTask.template.id == 58 && item.itemTemplate.type == 9)) {
@@ -2726,7 +2689,7 @@ public class TaskService {
             }
         }
     }
-
+    
     private void notifyProcessSideTask(Player player) {
         int percentDone = player.playerTask.sideTask.getPercentProcess();
         boolean notify = false;
@@ -2773,7 +2736,7 @@ public class TaskService {
                     + "bây giờ hãy quay về Bò Mộng trả nhiệm vụ.");
         }
     }
-
+    
     public void sendAchivement(Player player) {
         List<Achivement> achivements = player.playerTask.achivements;
         Message m = new Message(Cmd.ACHIEVEMENT);
@@ -2793,10 +2756,10 @@ public class TaskService {
             player.sendMessage(m);
             m.cleanup();
         } catch (IOException e) {
-
+            
         }
     }
-
+    
     public void rewardAchivement(Player player, byte id) {
         Achivement achivement = player.playerTask.achivements.get(id);
         if (achivement.isFinish()) {
@@ -2807,7 +2770,7 @@ public class TaskService {
             Service.getInstance().sendThongBao(player, "Bạn nhận được " + achivement.getMoney() + " hồng ngọc");
         }
     }
-
+    
     public void checkDoneAchivements(Player player) {
         List<Achivement> list = player.playerTask.achivements;
         for (Achivement achivement : list) {

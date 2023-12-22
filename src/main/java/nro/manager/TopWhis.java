@@ -327,7 +327,6 @@ public class TopWhis {
         whis.location.y = 360;
         whis.setStatus((byte) 71);
         whis.joinMap();
-
         if (player.zone != null) {
             player.location.x = 475;
             player.location.y = 360;
@@ -336,7 +335,6 @@ public class TopWhis {
             player.zone.load_Me_To_Another(player);
         }
         Service.getInstance().chat(whis, "Ngon thì zô đây nhót!");
-
         new Thread(() -> {
             try {
                 Thread.sleep(5000);

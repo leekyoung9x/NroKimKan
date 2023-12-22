@@ -54,6 +54,52 @@ public class Item {
         return false;
     }
 
+    public int checkSetKichHoat(int typeOption) {
+        for (ItemOption io : itemOptions) {
+            switch (io.optionTemplate.id) {
+                case 128:
+                    typeOption = 1;//Set Songoku
+                    break;
+                case 129:
+                    typeOption = 2;  //Set Krillin
+                    break;
+                case 127:
+                    typeOption = 3;  //Set Tenshinhan
+                    break;
+                case 130:
+                    typeOption = 4; //Set Piccolo
+                    break;
+                case 131:
+                    typeOption = 5; //Set Dende
+                    break;
+                case 132:
+                    typeOption = 6; ///Set Pikkoro Daimao
+                    break;
+                case 133:
+                    typeOption = 7;//Set Kakarot  
+                    break;
+                case 134:
+                    typeOption = 8; //Set Vegeta
+                    break;
+                case 135:
+                    typeOption = 9; //Set Nappa
+                    break;
+                default:
+                    break;
+            }
+        }
+        return -1;
+    }
+
+    public boolean isSKHVip() {
+        for (ItemOption itemOption : itemOptions) {
+            if (itemOption.optionTemplate.id >= 127 && itemOption.optionTemplate.id <= 144) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     public List<ItemOption> getDisplayOptions() {
         List<ItemOption> list = new ArrayList<>();
         if (itemOptions.isEmpty()) {

@@ -298,18 +298,11 @@ public class FriendAndEnemyService {
                             53, 54, 55, 56, 57,
                             58, 59, 60, 61, 62,
                             160, 161, 162, 163, 164,
-                            124, 125, 126, 127, 128);
+                            124, 125, 126, 127, 128, 155);
                     if (clone.contains(mapid)) {
                         Service.getInstance().sendThongBao(player, "Tele cái máu nhoàn");
                         return;
                     }
-//                    if (!(MapService.gI().isMapBanDoKhoBau(mapid)
-//                            && !(MapService.gI().isMapCDRD(mapid)
-//                            && !(MapService.gI().isMapMabuWar14H(mapid)
-//                            && !(MapService.gI().isMapHTTV(mapid)))))) {
-//                        Service.getInstance().sendThongBao(player, "Build active");
-//                        return;
-//                    }
                     if (!pl.itemTime.isUseAnDanh || player.isAdmin()) {
                         if (player.isAdmin() || !pl.zone.isFullPlayer()) {
                             ChangeMapService.gI().changeMapYardrat(player, pl.zone, pl.location.x + Util.nextInt(-5, 5), pl.location.y);
@@ -324,7 +317,7 @@ public class FriendAndEnemyService {
                 }
             }
         } catch (IOException ex) {
-
+            ex.printStackTrace();
         }
     }
 

@@ -1,11 +1,11 @@
 package nro.utils;
 
 import java.lang.reflect.Field;
+import java.text.DecimalFormat;
 import nro.models.mob.Mob;
 import nro.models.npc.Npc;
 import nro.models.player.Player;
 
-import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
 import java.util.*;

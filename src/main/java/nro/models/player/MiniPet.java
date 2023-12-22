@@ -126,7 +126,6 @@ public class MiniPet extends Player {
             moveIdle();
             switch (status) {
                 case FOLLOW:
-//                    followMaster(60);
                     break;
             }
             if (!master.inventory.itemsBody.get(9).isNotNullItem()) {

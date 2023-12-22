@@ -75,11 +75,11 @@ public class NpcService {
         }
     }
 
-    public void createTutorial(Player player, int avatar, String npcSay) {
+    public void createTutorial(Player player, int npcId, int avatar, String npcSay) {
         Message msg;
         try {
             msg = new Message(38);
-            msg.writer().writeShort(ConstNpc.CON_MEO);
+            msg.writer().writeShort(npcId);
             msg.writer().writeUTF(npcSay);
             if (avatar != -1) {
                 msg.writer().writeShort(avatar);
@@ -90,11 +90,11 @@ public class NpcService {
         }
     }
 
-    public void createTutorial(Player player, int npcId, int avatar, String npcSay) {
+    public void createTutorial(Player player, int avatar, String npcSay) {
         Message msg;
         try {
             msg = new Message(38);
-            msg.writer().writeShort(npcId);
+            msg.writer().writeShort(ConstNpc.CON_MEO);
             msg.writer().writeUTF(npcSay);
             if (avatar != -1) {
                 msg.writer().writeShort(avatar);

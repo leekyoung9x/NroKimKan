@@ -1,3 +1,7 @@
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
+ */
 package nro.services;
 
 import nro.consts.Cmd;
@@ -5,13 +9,18 @@ import nro.manager.SieuHangManager;
 import nro.models.Part;
 import nro.models.PartManager;
 import nro.models.player.Player;
-import nro.models.sieu_hang.SieuHangModel;
+import nro.models.map.superleague.SieuHangModel;
 import nro.server.io.Message;
 import nro.utils.Util;
 
 import java.util.List;
 
+/**
+ *
+ * @author Arriety
+ */
 public class SieuHangService {
+
     public static void ShowTop(Player player, int can_fight) {
         List<SieuHangModel> list = SieuHangManager.GetTop((int) player.id, can_fight);
         Message msg = new Message(Cmd.TOP);
@@ -42,13 +51,15 @@ public class SieuHangService {
                 } else {
                     thuong = 1;
                 }
-
-                msg.writer().writeUTF("+" + thuong + " ngọc/ ngày");
-
-                msg.writer().writeUTF("HP " + Util.formatCurrency(top.player.nPoint.hp) + "\n" +
-                        "Sức đánh " + Util.formatCurrency(top.dame) + "\n" +
-                        "Giáp " + Util.formatCurrency(top.defend) + "\n" +
-                        top.message.replaceAll("/n", "\n"));
+                if (top.rank <= 100) {
+                    msg.writer().writeUTF("+" + thuong + " ngọc/ ngày");
+                } else {
+                    msg.writer().writeUTF("");
+                }
+                msg.writer().writeUTF("HP " + Util.formatCurrency(top.player.nPoint.hp) + "\n"
+                        + "Sức đánh " + Util.formatCurrency(top.dame) + "\n"
+                        + "Giáp " + Util.formatCurrency(top.defend) + "\n"
+                        + top.message.replaceAll("/n", "\n"));
             }
             player.sendMessage(msg);
             msg.cleanup();

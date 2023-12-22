@@ -367,48 +367,41 @@ public class Pet extends Player {
                     break;
                 case GOHOME:
                     if (this.zone != null && (this.zone.map.mapId == 21 || this.zone.map.mapId == 22 || this.zone.map.mapId == 23)) {
-                        if (System.currentTimeMillis() - lastTimeMoveAtHome <= 5000) {
-                            Service.getInstance().sendThongBao(master, "Vui lòng đợi!!");
-                            return;
-                        } else {
-                            switch (this.zone.map.mapId) {
-                                case 21:
-                                    if (directAtHome == -1) {
-                                        PlayerService.gI().playerMove(this, 250, 336);
-                                        directAtHome = 1;
-                                    } else {
-                                        PlayerService.gI().playerMove(this, 200, 336);
-                                        directAtHome = -1;
-                                    }
-                                    break;
-                                case 22:
-                                    if (directAtHome == -1) {
-                                        PlayerService.gI().playerMove(this, 500, 336);
-                                        directAtHome = 1;
-                                    } else {
-                                        PlayerService.gI().playerMove(this, 452, 336);
-                                        directAtHome = -1;
-                                    }
-                                    break;
-                                case 23:
-                                    if (directAtHome == -1) {
-                                        PlayerService.gI().playerMove(this, 250, 336);
-                                        directAtHome = 1;
-                                    } else {
-                                        PlayerService.gI().playerMove(this, 200, 336);
-                                        directAtHome = -1;
-                                    }
-                                    break;
-                            }
-                            Service.getInstance().chatJustForMe(master, this, "Hello sư phụ!");
-                            lastTimeMoveAtHome = System.currentTimeMillis();
+                        switch (this.zone.map.mapId) {
+                            case 21:
+                                if (directAtHome == -1) {
+                                    PlayerService.gI().playerMove(this, 250, 336);
+                                    directAtHome = 1;
+                                } else {
+                                    PlayerService.gI().playerMove(this, 200, 336);
+                                    directAtHome = -1;
+                                }
+                                break;
+                            case 22:
+                                if (directAtHome == -1) {
+                                    PlayerService.gI().playerMove(this, 500, 336);
+                                    directAtHome = 1;
+                                } else {
+                                    PlayerService.gI().playerMove(this, 452, 336);
+                                    directAtHome = -1;
+                                }
+                                break;
+                            case 23:
+                                if (directAtHome == -1) {
+                                    PlayerService.gI().playerMove(this, 250, 336);
+                                    directAtHome = 1;
+                                } else {
+                                    PlayerService.gI().playerMove(this, 200, 336);
+                                    directAtHome = -1;
+                                }
+                                break;
                         }
+                        Service.getInstance().chatJustForMe(master, this, "Hello sư phụ!");
                     }
                     break;
             }
 //            }
         } catch (Exception e) {
-//            Logger.logException(Pet.class, e);
         }
     }
 
@@ -545,19 +538,6 @@ public class Pet extends Player {
         }
     }
 
-    private long lastTimeIncreasePoint;
-//
-//    private void increasePoint() {
-//        if (this.nPoint != null && Util.canDoWithTime(lastTimeIncreasePoint, 500)) {
-//            if (Util.isTrue(1, 10)) {
-//                this.nPoint.increasePoint((byte) Util.nextInt(0, 4), (short) 2);
-//            } else {
-//                this.nPoint.increasePoint((byte) 3, (short) 1);
-//            }
-//            lastTimeIncreasePoint = System.currentTimeMillis();
-//        }
-//    }
-
     private void increasePoint() {
         if (status != FUSION) {
             this.nPoint.increasePoint((byte) Util.nextInt(0, 2), (short) 10);
@@ -599,6 +579,8 @@ public class Pet extends Player {
         }
     }
 
+    //new short[]{550, 551, 552}, //outfit
+    //new short[]{553, 551, 552}, //outfit
     public short getAvatar() {
         switch (this.typePet) {
             case ConstPet.MABU:
@@ -607,6 +589,12 @@ public class Pet extends Player {
                 return 508;
             case ConstPet.VIDEL:
                 return 810;
+            case ConstPet.SUPER:
+                if (this.nPoint.power < 10_000_000_000L) {
+                    return 550;
+                } else {
+                    return 553;
+                }
             default:
                 return PET_ID[3][this.gender];
         }
@@ -626,12 +614,19 @@ public class Pet extends Player {
             return 508;
         } else if (this.typePet == ConstPet.VIDEL && !this.isTransform) {
             return 810;
+        } else if (typePet == ConstPet.SUPER && !this.isTransform) {
+            if (this.nPoint.power < 10_000_000_000L) {
+                return 550;
+            } else {
+                return 553;
+            }
         } else if (inventory.itemsBody.get(5).isNotNullItem()) {
             CaiTrang ct = Manager.getCaiTrangByItemId(inventory.itemsBody.get(5).template.id);
             if (ct != null) {
                 return (short) ((short) ct.getID()[0] != -1 ? ct.getID()[0] : inventory.itemsBody.get(5).template.part);
             }
         }
+
         if (this.nPoint.power < 1500000) {
             return PET_ID[this.gender][0];
         } else {
@@ -653,6 +648,12 @@ public class Pet extends Player {
             return 509;
         } else if (this.typePet == ConstPet.VIDEL && !this.isTransform) {
             return 811;
+        } else if (typePet == ConstPet.SUPER && !this.isTransform) {
+            if (this.nPoint.power < 10_000_000_000L) {
+                return 551;
+            } else {
+                return 551;
+            }
         } else if (inventory.itemsBody.get(5).isNotNullItem()) {
             CaiTrang ct = Manager.getCaiTrangByItemId(inventory.itemsBody.get(5).template.id);
             if (ct != null && ct.getID()[1] != -1) {
@@ -683,6 +684,12 @@ public class Pet extends Player {
             return 510;
         } else if (this.typePet == ConstPet.VIDEL && !this.isTransform) {
             return 812;
+        } else if (typePet == ConstPet.SUPER && !this.isTransform) {
+            if (this.nPoint.power < 10_000_000_000L) {
+                return 552;
+            } else {
+                return 552;
+            }
         } else if (inventory.itemsBody.get(5).isNotNullItem()) {
             CaiTrang ct = Manager.getCaiTrangByItemId(inventory.itemsBody.get(5).template.id);
             if (ct != null && ct.getID()[2] != -1) {
@@ -730,12 +737,12 @@ public class Pet extends Player {
                     }
                     break;
                 case 3:
-                    if (this.nPoint.power >= 20000000000L) {
+                    if (this.nPoint.power >= 40_000_000_000L) {
                         openSkill4();
                     }
                     break;
                 case 4:
-                    if (this.nPoint.power >= 90_000_000_000L) {
+                    if (this.nPoint.power >= 120_000_000_000L) {
                         openSkill5();
                         this.nPoint.calPoint();
                     }
@@ -839,6 +846,11 @@ public class Pet extends Player {
                 Service.getInstance().chat(this, "Dit cuu chusng mayyy....");
                 break;
             case ConstPet.VIDEL:
+                this.isTransform = !this.isTransform;
+                Service.getInstance().Send_Caitrang(this);
+                Service.getInstance().chat(this, "Dit cuu chusng mayyy....");
+                break;
+            case ConstPet.SUPER:
                 this.isTransform = !this.isTransform;
                 Service.getInstance().Send_Caitrang(this);
                 Service.getInstance().chat(this, "Dit cuu chusng mayyy....");

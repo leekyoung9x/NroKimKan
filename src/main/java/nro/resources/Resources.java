@@ -177,22 +177,6 @@ public class Resources {
         }
     }
 
-    public static void sendItemBGTemplate(Session session, int id) {
-        Message msg;
-        try {
-            byte[] bg_temp = FileIO.readFile("data/item_bg_temp/x" + session.zoomLevel + "/" + id + ".png");
-            msg = new Message(-32);
-            msg.writer().writeShort(id);
-            if (bg_temp != null) {
-                msg.writer().writeInt(bg_temp.length);
-                msg.writer().write(bg_temp);
-                session.sendMessage(msg);
-            }
-            msg.cleanup();
-        } catch (Exception e) {
-        }
-    }
-
     public void downloadBGTemplate(Session session, int id) {
         try {
             AbsResources res = find(session.typeClient);
@@ -348,45 +332,6 @@ public class Resources {
             }
         } catch (Exception e) {
             System.err.println("Mob Loi: " + id);
-        }
-    }
-
-    public static void sendSizeRes(Session session) {
-        Message msg;
-        try {
-            msg = new Message(-74);
-            msg.writer().writeByte(1);
-            msg.writer().writeShort(new File("data/resMap/x" + session.zoomLevel).listFiles().length);
-            session.sendMessage(msg);
-            msg.cleanup();
-        } catch (Exception e) {
-        }
-    }
-
-    public static void sendRes(Session session) {
-        Message msg;
-        try {
-            for (final File fileEntry : new File("data/resMap/x" + session.zoomLevel).listFiles()) {
-                String original = fileEntry.getName();
-                byte[] res = FileIO.readFile(fileEntry.getAbsolutePath());
-                msg = new Message(-74);
-                msg.writer().writeByte(2);
-                msg.writer().writeUTF(original);
-                msg.writer().writeInt(res.length);
-                msg.writer().write(res);
-                session.sendMessage(msg);
-                msg.cleanup();
-                Thread.sleep(10);
-            }
-
-            msg = new Message(-74);
-            msg.writer().writeByte(3);
-            msg.writer().writeInt(vsRes);
-            session.sendMessage(msg);
-            msg.cleanup();
-        } catch (Exception e) {
-//            e.printStackTrace();
-            System.out.println("");
         }
     }
 

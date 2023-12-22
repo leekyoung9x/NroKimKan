@@ -1,3 +1,7 @@
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
+ */
 package nro.manager;
 
 import com.google.gson.Gson;
@@ -6,14 +10,11 @@ import nro.card.Card;
 import nro.card.CollectionBook;
 import nro.consts.ConstPlayer;
 import nro.jdbc.DBService;
-import nro.jdbc.daos.AccountDAO;
 import nro.models.item.Item;
 import nro.models.item.ItemOption;
 import nro.models.player.*;
-import nro.models.sieu_hang.SieuHangModel;
+import nro.models.map.superleague.SieuHangModel;
 import nro.models.skill.Skill;
-import nro.models.top.whis.TopWhisModel;
-import nro.server.io.Session;
 import nro.services.ItemService;
 import nro.utils.Log;
 import nro.utils.SkillUtil;
@@ -22,13 +23,17 @@ import org.json.simple.JSONObject;
 import org.json.simple.JSONValue;
 
 import java.sql.*;
-import java.text.SimpleDateFormat;
 import java.time.LocalTime;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
+import nro.services.Service;
 
+/**
+ *
+ * @author by Arriety
+ */
 public class SieuHangManager {
+
     public static List<Long> TOP_ID = new ArrayList<>();
     public static List<SieuHangModel> tops = new ArrayList<>();
 
@@ -48,29 +53,13 @@ public class SieuHangManager {
         return result;
     }
 
-    public static int GetRubyByRank(int rank) {
-        int result = 0;
-
-        if (rank == 1) {
-            result = 10000;
-        } else if (rank <= 10) {
-            result = 5000;
-        } else if (rank <= 20) {
-            result = 2000;
-        }
-
-        return result;
-    }
-
     public static int GetRankById(long player_id) {
         int result = -1;
-
-        for (SieuHangModel model: tops) {
+        for (SieuHangModel model : tops) {
             if (model.player_id == player_id) {
                 return model.rank;
             }
         }
-
         return result;
     }
 
@@ -178,74 +167,6 @@ public class SieuHangManager {
                     } catch (Exception e) {
                         pet.setLever(0);
                     }
-
-                    //data chỉ số
-//                    dataObject = (JSONObject) jv.parse(rs.getString("pet_point"));
-//                    pet.nPoint.stamina = Short.parseShort(String.valueOf(dataObject.get("stamina")));
-//                    pet.nPoint.maxStamina = Short.parseShort(String.valueOf(dataObject.get("max_stamina")));
-//                    pet.nPoint.hpg = Integer.parseInt(String.valueOf(dataObject.get("hpg")));
-//                    pet.nPoint.mpg = Integer.parseInt(String.valueOf(dataObject.get("mpg")));
-//                    pet.nPoint.dameg = Integer.parseInt(String.valueOf(dataObject.get("damg")));
-//                    pet.nPoint.defg = Integer.parseInt(String.valueOf(dataObject.get("defg")));
-//                    pet.nPoint.critg = Integer.parseInt(String.valueOf(dataObject.get("critg")));
-//                    pet.nPoint.power = Long.parseLong(String.valueOf(dataObject.get("power")));
-//                    pet.nPoint.tiemNang = Long.parseLong(String.valueOf(dataObject.get("tiem_nang")));
-//                    pet.nPoint.limitPower = Byte.parseByte(String.valueOf(dataObject.get("limit_power")));
-//                    int hp = Integer.parseInt(String.valueOf(dataObject.get("hp")));
-//                    int mp = Integer.parseInt(String.valueOf(dataObject.get("mp")));
-
-                    //data body
-//                    dataArray = (JSONArray) jv.parse(rs.getString("pet_body"));
-//                    for (int i = 0; i < dataArray.size(); i++) {
-//                        dataObject = (JSONObject) dataArray.get(i);
-//                        Item item = null;
-//                        short tempId = Short.parseShort(String.valueOf(dataObject.get("temp_id")));
-//                        if (tempId != -1) {
-//                            item = ItemService.gI().createNewItem(tempId, Integer.parseInt(String.valueOf(dataObject.get("quantity"))));
-//                            JSONArray options = (JSONArray) dataObject.get("option");
-//                            for (int j = 0; j < options.size(); j++) {
-//                                JSONArray opt = (JSONArray) options.get(j);
-//                                item.itemOptions.add(new ItemOption(Integer.parseInt(String.valueOf(opt.get(0))),
-//                                        Integer.parseInt(String.valueOf(opt.get(1)))));
-//                            }
-//                            item.createTime = Long.parseLong(String.valueOf(dataObject.get("create_time")));
-//                            if (ItemService.gI().isOutOfDateTime(item)) {
-//                                item = ItemService.gI().createItemNull();
-//                            }
-//                        } else {
-//                            item = ItemService.gI().createItemNull();
-//                        }
-//                        pet.inventory.itemsBody.add(item);
-//                    }
-
-                    //data skills
-//                    dataArray = (JSONArray) jv.parse(rs.getString("pet_skill"));
-//                    for (int i = 0; i < dataArray.size(); i++) {
-//                        JSONArray skillTemp = (JSONArray) dataArray.get(i);
-//                        int tempId = Integer.parseInt(String.valueOf(skillTemp.get(0)));
-//                        byte point = Byte.parseByte(String.valueOf(skillTemp.get(1)));
-//                        Skill skill = null;
-//                        if (point != 0) {
-//                            skill = SkillUtil.createSkill(tempId, point);
-//                        } else {
-//                            skill = SkillUtil.createSkillLevel0(tempId);
-//                        }
-//                        switch (skill.template.id) {
-//                            case Skill.KAMEJOKO:
-//                            case Skill.MASENKO:
-//                            case Skill.ANTOMIC:
-//                                skill.coolDown = 1000;
-//                                break;
-//                        }
-//                        pet.playerSkill.skills.add(skill);
-//                    }
-//                    if (pet.playerSkill.skills.size() < 5) {
-//                        pet.playerSkill.skills.add(4, SkillUtil.createSkillLevel0(-1));
-//                    }
-//                    pet.nPoint.hp = hp;
-//                    pet.nPoint.mp = mp;
-//                    pet.nPoint.calPoint();
-//                    player.pet = pet;
                 }
 
                 dataObject.clear();
@@ -309,23 +230,23 @@ public class SieuHangManager {
         } catch (Exception e) {
             e.printStackTrace();
         }
-
         return result != 1;
+    }
+
+    public static int GetRubyByRank(int rank) {
+        return (rank == 1) ? 10000 : (rank <= 10) ? 5000 : (rank <= 20) ? 2000 : 0;
     }
 
     public static void GetRewardDay(Player player) {
         int rank = GetRankById(player.id);
         if (CanGetRewardDay(player.id)) {
             int ruby = GetRubyByRank(rank);
-
-            // TODO: Trao quà gì đó ở đây
-
-            // Sau khi làm xong gửi quà update là đã nhận
+//            player.inventory.ruby += ruby;
+            Service.getInstance().sendMoney(player);
             UpdateIsGetReward(player.id);
         }
-
         if (rank == 1) {
-            // TODO: Send thông báo toàn sv
+            Service.getInstance().sendThongBaoAllPlayer("[THÔNG BÁO] Top 1 siêu hạng " + player.name + " vừa đăng nhập vào game");
         }
     }
 
@@ -558,7 +479,6 @@ public class SieuHangManager {
                         }
                         pet.nPoint.hp = hp;
                         pet.nPoint.mp = mp;
-//                    pet.nPoint.calPoint();
                         player.pet = pet;
                     }
 
@@ -721,6 +641,7 @@ public class SieuHangManager {
     }
 
     public static void CreateClone(Player player) {
+        System.out.println("nro.manager.SieuHangManager.CreateClone()");
         String point = "", itemsBody = "", petInfo = "";
 
         try {
@@ -789,17 +710,18 @@ public class SieuHangManager {
 
         PreparedStatement ps = null;
         try (Connection con = DBService.gI().getConnectionForGetPlayer();) {
-            ps = con.prepareStatement("UPDATE `super`\n" +
-                    "SET head = ?,\n" +
-                    "    NAME = ?,\n" +
-                    "    data_point = ?,\n" +
-                    "    items_body = ?,\n" +
-                    "    pet_info = ?,\n" +
-                    "    hp = ?,\n" +
-                    "    dame = ?,\n" +
-                    "    defend = ?\n" +
-                    "    modified_date = NOW()\n" +
-                    "WHERE player_id = ?;");
+            ps = con.prepareStatement("UPDATE `super`\n"
+                    + "SET head = ?,\n"
+                    + "    NAME = ?,\n"
+                    + "    data_point = ?,\n"
+                    + "    items_body = ?,\n"
+                    + "    pet_info = ?,\n"
+                    + "    hp = ?,\n"
+                    + "    dame = ?,\n"
+                    + "    defend = ?,\n"
+                    + "    modified_date = NOW()\n"
+                    + "WHERE "
+                    + "player_id = ?;");
 
             ps.setShort(1, player.head);
             ps.setString(2, player.name);

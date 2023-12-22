@@ -45,7 +45,7 @@ public class ConsignmentHistory {
         }
     }
 
-    public static void LogBuyItemShop(String uid, String nameItem, int idPlayer, String namePlayer, byte monneyType, int quantity) {
+    public static void LogBuyItemShop(String uid, String nameItem, long idPlayer, String namePlayer, byte monneyType, int quantity) {
         String UPDATE_PASS = "INSERT INTO consignment_history (uid, item_name, id_user ,name_player, type_buy , quantity, time) VALUES(?, ?, ?, ?, ?, ?, ?)";
         PreparedStatement ps = null;
         try {
@@ -53,7 +53,7 @@ public class ConsignmentHistory {
                 ps = con.prepareStatement(UPDATE_PASS);
                 ps.setString(1, uid);
                 ps.setString(2, nameItem);
-                ps.setInt(3, idPlayer);
+                ps.setLong(3, idPlayer);
                 ps.setString(4, namePlayer);
                 ps.setByte(5, monneyType);
                 ps.setInt(6, quantity);

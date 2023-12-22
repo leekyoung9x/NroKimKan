@@ -610,11 +610,21 @@ public class Zone {
             if (plInfo.clan != null) {
                 msg.writer().writeInt(plInfo.clan.id);
                 name = "[" + plInfo.clan.name + "]" + plInfo.name;
-            } else if (plInfo.isBoss && ((Boss) plInfo).isMabuBoss) {
-                msg.writer().writeInt(-100);
-            } else if (plInfo.isPet && ((Pet) plInfo).typePet == ConstPet.VIDEL) {
+            }/**
+             * else if (plInfo.isBoss && ((Boss) plInfo).isMabuBoss) {
+             * msg.writer().writeInt(-100);
+            }
+             */
+            else if (plInfo.isPet && ((Pet) plInfo).typePet == ConstPet.VIDEL) {
                 msg.writer().writeInt(-1);
                 name = plInfo.name + "[Level " + ((Pet) plInfo).getLever() + "]";
+            } else if (plInfo.isPet && ((Pet) plInfo).typePet == ConstPet.SUPER) {
+                msg.writer().writeInt(-1);
+                if (plInfo.nPoint.power < 10_000_000_000L) {
+                    name = plInfo.name;
+                } else {
+                    name = "$Super Black Goku";
+                }
             } else {
                 msg.writer().writeInt(-1);
                 name = plInfo.name;
@@ -647,15 +657,13 @@ public class Zone {
             msg.writer().writeByte(plInfo.cFlag);
             msg.writer().writeByte(0);
 
-//            if (!plInfo.isPet && !plInfo.isBoss && plInfo.isAdmin()) {
             msg.writer().writeShort(plInfo.getAura()); //idauraeff
             msg.writer().writeByte(plInfo.getEffFront()); //seteff
-//            }
 
             plReceive.sendMessage(msg);
             msg.cleanup();
         } catch (Exception e) {
-            Log.error(MapService.class, e);
+            e.printStackTrace();
         }
         Service.getInstance().sendFlagPlayerToMe(plReceive, plInfo);
 
@@ -752,9 +760,6 @@ public class Zone {
                     msg.writer().writeShort(it.range);
                 }
             }
-
-            // bg item
-//                msg.writer().writeShort(0);
             try {
                 byte[] bgItem = FileIO.readFile("resources/data/nro/map/item_bg_map_data/" + this.map.mapId);
                 msg.writer().write(bgItem);
@@ -762,14 +767,6 @@ public class Zone {
                 msg.writer().writeShort(0);
             }
 
-            // eff item
-//                msg.writer().writeShort(0);
-//            try {
-//                byte[] effItem = FileIO.readFile("resources/data/nro/map/eff_map/" + this.map.mapId);
-//                msg.writer().write(effItem);
-//            } catch (Exception e) {
-//                msg.writer().writeShort(0);
-//            }
             List<EffectMap> em = this.map.effMap;
             msg.writer().writeShort(em.size());
             for (EffectMap e : em) {
@@ -781,9 +778,7 @@ public class Zone {
             msg.writer().writeByte(pl.getUseSpaceShip());
             msg.writer().writeByte(0);
             pl.sendMessage(msg);
-
             msg.cleanup();
-
         } catch (Exception e) {
             Log.error(Service.class, e);
         }

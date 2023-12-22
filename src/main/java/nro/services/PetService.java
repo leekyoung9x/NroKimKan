@@ -96,6 +96,21 @@ public class PetService {
             }
         }).start();
     }
+    
+    public void createBlackPet(Player player, int gender, byte... limitPower) {
+        new Thread(() -> {
+            try {
+                createNewPet(player, ConstPet.SUPER, (byte) gender);
+                if (limitPower != null && limitPower.length == 1) {
+                    player.pet.nPoint.limitPower = limitPower[0];
+                }
+                Thread.sleep(1000);
+                Service.getInstance().chatJustForMe(player, player.pet, "huuuuuuuuuuu...");
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }).start();
+    }
 
     public void createVidelPet(Player player, int gender, byte... limitPower) {
         new Thread(() -> {
@@ -155,6 +170,17 @@ public class PetService {
         player.pet.dispose();
         player.pet = null;
         createVidelPet(player, gender);
+    }
+    
+    public void changeSuperPet(Player player, int gender) {
+        byte limitPower = player.pet.nPoint.limitPower;
+        if (player.fusion.typeFusion != ConstPlayer.NON_FUSION) {
+            player.pet.unFusion();
+        }
+        MapService.gI().exitMap(player.pet);
+        player.pet.dispose();
+        player.pet = null;
+        createBlackPet(player, gender);
     }
 
     public void changeNamePet(Player player, String name) {
@@ -244,6 +270,12 @@ public class PetService {
                 data = getDataPetBerus();
                 pet.name = "$Berus";
                 pet.typePet = ConstPet.BILL;
+                break;
+            }
+            case ConstPet.SUPER: {
+                data = getDataPetBerus();
+                pet.name = "$Black Goku";
+                pet.typePet = ConstPet.SUPER;
                 break;
             }
             case ConstPet.VIDEL: {

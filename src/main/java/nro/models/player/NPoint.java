@@ -438,12 +438,6 @@ public class NPoint {
             }
         }
         List<Item> itemsBody = player.inventory.itemsBody;
-        if (!player.isBoss && !player.isMiniPet && itemsBody.size() >= 2) {
-            Item pants = itemsBody.get(1);
-            if (pants.isNotNullItem() && pants.getId() >= 691 && pants.getId() >= 693) {
-                player.event.setUseQuanHoa(true);
-            }
-        }
         if (Manager.EVENT_SEVER == 3) {
             if (!this.player.isBoss && !this.player.isMiniPet) {
                 if (itemsBody.get(5).isNotNullItem()) {
@@ -603,6 +597,9 @@ public class NPoint {
                     case ConstPet.VIDEL:
                         this.hpMax += calPercent(this.hpMax, percent);
                         break;
+                    case ConstPet.SUPER:
+                        this.hpMax += calPercent(this.hpMax, 10);
+                        break;
                 }
             }
         }
@@ -661,13 +658,13 @@ public class NPoint {
             hpMax += calPercent(hpMax, 20);
         }
         if (TopWhis.TOP_ONE == player.id) {
-            hpMax += calPercent(hpMax, 20);
+            hpMax += calPercent(hpMax, 10);
         }
         if (TopWhis.TOP_THREE == player.id) {
-            hpMax += calPercent(hpMax, 15);
+            hpMax += calPercent(hpMax, 6);
         }
         if (TopWhis.TOP_TWO == player.id) {
-            hpMax += calPercent(hpMax, 10);
+            hpMax += calPercent(hpMax, 3);
         }
     }
 
@@ -714,6 +711,9 @@ public class NPoint {
                 switch (((Pet) this.player).typePet) {
                     case ConstPet.MABU:
                         this.mpMax += calPercent(this.mpMax, 5);
+                        break;
+                    case ConstPet.SUPER:
+                        this.mpMax += calPercent(this.mpMax, 10);
                         break;
                     case ConstPet.BILL:
                         this.mpMax += calPercent(this.mpMax, 15);
@@ -779,13 +779,13 @@ public class NPoint {
             mpMax += calPercent(mpMax, 20);
         }
         if (TopWhis.TOP_ONE == player.id) {
-            mpMax += calPercent(mpMax, 20);
+            mpMax += calPercent(mpMax, 10);
         }
         if (TopWhis.TOP_THREE == player.id) {
-            mpMax += calPercent(mpMax, 15);
+            mpMax += calPercent(mpMax, 6);
         }
         if (TopWhis.TOP_TWO == player.id) {
-            mpMax += calPercent(mpMax, 10);
+            mpMax += calPercent(mpMax, 3);
         }
 
     }
@@ -819,6 +819,9 @@ public class NPoint {
                 switch (((Pet) this.player).typePet) {
                     case ConstPet.MABU:
                         this.dame += calPercent(this.dame, 5);
+                        break;
+                    case ConstPet.SUPER:
+                        this.dame += calPercent(this.dame, 10);
                         break;
                     case ConstPet.BILL:
                         this.dame += calPercent(this.dame, 15);
@@ -891,13 +894,13 @@ public class NPoint {
             dame += calPercent(mpMax, 20);
         }
         if (TopWhis.TOP_ONE == player.id) {
-            this.dame += calPercent(this.dame, 20);
+            this.dame += calPercent(this.dame, 10);
         }
         if (TopWhis.TOP_THREE == player.id) {
-            this.dame += calPercent(this.dame, 15);
+            this.dame += calPercent(this.dame, 6);
         }
         if (TopWhis.TOP_TWO == player.id) {
-            this.dame += calPercent(this.dame, 10);
+            this.dame += calPercent(this.dame, 3);
         }
 
     }
@@ -1299,7 +1302,9 @@ public class NPoint {
 
     public long calSucManhTiemNang(long tiemNang) {
         if (power < getPowerLimit()) {
+            int mapid = this.player.zone.map.mapId;
             int tlexp = 0;
+
             for (Integer tl : this.tlTNSM) {
                 tlexp += tl;
             }
@@ -1328,9 +1333,26 @@ public class NPoint {
                 if (tltnsm > 0) {
                     tiemNang += calPercent(tiemNang, tltnsm);
                 }
-
             }
             long tn = tiemNang;
+            if (MapService.gI().isMapTuongLai(mapid)) {
+                tn /= 5;
+            }
+            if (MapService.gI().isMapCold(this.player.zone.map)) {
+                tn /= 7;
+            }
+            if (MapService.gI().isMapFide(mapid)) {
+                tn /= 7;
+            }
+            if (MapService.gI().isMapBanDoKhoBau(mapid)) {
+                tn *= 1;
+            }
+            if (MapService.gI().isMapNgucTu(mapid)) {
+                tn /= 17;
+            }
+            if (MapService.gI().isMapHTTV(mapid)) {
+                tn /= 12;
+            }
             if (this.player.charms.tdTriTue > System.currentTimeMillis()) {
                 tiemNang += 100;
             }
@@ -1340,6 +1362,7 @@ public class NPoint {
             if (this.player.charms.tdTriTue4 > System.currentTimeMillis()) {
                 tiemNang += 300;
             }
+
             if (this.power >= 60000000000L) {
                 tiemNang -= (tiemNang * 80 / 100);
             }
@@ -1353,7 +1376,7 @@ public class NPoint {
             }
             if (((this.player.isPl() && this.player.itemTime.isDuoiKhi)
                     || (this.player.isPet && ((Pet) this.player).master.itemTime.isDuoiKhi))) {
-                tiemNang += tn * 2;
+                tiemNang += tn * 4;
             }
             tiemNang *= Manager.RATE_EXP_SERVER;
             tiemNang = calSubTNSM(tiemNang);
@@ -1620,7 +1643,7 @@ public class NPoint {
         //hồi phục thể lực
     }
 
-    private void setBasePoint() {
+    public void setBasePoint() {
         setHpMax();
         setMpMax();
         setDame();

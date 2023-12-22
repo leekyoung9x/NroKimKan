@@ -30,10 +30,10 @@ import nro.models.boss.BossManager;
 public class Broly extends Boss {
 
     boolean xhpnext;
-    
+
     static final int MAX_HP = 16777080;
     private static final int DIS_ANGRY = 100;
-    
+
     private static final int HP_CREATE_SUPER_1 = 1000000;
     private static final int HP_CREATE_SUPER_2 = 2000000;
     private static final int HP_CREATE_SUPER_3 = 4000000;
@@ -44,7 +44,7 @@ public class Broly extends Boss {
     private static final int HP_CREATE_SUPER_8 = 14000000;
     private static final int HP_CREATE_SUPER_9 = 15000000;
     private static final int HP_CREATE_SUPER_10 = 16000000;
-    
+
     private static final byte RATIO_CREATE_SUPER_10 = 10;
     private static final byte RATIO_CREATE_SUPER_20 = 20;
     private static final byte RATIO_CREATE_SUPER_30 = 30;
@@ -55,27 +55,27 @@ public class Broly extends Boss {
     private static final byte RATIO_CREATE_SUPER_80 = 80;
     private static final byte RATIO_CREATE_SUPER_90 = 90;
     private static final byte RATIO_CREATE_SUPER_100 = 100;
-    
+
     private final Map angryPlayers;
     private final List<Player> playersAttack;
-    
+
     public Broly() {
         super(BossFactory.BROLY, BossData.BROLY);
         this.angryPlayers = new HashMap();
         this.playersAttack = new LinkedList<>();
     }
-    
+
     protected Broly(byte id, BossData bossData) {
         super(id, bossData);
         this.angryPlayers = new HashMap();
         this.playersAttack = new LinkedList<>();
     }
-    
+
     @Override
     public void initTalk() {
         this.textTalkAfter = new String[]{"Các ngươi chờ đấy, ta sẽ quay lại sau"};
     }
-    
+
     @Override
     public void attack() {
         try {
@@ -103,10 +103,10 @@ public class Broly extends Boss {
                 }
             }
         } catch (Exception ex) {
-            
+
         }
     }
-    
+
     @Override
     public void idle() {
         if (this.countIdle >= this.maxIdle) {
@@ -117,7 +117,7 @@ public class Broly extends Boss {
             this.countIdle++;
         }
     }
-    
+
     @Override
     public int injured(Player plAtt, int damage, boolean piercing, boolean isMobAttack) {
         int mstChuong = this.nPoint.mstChuong;
@@ -193,11 +193,11 @@ public class Broly extends Boss {
                             new short[]{294, 295, 296}, //outfit
                             new short[]{(short) this.zone.map.mapId}, //map join
                             new int[][]{ //skill
-                                    {Skill.DEMON, 3, 450}, {Skill.DEMON, 6, 400}, {Skill.DRAGON, 7, 650}, {Skill.DRAGON, 1, 500}, {Skill.GALICK, 5, 480},
-                                    {Skill.KAMEJOKO, 7, 2000}, {Skill.KAMEJOKO, 6, 1800}, {Skill.KAMEJOKO, 4, 1500}, {Skill.KAMEJOKO, 2, 1000},
-                                    {Skill.ANTOMIC, 3, 1200}, {Skill.ANTOMIC, 5, 1700}, {Skill.ANTOMIC, 7, 2000},
-                                    {Skill.MASENKO, 1, 800}, {Skill.MASENKO, 5, 1300}, {Skill.MASENKO, 6, 1500},
-                                    {Skill.TAI_TAO_NANG_LUONG, 1, 15000}, {Skill.TAI_TAO_NANG_LUONG, 3, 25000}, {Skill.TAI_TAO_NANG_LUONG, 7, 50000}
+                                {Skill.DEMON, 3, 450}, {Skill.DEMON, 6, 400}, {Skill.DRAGON, 7, 650}, {Skill.DRAGON, 1, 500}, {Skill.GALICK, 5, 480},
+                                {Skill.KAMEJOKO, 7, 2000}, {Skill.KAMEJOKO, 6, 1800}, {Skill.KAMEJOKO, 4, 1500}, {Skill.KAMEJOKO, 2, 1000},
+                                {Skill.ANTOMIC, 3, 1200}, {Skill.ANTOMIC, 5, 1700}, {Skill.ANTOMIC, 7, 2000},
+                                {Skill.MASENKO, 1, 800}, {Skill.MASENKO, 5, 1300}, {Skill.MASENKO, 6, 1500},
+                                {Skill.TAI_TAO_NANG_LUONG, 1, 15000}, {Skill.TAI_TAO_NANG_LUONG, 3, 25000}, {Skill.TAI_TAO_NANG_LUONG, 7, 50000}
                             },
                             300
                     );
@@ -223,10 +223,10 @@ public class Broly extends Boss {
                             new short[]{291, 292, 293}, //outfit
                             new short[]{5, 6, 27, 28, 29, 30, 13, 10, 31, 32, 33, 34, 20, 19, 35, 36, 37, 38}, //map join
                             new int[][]{ //skill
-                                    {Skill.DEMON, 3, 450}, {Skill.DEMON, 6, 400}, {Skill.DRAGON, 7, 650}, {Skill.DRAGON, 1, 500}, {Skill.GALICK, 5, 480},
-                                    {Skill.KAMEJOKO, 7, 2000}, {Skill.KAMEJOKO, 6, 1800}, {Skill.KAMEJOKO, 4, 1500}, {Skill.KAMEJOKO, 2, 1000},
-                                    {Skill.TAI_TAO_NANG_LUONG, 1, 15000}, {Skill.TAI_TAO_NANG_LUONG, 3, 25000}, {Skill.TAI_TAO_NANG_LUONG, 5, 25000},
-                                    {Skill.TAI_TAO_NANG_LUONG, 6, 30000}, {Skill.TAI_TAO_NANG_LUONG, 7, 50000}
+                                {Skill.DEMON, 3, 450}, {Skill.DEMON, 6, 400}, {Skill.DRAGON, 7, 650}, {Skill.DRAGON, 1, 500}, {Skill.GALICK, 5, 480},
+                                {Skill.KAMEJOKO, 7, 2000}, {Skill.KAMEJOKO, 6, 1800}, {Skill.KAMEJOKO, 4, 1500}, {Skill.KAMEJOKO, 2, 1000},
+                                {Skill.TAI_TAO_NANG_LUONG, 1, 15000}, {Skill.TAI_TAO_NANG_LUONG, 3, 25000}, {Skill.TAI_TAO_NANG_LUONG, 5, 25000},
+                                {Skill.TAI_TAO_NANG_LUONG, 6, 30000}, {Skill.TAI_TAO_NANG_LUONG, 7, 50000}
                             },
                             60 //số giây nghỉ
                     );
@@ -238,10 +238,10 @@ public class Broly extends Boss {
             return 0;
         }
     }
-    
+
     private int maxCountResetPoint;
     private int countResetPoint;
-    
+
     private void resetPoint(int damageInjured) {
         if (this.nPoint.hpg < MAX_HP && this.countResetPoint++ >= maxCountResetPoint) {
             this.nPoint.hpg += damageInjured;
@@ -294,7 +294,6 @@ public class Broly extends Boss {
 //            throw new Exception();
 //        }
 //    }
-    
     private void addPlayerAttack(Player plAtt) {
         boolean haveInList = false;
         for (Player pl : playersAttack) {
@@ -309,7 +308,7 @@ public class Broly extends Boss {
                     + plAtt.name.replaceAll("$", "").replaceAll("#", ""));
         }
     }
-    
+
     protected boolean charge() {
         if (this.effectSkill.isCharging && Util.isTrue(15, 100)) {
             this.effectSkill.isCharging = false;
@@ -328,19 +327,19 @@ public class Broly extends Boss {
         }
         return false;
     }
-    
+
     @Override
     public void goToXY(int x, int y, boolean isTeleport) {
         EffectSkillService.gI().stopCharge(this);
         super.goToXY(x, y, isTeleport);
     }
-    
+
     protected void effectCharger() {
         if (Util.isTrue(15, ConstRatio.PER100)) {
             EffectSkillService.gI().sendEffectCharge(this);
         }
     }
-    
+
     private void angry() {
 //        if (this.playersAttack.size() < 5 && Util.isTrue(7, ConstRatio.PER100)) {
 //
@@ -375,7 +374,7 @@ public class Broly extends Boss {
 //            }
 //        }
     }
-    
+
     private boolean isInListPlayersAttack(Player player) {
         for (Player pl : playersAttack) {
             if (player.equals(pl)) {
@@ -384,7 +383,7 @@ public class Broly extends Boss {
         }
         return false;
     }
-    
+
     @Override
     public void checkPlayerDie(Player pl) {
         if (pl.isDie()) {
@@ -394,15 +393,19 @@ public class Broly extends Boss {
             this.plAttack = null;
         }
     }
-    
+
     @Override
     public void joinMap() {
         this.zone = getMapCanJoin(mapJoin[Util.nextInt(0, mapJoin.length - 1)]);
         int x = Util.nextInt(50, this.zone.map.mapWidth - 50);
-        ChangeMapService.gI().changeMap(this, this.zone, x, this.zone.map.yPhysicInTop(x, 0));
-        ServerNotify.gI().notify("Boss " + this.name + " vừa xuất hiện tại " + this.zone.map.mapName + "");
+        if (this.zone != null) {
+            ChangeMapService.gI().changeMap(this, this.zone, x, this.zone.map.yPhysicInTop(x, 0));
+            ServerNotify.gI().notify("Boss " + this.name + " vừa xuất hiện tại " + this.zone.map.mapName + "");
+        } else {
+            BossManager.gI().removeBoss(this);
+        }
     }
-    
+
     @Override
     public void respawn() {
         super.respawn();
@@ -414,39 +417,23 @@ public class Broly extends Boss {
             this.angryPlayers.clear();
         }
     }
-    
+
     @Override
     public Zone getMapCanJoin(int mapId) {
         return super.getMapCanJoin(mapId);
-//        Zone map = MapService.gI().getMapWithRandZone(mapId);
-//
-//        Iterator i = map.getPlayers();
-//        while (i.hasNext()) {
-//            Player pl = (Player) i.next();
-//
-//            if (pl == null) {
-//                continue;
-//            }
-//            if (pl.id == this.id
-//                    || pl.id == BossFactory.BROLY && this.id == BossFactory.SUPER_BROLY
-//                    || pl.id == BossFactory.SUPER_BROLY && this.id == BossFactory.BROLY) { //check trùng boss trong map
-//                return getMapCanJoin(mapJoin[Util.nextInt(0, mapJoin.length - 1)]);
-//            }
-//        }
-//        return map;
     }
-    
+
     @Override
     public void leaveMap() {
         MapService.gI().exitMap(this);
     }
-    
+
     @Override
     public void die() {
         this.secondTimeRestToNextTimeAppear = Util.nextInt(20, 30);
         super.die();
     }
-    
+
     @Override
     public void rewards(Player pl) {
         if (true) {
@@ -497,10 +484,10 @@ public class Broly extends Boss {
         }
         generalRewards(pl);
     }
-    
+
     @Override
     protected boolean useSpecialSkill() {
         return false;
     }
-    
+
 }

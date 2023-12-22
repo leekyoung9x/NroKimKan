@@ -44,7 +44,7 @@ public class ItemTimeService {
             sendItemTime(player, 4043, (int) ((TIME_ITEM - (System.currentTimeMillis() - player.itemTime.lastTimeBanhTrungThu2Trung)) / 1000));
         }
         if (player.itemTime.isDuoiKhi) {
-            sendItemTime(player, 5072, (int) ((TIME_ITEM - (System.currentTimeMillis() - player.itemTime.lastTimeDuoiKhi)) / 1000));
+            sendItemTime(player, 5829, (int) ((TIME_ITEM - (System.currentTimeMillis() - player.itemTime.lastTimeDuoiKhi)) / 1000));
         }
         if (player.itemTime.rateDragonHit) {
             sendItemTime(player, 5138, (int) ((TIME_ITEM - (System.currentTimeMillis() - player.itemTime.lastTimerateHit)) / 1000));

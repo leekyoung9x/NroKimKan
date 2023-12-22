@@ -34,16 +34,23 @@ public class Bergamo extends FutureBoss {
 
     @Override
     public void rewards(Player plKill) {
-        int[] itemDos = new int[]{555, 557, 559, 556, 558, 560, 562, 564, 566, 563, 565, 567};
+        int[] itemDos = new int[]{
+            555, 557, 559,
+            562, 564, 566,
+            563, 565, 567};
         int randomDo = new Random().nextInt(itemDos.length);
-        if (Util.isTrue(100, 100)) {
+        if (Util.isTrue(30, 70)) {
             if (Util.isTrue(1, 5)) {
                 Service.getInstance().dropItemMap(this.zone, Util.ratiItem(zone, 561, 1, this.location.x, this.location.y, plKill.id));
                 return;
             }
             Service.getInstance().dropItemMap(this.zone, Util.ratiItem(zone, itemDos[randomDo], 1, this.location.x, this.location.y, plKill.id));
         } else {
-            Service.getInstance().dropItemMap(this.zone, new ItemMap(zone, Util.nextInt(16, 17), 1, this.location.x, zone.map.yPhysicInTop(this.location.x, this.location.y - 24), plKill.id));
+            int slRuby = Util.nextInt(10, 20);
+            for (int i = 0; i < slRuby; i++) {
+                ItemMap ruby = new ItemMap(zone, 861, Util.nextInt(1000, 5000), 10 * i + this.location.x, zone.map.yPhysicInTop(this.location.x, 0), -1);
+                Service.getInstance().dropItemMap(this.zone, ruby);
+            }
         }
     }
 

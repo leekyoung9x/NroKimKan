@@ -23,6 +23,7 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
 
 /**
  * @stole Arriety
@@ -206,78 +207,14 @@ public class Blackgoku extends Boss {
     }
 
     @Override
-    public void rewards(Player pl) {
-        // do than 1/20
-        int[] tempIds1 = new int[]{563, 565, 567};
-        int tempId = -1;
-        if (Util.isTrue(2, 40)) {
-            tempId = 992;
-        } else if (Util.isTrue(1, 30)) {
-            tempId = tempIds1[Util.nextInt(0, tempIds1.length - 1)];
+    public void rewards(Player plKill) {
+        if (Util.isTrue(10, 90)) {
+            this.dropItemReward(992, (int) plKill.id);
+        } else {
+            this.dropItemReward(16, (int) plKill.id);
         }
-        if (tempId != -1) {
-            ItemMap itemMap = new ItemMap(this.zone, tempId, 1,
-                    pl.location.x, this.zone.map.yPhysicInTop(pl.location.x, pl.location.y - 24), pl.id);
-            if (tempId == 928) {
-                itemMap.options.add(new ItemOption(93, 70));
-            } else {
-                RewardService.gI().initBaseOptionClothes(itemMap.itemTemplate.id, itemMap.itemTemplate.type, itemMap.options);
-                RewardService.gI().initStarOption(itemMap, new RewardService.RatioStar[]{
-                    new RewardService.RatioStar((byte) 1, 1, 2),
-                    new RewardService.RatioStar((byte) 2, 1, 3),
-                    new RewardService.RatioStar((byte) 3, 1, 4),
-                    new RewardService.RatioStar((byte) 4, 1, 5),
-                    new RewardService.RatioStar((byte) 5, 1, 6),
-                    new RewardService.RatioStar((byte) 6, 1, 7),
-                    new RewardService.RatioStar((byte) 7, 1, 8)
-                });
-            }
-            Service.getInstance().dropItemMap(this.zone, itemMap);
-        }
-        generalRewards(pl);
     }
 
-//    @Override
-//    public void rewards(Player pl) {
-//        ItemMap itemMap = null;
-//        int x = this.location.x;
-//        int y = this.zone.map.yPhysicInTop(x, this.location.y - 24);
-//        if (Util.isTrue(1, 50)) {
-//            int[] set1 = {562, 564, 566, 561};
-//            itemMap = new ItemMap(this.zone, set1[Util.nextInt(0, set1.length - 1)], 1, x, y, pl.id);
-//            RewardService.gI().initBaseOptionClothes(itemMap.itemTemplate.id, itemMap.itemTemplate.type, itemMap.options);
-//            RewardService.gI().initStarOption(itemMap, new RewardService.RatioStar[]{
-//                new RewardService.RatioStar((byte) 1, 1, 2),
-//                new RewardService.RatioStar((byte) 2, 1, 3),
-//                new RewardService.RatioStar((byte) 3, 1, 4),
-//                new RewardService.RatioStar((byte) 4, 1, 5),
-//                new RewardService.RatioStar((byte) 5, 1, 6),
-//                new RewardService.RatioStar((byte) 6, 1, 7),
-//                new RewardService.RatioStar((byte) 7, 1, 8)
-//            });
-//        } else if (Util.isTrue(1, 30)) {
-//            int[] set2 = {555, 556, 563, 557, 558, 565, 559, 567, 560};
-//            itemMap = new ItemMap(this.zone, set2[Util.nextInt(0, set2.length - 1)], 1, x, y, pl.id);
-//            RewardService.gI().initBaseOptionClothes(itemMap.itemTemplate.id, itemMap.itemTemplate.type, itemMap.options);
-//            RewardService.gI().initStarOption(itemMap, new RewardService.RatioStar[]{
-//                new RewardService.RatioStar((byte) 1, 1, 2),
-//                new RewardService.RatioStar((byte) 2, 1, 3),
-//                new RewardService.RatioStar((byte) 3, 1, 4),
-//                new RewardService.RatioStar((byte) 4, 1, 5),
-//                new RewardService.RatioStar((byte) 5, 1, 6),
-//                new RewardService.RatioStar((byte) 6, 1, 7),
-//                new RewardService.RatioStar((byte) 7, 1, 8)
-//            });
-//        } else if (Util.isTrue(1, 5)) {
-//            itemMap = new ItemMap(this.zone, 15, 1, x, y, pl.id);
-//        } else if (Util.isTrue(1, 2)) {
-//            itemMap = new ItemMap(this.zone, 16, 1, x, y, pl.id);
-//        }
-//        if (itemMap != null) {
-//            Service.getInstance().dropItemMap(zone, itemMap);
-//        }
-//        generalRewards(pl);
-//    }
     @Override
     protected boolean useSpecialSkill() {
         return false;

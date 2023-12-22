@@ -6,7 +6,8 @@ import nro.jdbc.daos.AccountDAO;
 import nro.jdbc.daos.HistoryTransactionDAO;
 import nro.jdbc.daos.PlayerDAO;
 import nro.login.LoginSession;
-import nro.manager.*;
+import nro.manager.ConsignManager;
+import nro.manager.TopManager;
 import nro.models.boss.BossFactory;
 import nro.models.boss.BossManager;
 import nro.models.map.challenge.MartialCongressManager;
@@ -34,8 +35,14 @@ import java.util.Scanner;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
+import nro.manager.SieuHangManager;
+import nro.manager.TopCoin;
+import nro.manager.TopWhis;
+import nro.manager.TranhNgocManager;
+import nro.models.map.superleague.SieuHangControl;
 
 /**
+ *
  * @Build Arriety
  */
 public class ServerManager {
@@ -45,7 +52,7 @@ public class ServerManager {
     public static final Map CLIENTS = new HashMap();
 
     public static String NAME = "";
-    public static int PORT = 14445;
+    public static int PORT = 14446;
 
     private Controller controller;
 
@@ -67,6 +74,10 @@ public class ServerManager {
     @Getter
     private DungeonManager dungeonManager;
 
+    public SieuHangControl getSieuHangController() {
+        return this.sieuHangControl;
+    }
+
     public void init() {
         Manager.gI();
         HistoryTransactionDAO.deleteHistory();
@@ -79,10 +90,6 @@ public class ServerManager {
 
     public TranhNgocManager getTranhNgocManager() {
         return this.tranhNgocManager;
-    }
-
-    public SieuHangControl getSieuHangController() {
-        return this.sieuHangControl;
     }
 
     public static ServerManager gI() {
@@ -105,7 +112,7 @@ public class ServerManager {
         new Thread(TopCoin.getInstance(), "Update Top Coin").start();
         activeLogin();
         autoTask();
-        (new AutoMaintenance(23, 0, 0)).start();
+//        (new AutoMaintenance(23, 0, 0)).start();
         activeServerSocket();
     }
 
@@ -278,7 +285,6 @@ public class ServerManager {
 
         this.sieuHangControl = new SieuHangControl();
         new Thread(this.sieuHangControl, "Sieu hang").start();
-
         new Thread(() -> {
             while (isRunning) {
                 try {
@@ -292,7 +298,7 @@ public class ServerManager {
                     e.printStackTrace();
                 }
             }
-        }, "Update top whis").start();
+        }, "Update giai sieu hang").start();
     }
 
     public void close(long delay) {

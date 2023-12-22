@@ -67,7 +67,7 @@ public class Manager {
     public static byte SECOND_WAIT_LOGIN = 20;
     public static int MAX_PER_IP = 1000;
     public static int MAX_PLAYER = 1000;
-    public static byte RATE_EXP_SERVER = 5;
+    public static byte RATE_EXP_SERVER = 2;
     public static int EVENT_SEVER = 0;
     public static String DOMAIN = "";
     public static String SERVER_NAME = "";
@@ -892,7 +892,7 @@ public class Manager {
         if (properties.containsKey("login.port")) {
             loginPort = Integer.parseInt(properties.getProperty("login.port"));
         } else {
-            loginPort = 8888;
+            loginPort = 8889;
         }
         if (properties.containsKey("update.timelogin")) {
             ServerManager.updateTimeLogin = Boolean.parseBoolean(properties.getProperty("update.timelogin"));
@@ -981,8 +981,7 @@ public class Manager {
                 }
             }
         } catch (Exception e) {
-            Log.error(MapService.class,
-                    e);
+            Log.error(MapService.class, e);
         }
         return tileIndexTileType;
     }

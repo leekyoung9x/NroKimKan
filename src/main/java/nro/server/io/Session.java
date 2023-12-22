@@ -2,7 +2,6 @@ package nro.server.io;
 
 import nro.data.DataGame;
 import nro.jdbc.daos.GodGK;
-import nro.manager.SieuHangManager;
 import nro.models.item.Item;
 import nro.models.item.ItemOption;
 import nro.models.player.Player;
@@ -23,13 +22,14 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+import nro.manager.SieuHangManager;
 import nro.manager.TopCoin;
 
 public class Session {
 
     private static final Map<String, AntiLogin> ANTILOGIN = new HashMap<>();
 
-    private static final int TIME_WAIT_READ_MESSAGE = 180000;
+    private static final int TIME_WAIT_READ_MESSAGE = 180_000;
 
     public int poinCharging;
     public boolean logCheck;
@@ -80,6 +80,7 @@ public class Session {
     public int diemTichNap;
     public int server;// server account hiện tại
     public int version;
+
     @Setter
     private boolean logging;
 
@@ -339,8 +340,8 @@ public class Session {
             CheckTop(player);
             // nhận quà đăng nhập hàng ngày
 //            RewardService.gI().rewardFirstTimeLoginPerDay(player);
-
             SieuHangManager.GetRewardDay(player);
+
         }
     }
 
@@ -348,8 +349,7 @@ public class Session {
         String topPlayer = TopCoin.getInstance().getNamePlayer();
         if (!Util.isNullOrEmpty(topPlayer)) {
             if (Objects.equals(player.name, topPlayer)) {
-                Service.getInstance().sendThongBaoAllPlayer(
-                        "[THÔNG BÁO] Top 1 hiến máu tên " + player.name + " vừa đăng nhập vào game");
+                Service.getInstance().sendThongBaoAllPlayer("[THÔNG BÁO] Top 1 hiến máu tên " + player.name + " vừa đăng nhập vào game");
             }
         }
     }

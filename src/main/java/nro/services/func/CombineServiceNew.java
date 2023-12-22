@@ -29,6 +29,7 @@ public class CombineServiceNew {
 
     private static final int COST_DOI_VE_DOI_DO_HUY_DIET = 500000000;
     private static final int COST_DAP_DO_KICH_HOAT = 20_000;
+    private static final int COST_DAP_DO_KICH_HOAT_LINH_THU = 10_000;
     private static final int COST_DOI_MANH_KICH_HOAT = 500000000;
     private static final int COST_GIA_HAN_CAI_TRANG = 500000000;
 
@@ -72,6 +73,8 @@ public class CombineServiceNew {
     public static final int UPGRADE_LINHTHU = 520;
     public static final int EP_NGOC_RONG_BANG = 521;
 
+    public static final int UPGRADE_THAN_LINH = 522;
+
     private static final int GOLD_MOCS_BONG_TAI = 500_000_000;
 
     private static final int RUBY_MOCS_BONG_TAI = 10_000;
@@ -85,6 +88,7 @@ public class CombineServiceNew {
     private final Npc baHatMit;
     private final Npc bulmatl;
     private final Npc whis;
+    private final Npc tosu;
 
     private static CombineServiceNew i;
 
@@ -92,6 +96,7 @@ public class CombineServiceNew {
         this.baHatMit = NpcManager.getNpc(ConstNpc.BA_HAT_MIT);
         this.whis = NpcManager.getNpc(ConstNpc.WHIS);
         this.bulmatl = NpcManager.getNpc(ConstNpc.BUNMA_TL);
+        this.tosu = NpcManager.getNpc(ConstNpc.TO_SU_KAIO);
     }
 
     public static CombineServiceNew gI() {
@@ -143,6 +148,44 @@ public class CombineServiceNew {
             }
         }
         switch (player.combineNew.typeCombine) {
+            case UPGRADE_THAN_LINH:
+                if (player.combineNew.itemsCombine.isEmpty()) {
+                    this.tosu.createOtherMenu(player, ConstNpc.IGNORE_MENU, "Hãy đưa ta 1  món đồ kích hoạt bất kỳ và 1 món đồ Thần Linh", "Đóng");
+                    return;
+                }
+                if (player.combineNew.itemsCombine.size() >= 1) {
+                    Item manhTL = null;
+                    Item dokh = null;
+                    for (Item item : player.combineNew.itemsCombine) {
+                        if (item.isNotNullItem()) {
+                            if (item.template.id >= 555 && item.template.id <= 567) {
+                                manhTL = item;
+                            } else if (item.isSKHVip()) {
+                                dokh = item;
+                            }
+                        }
+                    }
+                    if (dokh == null) {
+                        this.tosu.createOtherMenu(player, ConstNpc.IGNORE_MENU, "Thiếu đồ Kích Hoạt Thường", "Đóng");
+                        return;
+                    }
+                    String npcSay = "|2|Con có muốn Nâng cấp Đồ KH này thành Đồ KH vip 100% chỉ số set kích hoạt thần linh bất kì không?"
+                            + "\n|8|Tỉ lệ mặc định là 10%\n|8|Nếu + thêm x1 món Thần Linh tỉ lệ sẽ là 30%"
+                            + "\n|1|Cần " + Util.numberToMoney(COST_DAP_DO_KICH_HOAT_LINH_THU) + " hồng ngọc";
+                    if (player.inventory.ruby < COST_DAP_DO_KICH_HOAT_LINH_THU) {
+                        this.tosu.createOtherMenu(player, ConstNpc.IGNORE_MENU, "Hết tiền rồi\nẢo ít thôi con", "Đóng");
+                        return;
+                    }
+                    this.tosu.createOtherMenu(player, ConstNpc.MENU_START_COMBINE,
+                            npcSay, "Nâng cấp\n" + Util.numberToMoney(COST_DAP_DO_KICH_HOAT_LINH_THU) + " hồng ngọc", "Từ chối");
+                } else {
+                    if (player.combineNew.itemsCombine.size() > 3) {
+                        this.tosu.createOtherMenu(player, ConstNpc.IGNORE_MENU, "Nguyên liệu không phù hợp!", "Đóng");
+                        return;
+                    }
+                    this.tosu.createOtherMenu(player, ConstNpc.IGNORE_MENU, "Còn thiếu nguyên liệu để nâng cấp hãy quay lại sau", "Đóng");
+                }
+                break;
             case UPGRADE_LINHTHU:
                 if (InventoryService.gI().getCountEmptyBag(player) < 1) {
                     this.bulmatl.createOtherMenu(player, ConstNpc.IGNORE_MENU, "Bạn phải có ít nhất 1 ô trống hành trang", "Đóng");
@@ -289,6 +332,7 @@ public class CombineServiceNew {
                     this.baHatMit.createOtherMenu(player, ConstNpc.IGNORE_MENU, "Còn thiếu nguyên liệu để nâng cấp hãy quay lại sau", "Đóng");
                 }
                 break;
+
             case TRADE_DO_THAN_LINH:
                 if (player.combineNew.itemsCombine.size() != 1) {
                     this.baHatMit.createOtherMenu(player, ConstNpc.IGNORE_MENU, "Thiếu Nguyên liệu", "Đóng");
@@ -1098,6 +1142,9 @@ public class CombineServiceNew {
                 return;
             }
             switch (player.combineNew.typeCombine) {
+                case UPGRADE_THAN_LINH:
+                    dapDoThanLinh(player);
+                    break;
                 case UPGRADE_LINHTHU:
                     upgradeLinhThu(player);
                     break;
@@ -1532,6 +1579,58 @@ public class CombineServiceNew {
                     InventoryService.gI().addItemBag(player, item, 0);
                     InventoryService.gI().subQuantityItemsBag(player, dokh, 1);
                     InventoryService.gI().subQuantityItemsBag(player, manhTL, 2);
+                    InventoryService.gI().sendItemBags(player);
+                    Service.getInstance().sendMoney(player);
+                    reOpenItemCombine(player);
+                } else {
+                    Service.getInstance().sendThongBao(player, "Thieu tien roi cu em");
+                }
+            }
+        }
+    }
+
+    private int getTine(Item tl) {// tile thanh cong
+        int tile = 10;
+        if (tl.template.id >= 555 && tl.template.id <= 567) {
+            tile = 30;
+        }
+        return tile;
+    }
+
+    private void dapDoThanLinh(Player player) {
+        if (player.combineNew.itemsCombine.size() >= 1) {
+            Item manhTL = null;
+            Item dokh = null;
+            for (Item item : player.combineNew.itemsCombine) {
+                if (item.isNotNullItem()) {
+                    if (item.template.id >= 555 && item.template.id <= 567) {
+                        manhTL = item;
+                    } else if (item.isSKHVip()) {
+                        dokh = item;
+                    }
+                }
+            }
+            if (dokh != null) {
+                if (InventoryService.gI().getCountEmptyBag(player) > 0 && player.inventory.ruby >= 10_000) {
+                    if (manhTL == null) {
+                    }
+                    int tile = getTine(manhTL);
+                    if (Util.isTrue(tile, 100)) {
+                        int typeOption = 0;
+                        dokh.checkSetKichHoat(typeOption);
+                        sendEffectSuccessCombine(player);
+                        Item item = ArrietyDrop.randomCS_DKHTL(dokh.template.id, typeOption, dokh.template.gender == 3 ? player.gender : dokh.template.gender);
+                        InventoryService.gI().addItemBag(player, item, 0);
+                        InventoryService.gI().subQuantityItemsBag(player, dokh, 1);
+                        if (manhTL.quantity > 1) {
+                            InventoryService.gI().subQuantityItemsBag(player, manhTL, 1);
+                        }
+                    }
+                    Service.getInstance().sendThongBao(player, "Xịt nhót");
+                    player.inventory.ruby -= 10_000;
+                    if (manhTL.quantity > 1) {
+                        InventoryService.gI().subQuantityItemsBag(player, manhTL, 1);
+                    }
                     InventoryService.gI().sendItemBags(player);
                     Service.getInstance().sendMoney(player);
                     reOpenItemCombine(player);
@@ -2804,6 +2903,8 @@ public class CombineServiceNew {
     // tab combine
     private String getTextTopTabCombine(int type) {
         switch (type) {
+            case UPGRADE_THAN_LINH:
+                return "Ta sẽ giúp ngươi\n làm điều đó";
             case UPGRADE_LINHTHU:
                 return "Ta sẽ giúp ngươi\n làm điều đó";
             case UPGRADE_CAITRANG:
@@ -2849,6 +2950,10 @@ public class CombineServiceNew {
 
     private String getTextInfoTabCombine(int type) {
         switch (type) {
+            case UPGRADE_THAN_LINH:
+                return "Vào hành trang\nChọn 1 món Thần Linh bất kì\n "
+                        + " và 1 món SKH bất kỳ\n"
+                        + "Chỉ cần chọn 'Nâng Cấp'";
             case UPGRADE_LINHTHU:
                 return "Vào hàng trang\nChọn x1 Linh thú bất kì, x1 Stone cùng hệ Linh Thú\nx1 Thăng Tinh Thạch\nx10 Thăng Tinh Thạch để tỉ lệ Thành Công cao hơn\nx99 Hồn Linh Thú\nXong rồi ấn Nâng Cấp";
             case UPGRADE_CAITRANG:

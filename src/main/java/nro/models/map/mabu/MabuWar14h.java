@@ -59,7 +59,8 @@ public class MabuWar14h {
 
     public boolean isTimeMabuWar() {
         long now = System.currentTimeMillis();
-        return now > TIME_OPEN && now < TIME_CLOSE;
+//        return now > TIME_OPEN && now < TIME_CLOSE;
+        return true;
     }
 
     public void update(Player player) {

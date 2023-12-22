@@ -11,7 +11,7 @@ import nro.models.item.Item;
  */
 public class Inventory {
 
-    public static final int LIMIT_GOLD = 2000000000;
+    public static final int LIMIT_GOLD = 2_000_000_000;
 
     public static final int LIMIT_RUBY = 2000000000;
 
@@ -24,20 +24,17 @@ public class Inventory {
     public List<Item> itemsBox;
 
     public List<Item> itemsBoxCrackBall;
-//    public List<Item> itemsReward;
 
     public long gold, goldLimit;
     public int gem;
     public int ruby;
 
-//    public int goldBar;
     public Inventory(Player player) {
         this.player = player;
         itemsBody = new ArrayList<>();
         itemsBag = new ArrayList<>();
         itemsBox = new ArrayList<>();
         itemsBoxCrackBall = new ArrayList<>();
-//        itemsReward = new ArrayList<>();
     }
 
     public int getGem() {

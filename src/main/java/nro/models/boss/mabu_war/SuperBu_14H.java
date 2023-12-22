@@ -1,5 +1,6 @@
 package nro.models.boss.mabu_war;
 
+import java.util.Random;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import nro.consts.ConstRatio;
@@ -110,11 +111,14 @@ public class SuperBu_14H extends BossMabuWar {
             }
         }
         try {
-            if (Util.isTrue(1, 15)) {
-                ItemMap itemMap = new ItemMap(this.zone, 1068, 1, this.location.x, this.zone.map.yPhysicInTop(this.location.x, 100), -1);
-                Service.getInstance().dropItemMap(this.zone, itemMap);
+            int[] itemDos = new int[]{556, 558, 560};
+            int randomDo = new Random().nextInt(itemDos.length);
+            if (Util.isTrue(15, 100)) {
+                if (Util.isTrue(1, 5)) {
+                    Service.getInstance().dropItemMap(this.zone, Util.ratiItem(zone, itemDos[randomDo], 1, this.location.x, this.location.y, pl.id));
+                }
             }
-            int[] listitem = {Util.nextInt(17, 18), 861};
+            int[] listitem = {Util.nextInt(18, 19), 861};
             ItemMap itemMap = new ItemMap(this.zone, listitem[Util.nextInt(0, listitem.length - 1)], 1, pl.location.x, this.zone.map.yPhysicInTop(pl.location.x, pl.location.y - 24), pl.id);
             Service.getInstance().dropItemMap(this.zone, itemMap);
         } catch (Exception ex) {

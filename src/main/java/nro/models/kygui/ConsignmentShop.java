@@ -447,9 +447,7 @@ public class ConsignmentShop {
                     ds.writeShort(item.getConsignID());
                     ds.writeInt(item.getPriceGold());
                     ds.writeInt(item.getPriceGem());
-
                     ds.writeByte(0);
-
                     if (player.isVersionAbove(222)) {
                         ds.writeInt(item.quantity);
                     } else {

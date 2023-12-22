@@ -27,6 +27,7 @@ import org.apache.log4j.Logger;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Random;
 import nro.models.npc.specialnpc.EggLinhThu;
 
 /**
@@ -329,10 +330,10 @@ public class UseItem {
                         case 1152:
                         case 1153:
                         case 1151:
-                        case ConstItem.DUOI_KHI:
                         case 465:
                         case 466:
                         case 2044:
+                        case 638:
                             useItemTime(pl, item);
                             break;
                         case 521: //tdlt
@@ -756,9 +757,15 @@ public class UseItem {
                 pl.textRuongGo.add(text + itemReward.getInfoItem());
             }
             if (param == 11) {
-                itemReward = ItemService.gI().createNewItem((short) ConstItem.MANH_NHAN);
-                itemReward.quantity = Util.nextInt(1, 3);
-                InventoryService.gI().addItemBag(pl, itemReward, 0);
+                if (Util.isTrue(10, 90)) {
+                    int[] itemDos = new int[]{556, 558, 560};
+                    int randomDo = new Random().nextInt(itemDos.length);
+                    itemReward = ItemService.gI().createNewItem((short) itemDos[randomDo]);
+                } else {
+                    itemReward = ItemService.gI().createNewItem((short) 861);
+                    itemReward.quantity = Util.nextInt(1000, 5000);
+                }
+                InventoryService.gI().addItemBag(pl, itemReward, 999);
                 pl.textRuongGo.add(text + itemReward.getInfoItem());
             }
             NpcService.gI().createMenuConMeo(pl, ConstNpc.RUONG_GO, -1, "Bạn nhận được\n|1|+" + Util.numberToMoney(gold) + " vàng", "OK [" + pl.textRuongGo.size() + "]");
@@ -1690,7 +1697,7 @@ public class UseItem {
                 pl.itemTime.isBanhTrungThu2Trung = true;
                 updatePoint = true;
                 break;
-            case 579:
+            case 638:
                 if (pl.itemTime.isDuoiKhi) {
                     Service.getInstance().sendThongBao(pl, "Chỉ có thể sự dụng cùng lúc 1 vật phẩm bổ trợ cùng loại");
                     return;

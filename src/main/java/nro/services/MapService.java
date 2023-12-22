@@ -334,6 +334,10 @@ public class MapService {
         return mapId >= 85 && mapId <= 91;
     }
 
+    public boolean isMapNgucTu(int mapId) {
+        return mapId == 155;
+    }
+    
     public boolean isMapMabuWar14H(int mapId) {
         return mapId == 114 || mapId == 128;
     }

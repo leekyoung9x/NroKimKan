@@ -4,7 +4,6 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import nro.card.Card;
 import nro.card.CollectionBook;
-import nro.consts.ConstAchive;
 import nro.consts.ConstMap;
 import nro.consts.ConstPlayer;
 import nro.jdbc.DBService;
@@ -127,9 +126,7 @@ public class GodGK {
                     JSONValue jv = new JSONValue();
                     JSONArray dataArray = null;
                     JSONObject dataObject = null;
-
                     Player player = new Player();
-
                     //base info
                     player.id = rs.getInt("id");
                     player.name = rs.getString("name");
@@ -674,10 +671,8 @@ public class GodGK {
                         pet.typePet = Byte.parseByte(String.valueOf(dataObject.get("is_mabu")));
                         pet.name = String.valueOf(dataObject.get("name"));
                         player.fusion.typeFusion = Byte.parseByte(String.valueOf(dataObject.get("type_fusion")));
-                        player.fusion.lastTimeFusion = System.currentTimeMillis()
-                                - (Fusion.TIME_FUSION - Integer.parseInt(String.valueOf(dataObject.get("left_fusion"))));
+                        player.fusion.lastTimeFusion = System.currentTimeMillis() - (Fusion.TIME_FUSION - Integer.parseInt(String.valueOf(dataObject.get("left_fusion"))));
                         pet.status = Byte.parseByte(String.valueOf(dataObject.get("status")));
-
                         try {
                             pet.setLever(Integer.parseInt(String.valueOf(dataObject.get("level"))));
                         } catch (Exception e) {

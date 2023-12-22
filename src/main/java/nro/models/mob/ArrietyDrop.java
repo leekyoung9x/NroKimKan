@@ -80,7 +80,7 @@ public class ArrietyDrop {
         if (rada == itemId) {
             it.itemOptions.add(new ItemOption(14, 1)); //chí mạng 1%
         }
-        if (type == 0) { //Đồ quái rơi (50% chỉ số)
+        if (type == 0) {
             if (Util.isTrue(20, 100)) {
                 int IDSet = Util.nextInt(0, 6);
                 switch (gender) {
@@ -177,6 +177,125 @@ public class ArrietyDrop {
             }
             it.itemOptions.add(new ItemOption(30, 0));// ko the gd
         }
+        return it;
+    }
+
+   
+
+    public static Item randomCS_DKHTL(int itemId, int typeOption, byte gender) {
+        Item it = ItemService.gI().createItemSetKichHoat(itemId, 1);
+        List<Integer> aoTD = Arrays.asList(555);
+        List<Integer> aoNM = Arrays.asList(557);
+        List<Integer> aoXD = Arrays.asList(559);
+        List<Integer> quanTD = Arrays.asList(556);
+        List<Integer> quanNM = Arrays.asList(558);
+        List<Integer> quanXD = Arrays.asList(560);
+        List<Integer> gangTD = Arrays.asList(562);
+        List<Integer> gangNM = Arrays.asList(564);
+        List<Integer> gangXD = Arrays.asList(566);
+        List<Integer> giayTD = Arrays.asList(563);
+        List<Integer> giayNM = Arrays.asList(565);
+        List<Integer> giayXD = Arrays.asList(567);
+        int rada = 561;
+        switch (gender) {
+            case 0:
+                if (aoTD.contains(itemId)) {
+                    it.itemOptions.add(new ItemOption(47, Util.highlightsItem(gender == 2, new Random().nextInt(150) + 700))); // áo từ 1800-2800 giáp
+                }
+                if (quanTD.contains(itemId)) {
+                    it.itemOptions.add(new ItemOption(22, Util.highlightsItem(gender == 0, new Random().nextInt(15) + 45))); // hp 85-100k
+                }
+                if (gangTD.contains(itemId)) {
+                    it.itemOptions.add(new ItemOption(0, Util.highlightsItem(gender == 2, new Random().nextInt(500) + 4500))); // 8500-10000
+                }
+                if (giayTD.contains(itemId)) {
+                    it.itemOptions.add(new ItemOption(23, Util.highlightsItem(gender == 1, new Random().nextInt(15) + 45))); // ki 80-90k
+                }
+                break;
+            case 1:
+                if (aoNM.contains(itemId)) {
+                    it.itemOptions.add(new ItemOption(47, Util.highlightsItem(gender == 2, new Random().nextInt(150) + 700))); // áo từ 1800-2800 giáp
+                }
+                if (quanNM.contains(itemId)) {
+                    it.itemOptions.add(new ItemOption(22, Util.highlightsItem(gender == 0, new Random().nextInt(15) + 45))); // hp 85-100k
+                }
+                if (gangNM.contains(itemId)) {
+                    it.itemOptions.add(new ItemOption(0, Util.highlightsItem(gender == 2, new Random().nextInt(500) + 4500))); // 8500-10000
+                }
+                if (giayNM.contains(itemId)) {
+                    it.itemOptions.add(new ItemOption(23, Util.highlightsItem(gender == 1, new Random().nextInt(15) + 45))); // ki 80-90k
+                }
+                break;
+            case 2:
+                if (aoXD.contains(itemId)) {
+                    it.itemOptions.add(new ItemOption(47, Util.highlightsItem(gender == 2, new Random().nextInt(150) + 700))); // áo từ 1800-2800 giáp
+                }
+                if (quanXD.contains(itemId)) {
+                    it.itemOptions.add(new ItemOption(22, Util.highlightsItem(gender == 0, new Random().nextInt(15) + 45))); // hp 85-100k
+                }
+                if (gangXD.contains(itemId)) {
+                    it.itemOptions.add(new ItemOption(0, Util.highlightsItem(gender == 2, new Random().nextInt(500) + 4500))); // 8500-10000
+                }
+                if (giayXD.contains(itemId)) {
+                    it.itemOptions.add(new ItemOption(23, Util.highlightsItem(gender == 1, new Random().nextInt(15) + 45))); // ki 80-90k
+                }
+                break;
+        }
+        if (rada == itemId) {
+            it.itemOptions.add(new ItemOption(14, new Random().nextInt(2) + 13)); //chí mạng 17-19%
+        }
+        switch (gender) {
+            case 0:
+                switch (typeOption) {
+                    case 0://Set Tenshinhan
+                        it.itemOptions.add(new ItemOption(127, 0));
+                        it.itemOptions.add(new ItemOption(139, 0));
+                        break;
+                    case 1://Set Krillin
+                        it.itemOptions.add(new ItemOption(128, 0));
+                        it.itemOptions.add(new ItemOption(140, 0));
+                        break;
+                    case 2://Set Songoku
+                        it.itemOptions.add(new ItemOption(129, 0));
+                        it.itemOptions.add(new ItemOption(141, 0));
+                        break;
+                }
+                break;
+            case 1:
+                switch (typeOption) {
+                    case 3://Set Piccolo
+                        it.itemOptions.add(new ItemOption(130, 0));
+                        it.itemOptions.add(new ItemOption(142, 0));
+                        break;
+                    case 4://Set Dende
+                        it.itemOptions.add(new ItemOption(131, 0));
+                        it.itemOptions.add(new ItemOption(143, 0));
+                        break;
+                    case 5://Set Pikkoro Daimao
+                        it.itemOptions.add(new ItemOption(132, 0));
+                        it.itemOptions.add(new ItemOption(144, 0));
+                        break;
+                }
+                break;
+            case 2:
+                switch (typeOption) {
+                    case 6://Set Kakarot  
+                        it.itemOptions.add(new ItemOption(133, 0));
+                        it.itemOptions.add(new ItemOption(136, 0));
+                        break;
+                    case 7://Set Vegeta
+                        it.itemOptions.add(new ItemOption(134, 0));
+                        it.itemOptions.add(new ItemOption(137, 0));
+                        break;
+                    case 8://Set Nappa
+                        it.itemOptions.add(new ItemOption(135, 0));
+                        it.itemOptions.add(new ItemOption(138, 0));
+                        break;
+                }
+                break;
+        }
+
+        it.itemOptions.add(new ItemOption(30, 0));// ko the gd
         return it;
     }
 

@@ -435,7 +435,7 @@ public class ShopService {
                 Service.getInstance().sendMoney(player);
                 return;
             }
-            if (is.temp.id == 988 && player.inventory.getGoldLimit() >= 10000000000L) {
+            if (is.temp.id == 988 && player.inventory.getGoldLimit() >= 1000_000_000_000L) {
                 Service.getInstance().sendThongBao(player, "Giới hạn vàng của bạn đã đạt tối đa");
                 Service.getInstance().sendMoney(player);
                 return;

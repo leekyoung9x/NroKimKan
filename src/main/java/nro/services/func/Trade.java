@@ -169,7 +169,7 @@ public class Trade {
     }
 
     private boolean isItemCannotTran(Item item) {
-        if (item.template.id == 2039 || item.template.id == 2000 || item.template.id == 2042) {
+        if (item.template.id == 2039 || item.template.id == 2000 || item.template.id == 2042 || item.template.id == 457) {
             return true;
         }
         for (ItemOption io : item.itemOptions) {
@@ -179,8 +179,7 @@ public class Trade {
         }
         switch (item.template.type) {
             case 27:
-                if (item.template.id != 457 && item.template.id != 590
-                        && item.template.id == 921) {
+                if (item.template.id != 590 && item.template.id == 921) {
                     return true;
                 } else {
                     return false;
