@@ -1591,8 +1591,10 @@ public class CombineServiceNew {
 
     private int getTine(Item tl) {// tile thanh cong
         int tile = 10;
-        if (tl.template.id >= 555 && tl.template.id <= 567) {
-            tile = 30;
+        if (tl != null) {
+            if (tl.template.id >= 555 && tl.template.id <= 567) {
+                tile = 30;
+            }
         }
         return tile;
     }
@@ -1612,23 +1614,50 @@ public class CombineServiceNew {
             }
             if (dokh != null) {
                 if (InventoryService.gI().getCountEmptyBag(player) > 0 && player.inventory.ruby >= 10_000) {
-                    if (manhTL == null) {
-                    }
                     int tile = getTine(manhTL);
+
                     if (Util.isTrue(tile, 100)) {
                         int typeOption = 0;
-                        dokh.checkSetKichHoat(typeOption);
+                        int check = dokh.checkSet(dokh);
+                        for (ItemOption io : dokh.itemOptions) {
+                            switch (io.optionTemplate.id) {
+                                case 129:
+                                    typeOption = 2;//Set Songoku
+                                    break;
+                                case 128:
+                                    typeOption = 1;  //Set Krillin
+                                    break;
+                                case 127:
+                                    typeOption = 0;  //Set Tenshinhan
+                                    break;
+                                case 130:
+                                    typeOption = 3; //Set Piccolo
+                                    break;
+                                case 131:
+                                    typeOption = 4; //Set Dende
+                                    break;
+                                case 132:
+                                    typeOption = 5; ///Set Pikkoro Daimao
+                                    break;
+                                case 133:
+                                    typeOption = 6;//Set Kakarot  
+                                    break;
+                                case 134:
+                                    typeOption = 7; //Set Vegeta
+                                    break;
+                                case 135:
+                                    typeOption = 8; //Set Nappa
+                                    break;
+                            }
+                        }
                         sendEffectSuccessCombine(player);
-                        Item item = ArrietyDrop.randomCS_DKHTL(dokh.template.id, typeOption, dokh.template.gender == 3 ? player.gender : dokh.template.gender);
+                        Item item = ArrietyDrop.randomCS_DKHTL(check, typeOption, dokh.template.gender == 3 ? player.gender : dokh.template.gender);
                         InventoryService.gI().addItemBag(player, item, 0);
                         InventoryService.gI().subQuantityItemsBag(player, dokh, 1);
-                        if (manhTL.quantity > 1) {
-                            InventoryService.gI().subQuantityItemsBag(player, manhTL, 1);
-                        }
                     }
                     Service.getInstance().sendThongBao(player, "Xịt nhót");
                     player.inventory.ruby -= 10_000;
-                    if (manhTL.quantity > 1) {
+                    if (manhTL != null) {
                         InventoryService.gI().subQuantityItemsBag(player, manhTL, 1);
                     }
                     InventoryService.gI().sendItemBags(player);

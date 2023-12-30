@@ -35,11 +35,11 @@ import java.util.Scanner;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
+import nro.manager.SieuHangControl;
 import nro.manager.SieuHangManager;
 import nro.manager.TopCoin;
 import nro.manager.TopWhis;
 import nro.manager.TranhNgocManager;
-import nro.models.map.superleague.SieuHangControl;
 
 /**
  *

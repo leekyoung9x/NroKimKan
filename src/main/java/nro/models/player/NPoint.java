@@ -553,9 +553,7 @@ public class NPoint {
                 this.hpMax += hpMax / 100 * (3 * this.player.playerSkill.skills.get(4).point);
             }
         }
-        if (this.player.itemTime != null && this.player.itemTime.rateHPKI) {
-            this.hpMax += calPercent(this.hpMax, 20);
-        }
+
         for (Integer tl : this.tlHp) {
             if (tl == null) {
                 Service.getInstance().sendThongBao(player, "Đã xảy ra lỗi!");
@@ -587,6 +585,7 @@ public class NPoint {
             int percent = ((Pet) this.player).getLever() * 3;
             if (((Pet) this.player).master.fusion.typeFusion == ConstPlayer.HOP_THE_PORATA
                     || ((Pet) this.player).master.fusion.typeFusion == ConstPlayer.HOP_THE_PORATA2) {
+
                 switch (((Pet) this.player).typePet) {
                     case ConstPet.MABU:
                         this.hpMax += calPercent(this.hpMax, 5);
@@ -602,6 +601,9 @@ public class NPoint {
                         break;
                 }
             }
+        }
+        if (this.player.itemTime != null && this.player.itemTime.rateHPKI) {
+            this.hpMax += calPercent(this.hpMax, 10);
         }
         if (this.player.zone != null && MapService.gI().isMapBlackBallWar(this.player.zone.map.mapId)) {
             this.hpMax *= this.player.effectSkin.xHPKI;
@@ -690,9 +692,7 @@ public class NPoint {
         if (this.player.itemTime != null && this.player.itemTime.isMaTroi) {
             this.mpMax /= 1.5;
         }
-        if (this.player.itemTime != null && this.player.itemTime.rateHPKI) {
-            this.mpMax += calPercent(this.mpMax, 20);
-        }
+
         if (this.player.setClothes.picolo2 == 5) {
             this.mpMax *= 2;
         }
@@ -708,6 +708,9 @@ public class NPoint {
             int percent = ((Pet) this.player).getLever() * 3;
             if (((Pet) this.player).master.fusion.typeFusion == ConstPlayer.HOP_THE_PORATA
                     || ((Pet) this.player).master.fusion.typeFusion == ConstPlayer.HOP_THE_PORATA2) {
+                if (this.player.itemTime != null && this.player.itemTime.rateHPKI) {
+                    this.mpMax += calPercent(this.mpMax, 10);
+                }
                 switch (((Pet) this.player).typePet) {
                     case ConstPet.MABU:
                         this.mpMax += calPercent(this.mpMax, 5);
@@ -832,6 +835,9 @@ public class NPoint {
                 }
             }
         }
+        if (this.player.itemTime != null && this.player.itemTime.rateDame) {
+            this.dame += calPercent(this.dame, 15);
+        }
         //thức ăn
         if (!this.player.isPet && this.player.itemTime.isEatMeal
                 || this.player.isPet && ((Pet) this.player).master.itemTime.isEatMeal) {
@@ -849,9 +855,7 @@ public class NPoint {
         if (this.player.itemTime != null && this.player.itemTime.isUseCuongNo2) {
             this.dame += calPercent(dame, 120);
         }
-        if (this.player.itemTime != null && this.player.itemTime.rateDame) {
-            dame += calPercent(dame, 20);
-        }
+
         if (this.player.itemTime != null && this.player.itemTime.isBanhTrungThu1Trung) {
             this.dame += calPercent(this.dame, 10);
         }
@@ -1362,7 +1366,6 @@ public class NPoint {
             if (this.player.charms.tdTriTue4 > System.currentTimeMillis()) {
                 tiemNang += 300;
             }
-
             if (this.power >= 60000000000L) {
                 tiemNang -= (tiemNang * 80 / 100);
             }
@@ -1374,8 +1377,7 @@ public class NPoint {
                     tiemNang += ((Pet) this.player).nPoint.suphu;
                 }
             }
-            if (((this.player.isPl() && this.player.itemTime.isDuoiKhi)
-                    || (this.player.isPet && ((Pet) this.player).master.itemTime.isDuoiKhi))) {
+            if (((this.player.isPl() && this.player.itemTime.isDuoiKhi) || (this.player.isPet && ((Pet) this.player).master.itemTime.isDuoiKhi))) {
                 tiemNang += tn * 4;
             }
             tiemNang *= Manager.RATE_EXP_SERVER;

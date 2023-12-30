@@ -2,6 +2,8 @@ package nro.utils;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 import java.util.Date;
 
 /**
@@ -203,5 +205,10 @@ public class TimeUtil {
             return String.format("%02d:%02d:%02d", hours, minutes, seconds);
         }
         return String.format("%02d:%02d", minutes, seconds);
+    }
+
+    public static long calculateTimeDifferenceInSeconds(LocalDateTime dateTime1, LocalDateTime dateTime2) {
+        // Sử dụng ChronoUnit.SECONDS.between để tính chênh lệch giây
+        return ChronoUnit.SECONDS.between(dateTime1, dateTime2);
     }
 }

@@ -32,8 +32,7 @@ public class Egg extends Npc {
                 player.mabuEgg.sendMabuEgg();
                 if (player.mabuEgg.getSecondDone() != 0) {
                     this.createOtherMenu(player, ConstNpc.CAN_NOT_OPEN_EGG, "Bư bư bư...",
-                            "Hủy bỏ\ntrứng",
-                            "Ấp nhanh\n" + Util.numberToMoney(COST_AP_TRUNG_NHANH) + " vàng", "Đóng");
+                            "Hủy bỏ\ntrứng", "" + player.mabuEgg.getSecondDone(), "Đóng");
                 } else {
                     this.createOtherMenu(player, ConstNpc.CAN_OPEN_EGG, "Bư bư bư...", "Nở",
                             "Hủy bỏ\ntrứng", "Đóng");
@@ -136,20 +135,21 @@ public class Egg extends Npc {
                         if (select == 0) {
                             this.createOtherMenu(player, ConstNpc.CONFIRM_DESTROY_EGG,
                                     "Bạn có chắc chắn muốn hủy bỏ trứng?", "Đồng ý", "Từ chối");
-                        } else if (select == 1) {
-                            if (player.inventory.gold >= COST_AP_TRUNG_NHANH) {
-                                player.inventory.gold -= COST_AP_TRUNG_NHANH;
-                                player.mabuEgg.timeDone = 0;
-                                Service.getInstance().sendMoney(player);
-                                player.mabuEgg.sendMabuEgg();
-                            } else {
-                                Service.getInstance().sendThongBao(player,
-                                        "Bạn không đủ vàng để thực hiện, còn thiếu "
-                                        + Util.numberToMoney(
-                                                (COST_AP_TRUNG_NHANH - player.inventory.gold))
-                                        + " vàng");
-                            }
                         }
+//                        else if (select == 1) {
+//                            if (player.inventory.gold >= COST_AP_TRUNG_NHANH) {
+//                                player.inventory.gold -= COST_AP_TRUNG_NHANH;
+////                                player.mabuEgg.timeDone = 0;
+//                                Service.getInstance().sendMoney(player);
+//                                player.mabuEgg.sendMabuEgg();
+//                            } else {
+//                                Service.getInstance().sendThongBao(player,
+//                                        "Bạn không đủ vàng để thực hiện, còn thiếu "
+//                                        + Util.numberToMoney(
+//                                                (COST_AP_TRUNG_NHANH - player.inventory.gold))
+//                                        + " vàng");
+//                            }
+//                        }
                         break;
                     case ConstNpc.CAN_OPEN_EGG:
                         switch (select) {

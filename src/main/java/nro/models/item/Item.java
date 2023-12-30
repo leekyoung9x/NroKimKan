@@ -1,7 +1,9 @@
 package nro.models.item;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import nro.utils.Util;
 
 public class Item {
 
@@ -54,41 +56,81 @@ public class Item {
         return false;
     }
 
-    public int checkSetKichHoat(int typeOption) {
-        for (ItemOption io : itemOptions) {
-            switch (io.optionTemplate.id) {
-                case 128:
-                    typeOption = 1;//Set Songoku
-                    break;
-                case 129:
-                    typeOption = 2;  //Set Krillin
-                    break;
-                case 127:
-                    typeOption = 3;  //Set Tenshinhan
-                    break;
-                case 130:
-                    typeOption = 4; //Set Piccolo
-                    break;
-                case 131:
-                    typeOption = 5; //Set Dende
-                    break;
-                case 132:
-                    typeOption = 6; ///Set Pikkoro Daimao
-                    break;
-                case 133:
-                    typeOption = 7;//Set Kakarot  
-                    break;
-                case 134:
-                    typeOption = 8; //Set Vegeta
-                    break;
-                case 135:
-                    typeOption = 9; //Set Nappa
-                    break;
-                default:
-                    break;
+    public boolean isItemKyGui() {
+        for (ItemOption o : itemOptions) {
+            int optionId = o.optionTemplate.id;
+            if (optionId == 86 || optionId == 87) {
+                return true;
             }
         }
-        return -1;
+        return false;
+    }
+
+    public int checkSet(Item it) {
+        int result = -1;
+        int[] doTD = new int[]{555, 556, 562, 563};
+
+        int[] doNM = new int[]{557, 558, 564, 565};
+
+        int[] doXD = new int[]{559, 560, 566, 567};
+        switch (it.template.type) {
+            case 0:// ao
+                switch (it.template.gender) {
+                    case 0:
+                        result = doTD[0];
+                        break;
+                    case 1:
+                        result = doNM[0];
+                        break;
+                    case 2:
+                        result = doXD[0];
+                        break;
+                }
+                break;
+            case 1:// quan
+                switch (it.template.gender) {
+                    case 0:
+                        result = doTD[1];
+                        break;
+                    case 1:
+                        result = doNM[1];
+                        break;
+                    case 2:
+                        result = doXD[1];
+                        break;
+                }
+                break;
+            case 2:// gang
+                switch (it.template.gender) {
+                    case 0:
+                        result = doTD[2];
+                        break;
+                    case 1:
+                        result = doNM[2];
+                        break;
+                    case 2:
+                        result = doXD[2];
+                        break;
+                }
+                break;
+            case 3://giay
+                switch (it.template.gender) {
+                    case 0:
+                        result = doTD[3];
+                        break;
+                    case 1:
+                        result = doNM[3];
+                        break;
+                    case 2:
+                        result = doXD[3];
+                        break;
+                }
+                break;
+            case 4:// rada
+                result = 561;
+                break;
+        }
+        return result;
     }
 
     public boolean isSKHVip() {

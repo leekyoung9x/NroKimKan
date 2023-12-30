@@ -2,6 +2,7 @@ package nro.services.func;
 
 import nro.consts.ConstNpc;
 import nro.jdbc.daos.PlayerDAO;
+import nro.manager.ChuyenKhoanManager;
 import nro.models.item.Item;
 import nro.models.map.Zone;
 import nro.models.npc.Npc;
@@ -17,6 +18,7 @@ import nro.art.ServerLog;
 import nro.models.item.ItemOption;
 import nro.models.player.Inventory;
 import nro.services.card.NapThe;
+import nro.utils.Util;
 
 /**
  * Build Arriety
@@ -28,6 +30,7 @@ public class Input {
     public static final int CHANGE_PASSWORD = 500;
     public static final int GIFT_CODE = 501;
     public static final int FIND_PLAYER = 502;
+    public static final int CHUYEN_KHOAN = 569;
     public static final int CHANGE_NAME = 503;
     public static final int CHOOSE_LEVEL_BDKB = 5066;
     public static final int CHOOSE_LEVEL_CDRD = 7700;
@@ -82,6 +85,24 @@ public class Input {
                                 pl);
                     } else {
                         Service.getInstance().sendThongBao(player, "Người chơi không tồn tại hoặc đang offline");
+                    }
+                    break;
+                case CHUYEN_KHOAN:
+                    try {
+                        long money = Long.parseLong(text[0]);
+
+                        String description = Util.generateRandomString();
+
+                        ChuyenKhoanManager.InsertTransaction(player.id, money, description);
+
+                        Npc npc = NpcManager.getByIdAndMap(ConstNpc.QUY_LAO_KAME, player.zone.map.mapId);
+                        if (npc != null) {
+                            npc.createOtherMenu(player, ConstNpc.CONTENT_CHUYEN_KHOAN,
+                                    "Con đã tạo thành công giao dịch có nội dung " + description + " với số tiền " + Util.numberToMoney(money) + "!\nVui lòng chuyển khoản đến ngân hàng MBBank có số tài khoản 0327068593 với số tiền và nội dung như trên!", "Đóng", "Quét QR");
+                        }
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                        Service.getInstance().sendThongBao(player, "Đã có lỗi xảy ra liên hệ với ADMIN Béo toán học để được hỗ trợ");
                     }
                     break;
                 case CHANGE_NAME:
@@ -273,6 +294,11 @@ public class Input {
     public void createFormFindPlayer(Player pl) {
         createForm(pl, FIND_PLAYER, "Tìm kiếm người chơi", new SubInput("Tên người chơi", ANY));
     }
+
+    public void createFormChuyenKhoan(Player pl) {
+        createForm(pl, CHUYEN_KHOAN, "Nhập số tiền muốn nạp", new SubInput("Số tiền", NUMERIC));
+    }
+
 
     public void createFormSenditem1(Player pl) {
         createForm(pl, SEND_ITEM_OP, "SEND Vật Phẩm Option",

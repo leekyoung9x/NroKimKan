@@ -80,7 +80,6 @@ public class Broly extends Boss {
     public void attack() {
         try {
             if (!charge()) {
-                angry();
                 Player pl = getPlayerAttack();
                 this.playerSkill.skillSelect = this.getSkillAttack();
                 if (Util.getDistance(this, pl) <= this.getRangeCanAttackWithSkillSelect()) {
@@ -122,18 +121,15 @@ public class Broly extends Boss {
     public int injured(Player plAtt, int damage, boolean piercing, boolean isMobAttack) {
         int mstChuong = this.nPoint.mstChuong;
         int giamst = this.nPoint.tlGiamst;
-
         if (!this.isDie()) {
             if (mstChuong > 0 && SkillUtil.isUseSkillChuong(plAtt)) {
                 PlayerService.gI().hoiPhuc(this, 0, damage * mstChuong / 100);
                 damage = 0;
             }
-
             if (!piercing && Util.isTrue(this.nPoint.tlNeDon, 1000)) {
                 this.chat("Xí hụt");
                 return 0;
             }
-
             damage = this.nPoint.subDameInjureWithDeff(damage);
 
             if (!piercing && effectSkill.isShielding) {
@@ -142,7 +138,6 @@ public class Broly extends Boss {
                 }
                 damage = 1;
             }
-
             if (!piercing) {
                 if ((plAtt.playerSkill.skillSelect.template.id == Skill.ANTOMIC || plAtt.playerSkill.skillSelect.template.id == Skill.KAMEJOKO || plAtt.playerSkill.skillSelect.template.id == Skill.MASENKO)) {
                     Service.getInstance().chat(plAtt, "Trời ơi, chưởng hoàn toàn vô hiệu lực với hắn..");
@@ -154,7 +149,6 @@ public class Broly extends Boss {
                     }
                 }
             }
-
             if (giamst > 0) {
                 damage -= nPoint.calPercent(damage, giamst);
             }
@@ -183,7 +177,6 @@ public class Broly extends Boss {
                 if (this instanceof SuperBroly) {
                     isSuper = true;
                 }
-
                 if (this.nPoint.hpMax >= 1_000_000 && !isSuper) {
                     int hpbroly = (this.nPoint.hpMax / 100) * 150;
                     if (hpbroly > 18_000_000) {
@@ -213,9 +206,7 @@ public class Broly extends Boss {
                     );
                     new SuperBroly(BossFactory.SUPER_BROLY, superBroly);
                 } else {
-//                    int[] idmapbroly = new int[]{5, 6, 10, 11, 12, 13, 19, 20, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38};
-//                    int indexmapxh = Util.nextInt(idmapbroly.length);
-                    int hpbroly = this.nPoint.hpMax + 500_000;
+                    int hpbroly = this.nPoint.hpMax + Util.nextInt(50_000, 100_000);
                     if (hpbroly < 500) {
                         hpbroly = 500;
                     }
@@ -242,8 +233,8 @@ public class Broly extends Boss {
                     );
                     if (isSuper) {
                         brolythuong.hp = new int[][]{{100, 1000}, {1000, 100000}, {100000, 1000000}, {1000000, 2000000}};
+                        rewards(plAtt);
                     }
-
                     new Broly(BossFactory.BROLY, brolythuong);
                 }
             }
@@ -281,48 +272,6 @@ public class Broly extends Boss {
         }
     }
 
-//    @Override
-//    public Player getPlayerAttack() throws Exception {
-//        try {
-//            if (countChangePlayerAttack < targetCountChangePlayerAttack
-//                    && plAttack != null && plAttack.zone.equals(this.zone) && !plAttack.effectSkin.isVoHinh) {
-//                if (!plAttack.isDie()) {
-//                    this.countChangePlayerAttack++;
-//                    return plAttack;
-//                }
-//            }
-//        } catch (Exception e) {
-//            this.playersAttack.remove(plAttack);
-//        }
-//
-//        if (!playersAttack.isEmpty()) {
-//            this.targetCountChangePlayerAttack = Util.nextInt(10, 20);
-//            this.countChangePlayerAttack = 0;
-//            Player plAtt = playersAttack.get(Util.nextInt(0, playersAttack.size() - 1));
-//            if (plAtt != null && plAtt.zone.equals(this.zone) && !plAtt.isDie() && !plAttack.effectSkin.isVoHinh) {
-//                return (this.plAttack = plAtt);
-//            } else {
-//                throw new Exception();
-//            }
-//        } else {
-//            throw new Exception();
-//        }
-//    }
-    private void addPlayerAttack(Player plAtt) {
-        boolean haveInList = false;
-        for (Player pl : playersAttack) {
-            if (pl.equals(plAtt)) {
-                haveInList = true;
-                break;
-            }
-        }
-        if (!haveInList) {
-            playersAttack.add(plAtt);
-            Service.getInstance().chat(this, "Mi làm ta nổi giận rồi "
-                    + plAtt.name.replaceAll("$", "").replaceAll("#", ""));
-        }
-    }
-
     protected boolean charge() {
         if (this.effectSkill.isCharging && Util.isTrue(15, 100)) {
             this.effectSkill.isCharging = false;
@@ -354,49 +303,6 @@ public class Broly extends Boss {
         }
     }
 
-    private void angry() {
-//        if (this.playersAttack.size() < 5 && Util.isTrue(7, ConstRatio.PER100)) {
-//
-//            Iterator i = this.zone.getPlayers();
-//            while (i.hasNext()) {
-//                Player pl = (Player) i.next();
-//
-//                if (pl == null) {
-//                    continue;
-//                }
-//                if (pl != null && !pl.equals(this) && Util.getDistance(this, pl) <= DIS_ANGRY
-//                        && !pl.isBoss && !pl.isDie() && !isInListPlayersAttack(pl)) {
-//                    try {
-//                        int count = (int) angryPlayers.get(pl);
-//                        if (++count > 2) {
-//                            addPlayerAttack(pl);
-//                        } else {
-//                            Service.getInstance().chat(this, "Tránh xa ta ra, đừng để ta nổi giận");
-//                            effectCharger();
-//
-//                        }
-//                        angryPlayers.put(pl, count);
-//                        break;
-//                    } catch (Exception e) {
-//                        Service.getInstance().chat(this, "Tránh xa ta ra, đừng để ta nổi giận");
-//                        effectCharger();
-//
-//                        angryPlayers.put(pl, 1);
-//                        break;
-//                    }
-//                }
-//            }
-//        }
-    }
-
-    private boolean isInListPlayersAttack(Player player) {
-        for (Player pl : playersAttack) {
-            if (player.equals(pl)) {
-                return true;
-            }
-        }
-        return false;
-    }
 
     @Override
     public void checkPlayerDie(Player pl) {
@@ -411,8 +317,8 @@ public class Broly extends Boss {
     @Override
     public void joinMap() {
         this.zone = getMapCanJoin(mapJoin[Util.nextInt(0, mapJoin.length - 1)]);
-        int x = Util.nextInt(50, this.zone.map.mapWidth - 50);
-        if (this.zone != null) {
+        if (this.zone != null && this.zone.map != null) {
+            int x = Util.nextInt(50, this.zone.map.mapWidth - 50);
             ChangeMapService.gI().changeMap(this, this.zone, x, this.zone.map.yPhysicInTop(x, 0));
             ServerNotify.gI().notify("Boss " + this.name + " vừa xuất hiện tại " + this.zone.map.mapName + "");
         } else {
@@ -454,48 +360,6 @@ public class Broly extends Boss {
         if (true) {
             BossFactory.createBoss(BossFactory.SUPER_BROLY);
             return;
-        }
-        int hpGoc = this.nPoint.hpg;
-        if (hpGoc >= HP_CREATE_SUPER_10) {
-            if (Util.isTrue(RATIO_CREATE_SUPER_100, ConstRatio.PER100)) {
-                BossFactory.createBoss(BossFactory.SUPER_BROLY);
-            }
-        } else if (hpGoc >= HP_CREATE_SUPER_9) {
-            if (Util.isTrue(RATIO_CREATE_SUPER_90, ConstRatio.PER100)) {
-                BossFactory.createBoss(BossFactory.SUPER_BROLY);
-            }
-        } else if (hpGoc >= HP_CREATE_SUPER_8) {
-            if (Util.isTrue(RATIO_CREATE_SUPER_80, ConstRatio.PER100)) {
-                BossFactory.createBoss(BossFactory.SUPER_BROLY);
-            }
-        } else if (hpGoc >= HP_CREATE_SUPER_7) {
-            if (Util.isTrue(RATIO_CREATE_SUPER_70, ConstRatio.PER100)) {
-                BossFactory.createBoss(BossFactory.SUPER_BROLY);
-            }
-        } else if (hpGoc >= HP_CREATE_SUPER_6) {
-            if (Util.isTrue(RATIO_CREATE_SUPER_60, ConstRatio.PER100)) {
-                BossFactory.createBoss(BossFactory.SUPER_BROLY);
-            }
-        } else if (hpGoc >= HP_CREATE_SUPER_5) {
-            if (Util.isTrue(RATIO_CREATE_SUPER_50, ConstRatio.PER100)) {
-                BossFactory.createBoss(BossFactory.SUPER_BROLY);
-            }
-        } else if (hpGoc >= HP_CREATE_SUPER_4) {
-            if (Util.isTrue(RATIO_CREATE_SUPER_40, ConstRatio.PER100)) {
-                BossFactory.createBoss(BossFactory.SUPER_BROLY);
-            }
-        } else if (hpGoc >= HP_CREATE_SUPER_3) {
-            if (Util.isTrue(RATIO_CREATE_SUPER_30, ConstRatio.PER100)) {
-                BossFactory.createBoss(BossFactory.SUPER_BROLY);
-            }
-        } else if (hpGoc >= HP_CREATE_SUPER_2) {
-            if (Util.isTrue(RATIO_CREATE_SUPER_20, ConstRatio.PER100)) {
-                BossFactory.createBoss(BossFactory.SUPER_BROLY);
-            }
-        } else if (hpGoc >= HP_CREATE_SUPER_1) {
-            if (Util.isTrue(RATIO_CREATE_SUPER_10, ConstRatio.PER100)) {
-                BossFactory.createBoss(BossFactory.SUPER_BROLY);
-            }
         }
         generalRewards(pl);
     }

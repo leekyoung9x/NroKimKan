@@ -395,12 +395,12 @@ public class GodGK {
                         rateHPKI = Integer.parseInt(String.valueOf(dataArray.get(5)));
                         timeMa = Integer.parseInt(String.valueOf(dataArray.get(6)));
                     }
-                    player.itemTime.lastTimeDuoiKhi = System.currentTimeMillis() - (ItemTime.TIME_ITEM - duoiKhi);
+                    player.itemTime.lastTimeDuoiKhi = System.currentTimeMillis() - (ItemTime.TIME_MAY_DO - duoiKhi);
                     player.itemTime.lastTimeBanhTrungThu1Trung = System.currentTimeMillis() - (ItemTime.TIME_ITEM - timeBanh1Trung);
                     player.itemTime.lastTimeBanhTrungThu2Trung = System.currentTimeMillis() - (ItemTime.TIME_ITEM - timeBanh2Trung);
                     player.itemTime.lastTimerateHit = System.currentTimeMillis() - (ItemTime.TIME_ITEM - rateDraHit);
-                    player.itemTime.lastTimeDameDr = System.currentTimeMillis() - (ItemTime.TIME_ITEM - rateDame);
-                    player.itemTime.lastTimerateHPKI = System.currentTimeMillis() - (ItemTime.TIME_ITEM - rateHPKI);
+                    player.itemTime.lastTimeDameDr = System.currentTimeMillis() - (ItemTime.TIME_MAY_DO - rateDame);
+                    player.itemTime.lastTimerateHPKI = System.currentTimeMillis() - (ItemTime.TIME_MAY_DO - rateHPKI);
                     player.itemTime.lastTimeMaTroi = System.currentTimeMillis() - (ItemTime.TIME_ITEM - timeMa);
                     player.itemTime.isDuoiKhi = duoiKhi != 0;
                     player.itemTime.isBanhTrungThu1Trung = timeBanh1Trung != 0;

@@ -86,6 +86,10 @@ public class NpcFactory {
                     npc = new QuyLaoKame(mapId, status, cx, cy, tempId, avartar);
                     break;
                 }
+                case ConstNpc.CONTENT_CHUYEN_KHOAN: {
+                    npc = new ChuyenKhoan(mapId, status, cx, cy, tempId, avartar);
+                    break;
+                }
                 case ConstNpc.TRUONG_LAO_GURU: {
                     npc = new TruongLaoGuru(mapId, status, cx, cy, tempId, avartar);
                     break;
@@ -220,7 +224,7 @@ public class NpcFactory {
                     break;
                 }
                 case ConstNpc.BO_MONG: {
-                    npc = new Whis(mapId, status, cx, cy, tempId, avartar);
+                    npc = new BoMong(mapId, status, cx, cy, tempId, avartar);
                     break;
                 }
                 case ConstNpc.GOKU_SSJ: {

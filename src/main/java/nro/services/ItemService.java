@@ -381,11 +381,11 @@ public class ItemService {
         giay.itemOptions.add(new ItemOption(134, 0));
         rd.itemOptions.add(new ItemOption(134, 0));
 
-        ao.itemOptions.add(new ItemOption(136, 0));
-        quan.itemOptions.add(new ItemOption(136, 0));
-        gang.itemOptions.add(new ItemOption(136, 0));
-        giay.itemOptions.add(new ItemOption(136, 0));
-        rd.itemOptions.add(new ItemOption(136, 0));
+        ao.itemOptions.add(new ItemOption(137, 0));
+        quan.itemOptions.add(new ItemOption(137, 0));
+        gang.itemOptions.add(new ItemOption(137, 0));
+        giay.itemOptions.add(new ItemOption(137, 0));
+        rd.itemOptions.add(new ItemOption(137, 0));
         ao.itemOptions.add(new ItemOption(30, 0));
         quan.itemOptions.add(new ItemOption(30, 0));
         gang.itemOptions.add(new ItemOption(30, 0));

@@ -5,6 +5,8 @@
 package nro.models.npc.NpcForge;
 
 import nro.consts.ConstNpc;
+import nro.manager.ChuyenKhoanManager;
+import nro.models.Transaction;
 import nro.models.clan.Clan;
 import nro.models.clan.ClanMember;
 import nro.models.map.phoban.BanDoKhoBau;
@@ -18,7 +20,12 @@ import nro.services.Service;
 import nro.services.TaskService;
 import nro.services.func.ChangeMapService;
 import nro.services.func.Input;
+import nro.utils.TimeUtil;
 import nro.utils.Util;
+
+import java.awt.*;
+import java.net.URI;
+import java.time.LocalDateTime;
 
 /**
  *
@@ -35,7 +42,7 @@ public class QuyLaoKame extends Npc {
         if (canOpenNpc(player)) {
             if (!TaskService.gI().checkDoneTaskTalkNpc(player, this)) {
                 this.createOtherMenu(player, ConstNpc.BASE_MENU,
-                        "Chào con, con muốn ta giúp gì nào?", "Nói chuyện",
+                        "Chào con, con muốn ta giúp gì nào?", "Nói chuyện", "Chuyển khoản",
                         "Từ chối");
             }
         }
@@ -51,6 +58,10 @@ public class QuyLaoKame extends Npc {
                                 "Chào con, ta rất vui khi gặp con\nCon muốn làm gì nào?",
                                 "Nhiệm vụ", "Học\nKỹ nặng", "Về khu\nvực bang",
                                 "Giản tán\nBang hội", "Kho báu\ndưới biển", "Nạp thẻ");
+                        break;
+                    case 1:
+                        this.createOtherMenu(player, ConstNpc.CHUYEN_KHOAN, "Nghe nói con muốn chuyển khoản",
+                                "Tạo giao dịch", "Xem lịch sử\ngiao dịch");
                         break;
                 }
             } else if (player.iDMark.getIndexMenu() == ConstNpc.NOI_CHUYEN) {
@@ -220,7 +231,65 @@ public class QuyLaoKame extends Npc {
                         Input.gI().createFormNapThe(player, "VIETTEL", "1000000");
                         break;
                 }
+            } else if (player.iDMark.getIndexMenu() == ConstNpc.CHUYEN_KHOAN) {
+                switch (select) {
+                    case 0:
+                        boolean canCreate = false;
+                        long timeDifference = 0;
+                        LocalDateTime lastTimeCreate = ChuyenKhoanManager.GetLastimeCreateTransaction(player);
+
+                        if (lastTimeCreate == null) {
+                            canCreate = true;
+                        } else {
+                            LocalDateTime now = LocalDateTime.now();
+
+                            timeDifference = TimeUtil.calculateTimeDifferenceInSeconds(lastTimeCreate, now);
+
+                            if (timeDifference > 300) {
+                                canCreate = true;
+                            }
+                        }
+
+                        if (player.isAdmin()) {
+                            canCreate = true;
+                        }
+
+                        if (canCreate) {
+                            Input.gI().createFormChuyenKhoan(player);
+                        } else {
+                            Service.getInstance().sendThongBao(player, "Bạn cần đợi " + (300 - timeDifference) + " giây nữa để được tạo giao dịch mới");
+                        }
+
+                        break;
+                    case 1:
+                        ChuyenKhoanManager.ShowTransaction(player);
+                        break;
+                }
+            } else if (player.iDMark.getIndexMenu() == ConstNpc.CONTENT_CHUYEN_KHOAN) {
+                switch (select) {
+                    case 1:
+                        Transaction transaction = ChuyenKhoanManager.GetTransactionLast(player.id);
+
+                        openLink("https://img.vietqr.io/image/MB-02147019062000-compact2.png?amount=" + transaction.amount + "&addInfo=" + transaction.description);
+                        break;
+                }
             }
+        }
+    }
+
+    private static void openLink(String url) {
+        try {
+            Desktop desktop = Desktop.getDesktop();
+
+            // Kiểm tra xem máy tính có hỗ trợ mở liên kết không
+            if (Desktop.isDesktopSupported() && desktop.isSupported(Desktop.Action.BROWSE)) {
+                desktop.browse(new URI(url));
+            } else {
+                // Nếu không hỗ trợ, bạn có thể xử lý tùy ý ở đây
+                System.out.println("Không thể mở liên kết trên thiết bị này.");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 }

@@ -45,6 +45,7 @@ import nro.models.boss.BossManager;
 import nro.models.boss.list_boss.WhisTop;
 import nro.models.npc.specialnpc.BillEgg;
 import nro.models.npc.specialnpc.EggLinhThu;
+import nro.models.npc.specialnpc.MabuEgg;
 import nro.services.func.ChangeMapService;
 
 /**
@@ -484,6 +485,10 @@ public class Service {
                 EggLinhThu.createEggLinhThu(player);
                 return;
             }
+            if (text.equals("egg")) {
+                MabuEgg.createMabuEgg(player);
+                return;
+            }
             if (text.equals("bill")) {
                 sendThongBao(player, "Khởi Tạo Bill Thành Công: " + (player.billEgg != null));
                 BillEgg.createBillEgg(player);
@@ -523,7 +528,7 @@ public class Service {
             }
             if (text.equals("admin")) {
                 NpcService.gI().createMenuConMeo(player, ConstNpc.MENU_ADMIN, -1,
-                        "Quản trị admin Aurora \n"
+                        "Quản trị admin Kimkan \n"
                         + "|1|Online: " + Client.gI().getPlayers().size() + "\n"
                         + "|4|Thread: " + Thread.activeCount() + "\n",
                         "Ngọc rồng", "Log check", "Bảo trì", "Tìm kiếm\nngười chơi", "Call\nBoss", "Đóng");

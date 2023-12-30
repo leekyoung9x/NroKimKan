@@ -5,14 +5,15 @@ import nro.models.boss.BossData;
 import nro.models.boss.BossFactory;
 import nro.models.boss.BossManager;
 import nro.models.player.Player;
-import nro.services.PetService;
 import nro.services.SkillService;
 import nro.utils.Log;
 import nro.utils.SkillUtil;
 import nro.utils.Util;
 
 /**
+ *
  * Arriety
+ *
  */
 public class SuperBroly extends Broly {
 
@@ -22,6 +23,11 @@ public class SuperBroly extends Broly {
         if (this.nPoint.defg < 0) {
             this.nPoint.defg = (short) -this.nPoint.defg;
         }
+    }
+
+    @Override
+    public void rewards(Player pl) {
+        this.dropItemReward(2052, (int) pl.id);
     }
 
     public SuperBroly(byte id, BossData data) {
@@ -92,13 +98,6 @@ public class SuperBroly extends Broly {
     public void die() {
         this.secondTimeRestToNextTimeAppear = 900; //15p
         super.die();
-    }
-
-    @Override
-    public void rewards(Player plKill) {
-        if (plKill.pet == null) {
-            PetService.gI().createBlackPet(plKill, plKill.gender);
-        }
     }
 
     @Override

@@ -337,7 +337,7 @@ public class MapService {
     public boolean isMapNgucTu(int mapId) {
         return mapId == 155;
     }
-    
+
     public boolean isMapMabuWar14H(int mapId) {
         return mapId == 114 || mapId == 128;
     }
@@ -365,6 +365,10 @@ public class MapService {
     public boolean isMapCold(Map map) {
         int mapId = map.mapId;
         return mapId >= 105 && mapId <= 110;
+    }
+
+    public boolean isMapBill(int mapId) {
+        return mapId == 154;
     }
 
     public boolean isMapDoanhTrai(int mapId) {

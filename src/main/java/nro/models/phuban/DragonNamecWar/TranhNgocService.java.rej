@@ -1,9 +1,0 @@
-diff a/src/main/java/nro/models/phuban/DragonNamecWar/TranhNgocService.java b/src/main/java/nro/models/phuban/DragonNamecWar/TranhNgocService.java	(rejected hunks)
-@@ -96,6 +96,7 @@
- 
-     public void sendEndPhoBan(Zone zone, byte type, boolean isFide) {
- //        Message msg;
-+//        try {
- //            msg = new Message(20);
- //            msg.writer().writeByte(0);
- //            msg.writer().writeByte(2);

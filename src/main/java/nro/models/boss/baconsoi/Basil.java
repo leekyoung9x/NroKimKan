@@ -45,7 +45,7 @@ public class Basil extends FutureBoss {
         } else {
             int slRuby = Util.nextInt(10, 20);
             for (int i = 0; i < slRuby; i++) {
-                ItemMap ruby = new ItemMap(zone, 861, Util.nextInt(1000, 5000), 10 * i + this.location.x, zone.map.yPhysicInTop(this.location.x, 0), -1);
+                ItemMap ruby = new ItemMap(zone, 861, Util.nextInt(100, 500), 10 * i + this.location.x, zone.map.yPhysicInTop(this.location.x, 0), -1);
                 Service.getInstance().dropItemMap(this.zone, ruby);
             }
         }

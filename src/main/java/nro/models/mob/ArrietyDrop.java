@@ -180,69 +180,74 @@ public class ArrietyDrop {
         return it;
     }
 
-   
-
     public static Item randomCS_DKHTL(int itemId, int typeOption, byte gender) {
         Item it = ItemService.gI().createItemSetKichHoat(itemId, 1);
-        List<Integer> aoTD = Arrays.asList(555);
-        List<Integer> aoNM = Arrays.asList(557);
-        List<Integer> aoXD = Arrays.asList(559);
-        List<Integer> quanTD = Arrays.asList(556);
-        List<Integer> quanNM = Arrays.asList(558);
-        List<Integer> quanXD = Arrays.asList(560);
-        List<Integer> gangTD = Arrays.asList(562);
-        List<Integer> gangNM = Arrays.asList(564);
-        List<Integer> gangXD = Arrays.asList(566);
-        List<Integer> giayTD = Arrays.asList(563);
-        List<Integer> giayNM = Arrays.asList(565);
-        List<Integer> giayXD = Arrays.asList(567);
+        int[] doTD = new int[]{555, 556, 562, 563};
+
+        int[] doNM = new int[]{557, 558, 564, 565};
+
+        int[] doXD = new int[]{559, 560, 566, 567};
         int rada = 561;
         switch (gender) {
             case 0:
-                if (aoTD.contains(itemId)) {
+                if (doTD[0] == itemId) {
                     it.itemOptions.add(new ItemOption(47, Util.highlightsItem(gender == 2, new Random().nextInt(150) + 700))); // áo từ 1800-2800 giáp
                 }
-                if (quanTD.contains(itemId)) {
+                if (doTD[1] == itemId) {
                     it.itemOptions.add(new ItemOption(22, Util.highlightsItem(gender == 0, new Random().nextInt(15) + 45))); // hp 85-100k
                 }
-                if (gangTD.contains(itemId)) {
+                if (doTD[2] == itemId) {
                     it.itemOptions.add(new ItemOption(0, Util.highlightsItem(gender == 2, new Random().nextInt(500) + 4500))); // 8500-10000
                 }
-                if (giayTD.contains(itemId)) {
+                if (doTD[3] == itemId) {
                     it.itemOptions.add(new ItemOption(23, Util.highlightsItem(gender == 1, new Random().nextInt(15) + 45))); // ki 80-90k
                 }
                 break;
             case 1:
-                if (aoNM.contains(itemId)) {
+                if (doNM[0] == itemId) {
                     it.itemOptions.add(new ItemOption(47, Util.highlightsItem(gender == 2, new Random().nextInt(150) + 700))); // áo từ 1800-2800 giáp
                 }
-                if (quanNM.contains(itemId)) {
+                if (doNM[1] == itemId) {
                     it.itemOptions.add(new ItemOption(22, Util.highlightsItem(gender == 0, new Random().nextInt(15) + 45))); // hp 85-100k
                 }
-                if (gangNM.contains(itemId)) {
+                if (doNM[2] == itemId) {
                     it.itemOptions.add(new ItemOption(0, Util.highlightsItem(gender == 2, new Random().nextInt(500) + 4500))); // 8500-10000
                 }
-                if (giayNM.contains(itemId)) {
+                if (doNM[3] == itemId) {
                     it.itemOptions.add(new ItemOption(23, Util.highlightsItem(gender == 1, new Random().nextInt(15) + 45))); // ki 80-90k
                 }
                 break;
             case 2:
-                if (aoXD.contains(itemId)) {
+                if (doXD[0] == itemId) {
                     it.itemOptions.add(new ItemOption(47, Util.highlightsItem(gender == 2, new Random().nextInt(150) + 700))); // áo từ 1800-2800 giáp
                 }
-                if (quanXD.contains(itemId)) {
+                if (doXD[1] == itemId) {
                     it.itemOptions.add(new ItemOption(22, Util.highlightsItem(gender == 0, new Random().nextInt(15) + 45))); // hp 85-100k
                 }
-                if (gangXD.contains(itemId)) {
+                if (doXD[2] == itemId) {
                     it.itemOptions.add(new ItemOption(0, Util.highlightsItem(gender == 2, new Random().nextInt(500) + 4500))); // 8500-10000
                 }
-                if (giayXD.contains(itemId)) {
+                if (doXD[3] == itemId) {
                     it.itemOptions.add(new ItemOption(23, Util.highlightsItem(gender == 1, new Random().nextInt(15) + 45))); // ki 80-90k
                 }
                 break;
         }
         if (rada == itemId) {
             it.itemOptions.add(new ItemOption(14, new Random().nextInt(2) + 13)); //chí mạng 17-19%
+            switch (typeOption) {
+                case 6://Set Kakarot  
+                    it.itemOptions.add(new ItemOption(133, 0));
+                    it.itemOptions.add(new ItemOption(136, 0));
+                    break;
+                case 7://Set Vegeta
+                    it.itemOptions.add(new ItemOption(134, 0));
+                    it.itemOptions.add(new ItemOption(137, 0));
+                    break;
+                case 8://Set Nappa
+                    it.itemOptions.add(new ItemOption(135, 0));
+                    it.itemOptions.add(new ItemOption(138, 0));
+                    break;
+            }
         }
         switch (gender) {
             case 0:
@@ -294,8 +299,9 @@ public class ArrietyDrop {
                 }
                 break;
         }
-
         it.itemOptions.add(new ItemOption(30, 0));// ko the gd
+        it.itemOptions.add(new ItemOption(21, 100));// ko the gd
+
         return it;
     }
 

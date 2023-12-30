@@ -4,6 +4,7 @@ import nro.consts.*;
 import nro.data.DataGame;
 import nro.data.ItemData;
 import nro.jdbc.DBService;
+import nro.manager.ChuyenKhoanManager;
 import nro.models.kygui.ConsignmentShop;
 import nro.models.map.war.BlackBallWar;
 import nro.models.npc.NpcManager;
@@ -51,10 +52,21 @@ public class Controller {
                 case Cmd.THACHDAU:
                     if (player != null && player.zone != null && player.zone.map != null) {
                         int idPk = _msg.reader().readInt();
-                        if (player.zone.map.mapId == ConstMap.DAI_HOI_VO_THUAT_113) {
-                            ServerManager.gI().getSieuHangController().InviteOther(player, idPk);
-                        } else {
-                            BossManager.gI().FindBoss(player, idPk);
+                        switch (player.zone.map.mapId) {
+                            case ConstMap.DAI_HOI_VO_THUAT_113: {
+                                ServerManager.gI().getSieuHangController().InviteOther(player, idPk);
+                                break;
+                            }
+                            case ConstMap.DAO_KAME: {
+                                ChuyenKhoanManager.HandleTransaction(player, idPk);
+                                break;
+                            }
+                            default: {
+                                if (player.getSession().isAdmin) {
+                                    BossManager.gI().FindBoss(player, idPk);
+                                }
+                                break;
+                            }
                         }
                     }
                     break;
@@ -283,7 +295,7 @@ public class Controller {
                     int effId = _msg.reader().readShort();
                     int idT = effId;
                     if (effId == 25) {
-                        idT = 59;
+                        idT = 50;
                     }
                     Resources.effData(_session, effId, idT);
                     break;

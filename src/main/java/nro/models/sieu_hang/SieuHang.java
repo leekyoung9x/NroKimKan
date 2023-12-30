@@ -4,7 +4,6 @@ import lombok.Getter;
 import lombok.Setter;
 import nro.consts.ConstMap;
 import nro.consts.ConstPlayer;
-import nro.manager.SieuHangControl;
 import nro.manager.SieuHangManager;
 import nro.models.boss.Boss;
 import nro.models.boss.BossData;
@@ -12,16 +11,15 @@ import nro.models.map.Zone;
 import nro.models.map.challenge.MartialCongressService;
 import nro.models.player.Player;
 import nro.models.skill.Skill;
-import nro.server.ServerManager;
 import nro.services.*;
 import nro.services.func.ChangeMapService;
 import nro.utils.Util;
 
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
 
 public class SieuHang {
+
     @Getter
     @Setter
     private int id;
@@ -100,7 +98,6 @@ public class SieuHang {
         }, 10000);
     }
 
-
     private void timeOut(Player plWin) {
         endChallenge(plWin);
     }
@@ -127,7 +124,6 @@ public class SieuHang {
                 throw new RuntimeException(e);
             }
         }).start();
-
 
         PlayerService.gI().setPos(player, 335, 264, 0);
         setTimeWait(11);

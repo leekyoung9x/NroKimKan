@@ -232,7 +232,7 @@ public class BossFactory {
                 createBoss(KINGKONG);
                 createBoss(XEN_BO_HUNG_1);
                 createBoss(SANTA_CLAUS);
-                for (int i = 0; i < 5; i++) {
+                for (int i = 0; i < 20; i++) {
                     createBoss(BROLY);
                 }
             } catch (Exception e) {
@@ -316,15 +316,6 @@ public class BossFactory {
             case BROLY:
                 boss = new Broly();
                 break;
-//            case RAITY:
-//                boss = new Raity();
-//                break;
-//            case MA_TROI:
-//                boss = new MaTroi();
-//                break;
-//            case BO_XUONG:
-//                boss = new BoXuong();
-//                break;
             case LAVENDER:
                 boss = new Lavender();
                 break;
@@ -360,9 +351,6 @@ public class BossFactory {
                 break;
             case KUKU:
                 boss = new Kuku();
-                break;
-            case SUPER_BROLY:
-                boss = new SuperBroly();
                 break;
             case MAP_DAU_DINH:
                 boss = new MapDauDinh();

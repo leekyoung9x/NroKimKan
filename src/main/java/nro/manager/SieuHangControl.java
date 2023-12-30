@@ -8,7 +8,6 @@ import nro.models.sieu_hang.SieuHangModel;
 import nro.services.MapService;
 import nro.services.Service;
 import nro.services.func.ChangeMapService;
-import nro.utils.Util;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,7 +15,8 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
 
-public class SieuHangControl  extends ReentrantReadWriteLock implements Runnable {
+public class SieuHangControl extends ReentrantReadWriteLock implements Runnable {
+
     private static final ReentrantReadWriteLock lock = new ReentrantReadWriteLock();
     private final ExecutorService threadPool;
     private final List<SieuHang> list;
@@ -75,7 +75,7 @@ public class SieuHangControl  extends ReentrantReadWriteLock implements Runnable
 
             SieuHangModel me = new SieuHangModel(), other = new SieuHangModel();
 
-            for (SieuHangModel sh: shs) {
+            for (SieuHangModel sh : shs) {
                 if (sh.player_id == player.id) {
                     me = sh;
                 } else {
@@ -151,6 +151,7 @@ public class SieuHangControl  extends ReentrantReadWriteLock implements Runnable
             lock.readLock().unlock();
         }
     }
+
     public int generateID() {
         return this.increasement++;
     }

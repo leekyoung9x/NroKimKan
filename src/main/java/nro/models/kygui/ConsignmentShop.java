@@ -162,8 +162,13 @@ public class ConsignmentShop {
     }
 
     private void consign(Player player, short itemID, byte monneyType, int money, int quantity) {
-        if (player.nPoint.power < 100_000_000_000L) {
-            Service.getInstance().sendThongBao(player, "There is not enough power to modify this function");
+        if (player.playerTask.taskMain.id < 20) {
+            Service.getInstance().sendThongBao(player, "Bạn phải hoàn thành nhiệm vụ Tiểu đội sát thủ");
+            show(player);
+            return;
+        }
+        if (player.nPoint.power < 50_000_000_000L) {
+            Service.getInstance().sendThongBao(player, "Bạn chưa đủ 50 tỷ sức mạnh");
             show(player);
             return;
         }
@@ -172,26 +177,28 @@ public class ConsignmentShop {
             show(player);
             return;
         }
-        Item it = InventoryService.gI().findItem(player, itemID, quantity);
-        boolean canBeConsignment = false;
-        for (ItemOption otn : it.itemOptions) {
-            if (otn.optionTemplate.id == 86 || otn.optionTemplate.id == 87) {
-                canBeConsignment = true;
-                break;
-            }
-        }
-        if (!canBeConsignment) {
-            Service.getInstance().sendThongBao(player, "Vật phẩm không thể ký gửi");
-            show(player);
-            return;
-        }
+//        Item it = InventoryService.gI().findItemBagByTemp(player, itemID);
+//        if (!it.isItemKyGui()) {
+//            Service.getInstance().sendThongBao(player, "Vật phẩm không thể ký gửi");
+//            show(player);
+//            return;
+//        }
         if (quantity < 0 || quantity > 99) {
             Service.getInstance().sendThongBao(player, "Chỉ có thể kí gửi tối đa x99");
             return;
         }
-        if (money <= 9 || money >= 1_000_000_000) {
-            Service.getInstance().sendThongBao(player, "Vui lòng ký gửi trên 10 đơn vị, đến 1 tỷ đơn vị");
-            return;
+        if (monneyType == 0) {
+            if (money <= 9 || money >= 1_000_000_000) {
+                Service.getInstance().sendThongBao(player, "Vui lòng ký gửi trên 10 đơn vị, đến 1 tỷ đơn vị");
+                show(player);
+                return;
+            }
+        } else {
+            if (money < 100_000 || money > 1_000_000) {
+                Service.getInstance().sendThongBao(player, "Vui lòng ký gửi trên 100k đơn vị, đến 1 tr đơn vị");
+                show(player);
+                return;
+            }
         }
         if (findItemConsign(player.id, itemID) != null) {
             Service.getInstance().sendThongBao(player, "Không thể kí gửi nhiều vật phẩm giống nhau");
@@ -292,7 +299,9 @@ public class ConsignmentShop {
                 }
             });
         });
-        player.inventory.itemsBag.stream().filter((item) -> (item.isNotNullItem() && item.template.id != ConstItem.THOI_VANG
+        player.inventory.itemsBag.stream().filter((item)
+                -> (item.isNotNullItem()
+                && item.template.id != ConstItem.THOI_VANG
                 && canConsign(item.template.type)
                 && item.canConsign())).forEachOrdered((it) -> {
             ConsignmentItem consignmentItem = ItemService.gI().convertToConsignmentItem(it);
@@ -326,10 +335,19 @@ public class ConsignmentShop {
 
     public void buy(Player player, short itemID, byte monneyType, int money) {
         for (ConsignmentItem item : list) {
-//            ConsignmentItem item = getItemBuy(itemID);
             if (item.getConsignID() == itemID && monneyType == monneyType && money == money) {
+                if (player.inventory.ruby < 1_000_000) {
+                    Service.getInstance().sendThongBao(player, "Người bạn không đủ 1tr hồng ngọc");
+                    show(player);
+                    return;
+                }
+                if (player.playerTask.taskMain.id < 24) {
+                    Service.getInstance().sendThongBao(player, "Bạn phải hoàn thành nhiệm vụ Xên hoàn thiện");
+                    show(player);
+                    return;
+                }
                 if (player.nPoint.power < 100_000_000_000L) {
-                    Service.getInstance().sendThongBao(player, "There is not enough power to modify this function");
+                    Service.getInstance().sendThongBao(player, "Bạn chưa đủ 100 tỷ sức mạnh !!");
                     show(player);
                     return;
                 }

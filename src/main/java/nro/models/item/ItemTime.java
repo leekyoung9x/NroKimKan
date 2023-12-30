@@ -17,7 +17,7 @@ public class ItemTime {
 
     public static final byte TOP_DAME_ATTACK_BOSS = 2;
 
-    public static final int TIME_ITEM = 600000;
+    public static final int TIME_ITEM = 600_000;
     public static final int TIME_OPEN_POWER = 86400000;
     public static final int TIME_MAY_DO = 1800000;
     public static final int TIME_EAT_MEAL = 600000;
@@ -93,19 +93,19 @@ public class ItemTime {
     public void update() {
         boolean update = false;
         if (rateDragonHit) {
-            if (Util.canDoWithTime(lastTimerateHit, TIME_ITEM)) {
+            if (Util.canDoWithTime(lastTimerateHit, TIME_MAY_DO)) {
                 rateDragonHit = false;
                 update = true;
             }
         }
         if (rateDame) {
-            if (Util.canDoWithTime(lastTimeDameDr, TIME_ITEM)) {
+            if (Util.canDoWithTime(lastTimeDameDr, TIME_MAY_DO)) {
                 rateDame = false;
                 update = true;
             }
         }
         if (rateHPKI) {
-            if (Util.canDoWithTime(lastTimerateHPKI, TIME_ITEM)) {
+            if (Util.canDoWithTime(lastTimerateHPKI, TIME_MAY_DO)) {
                 rateHPKI = false;
                 update = true;
             }
@@ -123,7 +123,7 @@ public class ItemTime {
             }
         }
         if (isDuoiKhi) {
-            if (Util.canDoWithTime(lastTimeDuoiKhi, TIME_ITEM)) {
+            if (Util.canDoWithTime(lastTimeDuoiKhi, TIME_MAY_DO)) {
                 isDuoiKhi = false;
                 update = true;
             }

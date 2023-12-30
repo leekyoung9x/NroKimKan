@@ -289,6 +289,14 @@ public class UseItem {
                             }
                             Input.gI().createFormTangRuby(pl);
                             break;
+                        case 2052:
+                            if (pl.pet != null) {
+                                PetService.gI().createBlackPet(pl, pl.gender);
+                                InventoryService.gI().subQuantityItemsBag(pl, item, 1);
+                            } else {
+                                Service.getInstance().sendThongBao(pl, "Bạn đã có để tử rồi");
+                            }
+                            break;
                         case 2012: //Hop Qua Kich Hoat
                             openboxsukien(pl, item, 1);
                             break;
@@ -1827,8 +1835,8 @@ public class UseItem {
             SummonDragon.gI().openMenuSummonShenron(pl, (byte) 1015, SummonDragon.DRAGON_BLACK_SHENRON);
         } else if (tempId >= SummonDragon.NGOC_RONG_BANG[0] && tempId <= SummonDragon.NGOC_RONG_BANG[6]) {
             switch (tempId) {
-                case 925:
-                    SummonDragon.gI().openMenuSummonShenron(pl, (byte) 925, SummonDragon.DRAGON_ICE_SHENRON);
+                case 2045:
+                    SummonDragon.gI().openMenuSummonShenron(pl, (byte) 2045, SummonDragon.DRAGON_ICE_SHENRON);
                     break;
                 default:
                     Service.getInstance().sendThongBao(pl, "Bạn chỉ có thể gọi rồng băng từ ngọc 1 sao");

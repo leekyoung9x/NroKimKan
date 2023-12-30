@@ -44,16 +44,16 @@ public class ItemTimeService {
             sendItemTime(player, 4043, (int) ((TIME_ITEM - (System.currentTimeMillis() - player.itemTime.lastTimeBanhTrungThu2Trung)) / 1000));
         }
         if (player.itemTime.isDuoiKhi) {
-            sendItemTime(player, 5829, (int) ((TIME_ITEM - (System.currentTimeMillis() - player.itemTime.lastTimeDuoiKhi)) / 1000));
+            sendItemTime(player, 5829, (int) ((TIME_MAY_DO - (System.currentTimeMillis() - player.itemTime.lastTimeDuoiKhi)) / 1000));
         }
         if (player.itemTime.rateDragonHit) {
-            sendItemTime(player, 5138, (int) ((TIME_ITEM - (System.currentTimeMillis() - player.itemTime.lastTimerateHit)) / 1000));
+            sendItemTime(player, 5138, (int) ((TIME_MAY_DO - (System.currentTimeMillis() - player.itemTime.lastTimerateHit)) / 1000));
         }
         if (player.itemTime.rateDame) {
-            sendItemTime(player, 6579, (int) ((TIME_ITEM - (System.currentTimeMillis() - player.itemTime.lastTimeDameDr)) / 1000));
+            sendItemTime(player, 30595, (int) ((TIME_MAY_DO - (System.currentTimeMillis() - player.itemTime.lastTimeDameDr)) / 1000));
         }
         if (player.itemTime.rateHPKI) {
-            sendItemTime(player, 6580, (int) ((TIME_ITEM - (System.currentTimeMillis() - player.itemTime.lastTimerateHPKI)) / 1000));
+            sendItemTime(player, 30596, (int) ((TIME_MAY_DO - (System.currentTimeMillis() - player.itemTime.lastTimerateHPKI)) / 1000));
         }
         if (player.itemTime.isUseBoHuyet) {
             sendItemTime(player, 2755, (int) ((TIME_ITEM - (System.currentTimeMillis() - player.itemTime.lastTimeBoHuyet)) / 1000));

@@ -53,20 +53,17 @@ public class NhanBan extends Boss {
 
     @Override
     public int injured(Player plAtt, int damage, boolean piercing, boolean isMobAttack) {
-        int dame = 0;
         if (this.isDie()) {
-            return dame;
-        } else if (!plAtt.equals(playerAtt)) {
-            return dame;
+            return 0;
         } else {
-            dame = super.injured(plAtt, damage, piercing, isMobAttack);
+            if (!piercing && Util.isTrue(90, 100)) {
+                this.chat("Xí hụt lêu lêu");
+                return 0;
+            }
             if (this.isDie()) {
                 rewards(plAtt);
-                notifyPlayeKill(plAtt);
-                die();
-                leaveMap();
             }
-            return dame;
+            return super.injured(plAtt, 1, piercing, isMobAttack);
         }
     }
 

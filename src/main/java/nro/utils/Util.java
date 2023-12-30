@@ -8,6 +8,8 @@ import nro.models.player.Player;
 
 import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -431,4 +433,59 @@ public class Util {
         return result;
     }
 
+    public static String generateRandomString() {
+        // Bảng chữ cái không dấu viết hoa
+        String letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+
+        // Tạo một danh sách chứa 4 chữ cái ngẫu nhiên
+        List<Character> randomLetters = new ArrayList<>();
+        Random random = new Random();
+        for (int i = 0; i < 4; i++) {
+            char randomLetter = letters.charAt(random.nextInt(letters.length()));
+            randomLetters.add(randomLetter);
+        }
+
+        // Tạo một danh sách chứa 2 số ngẫu nhiên từ 0 đến 9
+        List<Integer> randomNumbers = new ArrayList<>();
+        for (int i = 0; i < 2; i++) {
+            int randomNumber = random.nextInt(10);
+            randomNumbers.add(randomNumber);
+        }
+
+        // Kết hợp danh sách chữ cái và danh sách số thành một danh sách tổng
+        List<Object> combinedList = new ArrayList<>();
+        combinedList.addAll(randomLetters);
+        combinedList.addAll(randomNumbers);
+
+        // Trộn danh sách tổng để đảm bảo sự đan xen ngẫu nhiên
+        Collections.shuffle(combinedList);
+
+        // Chuyển danh sách tổng thành một chuỗi và trả về
+        StringBuilder result = new StringBuilder();
+        for (Object element : combinedList) {
+            result.append(element);
+        }
+
+        return result.toString();
+    }
+    public static String formatLocalDateTime(LocalDateTime localDateTime) {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
+        return localDateTime.format(formatter);
+    }
+
+    public static String extractValue(String inputString) {
+        // Mẫu regex để tìm kiếm chuỗi "CUSTOMER" sau đó là bất kỳ khoảng trắng và sau đó là bất kỳ ký tự nào (được lấy trong group)
+        String regex = "CUSTOMER\\s+(\\S+)";
+        Pattern pattern = Pattern.compile(regex);
+        Matcher matcher = pattern.matcher(inputString);
+
+        // Kiểm tra xem có khớp không
+        if (matcher.find()) {
+            // Lấy giá trị từ group 1 (được xác định bởi mở ngoặc đơn)
+            return matcher.group(1);
+        } else {
+            // Trường hợp không tìm thấy
+            return "Không tìm thấy giá trị";
+        }
+    }
 }

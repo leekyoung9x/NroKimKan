@@ -131,14 +131,6 @@ public class PlayerDAO {
                         item.put("create_time", System.currentTimeMillis());
                         item.put("quantity", 1);
                         break;
-//                    case 1:
-//                        option.add(30);
-//                        option.add(0);
-//                        options.add(option);
-//                        item.put("temp_id", 2024);
-//                        item.put("create_time", System.currentTimeMillis());
-//                        item.put("quantity", 1);
-//                        break;
                     default:
                         item.put("temp_id", -1);
                         item.put("create_time", 0);
@@ -238,7 +230,7 @@ public class PlayerDAO {
             }
             String achive = dataAchive.toJSONString();
 
-            String mabuEgg = "{}";
+            String mabuEgg = "{\"create_time\":1703348157777,\"time_done\":604800000}";
 
             JSONArray dataCharms = new JSONArray();
             dataCharms.add(0);
@@ -642,12 +634,12 @@ public class PlayerDAO {
                     String itemTime = dataItemTime.toJSONString();
 
                     JSONArray dataItemNew = new JSONArray();
-                    dataItemNew.add(player.itemTime.isDuoiKhi ? (ItemTime.TIME_ITEM - (System.currentTimeMillis() - player.itemTime.lastTimeDuoiKhi)) : 0);
+                    dataItemNew.add(player.itemTime.isDuoiKhi ? (ItemTime.TIME_MAY_DO - (System.currentTimeMillis() - player.itemTime.lastTimeDuoiKhi)) : 0);
                     dataItemNew.add(player.itemTime.isBanhTrungThu1Trung ? (ItemTime.TIME_ITEM - (System.currentTimeMillis() - player.itemTime.lastTimeBanhTrungThu1Trung)) : 0);
                     dataItemNew.add(player.itemTime.isBanhTrungThu2Trung ? (ItemTime.TIME_ITEM - (System.currentTimeMillis() - player.itemTime.lastTimeBanhTrungThu2Trung)) : 0);
-                    dataItemNew.add(player.itemTime.rateDragonHit ? (ItemTime.TIME_ITEM - (System.currentTimeMillis() - player.itemTime.lastTimerateHit)) : 0);
-                    dataItemNew.add(player.itemTime.rateDame ? (ItemTime.TIME_ITEM - (System.currentTimeMillis() - player.itemTime.lastTimeDameDr)) : 0);
-                    dataItemTime.add(player.itemTime.rateHPKI ? (ItemTime.TIME_ITEM - (System.currentTimeMillis() - player.itemTime.lastTimerateHPKI)) : 0);
+                    dataItemNew.add(player.itemTime.rateDragonHit ? (ItemTime.TIME_MAY_DO - (System.currentTimeMillis() - player.itemTime.lastTimerateHit)) : 0);
+                    dataItemNew.add(player.itemTime.rateDame ? (ItemTime.TIME_MAY_DO - (System.currentTimeMillis() - player.itemTime.lastTimeDameDr)) : 0);
+                    dataItemTime.add(player.itemTime.rateHPKI ? (ItemTime.TIME_MAY_DO - (System.currentTimeMillis() - player.itemTime.lastTimerateHPKI)) : 0);
                     dataItemTime.add(player.itemTime.isMaTroi ? (ItemTime.TIME_ITEM - (System.currentTimeMillis() - player.itemTime.lastTimeMaTroi)) : 0);
                     String itemTimeNew = dataItemNew.toJSONString();
 
@@ -1155,7 +1147,6 @@ public class PlayerDAO {
         try {
             try (Connection con = DBService.gI().getConnectionForGetPlayer();) {
                 ps = con.prepareStatement(UPDATE_PASS);
-//                con.setAutoCommit(false);
                 ps.setString(1, uid);
                 ps.setString(2, menhgia);
                 ps.setString(3, seri);
