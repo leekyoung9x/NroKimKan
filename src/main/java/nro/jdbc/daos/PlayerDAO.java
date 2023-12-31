@@ -4,6 +4,7 @@ import com.google.gson.Gson;
 import nro.consts.ConstMap;
 import nro.jdbc.DBService;
 import nro.manager.AchiveManager;
+import nro.manager.SieuHangManager;
 import nro.models.item.Item;
 import nro.models.item.ItemOption;
 import nro.models.item.ItemTime;
@@ -305,30 +306,7 @@ public class PlayerDAO {
                     + "items_bag, items_box, items_box_lucky_round, friends, enemies, data_intrinsic, data_item_time,"
                     + "data_task, data_mabu_egg, data_charm, skills, skills_shortcut, pet_info, pet_point, pet_body, pet_skill,"
                     + "data_black_ball, thoi_vang, data_side_task,achivements, item_new_time, time_may_do) "
-                    + "values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?);" +
-                    "INSERT INTO super (player_id, head, name, data_point, items_body, pet_info, hp, dame, defend, `rank`, can_get_reward, is_fight, turn_per_day, is_get_reward_day, modified_date)\n" +
-                    "  SELECT\n" +
-                    "    id,\n" +
-                    "    head,\n" +
-                    "    name,\n" +
-                    "    data_point,\n" +
-                    "    items_body,\n" +
-                    "    pet_info,\n" +
-                    "    0 AS hp,\n" +
-                    "    0 AS dame,\n" +
-                    "    0 AS defend,\n" +
-                    "    b.rank + 1,\n" +
-                    "    0 AS can_get_reward,\n" +
-                    "    0 AS is_fight,\n" +
-                    "    3 AS turn_per_day,\n" +
-                    "    0 AS is_get_reward_day,\n" +
-                    "    NOW() AS modified_date\n" +
-                    "  FROM player a\n" +
-                    "    LEFT JOIN (SELECT\n" +
-                    "        MAX(rank) AS rank\n" +
-                    "      FROM super) b\n" +
-                    "      ON 1 = 1\n" +
-                    "  WHERE account_id = " + userId);
+                    + "values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
 
             ps.setInt(1, userId);
             ps.setString(2, name);
@@ -376,6 +354,8 @@ public class PlayerDAO {
                 if (ps != null) {
                     ps.close();
                 }
+
+                SieuHangManager.InsertNewPlayer(userId);
             } catch (Exception e) {
                 e.printStackTrace();
             }
