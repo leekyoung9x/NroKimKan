@@ -4,6 +4,7 @@ import com.google.gson.Gson;
 import nro.consts.ConstMap;
 import nro.jdbc.DBService;
 import nro.manager.AchiveManager;
+import nro.manager.SieuHangManager;
 import nro.models.item.Item;
 import nro.models.item.ItemOption;
 import nro.models.item.ItemTime;
@@ -353,6 +354,8 @@ public class PlayerDAO {
                 if (ps != null) {
                     ps.close();
                 }
+
+                SieuHangManager.InsertNewPlayer(userId);
             } catch (Exception e) {
                 e.printStackTrace();
             }

@@ -602,6 +602,49 @@ public class SieuHangManager {
         return result;
     }
 
+    public static void InsertNewPlayer(long account_id) {
+        String UPDATE_PASS = "INSERT INTO super (player_id, head, name, data_point, items_body, pet_info, hp, dame, defend, `rank`, can_get_reward, is_fight, turn_per_day, is_get_reward_day, modified_date)\n" +
+                "  SELECT\n" +
+                "    id,\n" +
+                "    head,\n" +
+                "    name,\n" +
+                "    data_point,\n" +
+                "    items_body,\n" +
+                "    pet_info,\n" +
+                "    0 AS hp,\n" +
+                "    0 AS dame,\n" +
+                "    0 AS defend,\n" +
+                "    COALESCE(b.rank + 1) as rank,\n" +
+                "    0 AS can_get_reward,\n" +
+                "    0 AS is_fight,\n" +
+                "    3 AS turn_per_day,\n" +
+                "    0 AS is_get_reward_day,\n" +
+                "    NOW() AS modified_date\n" +
+                "  FROM player a\n" +
+                "    LEFT JOIN (SELECT\n" +
+                "        MAX(rank) AS rank\n" +
+                "      FROM super) b\n" +
+                "      ON 1 = 1\n" +
+                "  WHERE account_id = ?;";
+        PreparedStatement ps = null;
+        try {
+            try (Connection con = DBService.gI().getConnectionForGetPlayer();) {
+                ps = con.prepareStatement(UPDATE_PASS);
+                ps.setLong(1, account_id);
+
+                ps.executeUpdate();
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                ps.close();
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+            }
+        }
+    }
+
     public static void InsertHistory(long player_attack, long player_be_attack, int status, int rank, int be_rank) {
         String UPDATE_PASS = "INSERT INTO super_history (player_attack, player_be_attack, STATUS, `rank`, be_rank, created_date) VALUES (?, ?, ?, ?, ?, NOW());";
         PreparedStatement ps = null;
