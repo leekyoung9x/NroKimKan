@@ -334,7 +334,7 @@ public class ChuyenKhoanManager {
 
             if (response != null && response.getData() != null && response.getData().size() > 0) {
                 for (TransactionHistory transactionHistory : response.getData()) {
-                    if (Double.parseDouble(transactionHistory.getCreditAmount()) == transaction.amount && transaction.description.equals(Util.extractValue(transactionHistory.getDescription()))) {
+                    if (Double.parseDouble(transactionHistory.getCreditAmount()) == transaction.amount && Util.containsSubstring(transactionHistory.getDescription(), transaction.description)) {
                         // TODO: Cộng tiền vào đây
                         double ruby = transaction.amount / 1000;
                         Service.getInstance().sendThongBao(player, "Bạn nhận được tiền là: " + ruby);
