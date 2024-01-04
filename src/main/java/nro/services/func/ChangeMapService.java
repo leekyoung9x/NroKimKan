@@ -185,16 +185,41 @@ public class ChangeMapService {
     }
 
     public void changeMap(Player pl, Zone zoneJoin, int mapId, int zoneId, int x, int y, byte typeSpace) {
+        boolean checkByTask = TaskService.gI().checkTaskTDST(pl) && MapService.gI().isMapQuestTDST(zoneJoin.map.mapId);
+
         TransactionService.gI().cancelTrade(pl);
-        if (zoneJoin == null) {
-            if (mapId != -1) {
-                if (zoneId == -1) {
-                    zoneJoin = MapService.gI().getMapCanJoin(pl, mapId);
-                } else {
-                    zoneJoin = MapService.gI().getZoneJoinByMapIdAndZoneId(pl, mapId, zoneId);
+
+        if (zoneJoin != null) {
+            if (checkByTask) {
+                if (TaskService.gI().haveTDSTInZone(zoneJoin.getBosses())) {
+                    mapId = zoneJoin.map.mapId;
+                    zoneJoin = null;
                 }
             }
         }
+
+        if (zoneJoin == null) {
+            if (mapId != -1) {
+                if (checkByTask) {
+                    if (zoneId == -1) {
+                        zoneJoin = MapService.gI().getMapCanJoinTask(pl, mapId);
+                    } else {
+                        zoneJoin = MapService.gI().getZoneJoinByMapIdAndZoneIdTask(pl, mapId, zoneId);
+                    }
+
+                    if (zoneJoin == null) {
+                        Service.getInstance().sendThongBao(pl, "Bạn đã hoàn thành TĐST không thể vào khu vực có nv này");
+                    }
+                } else {
+                    if (zoneId == -1) {
+                        zoneJoin = MapService.gI().getMapCanJoin(pl, mapId);
+                    } else {
+                        zoneJoin = MapService.gI().getZoneJoinByMapIdAndZoneId(pl, mapId, zoneId);
+                    }
+                }
+            }
+        }
+
         if (pl.isHoldNamecBall) {
             int plX = pl.location.x;
             if (pl.location.x >= pl.zone.map.mapWidth - 60) {

@@ -112,6 +112,20 @@ public class MapService {
         return mapJoin;
     }
 
+    public Zone getMapCanJoinTask(Player player, int mapId) {
+        Zone mapJoin = null;
+        Map map = getMapById(mapId);
+        for (Zone zone : map.zones) {
+            if (zone.getNumOfPlayers() < Zone.PLAYERS_TIEU_CHUAN_TRONG_MAP && !TaskService.gI().haveTDSTInZone(zone.getBosses())) {
+                mapJoin = zone;
+                break;
+            }
+        }
+        //init new zone
+        return mapJoin;
+    }
+
+
     public Zone getMapCanJoin(Player player, int mapId, int zoneId) {
         Zone mapJoin = null;
         Map map = getMapById(mapId);
@@ -152,6 +166,23 @@ public class MapService {
         try {
             if (map != null && zoneId >= 0 && zoneId < map.zones.size()) {// debug
                 zoneJoin = map.zones.get(zoneId);
+            }
+        } catch (Exception e) {
+            Log.error(MapService.class, e);
+        }
+        return zoneJoin;
+    }
+
+    public Zone getZoneJoinByMapIdAndZoneIdTask(Player player, int mapId, int zoneId) {
+        Map map = getMapById(mapId);
+        Zone zoneJoin = null;
+        try {
+            if (map != null && zoneId >= 0 && zoneId < map.zones.size()) {// debug
+                zoneJoin = map.zones.get(zoneId);
+
+                if (TaskService.gI().haveTDSTInZone(zoneJoin.getBosses())) {
+                    zoneJoin = null;
+                }
             }
         } catch (Exception e) {
             Log.error(MapService.class, e);
@@ -373,6 +404,10 @@ public class MapService {
 
     public boolean isMapDoanhTrai(int mapId) {
         return mapId >= 53 && mapId <= 62;
+    }
+
+    public boolean isMapQuestTDST(int mapId) {
+        return mapId == 79 || mapId == 82 || mapId == 83;
     }
 
     public boolean isMapNguHanhSon(int mapId) {

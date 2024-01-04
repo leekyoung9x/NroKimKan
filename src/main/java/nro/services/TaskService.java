@@ -2787,4 +2787,27 @@ public class TaskService {
             }
         }
     }
+
+    public boolean checkTaskTDST(Player player) {
+        if (player.isPl() && player.playerTask.taskMain.id > 20) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public boolean haveTDSTInZone(List<Player> bosses) {
+        if (bosses != null && bosses.size() > 0) {
+            for (Player player: bosses) {
+                if (player.isBoss && (player.id == BossFactory.SO1 ||
+                        player.id == BossFactory.SO2 ||
+                        player.id == BossFactory.SO3 ||
+                        player.id == BossFactory.SO4 ||
+                        player.id == BossFactory.TIEU_DOI_TRUONG)) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
 }

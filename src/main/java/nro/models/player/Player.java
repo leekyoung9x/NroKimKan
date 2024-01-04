@@ -740,6 +740,11 @@ public class Player {
 //        if (tungngu != null) {
 //            return tungngu;
 //        }
+
+        if (this.getSession() != null && this.isAdmin()) {
+            return 0;
+        }
+
         int mstChuong = this.nPoint.mstChuong;
         int giamst = this.nPoint.tlGiamst;
 
