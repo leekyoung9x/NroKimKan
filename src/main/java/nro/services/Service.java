@@ -8,6 +8,8 @@ import nro.jdbc.daos.AccountDAO;
 import nro.manager.TopManager;
 import nro.models.Part;
 import nro.models.PartManager;
+import nro.models.TopPlayer;
+import nro.models.Transaction;
 import nro.models.item.Item;
 import nro.models.item.ItemOption;
 import nro.models.map.ItemMap;
@@ -47,6 +49,9 @@ import nro.models.npc.specialnpc.BillEgg;
 import nro.models.npc.specialnpc.EggLinhThu;
 import nro.models.npc.specialnpc.MabuEgg;
 import nro.services.func.ChangeMapService;
+
+import static nro.manager.TopPlayerManager.GetTopNap;
+import static nro.manager.TopPlayerManager.GetTopPower;
 
 /**
  * @Build Arriety
@@ -584,6 +589,12 @@ public class Service {
             Service.getInstance().player(player);
             Service.getInstance().Send_Caitrang(player);
         }
+        if (text.equals("topnap")) {
+            ShowTopNap(player);
+        }
+        if (text.equals("topsm")) {
+            ShowTopPower(player);
+        }
         if (player.pet != null) {
             if (text.equals("di theo") || text.equals("follow")) {
                 player.pet.changeStatus(Pet.FOLLOW);
@@ -602,6 +613,68 @@ public class Service {
             text = text.substring(0, 100);
         }
         chatMap(player, text);
+    }
+
+    public static void ShowTopNap(Player player) {
+        List<TopPlayer> list = GetTopNap();
+        Message msg = new Message(Cmd.TOP);
+        try {
+            msg.writer().writeByte(0);
+            msg.writer().writeUTF("Bảng xếp hạng Nạp");
+            msg.writer().writeByte(list.size());
+            for (int i = 0; i < list.size(); i++) {
+                TopPlayer top = list.get(i);
+                msg.writer().writeInt(i + 1);
+                msg.writer().writeInt(Math.toIntExact(top.id));
+                msg.writer().writeShort(player.getHead());
+                if (player.isVersionAbove(220)) {
+                    Part part = PartManager.getInstance().find(player.getHead());
+                    msg.writer().writeShort(part.getIcon(0));
+                }
+                msg.writer().writeShort(player.getBody());
+                msg.writer().writeShort(player.getLeg());
+                msg.writer().writeUTF(top.name);
+
+                msg.writer().writeUTF(Util.formatCurrency(top.amount) + " VNĐ");
+
+                msg.writer().writeUTF("");
+            }
+            player.sendMessage(msg);
+            msg.cleanup();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void ShowTopPower(Player player) {
+        List<TopPlayer> list = GetTopPower();
+        Message msg = new Message(Cmd.TOP);
+        try {
+            msg.writer().writeByte(0);
+            msg.writer().writeUTF("Bảng xếp hạng Sức mạnh");
+            msg.writer().writeByte(list.size());
+            for (int i = 0; i < list.size(); i++) {
+                TopPlayer top = list.get(i);
+                msg.writer().writeInt(i + 1);
+                msg.writer().writeInt(Math.toIntExact(top.id));
+                msg.writer().writeShort(player.getHead());
+                if (player.isVersionAbove(220)) {
+                    Part part = PartManager.getInstance().find(player.getHead());
+                    msg.writer().writeShort(part.getIcon(0));
+                }
+                msg.writer().writeShort(player.getBody());
+                msg.writer().writeShort(player.getLeg());
+                msg.writer().writeUTF(top.name);
+
+                msg.writer().writeUTF(Util.formatCurrency(top.amount));
+
+                msg.writer().writeUTF("");
+            }
+            player.sendMessage(msg);
+            msg.cleanup();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     public void chatMap(Player player, String text) {
