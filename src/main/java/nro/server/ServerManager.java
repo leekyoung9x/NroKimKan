@@ -6,8 +6,7 @@ import nro.jdbc.daos.AccountDAO;
 import nro.jdbc.daos.HistoryTransactionDAO;
 import nro.jdbc.daos.PlayerDAO;
 import nro.login.LoginSession;
-import nro.manager.ConsignManager;
-import nro.manager.TopManager;
+import nro.manager.*;
 import nro.models.boss.BossFactory;
 import nro.models.boss.BossManager;
 import nro.models.map.challenge.MartialCongressManager;
@@ -35,11 +34,6 @@ import java.util.Scanner;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
-import nro.manager.SieuHangControl;
-import nro.manager.SieuHangManager;
-import nro.manager.TopCoin;
-import nro.manager.TopWhis;
-import nro.manager.TranhNgocManager;
 
 /**
  *
@@ -198,6 +192,7 @@ public class ServerManager {
 
     private void activeGame() {
         long delay = 500;
+        long delaySecond = 5000;
         new Thread(() -> {
             while (isRunning) {
                 long l1 = System.currentTimeMillis();
@@ -299,6 +294,36 @@ public class ServerManager {
                 }
             }
         }, "Update giai sieu hang").start();
+        //
+        new Thread(() -> {
+            while (isRunning) {
+                try {
+                    long start = System.currentTimeMillis();
+                    ChuyenKhoanManager.HandleTransactionAuto();
+                    long timeUpdate = System.currentTimeMillis() - start;
+                    if (timeUpdate < delaySecond) {
+                        Thread.sleep(delaySecond - timeUpdate);
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        }, "Check nap the").start();
+        //
+        new Thread(() -> {
+            while (isRunning) {
+                try {
+                    long start = System.currentTimeMillis();
+                    ChuyenKhoanManager.HandleTransactionAddMoneyAuto();
+                    long timeUpdate = System.currentTimeMillis() - start;
+                    if (timeUpdate < delay) {
+                        Thread.sleep(delay - timeUpdate);
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        }, "Cong qua nap the").start();
     }
 
     public void close(long delay) {

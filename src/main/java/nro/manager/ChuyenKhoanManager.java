@@ -7,6 +7,7 @@ import nro.models.Part;
 import nro.models.PartManager;
 import nro.models.Transaction;
 import nro.models.player.Player;
+import nro.server.Client;
 import nro.server.io.Message;
 import nro.services.Service;
 import nro.utils.Log;
@@ -17,12 +18,14 @@ import java.sql.*;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+
 import nro.models.*;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+
 import nro.jdbc.daos.PlayerDAO;
 
 public class ChuyenKhoanManager {
@@ -82,6 +85,92 @@ public class ChuyenKhoanManager {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    public static List<Transaction> GetTransactionAuto() {
+        List<Transaction> result = new ArrayList<>();
+        Connection con = null;
+        CallableStatement ps = null;
+        try {
+            con = DBService.gI().getConnection();
+            String sql = "SELECT * FROM transaction_banking WHERE status = FALSE AND created_date >= NOW() - INTERVAL 60 MINUTE ORDER BY created_date DESC;";
+            ps = con.prepareCall(sql);
+
+            ResultSet rs = ps.executeQuery();
+
+            while (rs.next()) {
+                Transaction transaction = new Transaction();
+
+                transaction.id = rs.getLong("id");
+                transaction.playerId = rs.getLong("player_id");
+                transaction.amount = rs.getLong("amount");
+                transaction.description = rs.getString("description");
+                transaction.status = rs.getBoolean("status");
+                transaction.isReceive = rs.getBoolean("is_recieve");
+                transaction.lastTimeCheck = rs.getTimestamp("last_time_check").toLocalDateTime();
+                transaction.createdDate = rs.getTimestamp("created_date").toLocalDateTime();
+
+                result.add(transaction);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (con != null) {
+                    con.close();
+                }
+                if (ps != null) {
+                    ps.close();
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+
+        return result;
+    }
+
+    public static List<Transaction> GetTransactionDoneAuto() {
+        List<Transaction> result = new ArrayList<>();
+        Connection con = null;
+        CallableStatement ps = null;
+        try {
+            con = DBService.gI().getConnection();
+            String sql = "SELECT * FROM transaction_banking WHERE status = true AND is_recieve = FALSE AND created_date >= NOW() - INTERVAL 60 MINUTE ORDER BY created_date DESC;;";
+            ps = con.prepareCall(sql);
+
+            ResultSet rs = ps.executeQuery();
+
+            while (rs.next()) {
+                Transaction transaction = new Transaction();
+
+                transaction.id = rs.getLong("id");
+                transaction.playerId = rs.getLong("player_id");
+                transaction.amount = rs.getLong("amount");
+                transaction.description = rs.getString("description");
+                transaction.status = rs.getBoolean("status");
+                transaction.isReceive = rs.getBoolean("is_recieve");
+                transaction.lastTimeCheck = rs.getTimestamp("last_time_check").toLocalDateTime();
+                transaction.createdDate = rs.getTimestamp("created_date").toLocalDateTime();
+
+                result.add(transaction);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (con != null) {
+                    con.close();
+                }
+                if (ps != null) {
+                    ps.close();
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+
+        return result;
     }
 
     public static List<Transaction> GetTransaction(int player_id) {
@@ -277,11 +366,47 @@ public class ChuyenKhoanManager {
         }
     }
 
-    public static void UpdateGift(long player_id, int transactionId) {
+    public static void UpdateGift(long player_id, Long transactionId) {
         PreparedStatement ps = null;
         try (Connection con = DBService.gI().getConnectionForGetPlayer();) {
             ps = con.prepareStatement("UPDATE transaction_banking set status = 1, is_recieve = 1 WHERE id = ? AND player_id = ?;");
-            ps.setInt(1, transactionId);
+            ps.setLong(1, transactionId);
+            ps.setLong(2, player_id);
+            ps.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                ps.close();
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+            }
+        }
+    }
+
+    public static void UpdateDoneNap(long player_id, Long transactionId) {
+        PreparedStatement ps = null;
+        try (Connection con = DBService.gI().getConnectionForGetPlayer();) {
+            ps = con.prepareStatement("UPDATE transaction_banking set status = 1 WHERE id = ? AND player_id = ?;");
+            ps.setLong(1, transactionId);
+            ps.setLong(2, player_id);
+            ps.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                ps.close();
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+            }
+        }
+    }
+
+    public static void UpdateDoneRecieve(long player_id, Long transactionId) {
+        PreparedStatement ps = null;
+        try (Connection con = DBService.gI().getConnectionForGetPlayer();) {
+            ps = con.prepareStatement("UPDATE transaction_banking set is_recieve = 1 WHERE id = ? AND player_id = ?;");
+            ps.setLong(1, transactionId);
             ps.setLong(2, player_id);
             ps.executeUpdate();
         } catch (SQLException e) {
@@ -361,7 +486,7 @@ public class ChuyenKhoanManager {
                         player.getSession().vnd += ruby;
                         System.out.println("Add ruby: " + ruby);
                         Service.getInstance().sendThongBao(player, "Bạn nhận được tiền là: " + ruby);
-                        UpdateGift(player.id, transactionId);
+                        UpdateGift(player.id, (long) transactionId);
                         UpdatePointNap(player.id, ruby);
                         return;
                     }
@@ -370,6 +495,44 @@ public class ChuyenKhoanManager {
             Service.getInstance().sendThongBao(player, "Tài khoản của admin chưa nhận được tiền hoặc bạn chuyển khoản sai nội dung!");
         } else {
             Service.getInstance().sendThongBao(player, "Bạn cần đợi " + (10 - timeDifference) + " giây nữa để được check giao dịch");
+        }
+    }
+
+    public static void HandleTransactionAuto() {
+        List<Transaction> transactions = GetTransactionAuto();
+
+        if (!transactions.isEmpty()) {
+            String history = GetTransactionOnline("https://api.web2m.com/historyapimb/Tuanbeo@12345/02147019062000/F3CAC210-DAC1-BD7F-7A26-A2643A5B3DD7");
+            JsonResponse response = parseApiResponse(history);
+
+            if (response != null && response.getData() != null && !response.getData().isEmpty()) {
+                for (Transaction transaction : transactions) {
+                    for (TransactionHistory transactionHistory : response.getData()) {
+                        if (Double.parseDouble(transactionHistory.getCreditAmount()) == transaction.amount && Util.containsSubstring(transactionHistory.getDescription(), transaction.description)) {
+                            UpdateDoneNap(transaction.playerId, transaction.id);
+                            UpdatePointNap(transaction.playerId, transaction.amount);
+                            break;
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    public static void HandleTransactionAddMoneyAuto() {
+        List<Transaction> transactions = GetTransactionDoneAuto();
+
+        if (!transactions.isEmpty()) {
+            for (Transaction transaction : transactions) {
+                Player player = Client.gI().getPlayer(transaction.getPlayerId());
+                if (player != null) {
+                    PlayerDAO.addVnd(player, (int) transaction.amount);
+                    player.getSession().vnd += (int) transaction.amount;
+                    System.out.println("Add ruby: " + transaction.amount);
+                    Service.getInstance().sendThongBao(player, "Bạn nhận được tiền là: " + transaction.amount);
+                    UpdateDoneRecieve(player.id, transaction.id);
+                }
+            }
         }
     }
 

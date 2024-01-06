@@ -58,7 +58,7 @@ public class Controller {
                                 break;
                             }
                             case ConstMap.DAO_KAME: {
-                                ChuyenKhoanManager.HandleTransaction(player, idPk);
+//                                ChuyenKhoanManager.HandleTransaction(player, idPk);
                                 break;
                             }
                             default: {
