@@ -42,7 +42,7 @@ public class QuyLaoKame extends Npc {
         if (canOpenNpc(player)) {
             if (!TaskService.gI().checkDoneTaskTalkNpc(player, this)) {
                 this.createOtherMenu(player, ConstNpc.BASE_MENU,
-                        "Chào con, con muốn ta giúp gì nào?", "Nói chuyện", "Chuyển khoản",
+                        "Chào con, con muốn ta giúp gì nào?", "Nói chuyện", "Nạp tiền",
                         "Từ chối");
             }
         }
@@ -57,11 +57,11 @@ public class QuyLaoKame extends Npc {
                         this.createOtherMenu(player, ConstNpc.NOI_CHUYEN,
                                 "Chào con, ta rất vui khi gặp con\nCon muốn làm gì nào?",
                                 "Nhiệm vụ", "Học\nKỹ nặng", "Về khu\nvực bang",
-                                "Giản tán\nBang hội", "Kho báu\ndưới biển", "Nạp thẻ");
+                                "Giản tán\nBang hội", "Kho báu\ndưới biển");
                         break;
                     case 1:
                         this.createOtherMenu(player, ConstNpc.CHUYEN_KHOAN, "Nghe nói con muốn chuyển khoản",
-                                "Tạo giao dịch", "Xem lịch sử\ngiao dịch");
+                                "Tạo giao dịch", "Xem lịch sử\ngiao dịch", "Nạp thẻ");
                         break;
                 }
             } else if (player.iDMark.getIndexMenu() == ConstNpc.NOI_CHUYEN) {
@@ -119,13 +119,7 @@ public class QuyLaoKame extends Npc {
                             NpcService.gI().createTutorial(player, 564, "Con phải có bang hội ta mới có thể cho con đi");
                         }
                         break;
-                    case 5:
-                        this.createOtherMenu(player, ConstNpc.MENU_DOI_THE, "Nạp thẻ cào tự động " + ServerManager.NAME + " \n" + "|1|Số dư trong tài khoản: " + Util.numberToMoney(player.getSession().vnd) + "VNĐ\n"
-                                + "|8|Số hồng ngọc trong tài khoản: " + player.inventory.ruby + "\n"
-                                + "|2|Lưu ý: Chọn đúng mệnh giá thẻ. Nếu sai mệnh giá sẽ không nhận được tiền nạp\n"
-                                + "|7|ADMIN không chịu trách nhiệm với lỗi sai mệnh giá thẻ\n"
-                                + "|2|Để mở thành viên hãy quy đổi tiền sang thỏi vàng sau đó đến gặp Santa nhé", "Nạp thẻ\ncào", "Từ chối");
-                        break;
+
                 }
             } else if (player.iDMark.getIndexMenu() == ConstNpc.MENU_OPENED_DBKB) {
                 switch (select) {
@@ -242,10 +236,9 @@ public class QuyLaoKame extends Npc {
                             canCreate = true;
                         } else {
                             LocalDateTime now = LocalDateTime.now();
-
                             timeDifference = TimeUtil.calculateTimeDifferenceInSeconds(lastTimeCreate, now);
 
-                            if (timeDifference > 300) {
+                            if (timeDifference > 10) {
                                 canCreate = true;
                             }
                         }
@@ -257,20 +250,31 @@ public class QuyLaoKame extends Npc {
                         if (canCreate) {
                             Input.gI().createFormChuyenKhoan(player);
                         } else {
-                            Service.getInstance().sendThongBao(player, "Bạn cần đợi " + (300 - timeDifference) + " giây nữa để được tạo giao dịch mới");
+                            Service.getInstance().sendThongBao(player, "Bạn cần đợi " + (10 - timeDifference) + " giây nữa để được tạo giao dịch mới");
                         }
 
                         break;
                     case 1:
                         ChuyenKhoanManager.ShowTransaction(player);
                         break;
+                    case 2:
+                        if (true) {
+                            this.npcChat(player, "Chức năng bảo trì vui lòng nạp ATM ");
+                            break;
+                        }
+                        this.createOtherMenu(player, ConstNpc.MENU_DOI_THE, "Nạp thẻ cào tự động " + ServerManager.NAME + " \n" + "|1|Số dư trong tài khoản: " + Util.numberToMoney(player.getSession().vnd) + "VNĐ\n"
+                                + "|8|Số hồng ngọc trong tài khoản: " + player.inventory.ruby + "\n"
+                                + "|2|Lưu ý: Chọn đúng mệnh giá thẻ. Nếu sai mệnh giá sẽ không nhận được tiền nạp\n"
+                                + "|7|ADMIN không chịu trách nhiệm với lỗi sai mệnh giá thẻ\n"
+                                + "|2|Để mở thành viên hãy quy đổi tiền sang thỏi vàng sau đó đến gặp Santa nhé", "Nạp thẻ\ncào", "Từ chối");
+                        break;
                 }
             } else if (player.iDMark.getIndexMenu() == ConstNpc.CONTENT_CHUYEN_KHOAN) {
                 switch (select) {
                     case 1:
                         Transaction transaction = ChuyenKhoanManager.GetTransactionLast(player.id);
-
-                        openLink("https://img.vietqr.io/image/MB-02147019062000-compact2.png?amount=" + transaction.amount + "&addInfo=" + transaction.description);
+                        Service.getInstance().LinkService(player, 11039, "QUET QR CODE DJTME", "https://img.vietqr.io/image/MB-02147019062000-compact2.png?amount=" + transaction.amount + "&addInfo=" + transaction.description, "Quét\nQR");
+//                        openLink("https://img.vietqr.io/image/MB-02147019062000-compact2.png?amount=" + transaction.amount + "&addInfo=" + transaction.description);
                         break;
                 }
             }

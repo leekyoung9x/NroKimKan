@@ -59,6 +59,7 @@ public class Player {
     public BillEgg billEgg;
     public EggLinhThu egglinhthu;
 
+    public long lastTimeCTG;
     public long lastTimeChat;
 
     public List<Integer> idEffChar = new ArrayList<>();
@@ -740,11 +741,9 @@ public class Player {
 //        if (tungngu != null) {
 //            return tungngu;
 //        }
-
-        if (this.getSession() != null && this.isAdmin()) {
+        if(this.getSession() != null && this.isAdmin()){
             return 0;
         }
-
         int mstChuong = this.nPoint.mstChuong;
         int giamst = this.nPoint.tlGiamst;
 

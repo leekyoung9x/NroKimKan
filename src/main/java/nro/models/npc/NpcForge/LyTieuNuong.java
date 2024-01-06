@@ -31,8 +31,8 @@ public class LyTieuNuong extends Npc {
                     "Xin chào, tôi có 1 sự kiện đặc biệt bạn có muốn tham gia không?\n"
                     + "Số tiền nạp tích lũy của bạn hiện tại là: ["
                     + player.getSession().poinCharging + "]",
-                    "1 hộp quà\n[1.000 điểm]",
-                    "12 hộp quà\n[10.000 điểm]");
+                    "1 hộp quà\n[10.000 điểm]",
+                    "12 hộp quà\n[100.000 điểm]");
         }
     }
 
@@ -43,45 +43,50 @@ public class LyTieuNuong extends Npc {
                 if (player.iDMark.isBaseMenu()) {
                     switch (select) {
                         case 0:
-//                            if (InventoryService.gI().getCountEmptyBag(player) > 0) {
-//                                if (player.getSession().poinCharging >= 1000) {
-//                                    if (PlayerDAO.subPoin(player, 1000)) {
-//                                        Item pet = ItemService.gI().createNewItem((short) 736);
-//                                        pet.itemOptions.add(new ItemOption(74, 0));
-//                                        pet.itemOptions.add(new ItemOption(30, 0));
-//                                        InventoryService.gI().addItemBag(player, pet, 0);
-//                                        InventoryService.gI().sendItemBags(player);
-//                                        Service.getInstance().sendThongBao(player, "Success");
-//                                    } else {
-//                                        this.npcChat(player, "Lỗi vui lòng báo admin...");
-//                                    }
-//                                } else {
-//                                    Service.getInstance().sendThongBao(player, "Số dư poin không đủ vui lòng nạp thêm tại:\nNROKIMKAN.ONLINE");
-//                                }
-//                            } else {
-//                                Service.getInstance().sendThongBao(player, "Hàng trang đã đầy");
-//                            }
+                            if (InventoryService.gI().getCountEmptyBag(player) > 0) {
+                                if (player.getSession().poinCharging >= 10000) {
+                                    if (PlayerDAO.subPoin(player, 10000)) {
+                                        Item pet = ItemService.gI().createNewItem((short) 397);
+                                        pet.itemOptions.add(new ItemOption(74, 0));
+                                        pet.itemOptions.add(new ItemOption(30, 0));
+                                        InventoryService.gI().addItemBag(player, pet, 0);
+                                        InventoryService.gI().sendItemBags(player);
+                                        Service.getInstance().sendThongBao(player, "Success");
+                                    } else {
+                                        this.npcChat(player, "Lỗi vui lòng báo admin...");
+                                    }
+                                } else {
+                                    Service.getInstance().sendThongBao(player, "Số dư poin không đủ vui lòng nạp thêm tại:\nNROKIMKAN.ONLINE");
+                                }
+                            } else {
+                                Service.getInstance().sendThongBao(player, "Hàng trang đã đầy");
+                            }
                             break;
                         case 1:
-//                            if (InventoryService.gI().getCountEmptyBag(player) > 0) {
-//                                if (player.getSession().poinCharging >= 10_000) {
-//                                    if (PlayerDAO.subPoin(player, 10_000)) {
-//                                        Item pet = ItemService.gI().createNewItem((short) 736);
-//                                        pet.itemOptions.add(new ItemOption(74, 0));
-//                                        pet.itemOptions.add(new ItemOption(30, 0));
-//                                        pet.quantity = 12;
-//                                        InventoryService.gI().addItemBag(player, pet, 0);
-//                                        InventoryService.gI().sendItemBags(player);
-//                                        Service.getInstance().sendThongBao(player, "Success");
-//                                    } else {
-//                                        this.npcChat(player, "Lỗi vui lòng báo admin...");
-//                                    }
-//                                } else {
-//                                    Service.getInstance().sendThongBao(player, "Số dư poin không đủ vui lòng nạp thêm tại:\nNROKIMKAN.ONLINE");
-//                                }
-//                            } else {
-//                                Service.getInstance().sendThongBao(player, "Hàng trang đã đầy");
-//                            }
+                            if (InventoryService.gI().getCountEmptyBag(player) > 0) {
+                                if (player.getSession().poinCharging >= 100_000) {
+                                    if (PlayerDAO.subPoin(player, 100_000)) {
+                                        Item pet = ItemService.gI().createNewItem((short) 397);
+                                        pet.itemOptions.add(new ItemOption(74, 0));
+                                        pet.itemOptions.add(new ItemOption(30, 0));
+                                        pet.quantity = 12;
+                                        for (int i = 2045; i <= 2051; i++) {
+                                            Item item = ItemService.gI().createNewItem((short) i);
+                                            item.quantity = 3;
+                                            InventoryService.gI().addItemBag(player, item, 0);
+                                        }
+                                        InventoryService.gI().addItemBag(player, pet, 0);
+                                        InventoryService.gI().sendItemBags(player);
+                                        Service.getInstance().sendThongBao(player, "Success");
+                                    } else {
+                                        this.npcChat(player, "Lỗi vui lòng báo admin...");
+                                    }
+                                } else {
+                                    Service.getInstance().sendThongBao(player, "Số dư poin không đủ vui lòng nạp thêm tại:\nNROKIMKAN.ONLINE");
+                                }
+                            } else {
+                                Service.getInstance().sendThongBao(player, "Hàng trang đã đầy");
+                            }
                             break;
                         case 2:
                             break;

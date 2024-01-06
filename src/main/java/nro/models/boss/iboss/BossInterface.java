@@ -17,8 +17,6 @@ public interface BossInterface extends IBossStatus {
 
     void joinMap();
 
-//    void active();
-
     void leaveMap();
 
     boolean talk();

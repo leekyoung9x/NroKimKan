@@ -27,6 +27,7 @@ import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import nro.services.Service;
 
 public class SieuHangManager {
 
@@ -51,27 +52,40 @@ public class SieuHangManager {
 
     public static int GetRubyByRank(int rank) {
         int result = 0;
-
         if (rank == 1) {
             result = 10000;
-        } else if (rank <= 10) {
+        } else if (rank > 0 && rank <= 10) {
             result = 5000;
-        } else if (rank <= 20) {
+        } else if (rank > 0 && rank <= 20) {
             result = 2000;
         }
 
         return result;
     }
 
+    public static void GetRewardDay(Player player) {
+        int rank = GetRankById(player.id);
+        if (rank > 0 && rank <= 20) {
+            if (CanGetRewardDay(player.id)) {
+                int ruby = GetRubyByRank(rank);
+                player.inventory.addRuby((int) ruby);
+                System.out.println("player sieu hang: " + player.name + " được cộng: " + ruby + " ruby" + " rank: " + rank);
+                UpdateIsGetReward(player.id);
+            }
+            if (rank == 1) {
+                Service.getInstance().sendThongBaoAllPlayer("Chào mừng top 1 giải siêu hạng tên: " + player.name + " đã vào game!!");
+            }
+        }
+
+    }
+
     public static int GetRankById(long player_id) {
         int result = -1;
-
         for (SieuHangModel model : tops) {
             if (model.player_id == player_id) {
                 return model.rank;
             }
         }
-
         return result;
     }
 
@@ -310,21 +324,6 @@ public class SieuHangManager {
         }
 
         return result != 1;
-    }
-
-    public static void GetRewardDay(Player player) {
-        int rank = GetRankById(player.id);
-        if (CanGetRewardDay(player.id)) {
-            int ruby = GetRubyByRank(rank);
-
-            // TODO: Trao quà gì đó ở đây
-            // Sau khi làm xong gửi quà update là đã nhận
-            UpdateIsGetReward(player.id);
-        }
-
-        if (rank == 1) {
-            // TODO: Send thông báo toàn sv
-        }
     }
 
     public static Timestamp GetLastTimeCreateClone(Player player) {
@@ -603,29 +602,29 @@ public class SieuHangManager {
     }
 
     public static void InsertNewPlayer(long account_id) {
-        String UPDATE_PASS = "INSERT INTO super (player_id, head, name, data_point, items_body, pet_info, hp, dame, defend, `rank`, can_get_reward, is_fight, turn_per_day, is_get_reward_day, modified_date)\n" +
-                "  SELECT\n" +
-                "    id,\n" +
-                "    head,\n" +
-                "    name,\n" +
-                "    data_point,\n" +
-                "    items_body,\n" +
-                "    pet_info,\n" +
-                "    0 AS hp,\n" +
-                "    0 AS dame,\n" +
-                "    0 AS defend,\n" +
-                "    COALESCE(b.rank + 1) as rank,\n" +
-                "    0 AS can_get_reward,\n" +
-                "    0 AS is_fight,\n" +
-                "    3 AS turn_per_day,\n" +
-                "    0 AS is_get_reward_day,\n" +
-                "    NOW() AS modified_date\n" +
-                "  FROM player a\n" +
-                "    LEFT JOIN (SELECT\n" +
-                "        MAX(rank) AS rank\n" +
-                "      FROM super) b\n" +
-                "      ON 1 = 1\n" +
-                "  WHERE account_id = ?;";
+        String UPDATE_PASS = "INSERT INTO super (player_id, head, name, data_point, items_body, pet_info, hp, dame, defend, `rank`, can_get_reward, is_fight, turn_per_day, is_get_reward_day, modified_date)\n"
+                + "  SELECT\n"
+                + "    id,\n"
+                + "    head,\n"
+                + "    name,\n"
+                + "    data_point,\n"
+                + "    items_body,\n"
+                + "    pet_info,\n"
+                + "    0 AS hp,\n"
+                + "    0 AS dame,\n"
+                + "    0 AS defend,\n"
+                + "    COALESCE(b.rank + 1) as rank,\n"
+                + "    0 AS can_get_reward,\n"
+                + "    0 AS is_fight,\n"
+                + "    3 AS turn_per_day,\n"
+                + "    0 AS is_get_reward_day,\n"
+                + "    NOW() AS modified_date\n"
+                + "  FROM player a\n"
+                + "    LEFT JOIN (SELECT\n"
+                + "        MAX(rank) AS rank\n"
+                + "      FROM super) b\n"
+                + "      ON 1 = 1\n"
+                + "  WHERE account_id = ?;";
         PreparedStatement ps = null;
         try {
             try (Connection con = DBService.gI().getConnectionForGetPlayer();) {
@@ -635,6 +634,7 @@ public class SieuHangManager {
                 ps.executeUpdate();
             }
         } catch (SQLException e) {
+            System.err.println("Lỗi Insert Sieu Hang ");
             e.printStackTrace();
         } finally {
             try {

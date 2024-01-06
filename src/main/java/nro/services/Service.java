@@ -1581,7 +1581,7 @@ public class Service {
                                 break;
                             case 4:
                                 msg.writer().writeShort(-1);
-                                msg.writer().writeUTF("Cần đạt sức mạnh 120tỷ để mở");
+                                msg.writer().writeUTF("Cần đạt sức mạnh 100 tỷ để mở");
                                 break;
                             default:
                                 msg.writer().writeShort(-1);

@@ -12,7 +12,7 @@ import nro.services.TaskService;
 
 /**
  *
- * @author Administrator
+ * @author Arriety
  */
 public class Appule extends Npc {
 

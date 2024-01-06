@@ -23,9 +23,10 @@ import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
-
+import nro.jdbc.daos.PlayerDAO;
 
 public class ChuyenKhoanManager {
+
     public static void InsertTransaction(long player_id, long amount, String description) {
         String sql = "INSERT INTO transaction_banking (player_id, amount, DESCRIPTION, STATUS, is_recieve, last_time_check, created_date) VALUES (?, ?, ?, 0, 0, NULL, NOW());";
         PreparedStatement ps = null;
@@ -73,8 +74,8 @@ public class ChuyenKhoanManager {
 
                 msg.writer().writeUTF("Nội dung: " + top.description + "\n"
                         + "Trạng thái giao dịch: " + (top.status ? "Đã thanh toán" : "Chờ thanh toán") + "\n"
-                        + "Trạng thái nhận quà " + (top.isReceive ? "Đã nhận quà" : "Chờ nhận quà")  + "\n"
-                        + "Ngày giao dịch " + (Util.formatLocalDateTime(top.createdDate))  + "\n");
+                        + "Trạng thái nhận quà " + (top.isReceive ? "Đã nhận quà" : "Chờ nhận quà") + "\n"
+                        + "Ngày giao dịch " + (Util.formatLocalDateTime(top.createdDate)) + "\n");
             }
             player.sendMessage(msg);
             msg.cleanup();
@@ -242,7 +243,10 @@ public class ChuyenKhoanManager {
             ResultSet rs = ps.executeQuery();
 
             while (rs.next()) {
-                result = rs.getTimestamp("last_time_check").toLocalDateTime();
+                Timestamp time = rs.getTimestamp("last_time_check");
+                if (time != null) {
+                    result = rs.getTimestamp("last_time_check").toLocalDateTime();
+                }
             }
 
             rs.close();
@@ -280,8 +284,7 @@ public class ChuyenKhoanManager {
             ps.setInt(1, transactionId);
             ps.setLong(2, player_id);
             ps.executeUpdate();
-        } catch (Exception e) {
-            Log.error(SieuHangManager.class, e);
+        } catch (SQLException e) {
             e.printStackTrace();
         } finally {
             try {
@@ -306,7 +309,7 @@ public class ChuyenKhoanManager {
 
             timeDifference = TimeUtil.calculateTimeDifferenceInSeconds(lastTimeCheck, now);
 
-            if (timeDifference > 60) {
+            if (timeDifference > 10) {
                 canCheck = true;
             }
 
@@ -322,10 +325,8 @@ public class ChuyenKhoanManager {
             return;
         }
 
-
         if (canCheck) {
             transaction = GetTransactionById(player.id, transactionId);
-
             String history = GetTransactionOnline("https://api.web2m.com/historyapimb/Tuanbeo@12345/02147019062000/F3CAC210-DAC1-BD7F-7A26-A2643A5B3DD7");
 
             JsonResponse response = parseApiResponse(history);
@@ -335,22 +336,24 @@ public class ChuyenKhoanManager {
             if (response != null && response.getData() != null && response.getData().size() > 0) {
                 for (TransactionHistory transactionHistory : response.getData()) {
                     if (Double.parseDouble(transactionHistory.getCreditAmount()) == transaction.amount && Util.containsSubstring(transactionHistory.getDescription(), transaction.description)) {
-                        // TODO: Cộng tiền vào đây
-                        double ruby = transaction.amount / 1000;
+                        double ruby = transaction.amount;
+
+                        // TODO
+                        PlayerDAO.addVnd(player, (int) transaction.amount);
+                        player.getSession().vnd += ruby;
+                        System.out.println("Add ruby: " + ruby);
                         Service.getInstance().sendThongBao(player, "Bạn nhận được tiền là: " + ruby);
-                        player.inventory.addRuby((int) ruby);
-                        Service.getInstance().sendMoney(player);
                         UpdateGift(player.id, transactionId);
                         return;
                     }
                 }
             }
-
             Service.getInstance().sendThongBao(player, "Tài khoản của admin chưa nhận được tiền hoặc bạn chuyển khoản sai nội dung!");
         } else {
-            Service.getInstance().sendThongBao(player, "Bạn cần đợi " + (60 - timeDifference) + " giây nữa để được check giao dịch");
+            Service.getInstance().sendThongBao(player, "Bạn cần đợi " + (10 - timeDifference) + " giây nữa để được check giao dịch");
         }
     }
+
     private static String GetTransactionOnline(String apiUrl) {
         try {
             URL url = new URL(apiUrl);

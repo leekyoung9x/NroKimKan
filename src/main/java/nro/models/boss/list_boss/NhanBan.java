@@ -56,14 +56,10 @@ public class NhanBan extends Boss {
         if (this.isDie()) {
             return 0;
         } else {
-            if (!piercing && Util.isTrue(90, 100)) {
-                this.chat("Xí hụt lêu lêu");
-                return 0;
-            }
             if (this.isDie()) {
                 rewards(plAtt);
             }
-            return super.injured(plAtt, 1, piercing, isMobAttack);
+            return super.injured(plAtt,damage, piercing, isMobAttack);
         }
     }
 

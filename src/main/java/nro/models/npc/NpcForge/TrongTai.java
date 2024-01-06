@@ -55,11 +55,9 @@ public class TrongTai extends Npc {
     public void confirmMenu(Player player, int select) {
         if (canOpenNpc(player)) {
             int turn = SieuHangManager.GetFreeTurn(player);
-
             if (turn == 0 && select >= 2) {
                 select++;
             }
-
             switch (select) {
                 case 0: {
                     SieuHangService.ShowTop(player, 0);

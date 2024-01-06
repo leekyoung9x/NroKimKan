@@ -113,7 +113,7 @@ public class SuperBu_14H extends BossMabuWar {
         try {
             int[] itemDos = new int[]{556, 558, 560};
             int randomDo = new Random().nextInt(itemDos.length);
-            if (Util.isTrue(15, 100)) {
+            if (Util.isTrue(50, 100)) {
                 if (Util.isTrue(1, 5)) {
                     Service.getInstance().dropItemMap(this.zone, Util.ratiItem(zone, itemDos[randomDo], 1, this.location.x, this.location.y, pl.id));
                 }

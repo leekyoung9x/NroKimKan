@@ -136,14 +136,14 @@ public class IntrinsicService {
 //                        + Util.numberToMoney(goldRequire - player.inventory.gold) + " vàng nữa");
 //            }
 //        } else {
-        Service.getInstance().sendThongBao(player, "Chức năng đã đóng");
+        Service.getInstance().sendThongBao(player, "Chỉ có thể sửa dụng Mở Nội Tại Víp");
 //        }
     }
 
     public void openVip(Player player) {
         if (player.nPoint.power >= 10000000000L) {
-            int ruby = 500;
-            if (player.inventory.getRuby() >= 500) {
+            int ruby = 1_000;
+            if (player.inventory.getRuby() >= 1_000) {
                 player.inventory.subRuby(ruby);
                 PlayerService.gI().sendInfoHpMpMoney(player);
                 changeIntrinsic(player);

@@ -40,10 +40,6 @@ public class BossManager {
         }
     }
 
-    private BossManager() {
-
-    }
-
     public void FindBoss(Player player, int id) {
         Boss boss = BossManager.gI().getBossById(id);
         if (boss != null && boss.zone != null && boss.zone.map != null && !boss.isDie()) {

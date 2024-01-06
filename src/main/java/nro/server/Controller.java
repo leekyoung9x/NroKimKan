@@ -4,7 +4,6 @@ import nro.consts.*;
 import nro.data.DataGame;
 import nro.data.ItemData;
 import nro.jdbc.DBService;
-import nro.manager.ChuyenKhoanManager;
 import nro.models.kygui.ConsignmentShop;
 import nro.models.map.war.BlackBallWar;
 import nro.models.npc.NpcManager;
@@ -25,6 +24,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import nro.manager.ChuyenKhoanManager;
 import nro.models.boss.BossManager;
 
 public class Controller {
@@ -211,7 +211,14 @@ public class Controller {
                     break;
                 case -71:
                     if (player != null) {
-                        ChatGlobalService.gI().chat(player, _msg.reader().readUTF());
+                        long currentTime = System.currentTimeMillis();
+                        if (Util.canDoWithTime(player.lastTimeCTG, 30_000)) {
+                            player.lastTimeCTG = currentTime;
+                            ChatGlobalService.gI().chat(player, _msg.reader().readUTF());
+                        } else {
+                            Service.getInstance().sendThongBao(player, "Chat tutu thoi");
+                        }
+
                     }
                     break;
                 case -79:

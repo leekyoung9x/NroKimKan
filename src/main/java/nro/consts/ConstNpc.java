@@ -292,6 +292,7 @@ public class ConstNpc {
     public static final int SHOP_SANTA_SPEC_50 = 521;
     public static final int SHOP_CHIEN_LUC = 522;
     public static final int SHOP_BUNMA_LINH_THU = 523;
+
     public static final int CHUYEN_KHOAN = 524;
     public static final int CONTENT_CHUYEN_KHOAN = 525;
 }

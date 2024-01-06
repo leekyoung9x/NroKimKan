@@ -316,6 +316,9 @@ public class UseItem {
                         case 736:
                             openboxsukien(pl, item, 8);
                             break;
+                        case 397:
+                            openboxsukien(pl, item, 9);
+                            break;
                         case 211: //nho tím
                         case 212: //nho xanh
                             eatGrapes(pl, item);
@@ -428,6 +431,22 @@ public class UseItem {
                                 Service.getInstance().sendThongBao(pl, "Ít nhất đệ tử ngươi phải có chiêu 4 chứ!");
                             }
                             break;
+                        case 2010:
+                            if (pl.pet == null) {
+                                Service.getInstance().sendThongBao(pl, "Ngươi làm gì có đệ tử?");
+                                break;
+                            }
+                            if (pl.pet.playerSkill.skills.get(1).skillId != -1 && pl.pet.playerSkill.skills.get(4).skillId != -1) {
+                                pl.pet.openSkill4();
+                                pl.pet.openSkill5();
+                                InventoryService.gI().subQuantityItem(pl.inventory.itemsBag, item, 1);
+                                InventoryService.gI().sendItemBags(pl);
+                                Service.getInstance().sendThongBao(pl, "Đã đổi thành công chiêu 4, 5 đệ tử");
+                            } else {
+                                Service.getInstance().sendThongBao(pl, "Ít nhất đệ tử ngươi phải có chiêu 5 chứ!");
+                            }
+                            break;
+
                         default:
                             switch (item.template.type) {
                                 case 7: //sách học, nâng skill
@@ -1544,6 +1563,47 @@ public class UseItem {
                         Service.getInstance().sendThongBao(pl, "Hàng trang đã đầy");
                     }
                     break;
+                case 9:
+                    if (InventoryService.gI().getCountEmptyBag(pl) > 0) {
+                        short[] icon = new short[2];
+                        icon[0] = item.template.iconID;
+                        int tempID;
+                        if (Util.isTrue(10, 100)) {
+                            tempID = Util.getOne(1202, 1203);
+                        } else if (Util.isTrue(20, 100)) {
+                            tempID = 2052;
+                        } else if (Util.isTrue(26, 100)) {
+                            tempID = 1143;
+                        } else if (Util.isTrue(30, 70)) {
+                            tempID = 861;
+                        } else {
+                            tempID = 457;
+                        }
+                        Item it = ItemService.gI().createNewItem((short) tempID);
+                        switch (tempID) {
+                            case 1202:
+                            case 1203:
+                                it.itemOptions.add(new ItemOption(50, Util.nextInt(14, 17)));
+                                it.itemOptions.add(new ItemOption(77, 13));
+                                it.itemOptions.add(new ItemOption(103, 17));
+                                break;
+                            case 457:
+                                it.quantity = Util.nextInt(1, 5);
+                                break;
+                            case 861:
+                                it.quantity = Util.nextInt(1, 5000);
+                                break;
+                        }
+                        icon[1] = it.template.iconID;
+                        InventoryService.gI().subQuantityItemsBag(pl, item, 1);
+                        CombineServiceNew.gI().sendEffectOpenItem(pl, icon[0], icon[1]);
+                        InventoryService.gI().addItemBag(pl, it, 0);
+                        InventoryService.gI().sendItemBags(pl);
+                        break;
+                    } else {
+                        Service.getInstance().sendThongBao(pl, "Hàng trang đã đầy");
+                    }
+                    break;
             }
         } catch (Exception e) {
             logger.error("Lỗi mở hộp quà", e);
@@ -1889,7 +1949,8 @@ public class UseItem {
 
             }
         } catch (Exception e) {
-            Log.error(UseItem.class, e);
+            Log.error(UseItem.class,
+                    e);
         }
     }
 

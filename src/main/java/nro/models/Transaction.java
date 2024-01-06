@@ -1,7 +1,6 @@
 package nro.models;
 
 import java.time.LocalDateTime;
-import java.util.List;
 
 public class Transaction {
 

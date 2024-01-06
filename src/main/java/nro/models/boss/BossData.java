@@ -789,7 +789,7 @@ public class BossData {
             Boss.DAME_NORMAL, //type dame
             Boss.HP_NORMAL, //type hp
             120000, //dame
-            new int[][]{{1_000_000_000}}, //hp
+            new int[][]{{2_000_000_000}}, //hp
             new short[]{317, 318, 319}, //outfit
             new short[]{110}, //map join
             new int[][]{ //skill
@@ -807,7 +807,7 @@ public class BossData {
             Boss.DAME_NORMAL, //type dame
             Boss.HP_NORMAL, //type hp
             150000, //dame
-            new int[][]{{1_500_000_000}}, //hp
+            new int[][]{{2_000_000_000}}, //hp
             new short[]{320, 321, 322}, //outfit
             new short[]{110}, //map join
             new int[][]{ //skill
@@ -820,99 +820,13 @@ public class BossData {
     );
 
     //--------------------------------------------------------------------------Tiểu đội sát thủ
-    public static final BossData SO4NM = new BossData(
-            "Số 4", //name
-            ConstPlayer.XAYDA, //gender
-            Boss.DAME_NORMAL, //type dame
-            Boss.HP_NORMAL, //type hp
-            30000, //dame
-            new int[][]{{2_000_000}}, //hp
-            new short[]{168, 169, 170}, //outfit
-            new short[]{43}, //map join
-            new int[][]{ //skill
-                {Skill.DRAGON, 1, 1000}, {Skill.DRAGON, 2, 2000}, {Skill.DRAGON, 3, 3000}, {Skill.DRAGON, 7, 7000},
-                {Skill.ANTOMIC, 1, 1000}, {Skill.ANTOMIC, 2, 1200}, {Skill.ANTOMIC, 4, 1500}, {Skill.ANTOMIC, 5, 1700},
-                {Skill.MASENKO, 1, 1000}, {Skill.MASENKO, 2, 1200}, {Skill.MASENKO, 4, 1500}, {Skill.MASENKO, 5, 1700},
-                {Skill.GALICK, 1, 1000}
-            },
-            _30_PHUT
-    );
-    public static final BossData SO3NM = new BossData(
-            "Số 3", //name
-            ConstPlayer.XAYDA, //gender
-            Boss.DAME_NORMAL, //type dame
-            Boss.HP_NORMAL, //type hp
-            35000, //dame
-            new int[][]{{2_000_000}}, //hp
-            new short[]{174, 175, 176}, //outfit
-            new short[]{43}, //map join
-            new int[][]{ //skill
-                {Skill.DRAGON, 1, 1000}, {Skill.DRAGON, 2, 2000}, {Skill.DRAGON, 3, 3000}, {Skill.DRAGON, 7, 7000},
-                {Skill.ANTOMIC, 1, 1000}, {Skill.ANTOMIC, 2, 1200}, {Skill.ANTOMIC, 4, 1500}, {Skill.ANTOMIC, 5, 1700},
-                {Skill.MASENKO, 1, 1000}, {Skill.MASENKO, 2, 1200}, {Skill.MASENKO, 4, 1500}, {Skill.MASENKO, 5, 1700},
-                {Skill.GALICK, 1, 1000}
-            },
-            _30_PHUT, true
-    );
-    public static final BossData SO2NM = new BossData(
-            "Số 2", //name
-            ConstPlayer.XAYDA, //gender
-            Boss.DAME_NORMAL, //type dame
-            Boss.HP_NORMAL, //type hp
-            40000, //dame
-            new int[][]{{2_000_000}}, //hp
-            new short[]{171, 172, 173}, //outfit
-            new short[]{43}, //map join
-            new int[][]{ //skill
-                {Skill.DRAGON, 1, 1000}, {Skill.DRAGON, 2, 2000}, {Skill.DRAGON, 3, 3000}, {Skill.DRAGON, 7, 7000},
-                {Skill.ANTOMIC, 1, 1000}, {Skill.ANTOMIC, 2, 1200}, {Skill.ANTOMIC, 4, 1500}, {Skill.ANTOMIC, 5, 1700},
-                {Skill.MASENKO, 1, 1000}, {Skill.MASENKO, 2, 1200}, {Skill.MASENKO, 4, 1500}, {Skill.MASENKO, 5, 1700},
-                {Skill.GALICK, 1, 1000}
-            },
-            _30_PHUT, true
-    );
-    public static final BossData SO1NM = new BossData(
-            "Số 1", //name
-            ConstPlayer.XAYDA, //gender
-            Boss.DAME_NORMAL, //type dame
-            Boss.HP_NORMAL, //type hp
-            40000, //dame
-            new int[][]{{2_000_000}}, //hp
-            new short[]{177, 178, 179}, //outfit
-            new short[]{43}, //map join
-            new int[][]{ //skill
-                {Skill.DRAGON, 1, 1000}, {Skill.DRAGON, 2, 2000}, {Skill.DRAGON, 3, 3000}, {Skill.DRAGON, 7, 7000},
-                {Skill.ANTOMIC, 1, 1000}, {Skill.ANTOMIC, 2, 1200}, {Skill.ANTOMIC, 4, 1500}, {Skill.ANTOMIC, 5, 1700},
-                {Skill.MASENKO, 1, 1000}, {Skill.MASENKO, 2, 1200}, {Skill.MASENKO, 4, 1500}, {Skill.MASENKO, 5, 1700},
-                {Skill.GALICK, 1, 1000}
-            },
-            _30_PHUT, true
-    );
-    public static final BossData TIEU_DOI_TRUONGNM = new BossData(
-            "Tiểu đội trưởng", //name
-            ConstPlayer.XAYDA, //gender
-            Boss.DAME_NORMAL, //type dame
-            Boss.HP_NORMAL, //type hp
-            50000, //dame
-            new int[][]{{2_000_000}}, //hp
-            new short[]{180, 181, 182}, //outfit
-            new short[]{43}, //map join
-            new int[][]{ //skill
-                {Skill.DRAGON, 1, 1000}, {Skill.DRAGON, 2, 2000}, {Skill.DRAGON, 3, 3000}, {Skill.DRAGON, 7, 7000},
-                {Skill.ANTOMIC, 1, 1000}, {Skill.ANTOMIC, 2, 1200}, {Skill.ANTOMIC, 4, 1500}, {Skill.ANTOMIC, 5, 1700},
-                {Skill.MASENKO, 1, 1000}, {Skill.MASENKO, 2, 1200}, {Skill.MASENKO, 4, 1500}, {Skill.MASENKO, 5, 1700},
-                {Skill.GALICK, 1, 1000}
-            },
-            _30_PHUT, true
-    );
-
     public static final BossData SO4 = new BossData(
             "Số 4", //name
             ConstPlayer.XAYDA, //gender
             Boss.DAME_NORMAL, //type dame
             Boss.HP_NORMAL, //type hp
             30000, //dame
-            new int[][]{{200_000_000}}, //hp
+            new int[][]{{300_000_000}}, //hp
             new short[]{168, 169, 170}, //outfit
             new short[]{82, 83, 79}, //map join
             new int[][]{ //skill
@@ -929,7 +843,7 @@ public class BossData {
             Boss.DAME_NORMAL, //type dame
             Boss.HP_NORMAL, //type hp
             35000, //dame
-            new int[][]{{200_000_000}}, //hp
+            new int[][]{{300_000_000}}, //hp
             new short[]{174, 175, 176}, //outfit
             new short[]{82, 83, 79}, //map join
             new int[][]{ //skill
@@ -946,7 +860,7 @@ public class BossData {
             Boss.DAME_NORMAL, //type dame
             Boss.HP_NORMAL, //type hp
             40000, //dame
-            new int[][]{{200_000_000}}, //hp
+            new int[][]{{300_000_000}}, //hp
             new short[]{171, 172, 173}, //outfit
             new short[]{82, 83, 79}, //map join
             new int[][]{ //skill
@@ -963,7 +877,7 @@ public class BossData {
             Boss.DAME_NORMAL, //type dame
             Boss.HP_NORMAL, //type hp
             40000, //dame
-            new int[][]{{200_000_000}}, //hp
+            new int[][]{{300_000_000}}, //hp
             new short[]{177, 178, 179}, //outfit
             new short[]{82, 83, 79}, //map join
             new int[][]{ //skill
@@ -980,7 +894,7 @@ public class BossData {
             Boss.DAME_NORMAL, //type dame
             Boss.HP_NORMAL, //type hp
             50000, //dame
-            new int[][]{{200_000_000}}, //hp
+            new int[][]{{300_000_000}}, //hp
             new short[]{180, 181, 182}, //outfit
             new short[]{82, 83, 79}, //map join
             new int[][]{ //skill
@@ -999,7 +913,7 @@ public class BossData {
             Boss.DAME_NORMAL, //type dame
             Boss.HP_NORMAL, //type hp
             50000, //dame
-            new int[][]{{40000000}}, //hp
+            new int[][]{{300_000_000}}, //hp
             new short[]{183, 184, 185}, //outfit
             new short[]{80}, //map join
             new int[][]{ //skill
@@ -1017,7 +931,7 @@ public class BossData {
             Boss.DAME_NORMAL, //type dame
             Boss.HP_NORMAL, //type hp
             50000, //dame
-            new int[][]{{50000000}}, //hp
+            new int[][]{{300_000_000}}, //hp
             new short[]{186, 187, 188}, //outfit
             new short[]{80}, //map join
             new int[][]{ //skill
@@ -1035,7 +949,7 @@ public class BossData {
             Boss.DAME_NORMAL, //type dame
             Boss.HP_NORMAL, //type hp
             60000, //dame
-            new int[][]{{100000000}}, //hp
+            new int[][]{{300_000_000}}, //hp
             new short[]{189, 190, 191}, //outfit
             new short[]{80}, //map join
             new int[][]{ //skill
@@ -1384,7 +1298,7 @@ public class BossData {
             Boss.DAME_NORMAL, //type dame
             Boss.HP_NORMAL, //type hp
             500_000, //dame
-            new int[][]{{1_500_000_000}}, //hp
+            new int[][]{{2_000_000_000}}, //hp
             new short[]{550, 551, 552}, //outfit
             new short[]{92, 93, 94}, //map join
             new int[][]{ //skill
@@ -1404,7 +1318,7 @@ public class BossData {
             Boss.DAME_NORMAL, //type dame
             Boss.HP_NORMAL, //type hp
             800000, //dame
-            new int[][]{{1000000000}}, //hp
+            new int[][]{{2_000_000_000}}, //hp
             new short[]{553, 551, 552}, //outfit
             new short[]{92, 93, 94}, //map join
             new int[][]{ //skill
@@ -2005,7 +1919,7 @@ public class BossData {
             .typeDame(Boss.DAME_NORMAL)
             .typeHp(Boss.HP_NORMAL)
             .dame(500000)
-            .hp(new int[][]{{1500000000}})
+            .hp(new int[][]{{2_000_000_000}})
             .outfit(new short[]{1281, 1282, 1283})
             .mapJoin(new short[]{155})
             .skillTemp(new int[][]{
@@ -2022,7 +1936,7 @@ public class BossData {
             .typeDame(Boss.DAME_NORMAL)
             .typeHp(Boss.HP_NORMAL)
             .dame(500000)
-            .hp(new int[][]{{2000000000}})
+            .hp(new int[][]{{2_000_000_000}})
             .outfit(new short[]{1284, 1285, 1286})
             .mapJoin(new short[]{155})
             .skillTemp(new int[][]{

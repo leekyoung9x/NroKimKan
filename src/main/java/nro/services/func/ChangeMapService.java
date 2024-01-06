@@ -185,7 +185,21 @@ public class ChangeMapService {
     }
 
     public void changeMap(Player pl, Zone zoneJoin, int mapId, int zoneId, int x, int y, byte typeSpace) {
-        boolean checkByTask = TaskService.gI().checkTaskTDST(pl) && MapService.gI().isMapQuestTDST(zoneJoin.map.mapId);
+        boolean checkByTask = TaskService.gI().checkTaskTDST(pl);
+        
+        if (zoneJoin != null) {
+            if (checkByTask && MapService.gI().isMapQuestTDST(zoneJoin.map.mapId)) {
+                checkByTask = true;
+            } else {
+                checkByTask = false;
+            }
+        } else {
+            if (checkByTask && MapService.gI().isMapQuestTDST(mapId)) {
+                checkByTask = true;
+            } else {
+                checkByTask = false;
+            }
+        }
 
         TransactionService.gI().cancelTrade(pl);
 
@@ -206,7 +220,6 @@ public class ChangeMapService {
                     } else {
                         zoneJoin = MapService.gI().getZoneJoinByMapIdAndZoneIdTask(pl, mapId, zoneId);
                     }
-
                     if (zoneJoin == null) {
                         Service.getInstance().sendThongBao(pl, "Bạn đã hoàn thành TĐST không thể vào khu vực có nv này");
                     }
@@ -219,7 +232,6 @@ public class ChangeMapService {
                 }
             }
         }
-
         if (pl.isHoldNamecBall) {
             int plX = pl.location.x;
             if (pl.location.x >= pl.zone.map.mapWidth - 60) {

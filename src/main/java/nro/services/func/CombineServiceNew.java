@@ -75,6 +75,8 @@ public class CombineServiceNew {
 
     public static final int UPGRADE_THAN_LINH = 522;
 
+    public static final int UPGRADE_PET = 523;
+
     private static final int GOLD_MOCS_BONG_TAI = 500_000_000;
 
     private static final int RUBY_MOCS_BONG_TAI = 10_000;
@@ -123,6 +125,7 @@ public class CombineServiceNew {
             player.sendMessage(msg);
             msg.cleanup();
         } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 
@@ -148,6 +151,8 @@ public class CombineServiceNew {
             }
         }
         switch (player.combineNew.typeCombine) {
+            case UPGRADE_PET:
+                break;
             case UPGRADE_THAN_LINH:
                 if (player.combineNew.itemsCombine.isEmpty()) {
                     this.tosu.createOtherMenu(player, ConstNpc.IGNORE_MENU, "Hãy đưa ta 1  món đồ kích hoạt bất kỳ và 1 món đồ Thần Linh", "Đóng");
@@ -1615,7 +1620,7 @@ public class CombineServiceNew {
             if (dokh != null) {
                 if (InventoryService.gI().getCountEmptyBag(player) > 0 && player.inventory.ruby >= 10_000) {
                     int tile = getTine(manhTL);
-
+                    // lew lew Chính béo <33
                     if (Util.isTrue(tile, 100)) {
                         int typeOption = 0;
                         int check = dokh.checkSet(dokh);

@@ -15,11 +15,11 @@ import nro.services.TaskService;
  * @author Arriety
  */
 public class BoMong extends Npc {
-
+    
     public BoMong(int mapId, int status, int cx, int cy, int tempId, int avartar) {
         super(mapId, status, cx, cy, tempId, avartar);
     }
-
+    
     @Override
     public void openBaseMenu(Player player) {
         if (canOpenNpc(player)) {
@@ -29,7 +29,7 @@ public class BoMong extends Npc {
             }
         }
     }
-
+    
     @Override
     public void confirmMenu(Player player, int select) {
         if (canOpenNpc(player)) {
@@ -58,8 +58,7 @@ public class BoMong extends Npc {
                             }
                             break;
                         case 1:
-                            TaskService.gI().checkDoneAchivements(player);
-                            TaskService.gI().sendAchivement(player);
+                            this.npcChat(player, "Bảo trì");
                             break;
                     }
                 } else if (player.iDMark.getIndexMenu() == ConstNpc.MENU_OPTION_LEVEL_SIDE_TASK) {

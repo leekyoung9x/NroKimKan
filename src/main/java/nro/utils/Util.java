@@ -488,7 +488,7 @@ public class Util {
             return "Không tìm thấy giá trị";
         }
     }
-
+    
     public static boolean containsSubstring(String inputString, String pattern) {
         // Loại bỏ ký tự đặc biệt và khoảng trắng từ chuỗi
         String cleanedString = inputString.replaceAll("[^a-zA-Z0-9]", "");

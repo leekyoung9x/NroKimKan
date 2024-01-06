@@ -1,9 +1,7 @@
 package nro.models.item;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
-import nro.utils.Util;
 
 public class Item {
 
@@ -65,6 +63,7 @@ public class Item {
         }
         return false;
     }
+
 
     public int checkSet(Item it) {
         int result = -1;

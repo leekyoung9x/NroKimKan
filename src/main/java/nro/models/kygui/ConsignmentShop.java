@@ -177,12 +177,6 @@ public class ConsignmentShop {
             show(player);
             return;
         }
-//        Item it = InventoryService.gI().findItemBagByTemp(player, itemID);
-//        if (!it.isItemKyGui()) {
-//            Service.getInstance().sendThongBao(player, "Vật phẩm không thể ký gửi");
-//            show(player);
-//            return;
-//        }
         if (quantity < 0 || quantity > 99) {
             Service.getInstance().sendThongBao(player, "Chỉ có thể kí gửi tối đa x99");
             return;
@@ -194,8 +188,8 @@ public class ConsignmentShop {
                 return;
             }
         } else {
-            if (money < 100_000 || money > 1_000_000) {
-                Service.getInstance().sendThongBao(player, "Vui lòng ký gửi trên 100k đơn vị, đến 1 tr đơn vị");
+            if (money < 100_000 || money > 300_000) {
+                Service.getInstance().sendThongBao(player, "Vui lòng ký gửi trên 100k đơn vị, đến 300k đơn vị");
                 show(player);
                 return;
             }

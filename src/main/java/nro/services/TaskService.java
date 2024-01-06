@@ -23,6 +23,7 @@ import java.io.DataOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import nro.art.ServerLog;
 import nro.models.item.ItemOption;
 
 /**
@@ -34,22 +35,22 @@ public class TaskService {
      * Làm cùng số người trong bang
      */
     private static final byte NMEMBER_DO_TASK_TOGETHER = 2;
-    
+
     private static TaskService i;
-    
+
     public static TaskService gI() {
         if (i == null) {
             i = new TaskService();
         }
         return i;
     }
-    
+
     public void DoneTask(Player player, int id) {// ho tro nv
         if (player.isPl()) {
             doneTask(player, id);
         }
     }
-    
+
     public TaskMain getTaskMainById(Player player, int id) {
         for (TaskMain tm : Manager.TASKS) {
             if (tm.id == id) {
@@ -65,6 +66,29 @@ public class TaskService {
             }
         }
         return player.playerTask.taskMain;
+    }
+
+    public boolean checkTaskTDST(Player player) {
+        if (player.isPl() && player.playerTask.taskMain.id > 20) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public boolean haveTDSTInZone(List<Player> bosses) {
+        if (bosses != null && bosses.size() > 0) {
+            for (Player player : bosses) {
+                if (player.isBoss && (player.id == BossFactory.SO1
+                        || player.id == BossFactory.SO2
+                        || player.id == BossFactory.SO3
+                        || player.id == BossFactory.SO4
+                        || player.id == BossFactory.TIEU_DOI_TRUONG)) {
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 
     //gửi thông tin nhiệm vụ chính
@@ -131,7 +155,7 @@ public class TaskService {
         Service.getInstance().sendThongBao(player, "Nhiệm vụ hiện tại của bạn là "
                 + player.playerTask.taskMain.subTasks.get(player.playerTask.taskMain.index).name);
     }
-    
+
     public boolean checkDoneTaskTalkNpc(Player player, Npc npc) {
         switch (npc.tempId) {
             case ConstNpc.QUY_LAO_KAME:
@@ -388,7 +412,7 @@ public class TaskService {
                 case BossFactory.ANDROID_20:
                     doneTask(player, ConstTask.TASK_22_3);
                     break;
-                
+
                 case BossFactory.POC:
                     doneTask(player, ConstTask.TASK_23_1);
                     break;
@@ -439,7 +463,7 @@ public class TaskService {
                 case BossFactory.MABU_MAP:
                     doneTask(player, ConstTask.TASK_26_6);
                     break;
-                
+
             }
         }
     }
@@ -981,7 +1005,7 @@ public class TaskService {
         }
         return false;
     }
-    
+
     private void npcSay(Player player, int npcId, String text) {
         npcId = transformNpcId(player, npcId);
         text = transformName(player, text);
@@ -1034,7 +1058,7 @@ public class TaskService {
             this.sendUpdateCountSubTask(player);
         }
     }
-    
+
     private int transformMapId(Player player, int id) {
         if (id == ConstTask.MAP_NHA) {
             return (short) (player.gender + 21);
@@ -1069,7 +1093,7 @@ public class TaskService {
         }
         return id;
     }
-    
+
     private int transformNpcId(Player player, int id) {
         if (id == ConstTask.NPC_NHA) {
             return player.gender == ConstPlayer.TRAI_DAT
@@ -1132,7 +1156,7 @@ public class TaskService {
                         ? "Dende" : "Appule"));
         return text;
     }
-    
+
     public boolean isCurrentTask(Player player, int idTaskCustom) {
         switch (idTaskCustom) {
             case ConstTask.TASK_0_0:
@@ -1852,7 +1876,7 @@ public class TaskService {
         }
         return false;
     }
-    
+
     public int getIdTask(Player player) {
         if (player.isPet || player.isBoss || player.playerTask == null || player.playerTask.taskMain == null) {
             return -1;
@@ -2582,7 +2606,7 @@ public class TaskService {
         }
         return null;
     }
-    
+
     public void changeSideTask(Player player, byte level) {
         if (player.playerTask.sideTask.leftTask > 0) {
             player.playerTask.sideTask.reset();
@@ -2598,12 +2622,12 @@ public class TaskService {
                     "Bạn đã nhận hết nhiệm vụ hôm nay. Hãy chờ tới ngày mai rồi nhận tiếp");
         }
     }
-    
+
     public void removeSideTask(Player player) {
         Service.getInstance().sendThongBao(player, "Bạn vừa hủy bỏ nhiệm vụ " + player.playerTask.sideTask.getName());
         player.playerTask.sideTask.reset();
     }
-    
+
     public void paySideTask(Player player) {
         if (player.playerTask.sideTask.template != null) {
             if (player.playerTask.sideTask.isDone()) {
@@ -2614,7 +2638,7 @@ public class TaskService {
             }
         }
     }
-    
+
     public void checkDoneSideTaskKillMob(Player player, Mob mob) {
         if (player.playerTask.sideTask.template != null) {
             if ((player.playerTask.sideTask.template.id == 0 && mob.tempId == ConstMob.KHUNG_LONG)
@@ -2680,7 +2704,7 @@ public class TaskService {
             }
         }
     }
-    
+
     public void checkDoneSideTaskPickItem(Player player, ItemMap item) {
         if (item != null && player.playerTask.sideTask.template != null) {
             if ((player.playerTask.sideTask.template.id == 58 && item.itemTemplate.type == 9)) {
@@ -2689,7 +2713,7 @@ public class TaskService {
             }
         }
     }
-    
+
     private void notifyProcessSideTask(Player player) {
         int percentDone = player.playerTask.sideTask.getPercentProcess();
         boolean notify = false;
@@ -2736,7 +2760,7 @@ public class TaskService {
                     + "bây giờ hãy quay về Bò Mộng trả nhiệm vụ.");
         }
     }
-    
+
     public void sendAchivement(Player player) {
         List<Achivement> achivements = player.playerTask.achivements;
         Message m = new Message(Cmd.ACHIEVEMENT);
@@ -2755,22 +2779,23 @@ public class TaskService {
             ds.flush();
             player.sendMessage(m);
             m.cleanup();
-        } catch (IOException e) {
-            
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
-    
+
     public void rewardAchivement(Player player, byte id) {
         Achivement achivement = player.playerTask.achivements.get(id);
         if (achivement.isFinish()) {
             player.inventory.ruby += achivement.getMoney();
+            ServerLog.logAchivement(player.name, achivement.getMoney());
             Service.getInstance().sendMoney(player);
             achivement.setReceive(true);
             sendAchivement(player);
             Service.getInstance().sendThongBao(player, "Bạn nhận được " + achivement.getMoney() + " hồng ngọc");
         }
     }
-    
+
     public void checkDoneAchivements(Player player) {
         List<Achivement> list = player.playerTask.achivements;
         for (Achivement achivement : list) {
@@ -2786,28 +2811,5 @@ public class TaskService {
                 achivement.setFinish(true);
             }
         }
-    }
-
-    public boolean checkTaskTDST(Player player) {
-        if (player.isPl() && player.playerTask.taskMain.id > 20) {
-            return true;
-        } else {
-            return false;
-        }
-    }
-
-    public boolean haveTDSTInZone(List<Player> bosses) {
-        if (bosses != null && bosses.size() > 0) {
-            for (Player player: bosses) {
-                if (player.isBoss && (player.id == BossFactory.SO1 ||
-                        player.id == BossFactory.SO2 ||
-                        player.id == BossFactory.SO3 ||
-                        player.id == BossFactory.SO4 ||
-                        player.id == BossFactory.TIEU_DOI_TRUONG)) {
-                    return true;
-                }
-            }
-        }
-        return false;
     }
 }

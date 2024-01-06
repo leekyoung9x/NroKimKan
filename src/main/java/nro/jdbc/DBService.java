@@ -205,12 +205,10 @@ public class DBService {
     }
 
     public Connection getConnection() throws Exception {
-//        return this.connPool.getConnection();
         return DBHika.getConnection();
     }
 
     public void release(Connection con) {
-//        this.connPool.free(con);
     }
 
     public int currentActive() {

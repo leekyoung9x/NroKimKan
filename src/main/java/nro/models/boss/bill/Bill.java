@@ -22,11 +22,10 @@ public class Bill extends FutureBoss {
         return false;
     }
 
-    @Override
-    public void rewards(Player plKill) {
-        BillEgg.createBillEgg(plKill);
-    }
-
+//    @Override
+//    public void rewards(Player plKill) {
+//        BillEgg.createBillEgg(plKill);
+//    }
     @Override
     public void idle() {
     }
@@ -37,6 +36,14 @@ public class Bill extends FutureBoss {
 
     @Override
     public void initTalk() {
+    }
+
+    @Override
+    public void rewards(Player pl) {
+        if (pl != null) {
+            this.dropItemReward(2040, (int) pl.id);
+            generalRewards(pl);
+        }
     }
 
     @Override

@@ -2,7 +2,6 @@ package nro.services.func;
 
 import nro.consts.ConstNpc;
 import nro.jdbc.daos.PlayerDAO;
-import nro.manager.ChuyenKhoanManager;
 import nro.models.item.Item;
 import nro.models.map.Zone;
 import nro.models.npc.Npc;
@@ -15,6 +14,7 @@ import nro.services.*;
 import java.util.HashMap;
 import java.util.Map;
 import nro.art.ServerLog;
+import nro.manager.ChuyenKhoanManager;
 import nro.models.item.ItemOption;
 import nro.models.player.Inventory;
 import nro.services.card.NapThe;
@@ -30,7 +30,6 @@ public class Input {
     public static final int CHANGE_PASSWORD = 500;
     public static final int GIFT_CODE = 501;
     public static final int FIND_PLAYER = 502;
-    public static final int CHUYEN_KHOAN = 569;
     public static final int CHANGE_NAME = 503;
     public static final int CHOOSE_LEVEL_BDKB = 5066;
     public static final int CHOOSE_LEVEL_CDRD = 7700;
@@ -39,6 +38,8 @@ public class Input {
     public static final int SEND_ITEM_OP = 507;
     public static final int TRADE_RUBY = 508;
     public static final int NAP_THE = 509;
+
+    public static final int CHUYEN_KHOAN = 569;
 
     public static String LOAI_THE;
     public static String MENH_GIA;
@@ -85,24 +86,6 @@ public class Input {
                                 pl);
                     } else {
                         Service.getInstance().sendThongBao(player, "Người chơi không tồn tại hoặc đang offline");
-                    }
-                    break;
-                case CHUYEN_KHOAN:
-                    try {
-                        long money = Long.parseLong(text[0]);
-
-                        String description = Util.generateRandomString();
-
-                        ChuyenKhoanManager.InsertTransaction(player.id, money, description);
-
-                        Npc npc = NpcManager.getByIdAndMap(ConstNpc.QUY_LAO_KAME, player.zone.map.mapId);
-                        if (npc != null) {
-                            npc.createOtherMenu(player, ConstNpc.CONTENT_CHUYEN_KHOAN,
-                                    "Con đã tạo thành công giao dịch có nội dung " + description + " với số tiền " + Util.numberToMoney(money) + "!\nVui lòng chuyển khoản đến ngân hàng MBBank có số tài khoản 0327068593 với số tiền và nội dung như trên!", "Đóng", "Quét QR");
-                        }
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                        Service.getInstance().sendThongBao(player, "Đã có lỗi xảy ra liên hệ với ADMIN Béo toán học để được hỗ trợ");
                     }
                     break;
                 case CHANGE_NAME:
@@ -172,6 +155,30 @@ public class Input {
                         break;
                     }
                     break;
+                case CHUYEN_KHOAN:
+                    try {
+                    long money = Long.parseLong(text[0]);
+                    String description = Util.generateRandomString();
+
+                    ChuyenKhoanManager.InsertTransaction(player.id, money, description);
+                    if (money < 1000 || money > 1_000_000) {
+                        Service.getInstance().sendThongBao(player, "Tối thiểu 1000 và tối đa 1000000");
+                        break;
+                    }
+                    Npc npc = NpcManager.getByIdAndMap(ConstNpc.QUY_LAO_KAME, player.zone.map.mapId);
+                    if (npc != null) {
+                        npc.createOtherMenu(player, ConstNpc.CONTENT_CHUYEN_KHOAN,
+                                "Con đã tạo thành công giao dịch có nội dung "
+                                + description
+                                + " với số tiền "
+                                + Util.numberToMoney(money)
+                                + "!\nVui lòng chuyển khoản đến ngân hàng MBBank có số tài khoản 02147019062000 với số tiền và nội dung như trên!", "Đóng", "Quét QR");
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    Service.getInstance().sendThongBao(player, "Đã có lỗi xảy ra liên hệ với ADMIN Béo toán học để được hỗ trợ");
+                }
+                break;
                 case TRADE_RUBY:
                     int cuantity = Integer.valueOf(text[0]);
                     if (!player.getSession().actived) {
@@ -264,6 +271,10 @@ public class Input {
         }
     }
 
+    public void createFormChuyenKhoan(Player pl) {
+        createForm(pl, CHUYEN_KHOAN, "Nhập số tiền muốn nạp", new SubInput("Số tiền", NUMERIC));
+    }
+
     public void createForm(Player pl, int typeInput, String title, SubInput... subInputs) {
         pl.iDMark.setTypeInput(typeInput);
         Message msg;
@@ -294,11 +305,6 @@ public class Input {
     public void createFormFindPlayer(Player pl) {
         createForm(pl, FIND_PLAYER, "Tìm kiếm người chơi", new SubInput("Tên người chơi", ANY));
     }
-
-    public void createFormChuyenKhoan(Player pl) {
-        createForm(pl, CHUYEN_KHOAN, "Nhập số tiền muốn nạp", new SubInput("Số tiền", NUMERIC));
-    }
-
 
     public void createFormSenditem1(Player pl) {
         createForm(pl, SEND_ITEM_OP, "SEND Vật Phẩm Option",

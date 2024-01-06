@@ -387,6 +387,10 @@ public class EffectSkillService {
     //hiệu ứng biến khỉ
     public void sendEffectMonkey(Player player) {
         Skill skill = SkillUtil.getSkillbyId(player, Skill.BIEN_KHI);
+        if (skill == null) {
+            Service.getInstance().sendThongBao(player, "Errorrr");
+            return;
+        }
         Message msg;
         try {
             msg = new Message(-45);

@@ -344,7 +344,6 @@ public class PlayerDAO {
             ps.executeUpdate();
 //            Log.success("Tạo player mới thành công!");
         } catch (Exception e) {
-            e.printStackTrace();
             Log.error(PlayerDAO.class, e, "Lỗi tạo player mới");
         } finally {
             try {
@@ -354,10 +353,28 @@ public class PlayerDAO {
                 if (ps != null) {
                     ps.close();
                 }
-
                 SieuHangManager.InsertNewPlayer(userId);
             } catch (Exception e) {
                 e.printStackTrace();
+            }
+        }
+    }
+
+    public static void addVnd(Player player, int ruby) {
+        PreparedStatement ps = null;
+        try (Connection con = DBService.gI().getConnectionForSaveData();) {
+            ps = con.prepareStatement("update account set vnd = (vnd + ?) where id = ?");
+            ps.setInt(1, ruby);
+            ps.setInt(2, player.getSession().userId);
+            ps.executeUpdate();
+        } catch (Exception e) {
+            System.out.println("Loi player " + player.name);
+            e.printStackTrace();
+        } finally {
+            try {
+                ps.close();
+            } catch (SQLException ex) {
+                ex.printStackTrace();
             }
         }
     }
@@ -919,13 +936,12 @@ public class PlayerDAO {
                             ps.close();
                         } catch (Exception e) {
                             System.out.println("Lỗi Close");
-                            e.printStackTrace();
+//                            e.printStackTrace();
                         }
                     }
                 } catch (Exception e) {
+                    e.printStackTrace();
                     Log.error(PlayerDAO.class, e, "Lỗi save player " + player.name);
-                } finally {
-
                 }
             }
         } finally {

@@ -42,10 +42,7 @@ public class Whis extends Boss {
     @Override
     public void rewards(Player pl) {
         if (pl != null) {
-            if (Util.isTrue(1, 10)) {
-                this.dropItemReward(2039, (int) pl.id);
-            }
-            this.dropItemReward(1231, (int) pl.id);
+            this.dropItemReward(2040, (int) pl.id);
             generalRewards(pl);
         }
     }

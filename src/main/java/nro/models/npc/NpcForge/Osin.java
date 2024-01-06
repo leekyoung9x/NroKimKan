@@ -37,7 +37,7 @@ public class Osin extends Npc {
             } else if (this.mapId == 52) {
                 if (MabuWar.gI().isTimeMabuWar() || MabuWar14h.gI().isTimeMabuWar()) {
                     if (!TaskService.gI().checkDoneTaskTalkNpc(player, this)) {
-                        this.createOtherMenu(player, ConstNpc.BASE_MENU,
+                        this.createOtherMenu(player, ConstNpc.IGNORE_MENU,
                                 "Bây giờ tôi sẽ bí mật...\n đuổi theo 2 tên đồ tể... \n"
                                 + "Quý vị nào muốn đi theo thì xin mời !",
                                 "Ok", "Từ chối");

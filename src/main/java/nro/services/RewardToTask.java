@@ -15,7 +15,7 @@ import nro.utils.Util;
  */
 public class RewardToTask {
 
-     private static RewardToTask instance;
+    private static RewardToTask instance;
 
     public static RewardToTask getInstance() {
         if (instance == null) {
@@ -23,7 +23,7 @@ public class RewardToTask {
         }
         return instance;
     }
-    
+
     public void rewardToTask(Player player) {
         int goldReward = 0;
         int rubyReward = 0;
@@ -48,6 +48,10 @@ public class RewardToTask {
                 goldReward = ConstTask.GOLD_HELL;
                 rubyReward = ConstTask.RUBY_HELL;
                 break;
+        }
+        if (Util.isTrue(20, 100)) {
+            Item nro = ItemService.gI().createNewItem((short) Util.nextInt(2045, 2051));
+            InventoryService.gI().addItemBag(player, nro, 9999);
         }
         Item thoivang = ItemService.gI().createNewItem((short) 457);
         thoivang.quantity = goldReward;

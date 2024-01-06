@@ -1010,7 +1010,7 @@ public class RewardService {
             it.itemOptions.add(new ItemOption(87, 0));
         }
         it.itemOptions.add(new ItemOption(21, 17));
-        it.itemOptions.add(new ItemOption(30, 1));
+//        it.itemOptions.add(new ItemOption(30, 1));
         return it;
     }
 
@@ -1055,7 +1055,7 @@ public class RewardService {
     public void rewardFirstTimeLoginPerDay(Player player) {
         if (Util.compareDay(Date.from(Instant.now()), player.firstTimeLogin) || player.canGeFirstTimeLogin) {
             if (player.getSession().actived) {
-                Item item = ItemService.gI().createNewItem((short) Util.nextInt(703, 708));
+                Item item = ItemService.gI().createNewItem((short) Util.nextInt(2045, 2051));
                 item.quantity = 1;
                 item.itemOptions.add(new ItemOption(74, 0));
                 item.itemOptions.add(new ItemOption(30, 0));

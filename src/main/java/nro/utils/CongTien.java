@@ -34,6 +34,7 @@ public class CongTien {
                             PreparedStatement ps = con.prepareStatement(String.format("UPDATE `account` SET `vnd`= `vnd`+ '%s',`tongnap`=`tongnap`+'%s',`pointNap`=`pointNap`+'%s' WHERE `username` = '%s'", money, money, money, userName));
                             if (ps != null) {
                                 if (ps.executeUpdate() == 1) {
+                                    
                                     System.out.println("Success " + userName);
                                 }
                                 ps.close();

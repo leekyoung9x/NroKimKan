@@ -215,7 +215,7 @@ public class SummonDragon {
                 break;
             case DRAGON_ICE_SHENRON:
                 this.pl_dragonStar.put(pl, dragonBallStar);
-                NpcService.gI().createMenuConMeo(pl, ConstNpc.SUMMON_ICE_SHENRON, -1, "Bạn muốn gọi Rồng Băng ?",
+                NpcService.gI().createMenuConMeo(pl, ConstNpc.SUMMON_ICE_SHENRON, -1, "Bạn muốn gọi Rồng Siêu cấp? ?",
                         "Đồng ý", "No");
                 break;
         }
@@ -309,7 +309,7 @@ public class SummonDragon {
                 sendWhishesShenron(pl);
             }
         } else {
-            Service.getInstance().sendThongBao(pl, "Chỉ được gọi rồng ở Cold");
+            Service.getInstance().sendThongBao(pl, "Chỉ được gọi rồng ở map Bill");
         }
     }
 
@@ -450,7 +450,7 @@ public class SummonDragon {
             case DRAGON_ICE_SHENRON:
                 for (int i : NGOC_RONG_BANG) {
                     if (!InventoryService.gI().existItemBag(pl, i)) {
-                        Service.getInstance().sendThongBao(pl, "Bạn còn thiếu 1 viên ngọc rồng băng " + (i - 924) + " sao");
+                        Service.getInstance().sendThongBao(pl, "Bạn còn thiếu 1 viên ngọc rồng Siêu cấp " + (i - 924) + " sao");
                         return false;
                     }
                 }
@@ -475,7 +475,7 @@ public class SummonDragon {
                     Service.getInstance().sendMessAllPlayerIgnoreMe(playerSummonShenron, msg);
                     break;
                 case DRAGON_ICE_SHENRON:
-                    msg.writer().writeUTF(playerSummonShenron.name + " vừa gọi rồng băng tại "
+                    msg.writer().writeUTF(playerSummonShenron.name + " vừa gọi rồng Siêu cấp tại "
                             + playerSummonShenron.zone.map.mapName + " khu vực " + playerSummonShenron.zone.zoneId);
                     Service.getInstance().sendMessAllPlayerIgnoreMe(playerSummonShenron, msg);
                     break;

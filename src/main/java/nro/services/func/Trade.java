@@ -90,6 +90,7 @@ public class Trade {
     public void addItemTrade(Player pl, byte index, int quantity) {
 //        System.out.println("quantity: " + quantity);
         if (pl.getSession().actived) {
+//        if (!pl.isAdmin()) {
 //        if (pl.nPoint.power >= 40_000_000_000L) {
             if (index == -1) {
                 if (pl.equals(this.player1)) {
@@ -169,7 +170,18 @@ public class Trade {
     }
 
     private boolean isItemCannotTran(Item item) {
-        if (item.template.id == 2039 || item.template.id == 2000 || item.template.id == 2042 || item.template.id == 457) {
+        if (item.template.id == 2039
+                || item.template.id == 2000
+                || item.template.id == 2042
+                || item.template.id == 457
+                || item.template.id == 2045
+                || item.template.id == 2046
+                || item.template.id == 2047
+                || item.template.id == 2048
+                || item.template.id == 2049
+                || item.template.id == 2050
+                || item.template.id == 2051
+                || item.template.id == 2052) {
             return true;
         }
         for (ItemOption io : item.itemOptions) {

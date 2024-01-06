@@ -597,7 +597,7 @@ public class NPoint {
                         this.hpMax += calPercent(this.hpMax, percent);
                         break;
                     case ConstPet.SUPER:
-                        this.hpMax += calPercent(this.hpMax, 10);
+                        this.hpMax += calPercent(this.hpMax, 15);
                         break;
                 }
             }
@@ -1168,7 +1168,7 @@ public class NPoint {
                     damage *= 2;
                 }
                 if (this.player.setClothes.kaioken2 == 5) {
-                    damage *= 4;
+                    damage *= 2;
                 }
                 return damage;
         }

@@ -18,8 +18,7 @@ import nro.jdbc.DBService;
 public class ConsignmentHistory {
 
     public static void logSellItemShop(String uid, String nameItem, long idPlayer, String namePlayer, byte monneyType, int quantity) {
-        String UPDATE_PASS = "INSERT INTO consignment_history"
-                + "(uid, item_name, id_user ,name_player, type_buy , quantity, time) VALUES(?, ?, ?, ?, ?, ?, ?)";
+        String UPDATE_PASS = "INSERT INTO consignment_history (uid, item_name, id_user ,name_player, type_buy , quantity, time) VALUES(?, ?, ?, ?, ?, ?, ?)";
         PreparedStatement ps = null;
         try {
             try (Connection con = DBService.gI().getConnectionForGetPlayer();) {

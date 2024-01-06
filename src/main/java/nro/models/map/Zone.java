@@ -612,8 +612,7 @@ public class Zone {
                 name = "[" + plInfo.clan.name + "]" + plInfo.name;
             }/**
              * else if (plInfo.isBoss && ((Boss) plInfo).isMabuBoss) {
-             * msg.writer().writeInt(-100);
-            }
+             * msg.writer().writeInt(-100); }
              */
             else if (plInfo.isPet && ((Pet) plInfo).typePet == ConstPet.VIDEL) {
                 msg.writer().writeInt(-1);
@@ -621,9 +620,9 @@ public class Zone {
             } else if (plInfo.isPet && ((Pet) plInfo).typePet == ConstPet.SUPER) {
                 msg.writer().writeInt(-1);
                 if (plInfo.nPoint.power < 10_000_000_000L) {
-                    name = plInfo.name;
+                    name = plInfo.name + "[Level " + ((Pet) plInfo).getLever() + "]";
                 } else {
-                    name = "$Super Black Goku";
+                    name = "$Super Black Goku" + " [Level " + ((Pet) plInfo).getLever() + "]";
                 }
             } else {
                 msg.writer().writeInt(-1);

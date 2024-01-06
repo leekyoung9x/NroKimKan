@@ -31,9 +31,15 @@ public class Trinova extends Npc {
         if (canOpenNpc(player)) {
             if (!TaskService.gI().checkDoneTaskTalkNpc(player, this)) {
                 this.createOtherMenu(player, ConstNpc.BASE_MENU,
-                        "|8|SERVER NRO KIMKAN\n|2|Build Server: Arriety Béo\n|2|CEO, CCO, CMO, CHRO, CFO, CPO, KOL, DEV: Put đẹp trai\n|8|GIFTCODE: xinloi anmunghut doimaychu ditnhauauau",
+                        "|8|SERVER NRO KIMKAN\n|2|Build Server: Arriety Béo\n|2|CEO, CCO, CMO, CHRO, CFO, CPO, KOL, DEV: Put đẹp trai"
+                        + "\n|8|GIFTCODE: caitrang vatpham linhthu ngocrong saophale kimkan kichoat",
                         // Server đang " + Client.gI().getPlayers().size() + " người Online"
-                        "Chức năng\ntân thủ", "Nhận Vàng", "Giftcode", "Hỗ trợ\nnhiệm vụ", "Quy đổi\nHồng ngọc", "Kích hoạt\nthành viên");
+                        "Chức năng\ntân thủ",
+                        "Nhận Vàng",
+                        "Giftcode",
+                        "Hỗ trợ\nnhiệm vụ",
+                        "Quy đổi\nHồng ngọc",
+                        "Kích hoạt\nthành viên");
             }
         }
     }

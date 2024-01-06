@@ -24,6 +24,7 @@ import java.util.Map;
 import java.util.Objects;
 import nro.manager.SieuHangManager;
 import nro.manager.TopCoin;
+import nro.services.RewardService;
 
 public class Session {
 
@@ -339,7 +340,7 @@ public class Session {
 
             CheckTop(player);
             // nhận quà đăng nhập hàng ngày
-//            RewardService.gI().rewardFirstTimeLoginPerDay(player);
+            RewardService.gI().rewardFirstTimeLoginPerDay(player);
             SieuHangManager.GetRewardDay(player);
 
         }

@@ -40,6 +40,7 @@ public class NpcService {
             player.sendMessage(msg);
             msg.cleanup();
         } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 
@@ -71,7 +72,7 @@ public class NpcService {
                 msg.cleanup();
             }
         } catch (Exception e) {
-            Log.error(NpcService.class, e);
+            e.printStackTrace();
         }
     }
 
@@ -102,6 +103,7 @@ public class NpcService {
             player.sendMessage(msg);
             msg.cleanup();
         } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 
