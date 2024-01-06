@@ -295,6 +295,24 @@ public class ChuyenKhoanManager {
         }
     }
 
+    public static void UpdatePointNap(long player_id, double point) {
+        PreparedStatement ps = null;
+        try (Connection con = DBService.gI().getConnectionForGetPlayer();) {
+            ps = con.prepareStatement("UPDATE account a INNER JOIN player b ON a.id = b.account_id SET a.pointNap = a.pointNap + ? WHERE b.id = ?;");
+            ps.setDouble(1, point);
+            ps.setLong(2, player_id);
+            ps.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                ps.close();
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+            }
+        }
+    }
+
     public static void HandleTransaction(Player player, int transactionId) {
         boolean canCheck = false;
         LocalDateTime lastTimeCheck = GetLastimeCheckTransaction(player);
@@ -344,6 +362,7 @@ public class ChuyenKhoanManager {
                         System.out.println("Add ruby: " + ruby);
                         Service.getInstance().sendThongBao(player, "Bạn nhận được tiền là: " + ruby);
                         UpdateGift(player.id, transactionId);
+                        UpdatePointNap(player.id, ruby);
                         return;
                     }
                 }
