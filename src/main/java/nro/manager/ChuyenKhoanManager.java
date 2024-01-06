@@ -506,8 +506,8 @@ public class ChuyenKhoanManager {
             JsonResponse response = parseApiResponse(history);
 
             if (response != null && response.getData() != null && !response.getData().isEmpty()) {
-                for (Transaction transaction : transactions) {
-                    for (TransactionHistory transactionHistory : response.getData()) {
+                for (TransactionHistory transactionHistory : response.getData()) {
+                    for (Transaction transaction : transactions) {
                         if (Double.parseDouble(transactionHistory.getCreditAmount()) == transaction.amount && Util.containsSubstring(transactionHistory.getDescription(), transaction.description)) {
                             UpdateDoneNap(transaction.playerId, transaction.id);
                             UpdatePointNap(transaction.playerId, transaction.amount);
