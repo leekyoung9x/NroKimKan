@@ -595,6 +595,9 @@ public class Service {
         if (text.equals("topsm")) {
             ShowTopPower(player);
         }
+        if (text.equals("doimk")) {
+            Input.gI().createFormChangePassword(player);
+        }
         if (player.pet != null) {
             if (text.equals("di theo") || text.equals("follow")) {
                 player.pet.changeStatus(Pet.FOLLOW);
