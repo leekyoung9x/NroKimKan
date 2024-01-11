@@ -1,6 +1,5 @@
 package nro.models.boss;
 
-import nro.consts.ConstEvent;
 import nro.consts.ConstMap;
 import nro.consts.ConstPlayer;
 import nro.models.boss.NgucTu.Cumber;
@@ -8,26 +7,31 @@ import nro.models.boss.NgucTu.SuperCumber;
 import nro.models.boss.baconsoi.Basil;
 import nro.models.boss.baconsoi.Bergamo;
 import nro.models.boss.baconsoi.Lavender;
-import nro.models.boss.bill.*;
-import nro.models.boss.bosstuonglai.*;
-import nro.models.boss.broly.*;
+import nro.models.boss.bill.Bill;
+import nro.models.boss.bill.Whis;
+import nro.models.boss.bosstuonglai.Blackgoku;
+import nro.models.boss.bosstuonglai.Superblackgoku;
+import nro.models.boss.broly.Broly;
 import nro.models.boss.cell.*;
-import nro.models.boss.chill.*;
-import nro.models.boss.cold.*;
-import nro.models.boss.event.HoaHong;
-import nro.models.boss.event.SantaClaus;
+import nro.models.boss.chill.Chill;
+import nro.models.boss.chill.Chill2;
+import nro.models.boss.cold.Cooler;
+import nro.models.boss.cold.Cooler2;
 import nro.models.boss.event.noel.NoelBoss;
 import nro.models.boss.event.noel.NoelBossBall;
 import nro.models.boss.event.noel.NoelBossOne;
 import nro.models.boss.event.noel.NoelBossTwo;
-import nro.models.boss.fide.*;
-import nro.models.boss.halloween.BoXuong;
-import nro.models.boss.halloween.MaTroi;
+import nro.models.boss.fide.FideDaiCa1;
+import nro.models.boss.fide.FideDaiCa2;
+import nro.models.boss.fide.FideDaiCa3;
+import nro.models.boss.fide.FideGold;
 import nro.models.boss.list_boss.NhanBan;
-import nro.models.boss.list_boss.Raity;
 import nro.models.boss.list_boss.WhisTop;
 import nro.models.boss.mabu_war.*;
-import nro.models.boss.nappa.*;
+import nro.models.boss.nappa.Kuku;
+import nro.models.boss.nappa.MapDauDinh;
+import nro.models.boss.nappa.Rambo;
+import nro.models.boss.omega.OmegaPlus;
 import nro.models.boss.robotsatthu.*;
 import nro.models.boss.tieudoisatthu.*;
 import nro.models.map.Map;
@@ -35,8 +39,6 @@ import nro.models.map.Zone;
 import nro.models.map.mabu.MabuWar;
 import nro.models.map.mabu.MabuWar14h;
 import nro.models.player.Player;
-import nro.models.skill.Skill;
-import nro.server.Manager;
 import nro.services.MapService;
 import org.apache.log4j.Logger;
 
@@ -192,6 +194,7 @@ public class BossFactory {
     public static final int NOEL_BOSS_BALL_5 = -135;
 
     public static final int CLONE_NHAN_BAN = -136;
+    public static final int OMEGA_PLUS = -137;
 
     private static final Logger logger = Logger.getLogger(BossFactory.class);
     public static final int[] MAP_APPEARED_QILIN = {ConstMap.VACH_NUI_ARU_42, ConstMap.VACH_NUI_MOORI_43, ConstMap.VACH_NUI_KAKAROT,
@@ -232,6 +235,7 @@ public class BossFactory {
                 createBoss(KINGKONG);
                 createBoss(XEN_BO_HUNG_1);
                 createBoss(SANTA_CLAUS);
+                createBoss(OMEGA_PLUS);
                 for (int i = 0; i < 20; i++) {
                     createBoss(BROLY);
                 }
@@ -426,6 +430,9 @@ public class BossFactory {
                 break;
             case FIDEGOLD:
                 boss = new FideGold();
+                break;
+            case OMEGA_PLUS:
+                boss = new OmegaPlus();
                 break;
         }
         return boss;
