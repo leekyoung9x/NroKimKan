@@ -1298,7 +1298,7 @@ public class BossData {
             Boss.DAME_NORMAL, //type dame
             Boss.HP_NORMAL, //type hp
             500_000, //dame
-            new int[][]{{2_000_000_000}}, //hp
+            new int[][]{{1_500_000_000}}, //hp
             new short[]{550, 551, 552}, //outfit
             new short[]{92, 93, 94}, //map join
             new int[][]{ //skill

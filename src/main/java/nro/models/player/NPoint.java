@@ -31,7 +31,7 @@ import nro.server.ServerNotify;
  */
 public class NPoint {
 
-    public static final byte MAX_LIMIT = 10;
+    public static final byte MAX_LIMIT = 11;
 
     private Player player;
     public boolean isCrit;
@@ -599,6 +599,9 @@ public class NPoint {
                     case ConstPet.SUPER:
                         this.hpMax += calPercent(this.hpMax, 15);
                         break;
+                    case ConstPet.WHIS:
+                        this.hpMax += calPercent(this.hpMax, 30);
+                        break;
                 }
             }
         }
@@ -724,6 +727,9 @@ public class NPoint {
                     case ConstPet.VIDEL:
                         this.mpMax += calPercent(this.mpMax, percent);
                         break;
+                    case ConstPet.WHIS:
+                        this.mpMax += calPercent(this.mpMax, 30);
+                        break;
                 }
             }
         }
@@ -831,6 +837,9 @@ public class NPoint {
                         break;
                     case ConstPet.VIDEL:
                         this.dame += calPercent(this.dame, percent);
+                        break;
+                    case ConstPet.WHIS:
+                        this.dame += calPercent(this.dame, 30);
                         break;
                 }
             }

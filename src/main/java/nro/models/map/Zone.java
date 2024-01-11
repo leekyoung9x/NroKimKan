@@ -4,7 +4,6 @@ import lombok.Getter;
 import lombok.Setter;
 import nro.consts.*;
 import nro.models.boss.Boss;
-import nro.models.boss.bill.Whis;
 import nro.models.item.Item;
 import nro.models.item.ItemOption;
 import nro.models.map.war.NamekBallWar;
@@ -610,11 +609,7 @@ public class Zone {
             if (plInfo.clan != null) {
                 msg.writer().writeInt(plInfo.clan.id);
                 name = "[" + plInfo.clan.name + "]" + plInfo.name;
-            }/**
-             * else if (plInfo.isBoss && ((Boss) plInfo).isMabuBoss) {
-             * msg.writer().writeInt(-100); }
-             */
-            else if (plInfo.isPet && ((Pet) plInfo).typePet == ConstPet.VIDEL) {
+            } else if (plInfo.isPet && ((Pet) plInfo).typePet == ConstPet.WHIS) {
                 msg.writer().writeInt(-1);
                 name = plInfo.name + "[Level " + ((Pet) plInfo).getLever() + "]";
             } else if (plInfo.isPet && ((Pet) plInfo).typePet == ConstPet.SUPER) {

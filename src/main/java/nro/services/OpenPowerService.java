@@ -27,6 +27,15 @@ public class OpenPowerService {
     public boolean openPowerBasic(Player player) {
         byte curLimit = player.nPoint.limitPower;
         if (curLimit < NPoint.MAX_LIMIT) {
+            if (player.nPoint.limitPower == 10 && !player.inventory.itemsBody.stream().limit(5).allMatch(it -> it.isNotNullItem()
+                    && it.template.name.contains("Thiên Sứ"))) {
+                if (!player.isPet) {
+                    Service.getInstance().sendThongBao(player, "Yêu cầu 5 đồ Thiên Sứ");
+                } else {
+                    Service.getInstance().sendThongBao(((Pet) player).master, "Yêu cầu 5 đồ Thiên Sứ");
+                }
+                return false;
+            }
             if (player.nPoint.limitPower == 9 && !player.inventory.itemsBody.stream().limit(5).allMatch(it -> it.isNotNullItem()
                     && it.template.name.contains("Hủy Diệt"))) {
                 if (!player.isPet) {
@@ -53,6 +62,15 @@ public class OpenPowerService {
 
     public boolean openPowerSpeed(Player player) {
         if (player.nPoint.limitPower < NPoint.MAX_LIMIT) {
+            if (player.nPoint.limitPower == 10 && !player.inventory.itemsBody.stream().limit(5).allMatch(it -> it.isNotNullItem()
+                    && it.template.name.contains("Thiên Sứ"))) {
+                if (!player.isPet) {
+                    Service.getInstance().sendThongBao(player, "Yêu cầu 5 đồ Thiên Sứ");
+                } else {
+                    Service.getInstance().sendThongBao(((Pet) player).master, "Yêu cầu 5 đồ Thiên Sứ");
+                }
+                return false;
+            }
             if (player.nPoint.limitPower == 9 && !player.inventory.itemsBody.stream().limit(5).allMatch(it -> it.isNotNullItem()
                     && it.template.name.contains("Hủy Diệt"))) {
                 if (!player.isPet) {

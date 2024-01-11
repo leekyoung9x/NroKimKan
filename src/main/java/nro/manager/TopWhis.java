@@ -298,7 +298,7 @@ public class TopWhis {
             String sql = "{CALL Proc_Insert_TopWhis_History(?, ?)}";
             ps = con.prepareCall(sql);
             ps.setDouble(1, pl.id);
-            ps.setDouble(2, seconds);// Thiết lập giá trị cho cột 'age'
+            ps.setDouble(2, seconds);
 
             int rowsAffected = ps.executeUpdate();
         } catch (Exception e) {

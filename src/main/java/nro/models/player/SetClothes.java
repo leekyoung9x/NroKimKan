@@ -86,6 +86,10 @@ public class SetClothes {
             Item item = this.player.inventory.itemsBody.get(i);
             if (item.isNotNullItem()) {
                 boolean isActSet = false;
+                if (item.isDHD()) {
+                    isActSet = true;
+                    SetHuyDiet++;
+                }
                 for (ItemOption io : item.itemOptions) {
                     switch (io.optionTemplate.id) {
                         case 129:
@@ -133,60 +137,11 @@ public class SetClothes {
                             isActSet = true;
                             cadic2++;
                             break;
-                        case 212:
-                        case 224:
-                            isActSet = true;
-                            songoku1++;
-                            break;
-                        case 210:
-                        case 222:
-                            isActSet = true;
-                            thienXinHang1++;
-                            break;
-                        case 211:
-                        case 223:
-                            isActSet = true;
-                            kaioken1++;
-                            break;
-                        case 214:
-                        case 226:
-                            isActSet = true;
-                            lienhoan1++;
-                            break;
-                        case 215:
-                        case 227:
-                            isActSet = true;
-                            pikkoroDaimao1++;
-                            break;
-                        case 213:
-                        case 225:
-                            isActSet = true;
-                            picolo1++;
-                            break;
-                        case 218:
-                        case 221:
-                            isActSet = true;
-                            nappa1++;
-                            break;
-                        case 216:
-                        case 219:
-                            isActSet = true;
-                            kakarot1++;
-                            break;
-                        case 217:
-                        case 220:
-                            isActSet = true;
-                            cadic1++;
-                            break;
                     }
+
                     if (isActSet) {
                         break;
                     }
-                }
-                if (item.isDHD()) {
-                    isActSet = true;
-                    SetHuyDiet++;
-//                    System.out.println("active set");
                 }
             } else {
                 break;

@@ -403,12 +403,12 @@ public class BossFactory {
             case KINGKONG:
                 boss = new KingKong();
                 break;
-//            case WHIS:
-//                boss = new Whis();
-//                break;
-//            case BILL:
-//                boss = new Bill();
-//                break;
+            case WHIS:
+                boss = new Whis();
+                break;
+            case BILL:
+                boss = new Bill();
+                break;
             case CHILL:
                 boss = new Chill();
                 break;

@@ -46,7 +46,7 @@ public class LyTieuNuong extends Npc {
                             if (InventoryService.gI().getCountEmptyBag(player) > 0) {
                                 if (player.getSession().poinCharging >= 10000) {
                                     if (PlayerDAO.subPoin(player, 10000)) {
-                                        Item pet = ItemService.gI().createNewItem((short) 397);
+                                        Item pet = ItemService.gI().createNewItem((short) 398);
                                         pet.itemOptions.add(new ItemOption(74, 0));
                                         pet.itemOptions.add(new ItemOption(30, 0));
                                         InventoryService.gI().addItemBag(player, pet, 0);
@@ -66,7 +66,7 @@ public class LyTieuNuong extends Npc {
                             if (InventoryService.gI().getCountEmptyBag(player) > 0) {
                                 if (player.getSession().poinCharging >= 100_000) {
                                     if (PlayerDAO.subPoin(player, 100_000)) {
-                                        Item pet = ItemService.gI().createNewItem((short) 397);
+                                        Item pet = ItemService.gI().createNewItem((short) 398);
                                         pet.itemOptions.add(new ItemOption(74, 0));
                                         pet.itemOptions.add(new ItemOption(30, 0));
                                         pet.quantity = 12;

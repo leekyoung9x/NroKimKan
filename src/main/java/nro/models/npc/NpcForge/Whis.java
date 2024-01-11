@@ -106,12 +106,12 @@ public class Whis extends Npc {
                                 case 3:
                                     int level = TopWhis.GetLevel(player.id);
                                     int whisId = TopWhis.GetMaxPlayerId();
-                                    int coin = 500;
+                                    int coin = 1000;
                                     if (player.inventory.ruby < coin) {
                                         this.npcChat(player, "Mày chưa đủ xền");
                                         return;
                                     }
-                                    player.inventory.gold -= coin;
+                                    player.inventory.ruby -= coin;
                                     Service.getInstance().sendMoney(player);
                                     TopWhis.SwitchToWhisBoss(player, whisId, level);
                                     break;

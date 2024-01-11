@@ -22,10 +22,6 @@ public class Bill extends FutureBoss {
         return false;
     }
 
-//    @Override
-//    public void rewards(Player plKill) {
-//        BillEgg.createBillEgg(plKill);
-//    }
     @Override
     public void idle() {
     }

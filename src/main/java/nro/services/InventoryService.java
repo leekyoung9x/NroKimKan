@@ -364,7 +364,7 @@ public class InventoryService {
                     }
                     if (forPet) {
                         Service.getInstance().sendThongBaoOK(player.isPet ? ((Pet) player).master : player, "Trang bị chỉ dành cho đệ tử!");
-                    } else if (player.isPet && type > 6 && type != 32 && type != 11) {
+                    } else if (player.isPet && type > 6 && type != 32) {
                         Service.getInstance().sendThongBaoOK(player.isPet ? ((Pet) player).master : player, "Trang bị không phù hợp!");
                     } else if (powerRequire <= player.nPoint.power) {
                         byte index = 0;
@@ -444,19 +444,12 @@ public class InventoryService {
             }
             Item item = player.inventory.itemsBag.get(index);
             if (item.isNotNullItem()) {
-                if (item.template.type == 11) {
-                    if (player.pet.nPoint.power / 1_000_000_000 < 110) {
-                        Service.getInstance().sendThongBaoOK(player, "Đệ tử phải đạt 110 tỷ sức mạnh mới có thể mặc");
-                        return;
-                    }
-                }
                 Item itemSwap = putItemBody(player.pet, item);
                 player.inventory.itemsBag.set(index, itemSwap);
                 sendItemBags(player);
                 sendItemBody(player);
                 Service.getInstance().Send_Caitrang(player.pet);
                 Service.getInstance().Send_Caitrang(player);
-                Service.getInstance().sendFlagBag(player.pet);
                 if (!itemSwap.equals(item)) {
                     Service.getInstance().point(player);
                     Service.getInstance().showInfoPet(player);
@@ -480,7 +473,6 @@ public class InventoryService {
                 Service.getInstance().Send_Caitrang(player.pet);
                 Service.getInstance().Send_Caitrang(player);
                 Service.getInstance().point(player);
-                Service.getInstance().sendFlagBag(player.pet);
                 Service.getInstance().showInfoPet(player);
             }
         } else {

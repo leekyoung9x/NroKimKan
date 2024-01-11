@@ -2,7 +2,6 @@ package nro.manager;
 
 import nro.jdbc.DBService;
 import nro.models.TopPlayer;
-import nro.models.Transaction;
 
 import java.sql.CallableStatement;
 import java.sql.Connection;
@@ -11,6 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class TopPlayerManager {
+
     public static List<TopPlayer> GetTopNap() {
         List<TopPlayer> result = new ArrayList<>();
         Connection con = null;

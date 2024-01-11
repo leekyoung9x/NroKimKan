@@ -718,11 +718,6 @@ public class GodGK {
                             pet.inventory.itemsBody.add(item);
                         }
 
-                        if (dataArray.size() < 8) {
-                            Item item = ItemService.gI().createItemNull();
-                            pet.inventory.itemsBody.add(item);
-                        }
-
                         //data skills
                         dataArray = (JSONArray) jv.parse(rs.getString("pet_skill"));
                         for (int i = 0; i < dataArray.size(); i++) {

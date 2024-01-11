@@ -589,6 +589,8 @@ public class Pet extends Player {
                 return 508;
             case ConstPet.VIDEL:
                 return 810;
+            case ConstPet.WHIS:
+                return 838;
             case ConstPet.SUPER:
                 if (this.nPoint.power < 10_000_000_000L) {
                     return 550;
@@ -614,6 +616,8 @@ public class Pet extends Player {
             return 508;
         } else if (this.typePet == ConstPet.VIDEL && !this.isTransform) {
             return 810;
+        } else if (this.typePet == ConstPet.WHIS && !this.isTransform) {
+            return 838;
         } else if (typePet == ConstPet.SUPER && !this.isTransform) {
             if (this.nPoint.power < 10_000_000_000L) {
                 return 550;
@@ -654,6 +658,8 @@ public class Pet extends Player {
             } else {
                 return 551;
             }
+        } else if (this.typePet == ConstPet.WHIS && !this.isTransform) {
+            return 839;
         } else if (inventory.itemsBody.get(5).isNotNullItem()) {
             CaiTrang ct = Manager.getCaiTrangByItemId(inventory.itemsBody.get(5).template.id);
             if (ct != null && ct.getID()[1] != -1) {
@@ -690,6 +696,8 @@ public class Pet extends Player {
             } else {
                 return 552;
             }
+        } else if (this.typePet == ConstPet.WHIS && !this.isTransform) {
+            return 840;
         } else if (inventory.itemsBody.get(5).isNotNullItem()) {
             CaiTrang ct = Manager.getCaiTrangByItemId(inventory.itemsBody.get(5).template.id);
             if (ct != null && ct.getID()[2] != -1) {
@@ -851,6 +859,11 @@ public class Pet extends Player {
                 Service.getInstance().chat(this, "Dit cuu chusng mayyy....");
                 break;
             case ConstPet.SUPER:
+                this.isTransform = !this.isTransform;
+                Service.getInstance().Send_Caitrang(this);
+                Service.getInstance().chat(this, "Dit cuu chusng mayyy....");
+                break;
+            case ConstPet.WHIS:
                 this.isTransform = !this.isTransform;
                 Service.getInstance().Send_Caitrang(this);
                 Service.getInstance().chat(this, "Dit cuu chusng mayyy....");

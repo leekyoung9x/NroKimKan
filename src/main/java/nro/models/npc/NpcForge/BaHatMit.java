@@ -29,7 +29,8 @@ public class BaHatMit extends Npc {
                     this.createOtherMenu(player, ConstNpc.BASE_MENU,
                             "Ngươi tìm ta có việc gì?",
                             "Ép sao\ntrang bị",
-                            "Pha lê\nhóa\ntrang bị");
+                            "Pha lê\nhóa\ntrang bị",
+                            "Nâng cấp\nĐệ tử Super");
                     break;
                 case 121:
                     this.createOtherMenu(player, ConstNpc.BASE_MENU,
@@ -63,6 +64,9 @@ public class BaHatMit extends Npc {
                                 this.createOtherMenu(player, ConstNpc.MENU_PHA_LE_HOA_TRANG_BI,
                                         "Ngươi muốn pha lê hóa trang bị bằng cách nào?", "Một Lần", "Từ chối");
                                 break;
+                            case 2:
+                                CombineServiceNew.gI().openTabCombine(player, CombineServiceNew.UPGRADE_PET);
+                                break;
                         }
                     } else if (player.iDMark.getIndexMenu() == ConstNpc.MENU_PHA_LE_HOA_TRANG_BI) {
                         switch (select) {
@@ -76,6 +80,7 @@ public class BaHatMit extends Npc {
                             case CombineServiceNew.EP_SAO_TRANG_BI:
                             case CombineServiceNew.PHA_LE_HOA_TRANG_BI:
                             case CombineServiceNew.PHA_LE_HOA_TRANG_BI_X10:
+                            case CombineServiceNew.UPGRADE_PET:
                                 if (select == 0) {
                                     CombineServiceNew.gI().startCombine(player);
                                 }

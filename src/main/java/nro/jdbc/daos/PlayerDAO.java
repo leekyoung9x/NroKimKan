@@ -355,7 +355,7 @@ public class PlayerDAO {
                 }
                 SieuHangManager.InsertNewPlayer(userId);
             } catch (Exception e) {
-                e.printStackTrace();
+                Log.error(PlayerDAO.class, e, "Lỗi tạo player mới");
             }
         }
     }

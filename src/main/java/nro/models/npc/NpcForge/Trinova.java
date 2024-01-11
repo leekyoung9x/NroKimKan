@@ -32,14 +32,15 @@ public class Trinova extends Npc {
             if (!TaskService.gI().checkDoneTaskTalkNpc(player, this)) {
                 this.createOtherMenu(player, ConstNpc.BASE_MENU,
                         "|8|SERVER NRO KIMKAN\n|2|Build Server: Arriety Béo\n|2|CEO, CCO, CMO, CHRO, CFO, CPO, KOL, DEV: Put đẹp trai"
-                        + "\n|8|GIFTCODE: caitrang vatpham linhthu ngocrong saophale kimkan kichoat",
+                        + "\n|8|GIFTCODE: caitrang vatpham linhthu ngocrong saophale kimkan kichoat\n|8|phudeptrai hello ",
                         // Server đang " + Client.gI().getPlayers().size() + " người Online"
-                        "Chức năng\ntân thủ",
-                        "Nhận Vàng",
+                        "Nhận quà\nMiễn phí",
+                        "Nhận Vàng\nVô hạn",
                         "Giftcode",
-                        "Hỗ trợ\nnhiệm vụ",
+                        "Bỏ qua\nnhiệm vụ",
                         "Quy đổi\nHồng ngọc",
-                        "Kích hoạt\nthành viên");
+                        "Kích hoạt\nthành viên",
+                        "Top Server");
             }
         }
     }
@@ -188,6 +189,21 @@ public class Trinova extends Npc {
                             Service.getInstance().sendThongBao(player, "Số dư vnd không đủ vui lòng nạp thêm tại:\nNROKIMKAN.ONLINE");
                         }
                         break;
+                    case 6:
+                        this.createOtherMenu(player, ConstNpc.MENU_SHOW_TOP,
+                                "Ông sẽ cho con xem top của cả Server này!", "Top\nSức mạnh",
+                                "Top\nNạp");
+                        break;
+                }
+            } else if (player.iDMark.getIndexMenu() == ConstNpc.MENU_SHOW_TOP) {
+                switch (select) {
+                    case 0:
+                        Service.ShowTopPower(player);
+                        break;
+                    case 1:
+                        Service.ShowTopNap(player);
+                        break;
+
                 }
             } else if (player.iDMark.getIndexMenu() == ConstNpc.QUA_TAN_THU) {
                 switch (select) {

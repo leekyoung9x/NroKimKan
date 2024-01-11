@@ -319,6 +319,9 @@ public class UseItem {
                         case 397:
                             openboxsukien(pl, item, 9);
                             break;
+                        case 398:
+                            openboxsukien(pl, item, 10);
+                            break;
                         case 211: //nho tím
                         case 212: //nho xanh
                             eatGrapes(pl, item);
@@ -792,6 +795,9 @@ public class UseItem {
                     itemReward = ItemService.gI().createNewItem((short) 861);
                     itemReward.quantity = Util.nextInt(1000, 5000);
                 }
+                Item da = ItemService.gI().createNewItem((short) 2040);
+                da.quantity = 2;
+                InventoryService.gI().addItemBag(pl, da, 999);
                 InventoryService.gI().addItemBag(pl, itemReward, 999);
                 pl.textRuongGo.add(text + itemReward.getInfoItem());
             }
@@ -1592,6 +1598,59 @@ public class UseItem {
                                 break;
                             case 861:
                                 it.quantity = Util.nextInt(1, 5000);
+                                break;
+                        }
+                        icon[1] = it.template.iconID;
+                        InventoryService.gI().subQuantityItemsBag(pl, item, 1);
+                        CombineServiceNew.gI().sendEffectOpenItem(pl, icon[0], icon[1]);
+                        InventoryService.gI().addItemBag(pl, it, 0);
+                        InventoryService.gI().sendItemBags(pl);
+                        break;
+                    } else {
+                        Service.getInstance().sendThongBao(pl, "Hàng trang đã đầy");
+                    }
+                    break;
+                case 10:
+                    if (InventoryService.gI().getCountEmptyBag(pl) > 0) {
+                        short[] icon = new short[2];
+                        icon[0] = item.template.iconID;
+                        int tempID;
+                        if (Util.isTrue(5, 120)) {
+                            tempID = 1201;
+                        } else if (Util.isTrue(20, 100)) {
+                            tempID = 2040;
+                        } else if (Util.isTrue(26, 100)) {
+                            tempID = Util.getOne(1231, 638);
+                        } else if (Util.isTrue(30, 100)) {
+                            tempID = 861;
+                        } else if (Util.isTrue(30, 70)) {
+                            tempID = 457;
+                        } else {
+                            tempID = 16;
+                        }
+                        Item it = ItemService.gI().createNewItem((short) tempID);
+                        switch (tempID) {
+                            case 1201:
+                                it.itemOptions.add(new ItemOption(50, 20));
+                                it.itemOptions.add(new ItemOption(77, Util.nextInt(39, 69)));
+                                it.itemOptions.add(new ItemOption(103, Util.nextInt(39, 69)));
+                                it.itemOptions.add(new ItemOption(5, Util.nextInt(20, 69)));
+                                it.itemOptions.add(new ItemOption(14, Util.nextInt(10, 30)));
+                                break;
+                            case 457:
+                                it.quantity = Util.nextInt(1, 10);
+                                break;
+                            case 861:
+                                it.quantity = Util.nextInt(1, 5000);
+                                break;
+                            case 2040:
+                                it.quantity = Util.nextInt(1, 3);
+                                break;
+                            case 1231:
+                                it.quantity = Util.nextInt(1, 2);
+                                break;
+                            case 638:
+                                it.quantity = Util.nextInt(1, 2);
                                 break;
                         }
                         icon[1] = it.template.iconID;

@@ -11,4 +11,5 @@ public class ConstPet {
     public static final byte BILL = 2;
     public static final byte VIDEL = 3;
     public static final byte SUPER = 4;
+    public static final byte WHIS = 5;
 }

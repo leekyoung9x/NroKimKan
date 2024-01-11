@@ -484,6 +484,7 @@ public class ChuyenKhoanManager {
                         // TODO
                         PlayerDAO.addVnd(player, (int) transaction.amount);
                         player.getSession().vnd += ruby;
+                        player.getSession().poinCharging += ruby;
                         System.out.println("Add ruby: " + ruby);
                         Service.getInstance().sendThongBao(player, "Bạn nhận được tiền là: " + ruby);
                         UpdateGift(player.id, (long) transactionId);

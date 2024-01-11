@@ -96,7 +96,7 @@ public class PetService {
             }
         }).start();
     }
-    
+
     public void createBlackPet(Player player, int gender, byte... limitPower) {
         new Thread(() -> {
             try {
@@ -116,6 +116,22 @@ public class PetService {
         new Thread(() -> {
             try {
                 createNewPet(player, ConstPet.VIDEL, (byte) gender);
+                if (limitPower != null && limitPower.length == 1) {
+                    player.pet.nPoint.limitPower = limitPower[0];
+                }
+                Thread.sleep(1000);
+                Service.getInstance().chatJustForMe(player, player.pet, "Ta sẽ đem hạnh phúc đến Noel này...");
+                Service.getInstance().sendThongBao(player, "Bạn đã nhận được Đệ Tử Videl");
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }).start();
+    }
+
+    public void createWhisPet(Player player, int gender, byte... limitPower) {
+        new Thread(() -> {
+            try {
+                createNewPet(player, ConstPet.WHIS, (byte) gender);
                 if (limitPower != null && limitPower.length == 1) {
                     player.pet.nPoint.limitPower = limitPower[0];
                 }
@@ -171,7 +187,7 @@ public class PetService {
         player.pet = null;
         createVidelPet(player, gender);
     }
-    
+
     public void changeSuperPet(Player player, int gender) {
         byte limitPower = player.pet.nPoint.limitPower;
         if (player.fusion.typeFusion != ConstPlayer.NON_FUSION) {
@@ -248,11 +264,12 @@ public class PetService {
 
     private void createNewPet(Player player, byte typePet, byte... gender) {
         int[] data = new int[0];
+        int petLevel = 0;
         Pet pet = new Pet(player);
-
         pet.nPoint.power = 1500000;
 
         switch (typePet) {
+
             case ConstPet.NORMAL: {
                 data = getDataPetNormal();
                 pet.name = "$Đệ tử";
@@ -284,6 +301,13 @@ public class PetService {
                 pet.typePet = ConstPet.VIDEL;
                 break;
             }
+            case ConstPet.WHIS: {
+                data = getDataPetVidel();
+                pet.name = "$Whiser";
+                pet.typePet = ConstPet.WHIS;
+                petLevel = player.pet.getLever();
+                break;
+            }
         }
 
         pet.gender = (gender != null && gender.length != 0) ? gender[0] : (byte) Util.nextInt(0, 2);
@@ -304,6 +328,11 @@ public class PetService {
         }
         pet.nPoint.calPoint();
         pet.nPoint.setFullHpMp();
+
+        if (petLevel != 0) {
+            pet.setLever(petLevel);
+        }
+
         player.pet = pet;
     }
 

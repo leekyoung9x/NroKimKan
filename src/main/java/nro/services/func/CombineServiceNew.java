@@ -30,6 +30,7 @@ public class CombineServiceNew {
     private static final int COST_DOI_VE_DOI_DO_HUY_DIET = 500000000;
     private static final int COST_DAP_DO_KICH_HOAT = 20_000;
     private static final int COST_DAP_DO_KICH_HOAT_LINH_THU = 10_000;
+    private static final int COST_LEVER = 5000;
     private static final int COST_DOI_MANH_KICH_HOAT = 500000000;
     private static final int COST_GIA_HAN_CAI_TRANG = 500000000;
 
@@ -72,10 +73,9 @@ public class CombineServiceNew {
     public static final int MO_CHI_SO_BONG_TAI = 519;
     public static final int UPGRADE_LINHTHU = 520;
     public static final int EP_NGOC_RONG_BANG = 521;
-
     public static final int UPGRADE_THAN_LINH = 522;
-
     public static final int UPGRADE_PET = 523;
+    public static final int TRADE_PET = 524;
 
     private static final int GOLD_MOCS_BONG_TAI = 500_000_000;
 
@@ -152,6 +152,39 @@ public class CombineServiceNew {
         }
         switch (player.combineNew.typeCombine) {
             case UPGRADE_PET:
+                if (player.combineNew.itemsCombine.isEmpty()) {
+                    this.baHatMit.createOtherMenu(player, ConstNpc.IGNORE_MENU, "Hãy đưa ta x10 Đá nguyền ấn và 5k hồng ngọc ta sẽ giúp đệ tử ngươi lên 1 Lever", "Đóng");
+                    return;
+                }
+                if (player.combineNew.itemsCombine.size() >= 1) {
+                    Item da = null;
+                    for (Item item : player.combineNew.itemsCombine) {
+                        if (item.isNotNullItem()) {
+                            if (item.template.id == 2040) {
+                                da = item;
+                            }
+                        }
+                    }
+                    if (da == null) {
+                        this.baHatMit.createOtherMenu(player, ConstNpc.IGNORE_MENU, "thiếu Đá nguyền ấn", "Đóng");
+                        return;
+                    }
+                    String npcSay = "|2|Con có muốn nâng cấp đệ tử của con?"
+                            + "\n|8|Tỉ lệ mặc định là 50%"
+                            + "\n|1|Cần " + Util.numberToMoney(COST_LEVER) + " hồng ngọc";
+                    if (player.inventory.ruby < COST_LEVER) {
+                        this.baHatMit.createOtherMenu(player, ConstNpc.IGNORE_MENU, "hết xiền rồi", "Đóng");
+                        return;
+                    }
+                    this.baHatMit.createOtherMenu(player, ConstNpc.MENU_START_COMBINE,
+                            npcSay, "Nâng cấp\n" + Util.numberToMoney(COST_DAP_DO_KICH_HOAT_LINH_THU) + " hồng ngọc", "Từ chối");
+                } else {
+                    if (player.combineNew.itemsCombine.size() > 1) {
+                        this.baHatMit.createOtherMenu(player, ConstNpc.IGNORE_MENU, "Nguyên liệu không phù hợp!", "Đóng");
+                        return;
+                    }
+                    this.baHatMit.createOtherMenu(player, ConstNpc.IGNORE_MENU, "Còn thiếu nguyên liệu để nâng cấp hãy quay lại sau", "Đóng");
+                }
                 break;
             case UPGRADE_THAN_LINH:
                 if (player.combineNew.itemsCombine.isEmpty()) {
@@ -1147,6 +1180,9 @@ public class CombineServiceNew {
                 return;
             }
             switch (player.combineNew.typeCombine) {
+                case UPGRADE_PET:
+                    upgradePet(player);
+                    break;
                 case UPGRADE_THAN_LINH:
                     dapDoThanLinh(player);
                     break;
@@ -1602,6 +1638,42 @@ public class CombineServiceNew {
             }
         }
         return tile;
+    }
+
+    private void upgradePet(Player player) {
+        if (player.combineNew.itemsCombine.size() >= 1) {
+            Item da = null;
+            for (Item item : player.combineNew.itemsCombine) {
+                if (item.isNotNullItem()) {
+                    if (item.template.id == 2040) {
+                        da = item;
+                    }
+                }
+            }
+            if (da.quantity < 1) {
+                Service.getInstance().sendThongBao(player, "cần x10 Đá nguyền cc");
+                return;
+            }
+            if (player.pet.getLever() >= 7) {
+                Service.getInstance().sendThongBao(player, "Max Lever rồi thằng nhót");
+                return;
+            } 
+            if (da != null && da.quantity > 10) {
+                if (InventoryService.gI().getCountEmptyBag(player) > 0 && player.inventory.ruby >= COST_LEVER) {
+                    player.inventory.ruby -= 5_000;
+                    Service.getInstance().sendMoney(player);
+                    InventoryService.gI().subQuantityItemsBag(player, da, 10);
+                    if (Util.isTrue(50, 100)) {
+                        player.pet.setLever(player.pet.getLever() + 1);
+                        Service.getInstance().sendThongBao(player, "Chúc mừng bạn đã nâng cấp Thành Công");
+                    } else {
+                        Service.getInstance().sendThongBao(player, "Xịt =)))))");
+                    }
+                } else {
+                    Service.getInstance().sendThongBao(player, "Thieu tien roi cu em");
+                }
+            }
+        }
     }
 
     private void dapDoThanLinh(Player player) {
@@ -2937,6 +3009,8 @@ public class CombineServiceNew {
     // tab combine
     private String getTextTopTabCombine(int type) {
         switch (type) {
+            case UPGRADE_PET:
+                return "Ta sẽ giúp ngươi làm điều đó =)))";
             case UPGRADE_THAN_LINH:
                 return "Ta sẽ giúp ngươi\n làm điều đó";
             case UPGRADE_LINHTHU:
@@ -2984,6 +3058,8 @@ public class CombineServiceNew {
 
     private String getTextInfoTabCombine(int type) {
         switch (type) {
+            case UPGRADE_PET:
+                return "Vào hành trang chọn x10 Đá Nguyền Ấn\nvà 5k ruby";
             case UPGRADE_THAN_LINH:
                 return "Vào hành trang\nChọn 1 món Thần Linh bất kì\n "
                         + " và 1 món SKH bất kỳ\n"

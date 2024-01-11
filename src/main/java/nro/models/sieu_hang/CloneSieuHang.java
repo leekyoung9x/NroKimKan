@@ -51,6 +51,8 @@ public class CloneSieuHang extends Boss {
         int dame = 0;
         if (this.isDie()) {
             return dame;
+        } else if (plAtt == null) {
+            return 0;
         } else if (!plAtt.equals(playerAtt)) {
             return dame;
         } else {
@@ -90,6 +92,7 @@ public class CloneSieuHang extends Boss {
                 }
             }
         } catch (Exception ex) {
+            ex.printStackTrace();
         }
     }
 

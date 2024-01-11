@@ -57,10 +57,10 @@ public class Controller {
                                 ServerManager.gI().getSieuHangController().InviteOther(player, idPk);
                                 break;
                             }
-                            case ConstMap.DAO_KAME: {
+//                            case ConstMap.DAO_KAME: {
 //                                ChuyenKhoanManager.HandleTransaction(player, idPk);
-                                break;
-                            }
+//                                break;
+//                            }
                             default: {
                                 if (player.getSession().isAdmin) {
                                     BossManager.gI().FindBoss(player, idPk);

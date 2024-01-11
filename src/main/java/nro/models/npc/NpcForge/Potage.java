@@ -22,13 +22,13 @@ import nro.services.Service;
  * @author Arriety
  */
 public class Potage extends Npc {
-    
+
     private final int COST_RUBY = 3_000;
-    
+
     public Potage(int mapId, int status, int cx, int cy, int tempId, int avartar) {
         super(mapId, status, cx, cy, tempId, avartar);
     }
-    
+
     @Override
     public void openBaseMenu(Player player) {
         if (canOpenNpc(player)) {
@@ -39,7 +39,7 @@ public class Potage extends Npc {
             }
         }
     }
-    
+
     @Override
     public void confirmMenu(Player player, int select) {
         if (canOpenNpc(player)) {
@@ -52,7 +52,7 @@ public class Potage extends Npc {
                                 break;
                             }
                             Boss idBoss = BossManager.gI().getBossById(BossFactory.CLONE_NHAN_BAN);
-                            if (idBoss != null) {
+                            if (idBoss != null && idBoss.zone != null) {
                                 this.npcChat(player, "Nhà ngươi hãy tiêu diệt Boss lúc trước ngươi vừa gọi ra ở khu vực :" + idBoss.zone.zoneId);
                                 break;
                             }
@@ -68,7 +68,7 @@ public class Potage extends Npc {
                                 }
                                 nhaban.setStatus((byte) 3);
                             }).start();
-                            
+
                             player.inventory.ruby -= COST_RUBY;
                             Service.getInstance().sendMoney(player);
                             break;
@@ -77,7 +77,7 @@ public class Potage extends Npc {
             }
         }
     }
-    
+
     public static BossData getDataBoss(Player pl) {
         List<Skill> skills = pl.playerSkill.skills.stream().filter(s -> s != null && s.point > 0).toList();
         int[][] skillTemp = new int[skills.size()][3];
