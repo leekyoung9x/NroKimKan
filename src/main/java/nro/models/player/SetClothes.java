@@ -81,7 +81,22 @@ public class SetClothes {
         }
     }
 
+    public static boolean isSetThanLinh(int[] array, int itemId) {
+        for (int i : array) {
+            if (i == itemId) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     private void setupSKT() {
+        int[] doTD = new int[]{555, 556, 562, 563, 561};
+
+        int[] doNM = new int[]{557, 558, 564, 565, 561};
+
+        int[] doXD = new int[]{559, 560, 566, 567, 561};
+
         for (int i = 0; i < 5; i++) {
             Item item = this.player.inventory.itemsBody.get(i);
             if (item.isNotNullItem()) {
@@ -90,57 +105,60 @@ public class SetClothes {
                     isActSet = true;
                     SetHuyDiet++;
                 }
-                for (ItemOption io : item.itemOptions) {
-                    switch (io.optionTemplate.id) {
-                        case 129:
-                        case 141:
-                            isActSet = true;
-                            songoku2++;
-                            break;
-                        case 127:
-                        case 139:
-                            isActSet = true;
-                            thienXinHang2++;
-                            break;
-                        case 128:
-                        case 140:
-                            isActSet = true;
-                            kaioken2++;
-                            break;
-                        case 131:
-                        case 143:
-                            isActSet = true;
-                            lienhoan2++;
-                            break;
-                        case 132:
-                        case 144:
-                            isActSet = true;
-                            pikkoroDaimao2++;
-                            break;
-                        case 130:
-                        case 142:
-                            isActSet = true;
-                            picolo2++;
-                            break;
-                        case 135:
-                        case 138:
-                            isActSet = true;
-                            nappa2++;
-                            break;
-                        case 133:
-                        case 136:
-                            isActSet = true;
-                            kakarot2++;
-                            break;
-                        case 134:
-                        case 137:
-                            isActSet = true;
-                            cadic2++;
-                            break;
-                    }
 
-                    if (isActSet) {
-                        break;
+                if (isSetThanLinh(doTD, item.getId()) || isSetThanLinh(doNM, item.getId()) || isSetThanLinh(doXD, item.getId())) {
+                    for (ItemOption io : item.itemOptions) {
+                        switch (io.optionTemplate.id) {
+                            case 129:
+                            case 141:
+                                isActSet = true;
+                                songoku2++;
+                                break;
+                            case 127:
+                            case 139:
+                                isActSet = true;
+                                thienXinHang2++;
+                                break;
+                            case 128:
+                            case 140:
+                                isActSet = true;
+                                kaioken2++;
+                                break;
+                            case 131:
+                            case 143:
+                                isActSet = true;
+                                lienhoan2++;
+                                break;
+                            case 132:
+                            case 144:
+                                isActSet = true;
+                                pikkoroDaimao2++;
+                                break;
+                            case 130:
+                            case 142:
+                                isActSet = true;
+                                picolo2++;
+                                break;
+                            case 135:
+                            case 138:
+                                isActSet = true;
+                                nappa2++;
+                                break;
+                            case 133:
+                            case 136:
+                                isActSet = true;
+                                kakarot2++;
+                                break;
+                            case 134:
+                            case 137:
+                                isActSet = true;
+                                cadic2++;
+                                break;
+                        }
+
+                        if (isActSet) {
+                            break;
+                        }
                     }
                 }
             } else {

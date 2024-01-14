@@ -187,8 +187,7 @@ public class SieuHang {
             Service.getInstance().sendThongBao(plWin, "Chúc mừng " + plWin.name + " đã lên hạng " + rankPlayer.rank);
             status = 1;
 
-            SieuHangManager.UpdateBXH(rankPlayer);
-            SieuHangManager.UpdateBXH(rankBoss);
+            SieuHangManager.UpdateBXH(rankPlayer, rankBoss);
         } else {
             Service.getInstance().chat(player, "Thua rồi");
             int turn = SieuHangManager.GetFreeTurn(player);

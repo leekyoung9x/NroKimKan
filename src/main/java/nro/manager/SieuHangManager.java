@@ -692,23 +692,37 @@ public class SieuHangManager {
         }
     }
 
-    public static void UpdateBXH(SieuHangModel player) {
-        PreparedStatement ps = null;
-        try (Connection con = DBService.gI().getConnectionForGetPlayer();) {
-            ps = con.prepareStatement("UPDATE `super` set `rank` = ? WHERE player_id = ?;");
-            ps.setLong(1, player.rank);
-            ps.setLong(2, player.player_id);
-            ps.executeUpdate();
+    public static List<SieuHangModel> UpdateBXH(SieuHangModel playerWin, SieuHangModel playerLose) {
+        List<SieuHangModel> result = new ArrayList<>();
+        Connection con = null;
+        CallableStatement ps = null;
+        try {
+            TOP_ID = new ArrayList<>();
+            SieuHangModel top;
+
+            con = DBService.gI().getConnection();
+            String sql = "{CALL Proc_Update_RankSuper(?, ?)}";
+            ps = con.prepareCall(sql);
+            ps.setDouble(1, playerWin.player_id);
+            ps.setDouble(2, playerLose.player_id);
+
+            ps.executeQuery();
         } catch (Exception e) {
-            Log.error(SieuHangManager.class, e);
             e.printStackTrace();
         } finally {
             try {
-                ps.close();
-            } catch (SQLException ex) {
-                ex.printStackTrace();
+                if (con != null) {
+                    con.close();
+                }
+                if (ps != null) {
+                    ps.close();
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
             }
         }
+
+        return result;
     }
 
     public static void UpdateStatusFight(long player_id, int status) {
