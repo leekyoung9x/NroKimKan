@@ -250,9 +250,13 @@ public class SieuHangManager {
 
     public static int GetRankDBById(long player_id) {
         int result = 0;
+        Connection connection = null;
 
         try {
-            PreparedStatement ps = DBService.gI().getConnectionForGame().prepareStatement("SELECT COALESCE(rank, -1) AS `rank` FROM (SELECT 1 AS dummy) dummy_table LEFT JOIN super_top ON super_top.player_id = " + player_id);
+            // Kết nối đến cơ sở dữ liệu
+            connection = DBService.gI().getConnectionForGame();
+
+            PreparedStatement ps = connection.prepareStatement("SELECT COALESCE(rank, -1) AS `rank` FROM (SELECT 1 AS dummy) dummy_table LEFT JOIN super_top ON super_top.player_id = " + player_id);
             ResultSet rs = ps.executeQuery();
 
             while (rs.next()) {
@@ -263,6 +267,15 @@ public class SieuHangManager {
             ps.close();
         } catch (Exception e) {
             e.printStackTrace();
+        } finally {
+            // Đóng các tài nguyên (kết nối và câu lệnh)
+            if (connection != null) {
+                try {
+                    connection.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
         }
 
         return result;
