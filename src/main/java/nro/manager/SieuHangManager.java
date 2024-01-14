@@ -650,19 +650,52 @@ public class SieuHangManager {
         }
     }
 
+//    public static void UpdatePedingFight() {
+//        PreparedStatement ps = null;
+//        try (Connection con = DBService.gI().getConnectionForGetPlayer();) {
+//            ps = con.prepareStatement("UPDATE super set is_fight = FALSE WHERE is_fight = true AND TIMESTAMPDIFF(SECOND, modified_date, NOW()) > 500");
+//            ps.executeUpdate();
+//        } catch (Exception e) {
+//            Log.error(SieuHangManager.class, e);
+//            e.printStackTrace();
+//        } finally {
+//            try {
+//                ps.close();
+//            } catch (SQLException ex) {
+//                ex.printStackTrace();
+//            }
+//        }
+//    }
+
     public static void UpdatePedingFight() {
-        PreparedStatement ps = null;
-        try (Connection con = DBService.gI().getConnectionForGetPlayer();) {
-            ps = con.prepareStatement("UPDATE super set is_fight = FALSE WHERE is_fight = true AND TIMESTAMPDIFF(SECOND, modified_date, NOW()) > 500");
-            ps.executeUpdate();
-        } catch (Exception e) {
-            Log.error(SieuHangManager.class, e);
+        Connection connection = null;
+        Statement statement = null;
+
+        try {
+            // Kết nối đến cơ sở dữ liệu
+            connection = DBService.gI().getConnectionForGame();
+            statement = connection.createStatement();
+
+            // Thực hiện lệnh TRUNCATE TABLE
+            String sql = "UPDATE super set is_fight = FALSE WHERE is_fight = true AND TIMESTAMPDIFF(SECOND, modified_date, NOW()) > 500";
+            statement.executeUpdate(sql);
+        } catch (SQLException e) {
             e.printStackTrace();
         } finally {
-            try {
-                ps.close();
-            } catch (SQLException ex) {
-                ex.printStackTrace();
+            // Đóng các tài nguyên (kết nối và câu lệnh)
+            if (statement != null) {
+                try {
+                    statement.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+            if (connection != null) {
+                try {
+                    connection.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
             }
         }
     }
