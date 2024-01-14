@@ -97,6 +97,8 @@ public class SetClothes {
 
         int[] doXD = new int[]{559, 560, 566, 567, 561};
 
+        int isFullSetTL = 0;
+
         for (int i = 0; i < 5; i++) {
             Item item = this.player.inventory.itemsBody.get(i);
             if (item.isNotNullItem()) {
@@ -107,64 +109,84 @@ public class SetClothes {
                 }
 
                 if (isSetThanLinh(doTD, item.getId()) || isSetThanLinh(doNM, item.getId()) || isSetThanLinh(doXD, item.getId())) {
-                    for (ItemOption io : item.itemOptions) {
-                        switch (io.optionTemplate.id) {
-                            case 129:
-                            case 141:
-                                isActSet = true;
-                                songoku2++;
-                                break;
-                            case 127:
-                            case 139:
-                                isActSet = true;
-                                thienXinHang2++;
-                                break;
-                            case 128:
-                            case 140:
-                                isActSet = true;
-                                kaioken2++;
-                                break;
-                            case 131:
-                            case 143:
-                                isActSet = true;
-                                lienhoan2++;
-                                break;
-                            case 132:
-                            case 144:
-                                isActSet = true;
-                                pikkoroDaimao2++;
-                                break;
-                            case 130:
-                            case 142:
-                                isActSet = true;
-                                picolo2++;
-                                break;
-                            case 135:
-                            case 138:
-                                isActSet = true;
-                                nappa2++;
-                                break;
-                            case 133:
-                            case 136:
-                                isActSet = true;
-                                kakarot2++;
-                                break;
-                            case 134:
-                            case 137:
-                                isActSet = true;
-                                cadic2++;
-                                break;
-                        }
+                    isFullSetTL++;
+                }
 
-                        if (isActSet) {
+                for (ItemOption io : item.itemOptions) {
+                    switch (io.optionTemplate.id) {
+                        case 129:
+                        case 141:
+                            isActSet = true;
+                            songoku2++;
                             break;
-                        }
+                        case 127:
+                        case 139:
+                            isActSet = true;
+                            thienXinHang2++;
+                            break;
+                        case 128:
+                        case 140:
+                            isActSet = true;
+                            kaioken2++;
+                            break;
+                        case 131:
+                        case 143:
+                            isActSet = true;
+                            lienhoan2++;
+                            break;
+                        case 132:
+                        case 144:
+                            isActSet = true;
+                            pikkoroDaimao2++;
+                            break;
+                        case 130:
+                        case 142:
+                            isActSet = true;
+                            picolo2++;
+                            break;
+                        case 135:
+                        case 138:
+                            isActSet = true;
+                            nappa2++;
+                            break;
+                        case 133:
+                        case 136:
+                            isActSet = true;
+                            kakarot2++;
+                            break;
+                        case 134:
+                        case 137:
+                            isActSet = true;
+                            cadic2++;
+                            break;
+                    }
+
+                    if (isActSet) {
+                        break;
                     }
                 }
             } else {
                 break;
             }
         }
+
+        songoku2 = validateSKH(songoku2, isFullSetTL);
+        thienXinHang2 = validateSKH(thienXinHang2, isFullSetTL);
+        kaioken2 = validateSKH(kaioken2, isFullSetTL);
+        lienhoan2 = validateSKH(lienhoan2, isFullSetTL);
+        pikkoroDaimao2 = validateSKH(pikkoroDaimao2, isFullSetTL);
+        picolo2 = validateSKH(picolo2, isFullSetTL);
+        nappa2 = validateSKH(nappa2, isFullSetTL);
+        kakarot2 = validateSKH(kakarot2, isFullSetTL);
+        cadic2 = validateSKH(cadic2, isFullSetTL);
+    }
+
+    private byte validateSKH(byte option, int isFullSetTL) {
+        if (option == 5 && isFullSetTL != 0 && isFullSetTL != 5) {
+            option = 0;
+        }
+
+        return option;
     }
 
     private void setDefault() {
