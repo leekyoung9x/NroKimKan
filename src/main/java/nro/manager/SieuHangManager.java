@@ -32,23 +32,6 @@ import nro.services.Service;
 public class SieuHangManager {
 
     public static List<Long> TOP_ID = new ArrayList<>();
-    public static List<SieuHangModel> tops = new ArrayList<>();
-
-    public static int GetRubyById(long player_id) {
-        int result = 0;
-
-        int rank = GetRankById(player_id);
-
-        if (rank == 1) {
-            result = 10000;
-        } else if (rank <= 10) {
-            result = 5000;
-        } else if (rank <= 20) {
-            result = 2000;
-        }
-
-        return result;
-    }
 
     public static int GetRubyByRank(int rank) {
         int result = 0;
@@ -84,12 +67,8 @@ public class SieuHangManager {
     }
 
     public static int GetRankById(long player_id) {
-        int result = -1;
-        for (SieuHangModel model : tops) {
-            if (model.player_id == player_id) {
-                return model.rank;
-            }
-        }
+        int result = GetRankDBById(player_id);
+
         return result;
     }
 
@@ -97,8 +76,33 @@ public class SieuHangManager {
         LocalTime currentTime = LocalTime.now();
         //update 12h trao qua + reset top
         if (currentTime.getHour() == 0 && currentTime.getMinute() == 0 && currentTime.getSecond() == 0) {
-            tops = GetTop(0, 0);
+            UpdateTop100();
             UpdateFreeTurn();
+        }
+    }
+
+    public static void UpdateTop100() {
+        Connection con = null;
+        CallableStatement ps = null;
+        try {
+            con = DBService.gI().getConnection();
+            String sql = "{CALL Proc_Update_BXH_New_Day_Super(?, ?)}";
+            ps = con.prepareCall(sql);
+
+            ps.executeQuery();
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (con != null) {
+                    con.close();
+                }
+                if (ps != null) {
+                    ps.close();
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
     }
 
@@ -197,72 +201,6 @@ public class SieuHangManager {
                     } catch (Exception e) {
                         pet.setLever(0);
                     }
-
-                    //data chỉ số
-//                    dataObject = (JSONObject) jv.parse(rs.getString("pet_point"));
-//                    pet.nPoint.stamina = Short.parseShort(String.valueOf(dataObject.get("stamina")));
-//                    pet.nPoint.maxStamina = Short.parseShort(String.valueOf(dataObject.get("max_stamina")));
-//                    pet.nPoint.hpg = Integer.parseInt(String.valueOf(dataObject.get("hpg")));
-//                    pet.nPoint.mpg = Integer.parseInt(String.valueOf(dataObject.get("mpg")));
-//                    pet.nPoint.dameg = Integer.parseInt(String.valueOf(dataObject.get("damg")));
-//                    pet.nPoint.defg = Integer.parseInt(String.valueOf(dataObject.get("defg")));
-//                    pet.nPoint.critg = Integer.parseInt(String.valueOf(dataObject.get("critg")));
-//                    pet.nPoint.power = Long.parseLong(String.valueOf(dataObject.get("power")));
-//                    pet.nPoint.tiemNang = Long.parseLong(String.valueOf(dataObject.get("tiem_nang")));
-//                    pet.nPoint.limitPower = Byte.parseByte(String.valueOf(dataObject.get("limit_power")));
-//                    int hp = Integer.parseInt(String.valueOf(dataObject.get("hp")));
-//                    int mp = Integer.parseInt(String.valueOf(dataObject.get("mp")));
-                    //data body
-//                    dataArray = (JSONArray) jv.parse(rs.getString("pet_body"));
-//                    for (int i = 0; i < dataArray.size(); i++) {
-//                        dataObject = (JSONObject) dataArray.get(i);
-//                        Item item = null;
-//                        short tempId = Short.parseShort(String.valueOf(dataObject.get("temp_id")));
-//                        if (tempId != -1) {
-//                            item = ItemService.gI().createNewItem(tempId, Integer.parseInt(String.valueOf(dataObject.get("quantity"))));
-//                            JSONArray options = (JSONArray) dataObject.get("option");
-//                            for (int j = 0; j < options.size(); j++) {
-//                                JSONArray opt = (JSONArray) options.get(j);
-//                                item.itemOptions.add(new ItemOption(Integer.parseInt(String.valueOf(opt.get(0))),
-//                                        Integer.parseInt(String.valueOf(opt.get(1)))));
-//                            }
-//                            item.createTime = Long.parseLong(String.valueOf(dataObject.get("create_time")));
-//                            if (ItemService.gI().isOutOfDateTime(item)) {
-//                                item = ItemService.gI().createItemNull();
-//                            }
-//                        } else {
-//                            item = ItemService.gI().createItemNull();
-//                        }
-//                        pet.inventory.itemsBody.add(item);
-//                    }
-                    //data skills
-//                    dataArray = (JSONArray) jv.parse(rs.getString("pet_skill"));
-//                    for (int i = 0; i < dataArray.size(); i++) {
-//                        JSONArray skillTemp = (JSONArray) dataArray.get(i);
-//                        int tempId = Integer.parseInt(String.valueOf(skillTemp.get(0)));
-//                        byte point = Byte.parseByte(String.valueOf(skillTemp.get(1)));
-//                        Skill skill = null;
-//                        if (point != 0) {
-//                            skill = SkillUtil.createSkill(tempId, point);
-//                        } else {
-//                            skill = SkillUtil.createSkillLevel0(tempId);
-//                        }
-//                        switch (skill.template.id) {
-//                            case Skill.KAMEJOKO:
-//                            case Skill.MASENKO:
-//                            case Skill.ANTOMIC:
-//                                skill.coolDown = 1000;
-//                                break;
-//                        }
-//                        pet.playerSkill.skills.add(skill);
-//                    }
-//                    if (pet.playerSkill.skills.size() < 5) {
-//                        pet.playerSkill.skills.add(4, SkillUtil.createSkillLevel0(-1));
-//                    }
-//                    pet.nPoint.hp = hp;
-//                    pet.nPoint.mp = mp;
-//                    pet.nPoint.calPoint();
-//                    player.pet = pet;
                 }
 
                 dataObject.clear();
@@ -299,6 +237,26 @@ public class SieuHangManager {
 
             while (rs.next()) {
                 result = rs.getInt("turn_per_day");
+            }
+
+            rs.close();
+            ps.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return result;
+    }
+
+    public static int GetRankDBById(long player_id) {
+        int result = 0;
+
+        try {
+            PreparedStatement ps = DBService.gI().getConnectionForGame().prepareStatement("SELECT COALESCE(rank, -1) AS `rank` FROM (SELECT 1 AS dummy) dummy_table LEFT JOIN super_top ON super_top.player_id = " + player_id);
+            ResultSet rs = ps.executeQuery();
+
+            while (rs.next()) {
+                result = rs.getInt("rank");
             }
 
             rs.close();
@@ -679,6 +637,23 @@ public class SieuHangManager {
         try (Connection con = DBService.gI().getConnectionForGetPlayer();) {
             ps = con.prepareStatement("UPDATE `super` SET turn_per_day = turn_per_day - 1 WHERE player_id = ?");
             ps.setLong(1, player_id);
+            ps.executeUpdate();
+        } catch (Exception e) {
+            Log.error(SieuHangManager.class, e);
+            e.printStackTrace();
+        } finally {
+            try {
+                ps.close();
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+            }
+        }
+    }
+
+    public static void UpdatePedingFight() {
+        PreparedStatement ps = null;
+        try (Connection con = DBService.gI().getConnectionForGetPlayer();) {
+            ps = con.prepareStatement("UPDATE super set is_fight = FALSE WHERE is_fight = true AND TIMESTAMPDIFF(SECOND, modified_date, NOW()) > 500");
             ps.executeUpdate();
         } catch (Exception e) {
             Log.error(SieuHangManager.class, e);

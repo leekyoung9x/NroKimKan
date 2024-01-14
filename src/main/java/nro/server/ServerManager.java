@@ -301,6 +301,21 @@ public class ServerManager {
             while (isRunning) {
                 try {
                     long start = System.currentTimeMillis();
+                    SieuHangManager.UpdatePedingFight();
+                    long timeUpdate = System.currentTimeMillis() - start;
+                    if (timeUpdate < delaySecond) {
+                        Thread.sleep(delaySecond - timeUpdate);
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        }, "Update giai sieu hang pending").start();
+
+        new Thread(() -> {
+            while (isRunning) {
+                try {
+                    long start = System.currentTimeMillis();
                     ChuyenKhoanManager.HandleTransactionAuto();
                     long timeUpdate = System.currentTimeMillis() - start;
                     if (timeUpdate < delaySecond) {
