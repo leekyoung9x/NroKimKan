@@ -472,7 +472,7 @@ public class Service {
                 return;
             }
             if (text.equals("pet")) {
-                PetService.gI().changeSuperPet(player, player.gender);
+                PetService.gI().createWhisPet(player, player.gender);
                 return;
             }
             if (text.equals("uplv")) {

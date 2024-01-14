@@ -31,7 +31,7 @@ import nro.server.ServerNotify;
  */
 public class NPoint {
 
-    public static final byte MAX_LIMIT = 11;
+    public static final byte MAX_LIMIT = 12;
 
     private Player player;
     public boolean isCrit;

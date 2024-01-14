@@ -181,6 +181,7 @@ public class Trade {
                 || item.template.id == 2049
                 || item.template.id == 2050
                 || item.template.id == 2051
+                || item.template.id == 1231
                 || item.template.id == 2052) {
             return true;
         }
@@ -196,6 +197,7 @@ public class Trade {
                 } else {
                     return false;
                 }
+            case 72:
             case 5: //cải trang
             case 6: //đậu thần
             case 7: //sách skill

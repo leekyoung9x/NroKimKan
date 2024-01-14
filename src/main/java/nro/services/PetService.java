@@ -136,8 +136,8 @@ public class PetService {
                     player.pet.nPoint.limitPower = limitPower[0];
                 }
                 Thread.sleep(1000);
-                Service.getInstance().chatJustForMe(player, player.pet, "Ta sẽ đem hạnh phúc đến Noel này...");
-                Service.getInstance().sendThongBao(player, "Bạn đã nhận được Đệ Tử Videl");
+                Service.getInstance().chatJustForMe(player, player.pet, "Djt nhau au au...");
+                Service.getInstance().sendThongBao(player, "Djt nhau au au");
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -178,7 +178,6 @@ public class PetService {
     }
 
     public void changeVidelPet(Player player, int gender) {
-        byte limitPower = player.pet.nPoint.limitPower;
         if (player.fusion.typeFusion != ConstPlayer.NON_FUSION) {
             player.pet.unFusion();
         }
@@ -189,7 +188,6 @@ public class PetService {
     }
 
     public void changeSuperPet(Player player, int gender) {
-        byte limitPower = player.pet.nPoint.limitPower;
         if (player.fusion.typeFusion != ConstPlayer.NON_FUSION) {
             player.pet.unFusion();
         }
@@ -323,6 +321,9 @@ public class PetService {
             pet.inventory.itemsBody.add(ItemService.gI().createItemNull());
         }
         pet.playerSkill.skills.add(SkillUtil.createSkill(17, 1));
+        if (petLevel != 0) {
+            pet.playerSkill.skills.add(SkillUtil.createSkill(1, 1));
+        }
         for (int i = 0; i < 3; i++) {
             pet.playerSkill.skills.add(SkillUtil.createEmptySkill());
         }

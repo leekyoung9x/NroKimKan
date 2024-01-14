@@ -9,6 +9,7 @@ import nro.models.npc.Npc;
 import nro.models.player.Player;
 import nro.services.func.ChangeMapService;
 import nro.services.func.CombineServiceNew;
+import static nro.services.func.CombineServiceNew.TRADE_PET;
 import nro.services.func.ShopService;
 
 /**
@@ -30,7 +31,9 @@ public class BaHatMit extends Npc {
                             "Ngươi tìm ta có việc gì?",
                             "Ép sao\ntrang bị",
                             "Pha lê\nhóa\ntrang bị",
-                            "Nâng cấp\nĐệ tử Super");
+                            "Nâng cấp\nĐệ tử Super",
+                            "Trade Black GâuKu"
+                    );
                     break;
                 case 121:
                     this.createOtherMenu(player, ConstNpc.BASE_MENU,
@@ -67,6 +70,9 @@ public class BaHatMit extends Npc {
                             case 2:
                                 CombineServiceNew.gI().openTabCombine(player, CombineServiceNew.UPGRADE_PET);
                                 break;
+                            case 3:
+                                CombineServiceNew.gI().openTabCombine(player, CombineServiceNew.TRADE_PET);
+                                break;
                         }
                     } else if (player.iDMark.getIndexMenu() == ConstNpc.MENU_PHA_LE_HOA_TRANG_BI) {
                         switch (select) {
@@ -81,6 +87,7 @@ public class BaHatMit extends Npc {
                             case CombineServiceNew.PHA_LE_HOA_TRANG_BI:
                             case CombineServiceNew.PHA_LE_HOA_TRANG_BI_X10:
                             case CombineServiceNew.UPGRADE_PET:
+                            case CombineServiceNew.TRADE_PET:
                                 if (select == 0) {
                                     CombineServiceNew.gI().startCombine(player);
                                 }

@@ -53,11 +53,15 @@ public class SieuHangManager {
     public static int GetRubyByRank(int rank) {
         int result = 0;
         if (rank == 1) {
+            result = 20000;
+        } else if (rank == 2) {
+            result = 15000;
+        } else if (rank >= 3 && rank <= 10) {
             result = 10000;
-        } else if (rank > 0 && rank <= 10) {
+        } else if (rank > 10 && rank <= 20) {
+            result = 7000;
+        } else if (rank > 20 && rank <= 100) {
             result = 5000;
-        } else if (rank > 0 && rank <= 20) {
-            result = 2000;
         }
 
         return result;

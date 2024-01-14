@@ -43,11 +43,15 @@ public class SieuHangService {
                 msg.writer().writeUTF(top.player.name);
 
                 if (top.rank == 1) {
-                    thuong = 100;
-                } else if (top.rank <= 10) {
-                    thuong = 20;
-                } else if (top.rank <= 100) {
-                    thuong = 5;
+                    thuong = 20000;
+                } else if (top.rank == 2) {
+                    thuong = 15000;
+                } else if (top.rank >= 3 && top.rank < 10) {
+                    thuong = 10000;
+                } else if (top.rank >= 10 && top.rank < 20) {
+                    thuong = 7000;
+                } else if (top.rank >= 20 && top.rank <= 100) {
+                    thuong = 5000;
                 } else {
                     thuong = 1;
                 }
