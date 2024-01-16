@@ -16,6 +16,10 @@ import nro.services.func.ChangeMapService;
 import nro.utils.Util;
 
 import java.util.List;
+import nro.models.item.ItemOption;
+import nro.models.map.ItemMap;
+import nro.models.player.Pet;
+import nro.services.Service;
 
 /**
  *
@@ -58,8 +62,14 @@ public class TrungUyXanhLo extends BossBanDoKhoBau {
                 }
             }
         } catch (Exception ex) {
-//            ex.printStackTrace();
         }
+    }
+
+    @Override
+    public void rewards(Player plKill) {// 790 2040
+        this.dropItemReward(790, (int) plKill.id);
+        this.dropItemReward(2040, (int) plKill.id);
+        this.dropItemReward(2011, (int) plKill.id);
     }
 
     @Override

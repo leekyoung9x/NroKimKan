@@ -37,24 +37,28 @@ public class Cumber extends FutureBoss {
         if (!entryList.isEmpty()) {
             Player playerTop = Client.gI().getPlayer(entryList.get(0).getKey());
             if (playerTop != null) {
-                Item manhTL = ItemService.gI().createNewItem((short) Util.nextInt(2032, 2036));
-                InventoryService.gI().addItemBag(playerTop, manhTL, 0);
+                Item da = ItemService.gI().createNewItem((short) 2040);
+                da.quantity = 2;
+                playerTop.inventory.ruby += 5000;
+                InventoryService.gI().addItemBag(playerTop, da, 0);
                 InventoryService.gI().sendItemBags(playerTop);
-                Service.getInstance().sendThongBao(playerTop, "Bạn nhận được " + manhTL.template.name);
+                Service.getInstance().sendMoney(pl);
+                Service.getInstance().sendThongBao(playerTop, "Bạn nhận được " + da.template.name);
             }
             if (entryList.size() > 1) {
                 Player playerTop2 = Client.gI().getPlayer(entryList.get(1).getKey());
                 if (playerTop2 != null) {
-                    Item thoivang = ItemService.gI().createNewItem((short) 457);
-                    InventoryService.gI().addItemBag(playerTop2, thoivang, 0);
+                    Item da = ItemService.gI().createNewItem((short) 2040);
+                    Item bdkb = ItemService.gI().createNewItem((short) 611);
+                    InventoryService.gI().addItemBag(playerTop2, da, 0);
+                    InventoryService.gI().addItemBag(playerTop2, bdkb, 0);
                     InventoryService.gI().sendItemBags(playerTop2);
-                    Service.getInstance().sendThongBao(playerTop2, "Bạn nhận được thỏi vàng");
                 }
             }
             if (entryList.size() > 2) {
                 Player playerTop3 = Client.gI().getPlayer(entryList.get(2).getKey());
                 if (playerTop3 != null) {
-                    Item mewmew = ItemService.gI().createNewItem((short) Util.nextInt(1150, 1153));
+                    Item mewmew = ItemService.gI().createNewItem((short) 2040);
                     InventoryService.gI().addItemBag(playerTop3, mewmew, 0);
                     InventoryService.gI().sendItemBags(playerTop3);
                     Service.getInstance().sendThongBao(playerTop3, "Bạn nhận được " + mewmew.template.name);

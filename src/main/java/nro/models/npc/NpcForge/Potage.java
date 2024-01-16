@@ -51,6 +51,10 @@ public class Potage extends Npc {
                                 this.npcChat(player, "Nhà ngươi không đủ 3k ruby");
                                 break;
                             }
+                            if (!player.getSession().actived) {
+                                Service.getInstance().sendThongBao(player, "Bạn chưa phải là thành viên của Ngọc rồng KIMKO");
+                                return;
+                            }
                             Boss idBoss = BossManager.gI().getBossById(BossFactory.CLONE_NHAN_BAN);
                             if (idBoss != null && idBoss.zone != null) {
                                 this.npcChat(player, "Nhà ngươi hãy tiêu diệt Boss lúc trước ngươi vừa gọi ra ở khu vực :" + idBoss.zone.zoneId);

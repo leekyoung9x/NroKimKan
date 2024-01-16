@@ -166,6 +166,10 @@ public class Item {
         }
         return false;
     }
+    
+    public boolean isItemFlagBagPet(){
+        return this.template.id == 1197;
+    }
 
     public boolean isDHD() {
         if (this.template.id >= 650 && this.template.id <= 662) {

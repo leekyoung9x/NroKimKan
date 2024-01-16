@@ -63,14 +63,14 @@ public class ThanVuTru extends Npc {
                             if (player.clan != null) {
                                 Calendar calendar = Calendar.getInstance();
                                 int dayOfWeek = calendar.get(Calendar.DAY_OF_WEEK);
-                                if (!(dayOfWeek == Calendar.MONDAY
-                                        || dayOfWeek == Calendar.WEDNESDAY
-                                        || dayOfWeek == Calendar.FRIDAY
-                                        || dayOfWeek == Calendar.SUNDAY)) {
-                                    Service.getInstance().sendThongBao(player,
-                                            "Chỉ mở vào thứ 2, 4, 6, CN hàng tuần!");
-                                    return;
-                                }
+//                                if (!(dayOfWeek == Calendar.MONDAY
+//                                        || dayOfWeek == Calendar.WEDNESDAY
+//                                        || dayOfWeek == Calendar.FRIDAY
+//                                        || dayOfWeek == Calendar.SUNDAY)) {
+//                                    Service.getInstance().sendThongBao(player,
+//                                            "Chỉ mở vào thứ 2, 4, 6, CN hàng tuần!");
+//                                    return;
+//                                }
                                 if (player.clanMember.getNumDateFromJoinTimeToToday() < 2) {
                                     Service.getInstance().sendThongBao(player,
                                             "Phải tham gia bang hội ít nhất 2 ngày mới có thể tham gia!");

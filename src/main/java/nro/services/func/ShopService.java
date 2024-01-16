@@ -424,6 +424,13 @@ public class ShopService {
 
     private void buyItemShopNormal(Player player, ItemShop is) {
         if (is != null) {
+            if (player.iDMark.getShopId() == ConstNpc.SHOP_BILL_HUY_DIET_0) {
+                Item eat = InventoryService.gI().findMealChangeDestroyClothes(player);
+                if (eat == null) {
+                    Service.getInstance().sendThongBao(player, "Yêu cầu có 99 thức ăn");
+                    return;
+                }
+            }
             int itemShopID = is.temp.id;
             if (is.temp.id == 517 && player.inventory.itemsBag.size() >= 60) {
                 Service.getInstance().sendThongBao(player, "Hành trang đã đạt tới số lượng tối đa");
@@ -495,39 +502,6 @@ public class ShopService {
                     }
                 }
                 switch (player.iDMark.getShopId()) {
-                    case ConstNpc.SHOP_SANTA_1:
-                        player.head = is.temp.part;
-                        Service.getInstance().Send_Caitrang(player);
-                        Service.getInstance().sendThongBao(player, "Đổi kiểu tóc thành công");
-                        break;
-                    case ConstNpc.SHOP_BA_HAT_MIT_0:
-                        player.charms.addTimeCharms(is.temp.id, 60);
-                        openShopBua(player, player.iDMark.getShopId(), 0);
-                        break;
-                    case ConstNpc.SHOP_BA_HAT_MIT_1:
-                        player.charms.addTimeCharms(is.temp.id, 60 * 8);
-                        openShopBua(player, player.iDMark.getShopId(), 1);
-                        break;
-                    case ConstNpc.SHOP_BA_HAT_MIT_2:
-                        player.charms.addTimeCharms(is.temp.id, 60 * 24 * 30);
-                        openShopBua(player, player.iDMark.getShopId(), 2);
-                        break;
-                    case ConstNpc.SHOP_BA_HAT_MIT_3:
-                        player.charms.addTimeCharms(is.temp.id, 60);
-                        openShopBua(player, player.iDMark.getShopId(), 3);
-                        break;
-                    case ConstNpc.SHOP_GIAM_GIA:
-                        Item pGG = InventoryService.gI().findItem(player.inventory.itemsBag, 459);
-                        if (pGG != null) {
-                            Item item = ItemService.gI().createItemFromItemShop(is);
-                            InventoryService.gI().subQuantityItemsBag(player, pGG, 1);
-                            InventoryService.gI().addItemBag(player, item, 1);
-                            InventoryService.gI().sendItemBags(player);
-                            Service.getInstance().sendThongBao(player, "Đổi thành công " + is.temp.name);
-                        } else {
-                            Service.getInstance().sendThongBao(player, "Bạn không có phiếu giảm giá!");
-                        }
-                        break;
                     case ConstNpc.SHOP_BILL_HUY_DIET_0:
                         if (player.setClothes.godClothes || true) {
                             Item meal = InventoryService.gI().findMealChangeDestroyClothes(player);
@@ -568,6 +542,40 @@ public class ShopService {
                             return;
                         }
                         break;
+                    case ConstNpc.SHOP_SANTA_1:
+                        player.head = is.temp.part;
+                        Service.getInstance().Send_Caitrang(player);
+                        Service.getInstance().sendThongBao(player, "Đổi kiểu tóc thành công");
+                        break;
+                    case ConstNpc.SHOP_BA_HAT_MIT_0:
+                        player.charms.addTimeCharms(is.temp.id, 60);
+                        openShopBua(player, player.iDMark.getShopId(), 0);
+                        break;
+                    case ConstNpc.SHOP_BA_HAT_MIT_1:
+                        player.charms.addTimeCharms(is.temp.id, 60 * 8);
+                        openShopBua(player, player.iDMark.getShopId(), 1);
+                        break;
+                    case ConstNpc.SHOP_BA_HAT_MIT_2:
+                        player.charms.addTimeCharms(is.temp.id, 60 * 24 * 30);
+                        openShopBua(player, player.iDMark.getShopId(), 2);
+                        break;
+                    case ConstNpc.SHOP_BA_HAT_MIT_3:
+                        player.charms.addTimeCharms(is.temp.id, 60);
+                        openShopBua(player, player.iDMark.getShopId(), 3);
+                        break;
+                    case ConstNpc.SHOP_GIAM_GIA:
+                        Item pGG = InventoryService.gI().findItem(player.inventory.itemsBag, 459);
+                        if (pGG != null) {
+                            Item item = ItemService.gI().createItemFromItemShop(is);
+                            InventoryService.gI().subQuantityItemsBag(player, pGG, 1);
+                            InventoryService.gI().addItemBag(player, item, 1);
+                            InventoryService.gI().sendItemBags(player);
+                            Service.getInstance().sendThongBao(player, "Đổi thành công " + is.temp.name);
+                        } else {
+                            Service.getInstance().sendThongBao(player, "Bạn không có phiếu giảm giá!");
+                        }
+                        break;
+
                     case ConstNpc.SHOP_WHIS_THIEN_SU:
                         int param = 0;
                         Item item = ItemService.gI().createItemFromItemShop(is);

@@ -297,9 +297,6 @@ public class UseItem {
                                 Service.getInstance().sendThongBao(pl, "Bạn đã có để tử rồi");
                             }
                             break;
-                        case 2012: //Hop Qua Kich Hoat
-                            openboxsukien(pl, item, 1);
-                            break;
                         case 2020: //phiếu cải trang 20/10
                             openbox2010(pl, item);
                             break;
@@ -449,7 +446,14 @@ public class UseItem {
                                 Service.getInstance().sendThongBao(pl, "Ít nhất đệ tử ngươi phải có chiêu 5 chứ!");
                             }
                             break;
-
+                        case 2011:
+                            Service.getInstance().addSMTN(pl, (byte) 2, 200_000_000, false);
+                            InventoryService.gI().subQuantityItemsBag(pl, item, 1);
+                            break;
+                        case 2012:
+                            Service.getInstance().addSMTN(pl.pet, (byte) 2, 200_000_000, false);
+                            InventoryService.gI().subQuantityItemsBag(pl, item, 1);
+                            break;
                         default:
                             switch (item.template.type) {
                                 case 7: //sách học, nâng skill

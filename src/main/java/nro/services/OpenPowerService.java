@@ -27,7 +27,7 @@ public class OpenPowerService {
     public boolean openPowerBasic(Player player) {
         byte curLimit = player.nPoint.limitPower;
         if (curLimit < NPoint.MAX_LIMIT) {
-            if (player.nPoint.limitPower == 10 && !player.inventory.itemsBody.stream().limit(5).allMatch(it -> it.isNotNullItem()
+            if (player.nPoint.limitPower == 10 && !player.inventory.itemsBody.stream().limit(1).allMatch(it -> it.isNotNullItem()
                     && it.template.name.contains("Thiên Sứ"))) {
                 if (!player.isPet) {
                     Service.getInstance().sendThongBao(player, "Yêu cầu 5 đồ Thiên Sứ");
@@ -36,7 +36,7 @@ public class OpenPowerService {
                 }
                 return false;
             }
-            if (player.nPoint.limitPower == 9 && !player.inventory.itemsBody.stream().limit(5).allMatch(it -> it.isNotNullItem()
+            if (player.nPoint.limitPower == 9 && !player.inventory.itemsBody.stream().limit(1).allMatch(it -> it.isNotNullItem()
                     && it.template.name.contains("Hủy Diệt"))) {
                 if (!player.isPet) {
                     Service.getInstance().sendThongBao(player, "Yêu cầu 5 đồ Hủy Diệt");
@@ -62,7 +62,8 @@ public class OpenPowerService {
 
     public boolean openPowerSpeed(Player player) {
         if (player.nPoint.limitPower < NPoint.MAX_LIMIT) {
-            if (player.nPoint.limitPower == 10 && !player.inventory.itemsBody.stream().limit(5).allMatch(it -> it.isNotNullItem()
+            if (player.nPoint.limitPower == 10
+                    && !player.inventory.itemsBody.stream().limit(1).allMatch(it -> it.isNotNullItem()
                     && it.template.name.contains("Thiên Sứ"))) {
                 if (!player.isPet) {
                     Service.getInstance().sendThongBao(player, "Yêu cầu 5 đồ Thiên Sứ");
@@ -71,7 +72,8 @@ public class OpenPowerService {
                 }
                 return false;
             }
-            if (player.nPoint.limitPower == 9 && !player.inventory.itemsBody.stream().limit(5).allMatch(it -> it.isNotNullItem()
+            if (player.nPoint.limitPower == 9 
+                    && !player.inventory.itemsBody.stream().limit(1).allMatch(it -> it.isNotNullItem()
                     && it.template.name.contains("Hủy Diệt"))) {
                 if (!player.isPet) {
                     Service.getInstance().sendThongBao(player, "Yêu cầu 5 đồ Hủy Diệt");

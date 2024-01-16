@@ -82,7 +82,6 @@ public class SieuHangControl extends ReentrantReadWriteLock implements Runnable 
                     other = sh;
                 }
             }
-
             if (other.rank == 1 && me.rank != 2) {
                 Service.getInstance().sendThongBao(player, "Bạn phải đạt Hạng 2 thì mới có tư cách khiêu chiến top 1");
                 return;

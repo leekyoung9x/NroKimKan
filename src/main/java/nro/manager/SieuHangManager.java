@@ -255,7 +255,6 @@ public class SieuHangManager {
         try {
             // Kết nối đến cơ sở dữ liệu
             connection = DBService.gI().getConnectionForGame();
-
             PreparedStatement ps = connection.prepareStatement("SELECT COALESCE(rank, -1) AS `rank` FROM (SELECT 1 AS dummy) dummy_table LEFT JOIN super_top ON super_top.player_id = " + player_id);
             ResultSet rs = ps.executeQuery();
 

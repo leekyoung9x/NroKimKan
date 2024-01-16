@@ -13,7 +13,7 @@ import lombok.Getter;
 
 /**
  *
- * @author Kitak
+ * @author Arriety
  */
 public class PowerLimitManager {
 
@@ -32,7 +32,8 @@ public class PowerLimitManager {
 
     public void load() {
         try {
-            PreparedStatement ps = DBService.gI().getConnectionForGame().prepareStatement("SELECT * FROM `power_limit`");
+            String sql = "SELECT * FROM `power_limit`";
+            PreparedStatement ps = DBService.gI().getConnectionForGame().prepareStatement(sql);
             ResultSet rs = ps.executeQuery();
             try {
                 while (rs.next()) {
@@ -43,14 +44,7 @@ public class PowerLimitManager {
                     int damage = rs.getInt("damage");
                     int defense = rs.getInt("defense");
                     int critical = rs.getInt("critical");
-                    PowerLimit powerLimit = PowerLimit.builder()
-                            .id(id)
-                            .power(power)
-                            .hp(hp)
-                            .mp(mp)
-                            .damage(damage)
-                            .defense(defense)
-                            .critical(critical)
+                    PowerLimit powerLimit = PowerLimit.builder().id(id).power(power).hp(hp).mp(mp).damage(damage).defense(defense).critical(critical)
                             .build();
                     add(powerLimit);
                 }

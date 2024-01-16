@@ -342,6 +342,7 @@ public class Session {
             // nhận quà đăng nhập hàng ngày
             RewardService.gI().rewardFirstTimeLoginPerDay(player);
             SieuHangManager.GetRewardDay(player);
+
         }
     }
 

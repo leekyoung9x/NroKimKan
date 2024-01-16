@@ -390,7 +390,7 @@ public class Player {
         if (this != null && this.zone != null) {
             int mapid = this.zone.map.mapId;
             if (MapService.gI().isMapNgucTu(mapid)) {
-                if (this.playerTask.taskMain.id < 22) {
+                if (this.nPoint.power < 80_000_000_000L) {
                     ChangeMapService.gI().changeMapNonSpaceship(this, this.gender + 21, 400, 336);
                     Service.getInstance().sendBigMessage(this, 1139, "|1|Do phát hiện có hành vi bất thường nên\n "
                             + "chúng tôi đã đưa bạn về nhà và xử phạt 50 ruby\n"

@@ -71,27 +71,25 @@ public class Blackgoku extends Boss {
     @Override
     public void attack() {
         try {
-            if (!charge()) {
-                Player pl = getPlayerAttack();
-                this.playerSkill.skillSelect = this.getSkillAttack();
-                if (Util.getDistance(this, pl) <= this.getRangeCanAttackWithSkillSelect()) {
-                    if (Util.isTrue(15, ConstRatio.PER100) && SkillUtil.isUseSkillChuong(this)) {
-                        goToXY(pl.location.x + (Util.getOne(-1, 1) * Util.nextInt(20, 80)),
-                                Util.nextInt(10) % 2 == 0 ? pl.location.y : pl.location.y - Util.nextInt(0, 50), false);
-                    }
-                    this.effectCharger();
-                    try {
-                        SkillService.gI().useSkill(this, pl, null);
-                    } catch (Exception e) {
-                        Log.error(Blackgoku.class, e);
-                    }
-                    checkPlayerDie(pl);
-                } else {
-                    goToPlayer(pl, false);
+            Player pl = getPlayerAttack();
+            this.playerSkill.skillSelect = this.getSkillAttack();
+            if (Util.getDistance(this, pl) <= this.getRangeCanAttackWithSkillSelect()) {
+                if (Util.isTrue(15, ConstRatio.PER100) && SkillUtil.isUseSkillChuong(this)) {
+                    goToXY(pl.location.x + (Util.getOne(-1, 1) * Util.nextInt(20, 80)),
+                            Util.nextInt(10) % 2 == 0 ? pl.location.y : pl.location.y - Util.nextInt(0, 50), false);
                 }
-                if (Util.isTrue(5, ConstRatio.PER100)) {
-                    this.changeIdle();
+                this.effectCharger();
+                try {
+                    SkillService.gI().useSkill(this, pl, null);
+                } catch (Exception e) {
+                    Log.error(Blackgoku.class, e);
                 }
+                checkPlayerDie(pl);
+            } else {
+                goToPlayer(pl, false);
+            }
+            if (Util.isTrue(5, ConstRatio.PER100)) {
+                this.changeIdle();
             }
         } catch (Exception ex) {
 
@@ -126,25 +124,6 @@ public class Blackgoku extends Boss {
             plAttack = this.zone.getRandomPlayerInMap();
         }
         return plAttack;
-    }
-
-    protected boolean charge() {
-        if (this.effectSkill.isCharging && Util.isTrue(15, 100)) {
-            this.effectSkill.isCharging = false;
-            return false;
-        }
-        if (Util.isTrue(1, 20)) {
-            for (Skill skill : this.playerSkill.skills) {
-                if (skill.template.id == Skill.TAI_TAO_NANG_LUONG) {
-                    this.playerSkill.skillSelect = skill;
-                    if (this.nPoint.getCurrPercentHP() < Util.nextInt(0, 100) && SkillService.gI().canUseSkillWithCooldown(this)
-                            && SkillService.gI().useSkill(this, null, null)) {
-                        return true;
-                    }
-                }
-            }
-        }
-        return false;
     }
 
     @Override

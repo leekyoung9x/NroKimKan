@@ -58,7 +58,7 @@ public class BanDoKhoBauService {
     }
 
     public void openBanDoKhoBau(Player player, byte level) {
-        if (level >= 1 && level <= 110) {
+        if (level == 110) {
             if (player.clan != null && player.clan.banDoKhoBau == null) {
                 Item item = InventoryService.gI().findItemBagByTemp(player, 611);
                 if (item != null && item.quantity > 0) {
@@ -83,7 +83,7 @@ public class BanDoKhoBauService {
                 Service.getInstance().sendThongBao(player, "Không thể thực hiện");
             }
         } else {
-            Service.getInstance().sendThongBao(player, "Không thể thực hiện");
+            Service.getInstance().sendThongBao(player, "Chỉ có thể đi cấp độ 110");
         }
     }
 }

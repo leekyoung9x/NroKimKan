@@ -31,7 +31,7 @@ import nro.server.ServerNotify;
  */
 public class NPoint {
 
-    public static final byte MAX_LIMIT = 12;
+    public static final byte MAX_LIMIT = 11;
 
     private Player player;
     public boolean isCrit;
@@ -762,10 +762,10 @@ public class NPoint {
             this.mpMax += calPercent(this.mpMax, 20);
         }
         if (this.player.itemTime != null && this.player.itemTime.isBanhTrungThu1Trung) {
-            this.mpMax += calPercent(this.mpMax, 10);;
+            this.mpMax += calPercent(this.mpMax, 10);
         }
         if (this.player.itemTime != null && this.player.itemTime.isBanhTrungThu2Trung) {
-            this.mpMax += calPercent(this.mpMax, 20);;
+            this.mpMax += calPercent(this.mpMax, 20);
         }
         if (this.player.effectFlagBag.useDieuRong) {
             this.mpMax += calPercent(this.mpMax, 30);
@@ -1395,7 +1395,7 @@ public class NPoint {
                 tiemNang = 1;
             }
         } else {
-            tiemNang = 10;
+            tiemNang = calSubTNSM(tiemNang);
         }
         return tiemNang;
     }
@@ -1419,10 +1419,10 @@ public class NPoint {
             tiemNang /= 50000;
         } else if (power >= 100000000000L) {
             tiemNang /= 20000;
-        } else if (power >= 90000000000L) {
-            tiemNang -= ((long) tiemNang * 99 / 100);
         } else if (power >= 80000000000L) {
             tiemNang -= ((long) tiemNang * 98 / 100);
+        } else if (power >= 90_000_000_000L) {
+            tiemNang /= 50000;
         }
         return tiemNang;
     }

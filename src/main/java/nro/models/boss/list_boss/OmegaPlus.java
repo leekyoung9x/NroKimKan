@@ -35,8 +35,6 @@ public class OmegaPlus extends Boss {
 
     @Override
     public void rewards(Player plKill) {
-//        this.dropItemReward(992, -1);
-//        this.dropItemReward(16, -1);
 
         for (Long id : playerAttack) {
             Player player = Client.gI().getPlayer(id);
