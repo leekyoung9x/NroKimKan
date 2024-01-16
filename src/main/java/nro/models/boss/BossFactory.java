@@ -194,6 +194,7 @@ public class BossFactory {
 
     public static final int CLONE_NHAN_BAN = -136;
     public static final int OMEGA_PLUS = -137;
+    public static final int OMEGA_PLUS_DOUBLE = -138;
 
     private static final Logger logger = Logger.getLogger(BossFactory.class);
     public static final int[] MAP_APPEARED_QILIN = {ConstMap.VACH_NUI_ARU_42, ConstMap.VACH_NUI_MOORI_43, ConstMap.VACH_NUI_KAKAROT,

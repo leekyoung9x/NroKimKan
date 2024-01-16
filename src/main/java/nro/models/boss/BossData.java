@@ -20,6 +20,7 @@ public class BossData {
     public static final int _15_PHUT = 900;
     public static final int _30_PHUT = 1800;
     public static final int _1_GIO = 3600;
+    public static final int _MUNGEN_GIO = Integer.MAX_VALUE;
 
     //--------------------------------------------------------------------------
     public String name;
@@ -168,14 +169,34 @@ public class BossData {
             new short[]{1311, 1312, 1313}, //outfit
             new short[]{43}, //map join
             new int[][]{ //skill
-                {Skill.DEMON, 3, 450}, {Skill.DEMON, 6, 400}, {Skill.DRAGON, 7, 650}, {Skill.DRAGON, 1, 500}, {Skill.GALICK, 5, 480},
-                {Skill.KAMEJOKO, 7, 2000}, {Skill.KAMEJOKO, 6, 1800}, {Skill.KAMEJOKO, 4, 1500}, {Skill.KAMEJOKO, 2, 1000},
-                {Skill.ANTOMIC, 3, 1200}, {Skill.ANTOMIC, 5, 1700}, {Skill.ANTOMIC, 7, 2000},
-                {Skill.MASENKO, 1, 800}, {Skill.MASENKO, 5, 1300}, {Skill.MASENKO, 6, 1500},
-                {Skill.TAI_TAO_NANG_LUONG, 1, 5000}, {Skill.TAI_TAO_NANG_LUONG, 3, 5000}, {Skill.TAI_TAO_NANG_LUONG, 5, 5000},
-                {Skill.TAI_TAO_NANG_LUONG, 6, 5000}, {Skill.TAI_TAO_NANG_LUONG, 7, 5000}
+                    {Skill.DEMON, 3, 450}, {Skill.DEMON, 6, 400}, {Skill.DRAGON, 7, 650}, {Skill.DRAGON, 1, 500}, {Skill.GALICK, 5, 480},
+                    {Skill.KAMEJOKO, 7, 2000}, {Skill.KAMEJOKO, 6, 1800}, {Skill.KAMEJOKO, 4, 1500}, {Skill.KAMEJOKO, 2, 1000},
+                    {Skill.ANTOMIC, 3, 1200}, {Skill.ANTOMIC, 5, 1700}, {Skill.ANTOMIC, 7, 2000},
+                    {Skill.MASENKO, 1, 800}, {Skill.MASENKO, 5, 1300}, {Skill.MASENKO, 6, 1500},
+                    {Skill.TAI_TAO_NANG_LUONG, 1, 5000}, {Skill.TAI_TAO_NANG_LUONG, 3, 5000}, {Skill.TAI_TAO_NANG_LUONG, 5, 5000},
+                    {Skill.TAI_TAO_NANG_LUONG, 6, 5000}, {Skill.TAI_TAO_NANG_LUONG, 7, 5000}
             },
             _15_PHUT
+    );
+
+    public static final BossData OMEGA_PLUS_DOUBLE = new BossData(
+            "Omega %1", //name
+            ConstPlayer.XAYDA, //gender
+            Boss.DAME_NORMAL, //type dame
+            Boss.HP_NORMAL, //type hp
+            500_000, //dame
+            new int[][]{{1_600_000_000}}, //hp
+            new short[]{1311, 1312, 1313}, //outfit
+            new short[]{43}, //map join
+            new int[][]{ //skill
+                    {Skill.DEMON, 3, 450}, {Skill.DEMON, 6, 400}, {Skill.DRAGON, 7, 650}, {Skill.DRAGON, 1, 500}, {Skill.GALICK, 5, 480},
+                    {Skill.KAMEJOKO, 7, 2000}, {Skill.KAMEJOKO, 6, 1800}, {Skill.KAMEJOKO, 4, 1500}, {Skill.KAMEJOKO, 2, 1000},
+                    {Skill.ANTOMIC, 3, 1200}, {Skill.ANTOMIC, 5, 1700}, {Skill.ANTOMIC, 7, 2000},
+                    {Skill.MASENKO, 1, 800}, {Skill.MASENKO, 5, 1300}, {Skill.MASENKO, 6, 1500},
+                    {Skill.TAI_TAO_NANG_LUONG, 1, 5000}, {Skill.TAI_TAO_NANG_LUONG, 3, 5000}, {Skill.TAI_TAO_NANG_LUONG, 5, 5000},
+                    {Skill.TAI_TAO_NANG_LUONG, 6, 5000}, {Skill.TAI_TAO_NANG_LUONG, 7, 5000}
+            },
+            _MUNGEN_GIO
     );
 
     public static final BossData THODAIKA = new BossData(

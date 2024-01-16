@@ -8,45 +8,23 @@ import nro.models.item.Item;
 import nro.models.map.mabu.MabuWar;
 import nro.models.player.Player;
 import nro.server.Client;
-import nro.server.ServerNotify;
 import nro.services.*;
-import nro.services.func.ChangeMapService;
 import nro.utils.SkillUtil;
 import nro.utils.Util;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class OmegaPlus extends Boss {
-
+public class OmegaPlusDouble extends Boss {
     private List<Long> playerAttack;
 
-    public OmegaPlus() {
-        super(BossFactory.OMEGA_PLUS, BossData.OMEGA_PLUS);
+    public OmegaPlusDouble() {
+        super(BossFactory.OMEGA_PLUS_DOUBLE, BossData.OMEGA_PLUS_DOUBLE);
         playerAttack = new ArrayList<>();
     }
 
-    protected OmegaPlus(byte id, BossData bossData) {
+    protected OmegaPlusDouble(byte id, BossData bossData) {
         super(id, bossData);
-    }
-
-    @Override
-    public void joinMap() {
-        if (this.zone == null) {
-            this.zone = getMapCanJoin(mapJoin[Util.nextInt(0, mapJoin.length - 1)]);
-        }
-        if (this.zone != null) {
-            ChangeMapService.gI().changeMapBySpaceShip(this, this.zone, ChangeMapService.TELEPORT_YARDRAT);
-            ServerNotify.gI().notify("Boss " + this.name + " vừa xuất hiện tại " + this.zone.map.mapName);
-            System.out.println("Boss: " + this.name + " xuất hiện mapId: " + this.zone.map.mapId + " zone: " + this.zone.zoneId);
-            createCopy(this);
-        }
-    }
-
-    protected void createCopy(Boss boss) {
-        Boss omega = new OmegaPlusDouble();
-        omega.zone = boss.zone;
-        omega.joinMap();
     }
 
     @Override
