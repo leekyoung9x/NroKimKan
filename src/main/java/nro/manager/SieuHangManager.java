@@ -86,7 +86,7 @@ public class SieuHangManager {
         CallableStatement ps = null;
         try {
             con = DBService.gI().getConnection();
-            String sql = "{CALL Proc_Update_BXH_New_Day_Super(?, ?)}";
+            String sql = "{CALL Proc_Update_BXH_New_Day_Super()}";
             ps = con.prepareCall(sql);
 
             ps.executeQuery();
