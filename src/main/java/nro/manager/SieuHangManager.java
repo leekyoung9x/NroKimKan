@@ -13,10 +13,12 @@ import nro.models.player.*;
 import nro.models.sieu_hang.SieuHangModel;
 import nro.models.skill.Skill;
 import nro.models.top.whis.TopWhisModel;
+import nro.server.io.Message;
 import nro.server.io.Session;
 import nro.services.ItemService;
 import nro.utils.Log;
 import nro.utils.SkillUtil;
+import nro.utils.Util;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.JSONValue;
@@ -57,6 +59,19 @@ public class SieuHangManager {
                 int ruby = GetRubyByRank(rank);
                 player.inventory.addRuby((int) ruby);
                 System.out.println("player sieu hang: " + player.name + " được cộng: " + ruby + " ruby" + " rank: " + rank);
+
+                try {
+                    Message msg = new Message(-43);
+                    msg.writer().writeByte(-1);
+                    msg.writer().writeByte(-1);
+                    msg.writer().writeByte(-1);
+                    msg.writer().writeUTF("Bạn xếp hạng thứ " + rank + " giải siêu hạng và nhận được phần thưởng là " + Util.numberToMoney(ruby) + " hồng ngọc");
+                    player.sendMessage(msg);
+                    msg.cleanup();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+
                 UpdateIsGetReward(player.id);
             }
             if (rank == 1) {
