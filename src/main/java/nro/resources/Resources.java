@@ -22,10 +22,10 @@ import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
+
 import nro.utils.FileIO;
 
 /**
- *
  * @Build by Arriety
  */
 public class Resources {
@@ -322,10 +322,14 @@ public class Resources {
             if (mob != null) {
                 msg = new Message(11);
 
-                msg.writer().writeByte(id);
+                if (id < 82) {
+                    msg.writer().writeByte(id);
+                }
+
                 if (id == 82) {
                     msg.writer().writeByte(0);
                 }
+
                 msg.writer().write(mob);
                 session.sendMessage(msg);
                 msg.cleanup();
