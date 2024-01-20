@@ -53,6 +53,8 @@ public class OmegaPlus extends Boss {
                 Service.getInstance().sendThongBao(player, "Bạn nhận được " + tv.template.name);
             }
         }
+
+        playerAttack = new ArrayList<>();
     }
 
     @Override
