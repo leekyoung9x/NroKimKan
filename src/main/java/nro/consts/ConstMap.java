@@ -162,4 +162,6 @@ public class ConstMap {
     public static final int BIA_RUNG_NGUYEN_THUY = 161;
     public static final int RUNG_NGUYEN_THUY = 162;
     public static final int LANG_PLANT_NGUYEN_THUY = 163;
+    public static final int DIA_NGUC_ONE = 208;
+    public static final int DIA_NGUC_TWO = 211;
 }

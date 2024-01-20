@@ -40,7 +40,7 @@ public class SieuHangManager {
             result = 10000;
         } else if (rank > 10 && rank <= 20) {
             result = 7000;
-        } else if (rank > 20 && rank <= 100) {
+        } else if (rank > 20 && rank <= 30) {
             result = 5000;
         }
 
@@ -49,7 +49,7 @@ public class SieuHangManager {
 
     public static void GetRewardDay(Player player) {
         int rank = GetRankById(player.id);
-        if (rank > 0 && rank <= 20) {
+        if (rank > 0 && rank <= 30) {
             if (CanGetRewardDay(player.id)) {
                 int ruby = GetRubyByRank(rank);
                 player.inventory.addRuby((int) ruby);
