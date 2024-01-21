@@ -13,7 +13,7 @@ import nro.utils.Util;
 public class DraculaHutMau extends Boss {
 
     public DraculaHutMau() {
-        super(BossFactory.DRACULA_HUT_MAU, BossData.SATAN_KING);
+        super(BossFactory.DRACULA_HUT_MAU, BossData.DRACULA_HUT_MAU);
     }
 
     protected DraculaHutMau(byte id, BossData bossData) {
