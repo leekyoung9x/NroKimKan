@@ -392,6 +392,11 @@ public class MapService {
         return mapId >= 63 && mapId <= 83;
     }
 
+    public boolean isMapDiaNguc(Map map) {
+        int mapId = map.mapId;
+        return mapId >= 206 && mapId <= 211;
+    }
+
     public boolean isMapCold(Map map) {
         int mapId = map.mapId;
         return mapId >= 105 && mapId <= 110;

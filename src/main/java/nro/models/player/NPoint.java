@@ -154,6 +154,7 @@ public class NPoint {
 
     public boolean wearingVoHinh;
     public boolean isKhongLanh;
+    public boolean isKhongAnhHuongBoiLoiNguyen;
 
     public short tlHpGiamODo;
 
@@ -371,6 +372,8 @@ public class NPoint {
                 break;
             case 195:
                 this.tlDameChuong = 4;
+            case 231:
+                this.isKhongAnhHuongBoiLoiNguyen = false;
                 break;
         }
     }
@@ -673,6 +676,10 @@ public class NPoint {
         if (TopWhis.TOP_TWO == player.id) {
             hpMax += calPercent(hpMax, 3);
         }
+        if (this.player.zone != null && MapService.gI().isMapDiaNguc(this.player.zone.map)
+                && !this.isKhongAnhHuongBoiLoiNguyen) {
+            this.hpMax /= 3;
+        }
     }
 
     // (hp sư phụ + hp đệ tử ) + 15%
@@ -798,7 +805,10 @@ public class NPoint {
         if (TopWhis.TOP_TWO == player.id) {
             mpMax += calPercent(mpMax, 3);
         }
-
+        if (this.player.zone != null && MapService.gI().isMapDiaNguc(this.player.zone.map)
+                && !this.isKhongAnhHuongBoiLoiNguyen) {
+            this.mpMax /= 3;
+        }
     }
 
     private void setMp() {
@@ -914,7 +924,10 @@ public class NPoint {
         if (TopWhis.TOP_TWO == player.id) {
             this.dame += calPercent(this.dame, 3);
         }
-
+        if (this.player.zone != null && MapService.gI().isMapDiaNguc(this.player.zone.map)
+                && !this.isKhongAnhHuongBoiLoiNguyen) {
+            this.dame /= 3;
+        }
     }
 
     private void setDef() {
