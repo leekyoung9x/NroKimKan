@@ -32,7 +32,7 @@ public class Trinova extends Npc {
             if (!TaskService.gI().checkDoneTaskTalkNpc(player, this)) {
                 this.createOtherMenu(player, ConstNpc.BASE_MENU,
                         "|8|SERVER NRO KIMKAN\n|2|Build Server: Arriety Béo\n|2|CEO, CCO, CMO, CHRO, CFO, CPO, KOL, DEV: Put đẹp trai"
-                        + "\n|8|GIFTCODE: caitrang vatpham linhthu ngocrong saophale kimkan kichoat\n|8|phudeptrai hello ",
+                        + "\n|8|GIFTCODE: caitrang vatpham linhthu ngocrong saophale kimkan kichoat\n|8|phudeptrai hello tuanbeo bongcuoi bomong lixi2024 ",
                         // Server đang " + Client.gI().getPlayers().size() + " người Online"
                         "Nhận quà\nMiễn phí",
                         "Nhận Vàng\nVô hạn",

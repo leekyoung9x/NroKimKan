@@ -290,12 +290,7 @@ public class UseItem {
                             Input.gI().createFormTangRuby(pl);
                             break;
                         case 2052:
-                            if (pl.pet != null) {
-                                PetService.gI().createBlackPet(pl, pl.gender);
-                                InventoryService.gI().subQuantityItemsBag(pl, item, 1);
-                            } else {
-                                Service.getInstance().sendThongBao(pl, "Bạn đã có để tử rồi");
-                            }
+                            UseItem.gI().blackGoku(pl);
                             break;
                         case 2020: //phiếu cải trang 20/10
                             openbox2010(pl, item);
@@ -322,6 +317,9 @@ public class UseItem {
                         case 211: //nho tím
                         case 212: //nho xanh
                             eatGrapes(pl, item);
+                            break;
+                        case ConstItem.CAPSULE_VANG://574
+                            openboxsukien(pl, item, 11);
                             break;
                         case 380: //cskb
                             openCSKB(pl, item);
@@ -356,7 +354,9 @@ public class UseItem {
                         case 921: //bông tai c2
                             UseItem.gI().usePorata2(pl);
                             break;
-
+                        case 1995:// bong tai
+                            usePorata3(pl);
+                            break;
                         case 193: //gói 10 viên capsule
                             InventoryService.gI().subQuantityItemsBag(pl, item, 1);
                         case 194: //capsule đặc biệt
@@ -1573,35 +1573,38 @@ public class UseItem {
                         Service.getInstance().sendThongBao(pl, "Hàng trang đã đầy");
                     }
                     break;
-                case 9:
+                case 9:// hop con mew
                     if (InventoryService.gI().getCountEmptyBag(pl) > 0) {
                         short[] icon = new short[2];
                         icon[0] = item.template.iconID;
                         int tempID;
                         if (Util.isTrue(10, 100)) {
-                            tempID = Util.getOne(1202, 1203);
+                            tempID = 1253;
                         } else if (Util.isTrue(20, 100)) {
-                            tempID = 2052;
-                        } else if (Util.isTrue(26, 100)) {
-                            tempID = 1143;
-                        } else if (Util.isTrue(30, 70)) {
                             tempID = 861;
+                        } else if (Util.isTrue(26, 100)) {
+                            tempID = 869;
+                        } else if (Util.isTrue(20, 100)) {
+                            tempID = 2011;
                         } else {
-                            tempID = 457;
+                            tempID = 2012;
                         }
                         Item it = ItemService.gI().createNewItem((short) tempID);
                         switch (tempID) {
-                            case 1202:
-                            case 1203:
-                                it.itemOptions.add(new ItemOption(50, Util.nextInt(14, 17)));
-                                it.itemOptions.add(new ItemOption(77, 13));
-                                it.itemOptions.add(new ItemOption(103, 17));
-                                break;
-                            case 457:
-                                it.quantity = Util.nextInt(1, 5);
+                            case 1253:
+                                it.itemOptions.add(new ItemOption(50, 20));
+                                it.itemOptions.add(new ItemOption(77, 20));
+                                it.itemOptions.add(new ItemOption(103, 20));
                                 break;
                             case 861:
                                 it.quantity = Util.nextInt(1, 5000);
+                                break;
+                            case 869:
+                                it.quantity = Util.nextInt(1, 4);
+                                break;
+                            case 2011:
+                            case 2012:
+                                it.quantity = Util.nextInt(1, 2);
                                 break;
                         }
                         icon[1] = it.template.iconID;
@@ -1655,6 +1658,56 @@ public class UseItem {
                                 break;
                             case 638:
                                 it.quantity = Util.nextInt(1, 2);
+                                break;
+                        }
+                        icon[1] = it.template.iconID;
+                        InventoryService.gI().subQuantityItemsBag(pl, item, 1);
+                        CombineServiceNew.gI().sendEffectOpenItem(pl, icon[0], icon[1]);
+                        InventoryService.gI().addItemBag(pl, it, 0);
+                        InventoryService.gI().sendItemBags(pl);
+                        break;
+                    } else {
+                        Service.getInstance().sendThongBao(pl, "Hàng trang đã đầy");
+                    }
+                    break;
+                case 11:
+                    if (InventoryService.gI().getCountEmptyBag(pl) > 0) {
+                        short[] icon = new short[2];
+                        icon[0] = item.template.iconID;
+                        int tempID;
+                        if (Util.isTrue(10, 100)) {
+                            tempID = 2061;// cai trang
+                        } else if (Util.isTrue(2, 90)) {
+                            tempID = 2058;// mew
+                        } else if (Util.isTrue(26, 100)) {
+                            tempID = 2053;// kiem
+                        } else if (Util.isTrue(30, 100)) {
+                            tempID = 861;
+                        } else if (Util.isTrue(3, 70)) {
+                            tempID = 869;
+                        } else {
+                            tempID = Util.nextInt(1150, 1153);
+                        }
+                        Item it = ItemService.gI().createNewItem((short) tempID);
+                        switch (tempID) {
+                            case 2053:
+                                it.itemOptions.add(new ItemOption(50, 5));
+                                it.itemOptions.add(new ItemOption(21, 110));
+                                break;
+                            case 2061:
+                                it.itemOptions.add(new ItemOption(50, 50));
+                                it.itemOptions.add(new ItemOption(77, 50));
+                                it.itemOptions.add(new ItemOption(103, 50));
+                                it.itemOptions.add(new ItemOption(93, Util.nextInt(1, 7)));
+                                it.itemOptions.add(new ItemOption(231, 0));
+                                break;
+                            case 2058:
+                                it.itemOptions.add(new ItemOption(50, 20));
+                                it.itemOptions.add(new ItemOption(77, 20));
+                                it.itemOptions.add(new ItemOption(103, 20));
+                                break;
+                            case 869:
+                                it.quantity = Util.nextInt(1, 4);
                                 break;
                         }
                         icon[1] = it.template.iconID;
@@ -2049,6 +2102,18 @@ public class UseItem {
         }
     }
 
+    private void usePorata3(Player pl) {
+        if (pl.pet == null || pl.fusion.typeFusion == 4 || pl.fusion.typeFusion == 6 || pl.fusion.typeFusion == 12) {
+            Service.getInstance().sendThongBao(pl, "Không thể thực hiện");
+        } else {
+            if (pl.fusion.typeFusion == ConstPlayer.NON_FUSION) {
+                pl.pet.fusion3(true);
+            } else {
+                pl.pet.unFusion();
+            }
+        }
+    }
+
     private void openCapsuleUI(Player pl) {
         if (pl.isHoldNamecBall) {
             NamekBallWar.gI().dropBall(pl);
@@ -2131,10 +2196,18 @@ public class UseItem {
     }
 
     private void hopQuaKichHoat(Player player, Item item) {
-        NpcService.gI().createMenuConMeo(player, ConstNpc.MENU_OPTION_USE_ITEM1105, -1, "Chọn hành tinh của mày đi",
+        NpcService.gI().createMenuConMeo(player,
+                ConstNpc.MENU_OPTION_USE_ITEM1105, -1, "Chọn hành tinh của mày đi",
                 "Set trái đất",
                 "Set namec",
                 "Set xayda",
                 "Từ chổi");
     }
+
+    private void blackGoku(Player player) {
+        NpcService.gI().createMenuConMeo(player,
+                ConstNpc.MENU_USE_ITEM_BLACK_GOKU, -1, "Bạn có chắc chắn muốn sở hữu đệ tử Black Goku không?",
+                "Đồng ý");
+    }
+
 }

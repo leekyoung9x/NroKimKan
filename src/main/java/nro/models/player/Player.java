@@ -436,14 +436,27 @@ public class Player {
         {380, 381, 382},//ht lưỡng long nhất thể xayda trái đất
         {383, 384, 385},//ht porata xayda trái đất
         {391, 392, 393},//ht namếc
+
         {870, 871, 872},//ht c2 trái đất
         {873, 874, 875},//ht c2 namếc
-        {867, 868, 869}//ht c2 xayda
+        {867, 868, 869},//ht c2 xayda
+
+        {1332, 1333, 1334},//ht c3 trái đất
+        {1329, 1330, 1331},//ht c3 namếc
+        {1335, 1336, 1337}//ht c3 xayda
     };
 
     public byte getEffFront() {
         if (this.inventory.itemsBody.isEmpty() || this.inventory.itemsBody.size() < 10) {
             return -1;
+        }
+        Item caitrang = this.inventory.itemsBody.get(5);
+        if (!caitrang.isNotNullItem()) {
+            return -1;
+        }
+        switch (caitrang.template.id) {
+            case 2061:
+                return 8;
         }
         int[] levels = new int[5];
         ItemOption[] options = new ItemOption[5];
@@ -477,12 +490,10 @@ public class Player {
         } else {
             return -1;
         }
+
     }
 
     public byte getAura() {
-        if (Manager.TOP_PLAYERS.contains(this.name)) {
-            return 1;
-        }
         CollectionBook book = getCollectionBook();
         if (book != null) {
             Card card = book.getCards().stream().filter(t -> t.isUse() && t.getCardTemplate().getAura() != -1).findAny().orElse(null);
@@ -532,6 +543,8 @@ public class Player {
                 return idOutfitFusion[this.gender == ConstPlayer.NAMEC ? 2 : 1][0];
             } else if (fusion.typeFusion == ConstPlayer.HOP_THE_PORATA2) {
                 return idOutfitFusion[3 + this.gender][0];
+            } else if (fusion.typeFusion == ConstPlayer.HOP_THE_PORATA3) {
+                return idOutfitFusion[6 + this.gender][0];
             }
         } else if (inventory != null && inventory.itemsBody.get(5).isNotNullItem()) {
             CaiTrang ct = Manager.getCaiTrangByItemId(inventory.itemsBody.get(5).template.id);
@@ -575,6 +588,8 @@ public class Player {
                 return idOutfitFusion[this.gender == ConstPlayer.NAMEC ? 2 : 1][1];
             } else if (fusion.typeFusion == ConstPlayer.HOP_THE_PORATA2) {
                 return idOutfitFusion[3 + this.gender][1];
+            } else if (fusion.typeFusion == ConstPlayer.HOP_THE_PORATA3) {
+                return idOutfitFusion[6 + this.gender][1];
             }
         } else if (inventory != null && inventory.itemsBody.get(5).isNotNullItem()) {
             CaiTrang ct = Manager.getCaiTrangByItemId(inventory.itemsBody.get(5).template.id);
@@ -625,6 +640,8 @@ public class Player {
                 return idOutfitFusion[this.gender == ConstPlayer.NAMEC ? 2 : 1][2];
             } else if (fusion.typeFusion == ConstPlayer.HOP_THE_PORATA2) {
                 return idOutfitFusion[3 + this.gender][2];
+            } else if (fusion.typeFusion == ConstPlayer.HOP_THE_PORATA3) {
+                return idOutfitFusion[6 + this.gender][2];
             }
         } else if (inventory != null && inventory.itemsBody.get(5).isNotNullItem()) {
             if (checkSkinFusion()) {

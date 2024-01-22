@@ -22,10 +22,10 @@ import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
-
 import nro.utils.FileIO;
 
 /**
+ *
  * @Build by Arriety
  */
 public class Resources {

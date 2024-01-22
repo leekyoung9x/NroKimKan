@@ -15,6 +15,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class SatanKing extends Boss {
+
     private List<Long> playerAttack;
 
     public SatanKing() {
@@ -38,7 +39,8 @@ public class SatanKing extends Boss {
 
             if (player != null) {
                 Item bdd = ItemService.gI().createNewItem((short) 2062);
-                InventoryService.gI().addItemBag(player, bdd, 1);
+                bdd.quantity = 10;
+                InventoryService.gI().addItemBag(player, bdd, 999);
 
                 InventoryService.gI().sendItemBags(player);
                 Service.getInstance().sendThongBao(player, "Bạn nhận được " + bdd.template.name);
@@ -120,7 +122,9 @@ public class SatanKing extends Boss {
                 damage = 1;
             }
 
-            if (damage > 10_000_000) damage = 10_000_000;
+            if (damage > 10_000_000) {
+                damage = 10_000_000;
+            }
 
             if (plAtt.getSession() != null && plAtt.isAdmin()) {
                 damage = this.nPoint.hpMax / 3;

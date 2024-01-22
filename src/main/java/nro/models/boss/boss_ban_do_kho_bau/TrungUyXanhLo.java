@@ -16,10 +16,6 @@ import nro.services.func.ChangeMapService;
 import nro.utils.Util;
 
 import java.util.List;
-import nro.models.item.ItemOption;
-import nro.models.map.ItemMap;
-import nro.models.player.Pet;
-import nro.services.Service;
 
 /**
  *
@@ -66,13 +62,6 @@ public class TrungUyXanhLo extends BossBanDoKhoBau {
     }
 
     @Override
-    public void rewards(Player plKill) {// 790 2040
-        this.dropItemReward(790, (int) plKill.id);
-        this.dropItemReward(2040, (int) plKill.id);
-        this.dropItemReward(2011, (int) plKill.id);
-    }
-
-    @Override
     protected boolean useSpecialSkill() {
         //boss này chỉ có chiêu thái dương hạ san
         this.playerSkill.skillSelect = this.getSkillSpecial();
@@ -90,7 +79,7 @@ public class TrungUyXanhLo extends BossBanDoKhoBau {
             this.zone = banDoKhoBau.getMapById(MapName.DONG_KHO_BAU);
             ChangeMapService.gI().changeMap(this, this.zone, 1065, this.zone.map.yPhysicInTop(1065, 0));
         } catch (Exception e) {
-
+            e.printStackTrace();
         }
     }
 

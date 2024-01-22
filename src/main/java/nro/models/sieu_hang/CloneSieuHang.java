@@ -66,7 +66,7 @@ public class CloneSieuHang extends Boss {
             return dame;
         }
     }
-
+    
     private Skill getSkill() {
         for (Skill skill : this.playerSkill.skills) {
             if (skill.template.id == Skill.KHIEN_NANG_LUONG) {
@@ -90,7 +90,7 @@ public class CloneSieuHang extends Boss {
                 if (playerAtt.typePk == ConstPlayer.NON_PK) {
                     return;
                 }
-
+                
                 this.playerSkill.skillSelect = this.getSkill();
 
                 if (!this.effectSkill.isShielding && SkillService.gI().canUseSkillWithCooldown(this) && SkillService.gI().canUseSkillWithMana(this)) {

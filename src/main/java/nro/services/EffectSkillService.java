@@ -54,7 +54,7 @@ public class EffectSkillService {
             Service.getInstance().sendMessAnotherNotMeInMap(player, msg);
             msg.cleanup();
         } catch (Exception e) {
-            Log.error(EffectSkillService.class, e);
+            e.printStackTrace();
         }
     }
 
@@ -74,7 +74,7 @@ public class EffectSkillService {
             Service.getInstance().sendMessAllPlayerInMap(plUseSkill, msg);
             msg.cleanup();
         } catch (Exception e) {
-            Log.error(EffectSkillService.class, e);
+            e.printStackTrace();
         }
     }
 
@@ -90,7 +90,7 @@ public class EffectSkillService {
             Service.getInstance().sendMessAllPlayerInMap(mobTarget.zone, msg);
             msg.cleanup();
         } catch (Exception e) {
-            Log.error(EffectSkillService.class, e);
+            e.printStackTrace();
         }
     }
 
@@ -190,7 +190,7 @@ public class EffectSkillService {
             msg.cleanup();
             mob.effectSkill.setSocola(System.currentTimeMillis(), timeSocola);
         } catch (Exception e) {
-            Log.error(EffectSkillService.class, e);
+            e.printStackTrace();
         }
     }
     //**************************************************************************
@@ -230,7 +230,7 @@ public class EffectSkillService {
         try {
             Thread.sleep(2000);
         } catch (InterruptedException ex) {
-            Logger.getLogger(EffectSkillService.class.getName()).log(Level.SEVERE, null, ex);
+            ex.printStackTrace();
         }
         int timeMonkey = SkillUtil.getTimeMonkey(player.playerSkill.skillSelect.point);
         if (player.setClothes.cadic2 == 5) {
@@ -319,7 +319,7 @@ public class EffectSkillService {
             Service.getInstance().sendMessAllPlayerInMap(plUseSkill, msg);
             msg.cleanup();
         } catch (Exception e) {
-            Log.error(EffectSkillService.class, e);
+            e.printStackTrace();
         }
     }
 
@@ -335,7 +335,7 @@ public class EffectSkillService {
             Service.getInstance().sendMessAllPlayerInMap(player, msg);
             msg.cleanup();
         } catch (Exception e) {
-            Log.error(EffectSkillService.class, e);
+            e.printStackTrace();
         }
     }
 
@@ -351,7 +351,7 @@ public class EffectSkillService {
             Service.getInstance().sendMessAllPlayerInMap(player, msg);
             msg.cleanup();
         } catch (Exception e) {
-            Log.error(EffectSkillService.class, e);
+            e.printStackTrace();
         }
     }
 
@@ -365,7 +365,7 @@ public class EffectSkillService {
             Service.getInstance().sendMessAllPlayerInMap(player, msg);
             msg.cleanup();
         } catch (Exception e) {
-            Log.error(EffectSkillService.class, e);
+            e.printStackTrace();
         }
     }
 
@@ -380,7 +380,7 @@ public class EffectSkillService {
             Service.getInstance().sendMessAllPlayerInMap(player, msg);
             msg.cleanup();
         } catch (Exception e) {
-            Log.error(EffectSkillService.class, e);
+            e.printStackTrace();
         }
     }
 
@@ -400,7 +400,7 @@ public class EffectSkillService {
             Service.getInstance().sendMessAllPlayerInMap(player, msg);
             msg.cleanup();
         } catch (Exception e) {
-            Log.error(EffectSkillService.class, e);
+            e.printStackTrace();
         }
     }
 }

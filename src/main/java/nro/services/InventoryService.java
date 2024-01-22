@@ -229,7 +229,7 @@ public class InventoryService {
     }
 
     private boolean isItemIncremental(Item item) { //item cộng dồn số lượng
-        if (item.template.id == 454 || item.template.id == 921) {
+        if (item.template.id == 454 || item.template.id == 921 || item.template.id == 1995) {
             return false;
         }
         switch (item.template.type) {

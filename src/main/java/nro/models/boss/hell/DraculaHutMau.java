@@ -29,7 +29,8 @@ public class DraculaHutMau extends Boss {
     public void rewards(Player plKill) {
         if (plKill != null) {
             Item bdd = ItemService.gI().createNewItem((short) 2062);
-            InventoryService.gI().addItemBag(plKill, bdd, Util.nextInt(5));
+            bdd.quantity = Util.nextInt(1, 10);
+            InventoryService.gI().addItemBag(plKill, bdd, 9999);
 
             InventoryService.gI().sendItemBags(plKill);
             Service.getInstance().sendThongBao(plKill, "Bạn nhận được " + bdd.template.name);

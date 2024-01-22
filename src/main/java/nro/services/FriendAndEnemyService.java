@@ -298,7 +298,7 @@ public class FriendAndEnemyService {
                             53, 54, 55, 56, 57,
                             58, 59, 60, 61, 62,
                             160, 161, 162, 163, 164,
-                            124, 125, 126, 127, 128, 155);
+                            124, 125, 126, 127, 128, 155, 206, 207, 208, 209, 210, 211);
                     if (clone.contains(mapid)) {
                         Service.getInstance().sendThongBao(player, "Tele cái máu nhoàn");
                         return;

@@ -11,11 +11,8 @@ import nro.models.map.Zone;
 import nro.models.map.challenge.MartialCongressService;
 import nro.models.player.Player;
 import nro.models.skill.Skill;
-import nro.server.io.Message;
 import nro.services.*;
 import nro.services.func.ChangeMapService;
-import nro.utils.Log;
-import nro.utils.SkillUtil;
 import nro.utils.Util;
 
 import java.util.List;
@@ -137,14 +134,13 @@ public class SieuHang {
     public static BossData getBossDataFromPlayer(Player pl) {
         List<Skill> skills = pl.playerSkill.skills.stream().filter(s -> s != null && (s.point > 0 || s.template.id == Skill.KHIEN_NANG_LUONG)).toList();
         int[][] skillTemp = new int[skills.size()][3];
-
         for (byte i = 0; i < skills.size(); i++) {
             Skill skill = skills.get(i);
             skillTemp[i][0] = skill.template.id;
-            skillTemp[i][1] = skill.point == 0 ? 7 : skill.point;
+//            skillTemp[i][1] = skill.point == 0 ? 7 : skill.point;
+            skillTemp[i][1] = 7;
             skillTemp[i][2] = skill.coolDown;
         }
-
         BossData boss = new BossData(
                 pl.name, //name
                 pl.gender, //gender

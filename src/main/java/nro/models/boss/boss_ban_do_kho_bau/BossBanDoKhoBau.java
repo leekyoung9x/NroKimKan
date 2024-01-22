@@ -80,11 +80,9 @@ public abstract class BossBanDoKhoBau extends Boss {
 
     @Override
     public void rewards(Player pl) {
-        int[] nro = {17, 18, 19, 20 , 539};
-        ItemMap itemMap = new ItemMap(this.zone, nro[Util.nextInt(0, nro.length - 1)], 1,
-                this.location.x, this.zone.map.yPhysicInTop(this.location.x, 100), -1);
-        itemMap.options.add(new ItemOption(73, 0));
-        Service.getInstance().dropItemMap(this.zone, itemMap);
+        this.dropItemReward(2040, (int) pl.id);
+        this.dropItemReward(2040, (int) pl.id);
+        this.dropItemReward(2011, (int) pl.id);
     }
 
     @Override

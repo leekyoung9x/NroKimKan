@@ -343,6 +343,19 @@ public class NpcFactory {
                             player.setConfirmDialog(null);
                         }
                         break;
+                    case ConstNpc.MENU_USE_ITEM_BLACK_GOKU:
+                        switch (select) {
+                            case 0:
+                                Item capsule = InventoryService.gI().findItemBag(player, 2052);
+                                if (capsule == null) {
+                                    Service.getInstance().sendThongBao(player, "Item null");
+                                    break;
+                                }
+                                PetService.gI().createBlackPet(player, player.gender);
+                                InventoryService.gI().subQuantityItemsBag(player, capsule, 1);
+                                break;
+                        }
+                        break;
                     case ConstNpc.MENU_OPTION_USE_ITEM1105:
                         switch (select) {
                             case 0:

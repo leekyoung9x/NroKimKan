@@ -1,6 +1,5 @@
 package nro.services;
 
-import nro.consts.ConstMap;
 import nro.consts.ConstMob;
 import nro.consts.ConstTask;
 import nro.models.boss.BossFactory;
@@ -16,6 +15,7 @@ import nro.utils.Util;
 
 import java.util.ArrayList;
 import java.util.List;
+import nro.consts.ConstMap;
 
 /**
  * @Build by Arriety
@@ -66,7 +66,6 @@ public class MobService {
             msg.cleanup();
             hutItem(plKill, items);
         } catch (Exception e) {
-//            Logger.logException(MobService.class, e);
             e.printStackTrace();
         }
     }
@@ -212,6 +211,12 @@ public class MobService {
         mob.point.maxHp = level * 9472 * mob.level * 2 + level * 4263 * mob.tempId;
     }
 
+//    public static void main(String[] args) {
+//        int level = 110;
+//        int tn = 100;
+//        tn += (level / 5 * 50);
+//        System.out.println(tn);
+//    }
     public void dropItemTask(Player player, Mob mob) {
         ItemMap itemMap = null;
         switch (mob.tempId) {
@@ -222,17 +227,22 @@ public class MobService {
                     itemMap = new ItemMap(mob.zone, 73, 1, mob.location.x, mob.location.y, player.id);
                 }
                 break;
-        }
-
-        switch (player.zone.map.mapId) {
-            case ConstMap.DIA_NGUC_ONE:
-            case ConstMap.DIA_NGUC_TWO: {
+            case 88:
+            case 89:
                 if (Util.isTrue(1, 100)) {
                     itemMap = new ItemMap(mob.zone, 1098, 1, mob.location.x, mob.location.y, player.id);
                 }
-            }
+                break;
         }
 
+//        switch (player.zone.map.mapId) {
+//            case ConstMap.DIA_NGUC_ONE:
+//            case ConstMap.DIA_NGUC_TWO: {
+//                if (Util.isTrue(1, 100)) {
+//                    itemMap = new ItemMap(mob.zone, 1098, 1, mob.location.x, mob.location.y, player.id);
+//                }
+//            }
+//        }
         if (itemMap != null) {
             Service.getInstance().dropItemMap(mob.zone, itemMap);
         }

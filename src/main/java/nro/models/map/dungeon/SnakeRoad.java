@@ -197,17 +197,12 @@ public class SnakeRoad extends Dungeon {
                 }
             }
             if (level >= 110) {
-                int num = Util.nextInt(2, 6);
-                for (int i = 0; i < num; i++) {
-
-                    ItemMap da = new ItemMap(r, 790, 1, 250 + (i * 20), 312, -1);
-                    ItemMap item = new ItemMap(r, 2012, 1, 250 + (i * 20), 312, -1);
-
-                    ItemMap gay = new ItemMap(r, 2040, 1, 250 + (i * 20), 312, -1);
-                    Service.getInstance().dropItemMap(r, da);
-                    Service.getInstance().dropItemMap(r, gay);
-                    Service.getInstance().dropItemMap(r, item);
-                }
+                ItemMap da = new ItemMap(r, 2040, 1, 530, 312, -1);
+                ItemMap item = new ItemMap(r, 2012, 1, 531, 312, -1);
+                ItemMap gay = new ItemMap(r, 2040, 1, 532, 312, -1);
+                Service.getInstance().dropItemMap(r, da);
+                Service.getInstance().dropItemMap(r, gay);
+                Service.getInstance().dropItemMap(r, item);
             }
         }
     }

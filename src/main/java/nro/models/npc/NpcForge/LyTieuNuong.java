@@ -13,6 +13,7 @@ import nro.models.player.Player;
 import nro.services.InventoryService;
 import nro.services.ItemService;
 import nro.services.Service;
+import nro.utils.Util;
 
 /**
  *
@@ -31,10 +32,11 @@ public class LyTieuNuong extends Npc {
                     "Xin chào, tôi có 1 sự kiện đặc biệt bạn có muốn tham gia không?\n"
                     + "Số tiền nạp tích lũy của bạn hiện tại là: ["
                     + player.getSession().poinCharging + "]",
-                    "1 hộp quà\n[10.000 điểm]\nSkien Mèo",
-                    "12 hộp quà\n[100.000 điểm]\nSkien Mèo",
+                    "1 hộp quà\n[10.000 điểm]\nSkien New",
+                    "12 hộp quà\n[100.000 điểm]\nSkien New",
                     "1 hộp quà\n[10.000 điểm]",
-                    "12 hộp quà\n[100.000 điểm]");
+                    "12 hộp quà\n[100.000 điểm]"
+            );
         }
     }
 

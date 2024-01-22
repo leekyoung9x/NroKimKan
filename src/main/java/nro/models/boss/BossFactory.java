@@ -5,6 +5,7 @@ import nro.consts.ConstMap;
 import nro.consts.ConstPlayer;
 import nro.models.boss.NgucTu.Cumber;
 import nro.models.boss.NgucTu.SuperCumber;
+import nro.models.boss.Omega.OmegaPlus;
 import nro.models.boss.baconsoi.Basil;
 import nro.models.boss.baconsoi.Bergamo;
 import nro.models.boss.baconsoi.Lavender;
@@ -23,9 +24,9 @@ import nro.models.boss.event.noel.NoelBossTwo;
 import nro.models.boss.fide.*;
 import nro.models.boss.halloween.BoXuong;
 import nro.models.boss.halloween.MaTroi;
+import nro.models.boss.hell.DraculaHutMau;
 import nro.models.boss.hell.SatanKing;
 import nro.models.boss.list_boss.NhanBan;
-import nro.models.boss.list_boss.OmegaPlus;
 import nro.models.boss.list_boss.Raity;
 import nro.models.boss.list_boss.WhisTop;
 import nro.models.boss.mabu_war.*;
@@ -195,6 +196,7 @@ public class BossFactory {
 
     public static final int CLONE_NHAN_BAN = -136;
     public static final int OMEGA_PLUS = -137;
+
     public static final int OMEGA_PLUS_DOUBLE = -138;
     public static final int SATAN_KING = -139;
     public static final int DRACULA_HUT_MAU = -140;
@@ -222,27 +224,28 @@ public class BossFactory {
     public static void initBoss() {
         new Thread(() -> {
             try {
-//                createBoss(BASIL);
-//                createBoss(CUMBER);
-//                createBoss(BLACKGOKU);
-//                createBoss(CHILL);
-//                createBoss(WHIS);
-//                createBoss(COOLER);
-//                createBoss(XEN_BO_HUNG);
-//                createBoss(KUKU);
-//                createBoss(MAP_DAU_DINH);
-//                createBoss(RAMBO);
-//                createBoss(TIEU_DOI_TRUONG);
-//                createBoss(FIDE_DAI_CA_1);
-//                createBoss(ANDROID_20);
-//                createBoss(KINGKONG);
-//                createBoss(XEN_BO_HUNG_1);
-//                createBoss(OMEGA_PLUS);
-//                createBoss(SANTA_CLAUS);
+                createBoss(BASIL);
+                createBoss(CUMBER);
+                createBoss(BLACKGOKU);
+                createBoss(CHILL);
+                createBoss(WHIS);
+                createBoss(COOLER);
+                createBoss(XEN_BO_HUNG);
+                createBoss(KUKU);
+                createBoss(MAP_DAU_DINH);
+                createBoss(RAMBO);
+                createBoss(TIEU_DOI_TRUONG);
+                createBoss(FIDE_DAI_CA_1);
+                createBoss(ANDROID_20);
+                createBoss(KINGKONG);
+                createBoss(XEN_BO_HUNG_1);
+                createBoss(OMEGA_PLUS);
+                createBoss(DRACULA_HUT_MAU);
                 createBoss(SATAN_KING);
-//                for (int i = 0; i < 20; i++) {
-//                    createBoss(BROLY);
-//                }
+                createBoss(SANTA_CLAUS);
+                for (int i = 0; i < 20; i++) {
+                    createBoss(BROLY);
+                }
             } catch (Exception e) {
                 logger.error("Err initboss", e);
             }
@@ -378,6 +381,12 @@ public class BossFactory {
             case SO3:
                 boss = new So3();
                 break;
+            case DRACULA_HUT_MAU:
+                boss = new DraculaHutMau();
+                break;
+            case SATAN_KING:
+                boss = new SatanKing();
+                break;
             case OMEGA_PLUS:
                 boss = new OmegaPlus();
                 break;
@@ -437,9 +446,6 @@ public class BossFactory {
                 break;
             case FIDEGOLD:
                 boss = new FideGold();
-                break;
-            case SATAN_KING:
-                boss = new SatanKing();
                 break;
         }
         return boss;

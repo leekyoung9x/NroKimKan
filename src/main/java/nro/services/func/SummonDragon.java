@@ -89,8 +89,8 @@ public class SummonDragon {
             + "\n 2) 5k hồng ngọc"
             + "\n 3) Đổi skill 2-3 Đệ tử"
             + "\n 4) Đổi skill 3-4 Đệ tử"
-            + "\n 5) Tăng 10% Sức đánh trong trạng thái hợp thể trong 30p"
-            + "\n 6) Tăng 10% Hp,Ki trong trạng thái hợp thể trong 30p";
+            + "\n 5) Tăng 5% Sức đánh trong trạng thái hợp thể trong 30p"
+            + "\n 6) Tăng 5% Hp,Ki trong trạng thái hợp thể trong 30p";
 
     public static final String[] ICE_SHENRON_WISHES = new String[]{"Điều\nước 1", "Điều\nước 2", "Điều\nước 3", "Điều\nước 4", "Điều\nước 5", "Điều\nước 6"};
 

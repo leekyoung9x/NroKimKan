@@ -78,7 +78,6 @@ public class Blackgoku extends Boss {
                     goToXY(pl.location.x + (Util.getOne(-1, 1) * Util.nextInt(20, 80)),
                             Util.nextInt(10) % 2 == 0 ? pl.location.y : pl.location.y - Util.nextInt(0, 50), false);
                 }
-                this.effectCharger();
                 try {
                     SkillService.gI().useSkill(this, pl, null);
                 } catch (Exception e) {
@@ -132,11 +131,6 @@ public class Blackgoku extends Boss {
         super.goToXY(x, y, isTeleport);
     }
 
-    protected void effectCharger() {
-        if (Util.isTrue(15, ConstRatio.PER100)) {
-            EffectSkillService.gI().sendEffectCharge(this);
-        }
-    }
 
     private boolean isInListPlayersAttack(Player player) {
         for (Player pl : playersAttack) {

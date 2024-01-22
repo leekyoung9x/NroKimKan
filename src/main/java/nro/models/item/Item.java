@@ -168,7 +168,7 @@ public class Item {
     }
     
     public boolean isItemFlagBagPet(){
-        return this.template.id == 1197;
+        return this.template.id == 1197 || this.template.id == 2053;
     }
 
     public boolean isDHD() {

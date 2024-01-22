@@ -47,7 +47,6 @@ public class AccountDAO {
             try {
                 ps.close();
             } catch (SQLException ex) {
-//                java.util.logging.Logger.getLogger(AccountDAO.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
     }

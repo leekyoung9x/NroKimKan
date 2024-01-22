@@ -48,14 +48,12 @@ public class SieuHangService {
                     thuong = 15000;
                 } else if (top.rank >= 3 && top.rank < 10) {
                     thuong = 10000;
-                } else if (top.rank >= 10 && top.rank < 20) {
+                } else if (top.rank >= 10 && top.rank < 30) {
                     thuong = 7000;
-                } else if (top.rank >= 20 && top.rank <= 100) {
-                    thuong = 5000;
-                } else {
+                }  else {
                     thuong = 1;
                 }
-                if (top.rank <= 100) {
+                if (top.rank <= 30) {
                     msg.writer().writeUTF("+" + thuong + " ngọc/ ngày");
                 } else {
                     msg.writer().writeUTF("");

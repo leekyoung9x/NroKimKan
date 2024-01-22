@@ -6,17 +6,17 @@ import nro.card.Card;
 import nro.card.CollectionBook;
 import nro.consts.ConstPlayer;
 import nro.jdbc.DBService;
+import nro.jdbc.daos.AccountDAO;
 import nro.models.item.Item;
 import nro.models.item.ItemOption;
 import nro.models.player.*;
 import nro.models.sieu_hang.SieuHangModel;
 import nro.models.skill.Skill;
-import nro.server.io.Message;
+import nro.models.top.whis.TopWhisModel;
+import nro.server.io.Session;
 import nro.services.ItemService;
-import nro.services.Service;
 import nro.utils.Log;
 import nro.utils.SkillUtil;
-import nro.utils.Util;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.JSONValue;
@@ -25,6 +25,9 @@ import java.sql.*;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
+import nro.server.io.Message;
+import nro.services.Service;
+import nro.utils.Util;
 
 public class SieuHangManager {
 
@@ -43,7 +46,6 @@ public class SieuHangManager {
         } else if (rank > 20 && rank <= 30) {
             result = 5000;
         }
-
         return result;
     }
 
@@ -73,7 +75,6 @@ public class SieuHangManager {
                 Service.getInstance().sendThongBaoAllPlayer("Chào mừng top 1 giải siêu hạng tên: " + player.name + " đã vào game!!");
             }
         }
-
     }
 
     public static int GetRankById(long player_id) {
@@ -271,7 +272,6 @@ public class SieuHangManager {
             while (rs.next()) {
                 result = rs.getInt("rank");
             }
-
             rs.close();
             ps.close();
         } catch (Exception e) {
@@ -569,10 +569,8 @@ public class SieuHangManager {
             try {
                 while (rs.next()) {
                     SieuHangModel sh = new SieuHangModel();
-
                     sh.player_id = rs.getInt("player_id");
                     sh.rank = rs.getInt("rank");
-
                     result.add(sh);
                 }
             } finally {
@@ -688,7 +686,6 @@ public class SieuHangManager {
 //            }
 //        }
 //    }
-
     public static void UpdatePedingFight() {
         Connection connection = null;
         Statement statement = null;

@@ -31,7 +31,7 @@ import nro.server.ServerNotify;
  */
 public class NPoint {
 
-    public static final byte MAX_LIMIT = 11;
+    public static final byte MAX_LIMIT = 10;
 
     private Player player;
     public boolean isCrit;
@@ -389,6 +389,9 @@ public class NPoint {
                     case ConstPlayer.HOP_THE_PORATA2:
                         idbt = 921;
                         break;
+                    case ConstPlayer.HOP_THE_PORATA3:
+                        idbt = 1995;
+                        break;
                 }
                 if (item.template.id == idbt) {
                     for (ItemOption io : item.itemOptions) {
@@ -580,12 +583,11 @@ public class NPoint {
                 this.hpMax += calPercent(this.hpMax, percent);
             }
         }
-        //pet mabư
         if (this.player.isPet) {
             int percent = ((Pet) this.player).getLever() * 3;
             if (((Pet) this.player).master.fusion.typeFusion == ConstPlayer.HOP_THE_PORATA
-                    || ((Pet) this.player).master.fusion.typeFusion == ConstPlayer.HOP_THE_PORATA2) {
-
+                    || ((Pet) this.player).master.fusion.typeFusion == ConstPlayer.HOP_THE_PORATA2
+                    || ((Pet) this.player).master.fusion.typeFusion == ConstPlayer.HOP_THE_PORATA3) {
                 switch (((Pet) this.player).typePet) {
                     case ConstPet.MABU:
                         this.hpMax += calPercent(this.hpMax, 5);
@@ -600,7 +602,7 @@ public class NPoint {
                         this.hpMax += calPercent(this.hpMax, 15);
                         break;
                     case ConstPet.WHIS:
-                        this.hpMax += calPercent(this.hpMax, 30);
+                        this.hpMax += calPercent(this.hpMax, 30 + percent);
                         break;
                 }
             }
@@ -706,11 +708,11 @@ public class NPoint {
         if (this.player.rewardBlackBall.timeOutOfDateReward[2] > System.currentTimeMillis()) {
             this.mpMax += calPercent(this.mpMax, RewardBlackBall.R3S);
         }
-        //pet mabư
         if (this.player.isPet) {
             int percent = ((Pet) this.player).getLever() * 3;
             if (((Pet) this.player).master.fusion.typeFusion == ConstPlayer.HOP_THE_PORATA
-                    || ((Pet) this.player).master.fusion.typeFusion == ConstPlayer.HOP_THE_PORATA2) {
+                    || ((Pet) this.player).master.fusion.typeFusion == ConstPlayer.HOP_THE_PORATA2
+                    || ((Pet) this.player).master.fusion.typeFusion == ConstPlayer.HOP_THE_PORATA3) {
                 if (this.player.itemTime != null && this.player.itemTime.rateHPKI) {
                     this.mpMax += calPercent(this.mpMax, 10);
                 }
@@ -728,7 +730,7 @@ public class NPoint {
                         this.mpMax += calPercent(this.mpMax, percent);
                         break;
                     case ConstPet.WHIS:
-                        this.mpMax += calPercent(this.mpMax, 30);
+                        this.mpMax += calPercent(this.mpMax, 30 + percent);
                         break;
                 }
             }
@@ -820,11 +822,11 @@ public class NPoint {
         for (Integer tl : this.tlSDDep) {
             this.dame += calPercent(this.dame, tl);
         }
-        //pet mabư
         if (this.player.isPet) {
             int percent = ((Pet) this.player).getLever() * 3;
             if (((Pet) this.player).master.fusion.typeFusion == ConstPlayer.HOP_THE_PORATA
-                    || ((Pet) this.player).master.fusion.typeFusion == ConstPlayer.HOP_THE_PORATA2) {
+                    || ((Pet) this.player).master.fusion.typeFusion == ConstPlayer.HOP_THE_PORATA2
+                    || ((Pet) this.player).master.fusion.typeFusion == ConstPlayer.HOP_THE_PORATA3) {
                 switch (((Pet) this.player).typePet) {
                     case ConstPet.MABU:
                         this.dame += calPercent(this.dame, 5);
@@ -835,17 +837,14 @@ public class NPoint {
                     case ConstPet.BILL:
                         this.dame += calPercent(this.dame, 15);
                         break;
-                    case ConstPet.VIDEL:
-                        this.dame += calPercent(this.dame, percent);
-                        break;
                     case ConstPet.WHIS:
-                        this.dame += calPercent(this.dame, 30);
+                        this.dame += calPercent(this.dame, 30 + percent);
                         break;
                 }
             }
         }
         if (this.player.itemTime != null && this.player.itemTime.rateDame) {
-            this.dame += calPercent(this.dame, 15);
+            this.dame += calPercent(this.dame, 5);
         }
         //thức ăn
         if (!this.player.isPet && this.player.itemTime.isEatMeal
@@ -862,7 +861,7 @@ public class NPoint {
         }
         //cuồng nộ 2
         if (this.player.itemTime != null && this.player.itemTime.isUseCuongNo2) {
-            this.dame += calPercent(dame, 120);
+            this.dame += calPercent(dame, 110);
         }
 
         if (this.player.itemTime != null && this.player.itemTime.isBanhTrungThu1Trung) {

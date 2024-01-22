@@ -186,6 +186,13 @@ public class RewardService {
                         }
                     }
                 }
+                if (mapid == 208) {
+                    if (Util.isTrue(100, 100)) {
+                        System.out.println("logggggggggggg");
+                        ItemMap itemMap = new ItemMap(mob.zone, 1098, 1, x, yEnd, player.id);
+                        list.add(itemMap);
+                    }
+                }
                 if (mapid == 153) {// map bang
                     if (player.clan != null && player.zone != null) {
                         int numMenber = player.zone.getPlayersSameClan(player.clan.id).size();

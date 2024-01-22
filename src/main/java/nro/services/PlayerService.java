@@ -224,7 +224,7 @@ public class PlayerService {
     private static final int COST_GOLD_HOI_SINH = 20_000_000;
 
     public void hoiSinh(Player player) {
-        if (player.isDie()) {
+        if (player.isDie() && player.zone != null) {
             if (MapService.gI().isMapMabuWar14H(player.zone.map.mapId)) {
                 Service.getInstance().sendThongBao(player, "You can not hoi sinh");
                 return;

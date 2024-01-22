@@ -32,7 +32,9 @@ public class BaHatMit extends Npc {
                             "Ép sao\ntrang bị",
                             "Pha lê\nhóa\ntrang bị",
                             "Nâng cấp\nĐệ tử Super",
-                            "Trade Black GâuKu"
+                            "Trade Black GâuKu",
+                            "Pha lê hóa\nKiếm Hasakii",
+                            "Hành tinh\nĐịa ngục"
                     );
                     break;
                 case 121:
@@ -47,7 +49,10 @@ public class BaHatMit extends Npc {
                             "Nâng cấp\nVật phẩm",
                             "Nâng cấp\nBông tai\nPorata",
                             "Nâng cấp\nChỉ số\nBông tai",
-                            "Nhập\nNgọc Rồng");
+                            "Nhập\nNgọc Rồng",
+                            "Nâng cấp\nBông tai\nPorata 3",
+                            "Mở\nChỉ số\nBông tai 3"
+                    );
                     break;
             }
         }
@@ -73,6 +78,16 @@ public class BaHatMit extends Npc {
                             case 3:
                                 CombineServiceNew.gI().openTabCombine(player, CombineServiceNew.TRADE_PET);
                                 break;
+                            case 4:
+                                CombineServiceNew.gI().openTabCombine(player, CombineServiceNew.PHA_LE_HOA_DISGUISE);
+                                break;
+                            case 5:
+                                if (player.playerTask.taskMain.id < 26) {
+                                    this.npcChat(player, "Vui lòng hoàn thành xong nhiệm vụ Xên bọ hung mới được vào map");
+                                    break;
+                                }
+                                ChangeMapService.gI().changeMap(player, 208, -1, 685, 432);
+                                break;
                         }
                     } else if (player.iDMark.getIndexMenu() == ConstNpc.MENU_PHA_LE_HOA_TRANG_BI) {
                         switch (select) {
@@ -88,6 +103,7 @@ public class BaHatMit extends Npc {
                             case CombineServiceNew.PHA_LE_HOA_TRANG_BI_X10:
                             case CombineServiceNew.UPGRADE_PET:
                             case CombineServiceNew.TRADE_PET:
+                            case CombineServiceNew.PHA_LE_HOA_DISGUISE:
                                 if (select == 0) {
                                     CombineServiceNew.gI().startCombine(player);
                                 }
@@ -131,6 +147,12 @@ public class BaHatMit extends Npc {
                                 CombineServiceNew.gI().openTabCombine(player,
                                         CombineServiceNew.NHAP_NGOC_RONG);
                                 break;
+                            case 5:
+                                CombineServiceNew.gI().openTabCombine(player, CombineServiceNew.NANG_CAP_BONG_TAI_CAP3);
+                                break;
+                            case 6:
+                                CombineServiceNew.gI().openTabCombine(player, CombineServiceNew.DAP_BONG_TAI_CAP_3);
+                                break;
                         }
                     } else if (player.iDMark.getIndexMenu() == ConstNpc.MENU_OPTION_SHOP_BUA) {
                         switch (select) {
@@ -151,6 +173,8 @@ public class BaHatMit extends Npc {
                             case CombineServiceNew.MO_CHI_SO_BONG_TAI:
                             case CombineServiceNew.LAM_PHEP_NHAP_DA:
                             case CombineServiceNew.NHAP_NGOC_RONG:
+                            case CombineServiceNew.NANG_CAP_BONG_TAI_CAP3:
+                            case CombineServiceNew.DAP_BONG_TAI_CAP_3:
                                 if (select == 0) {
                                     CombineServiceNew.gI().startCombine(player);
                                 }

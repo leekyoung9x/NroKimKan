@@ -210,6 +210,8 @@ public class ConstNpc {
     public static final int menutd = 1106;
     public static final int menunm = 1107;
     public static final int menuxd = 1108;
+    
+    public static final int MENU_USE_ITEM_BLACK_GOKU = 1109;
 
     //index menu rong thieng
     public static final int SHENRON_CONFIRM = 501;

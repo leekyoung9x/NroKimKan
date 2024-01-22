@@ -892,7 +892,7 @@ public class Manager {
         if (properties.containsKey("login.port")) {
             loginPort = Integer.parseInt(properties.getProperty("login.port"));
         } else {
-            loginPort = 8888;
+            loginPort = 8889;
         }
         if (properties.containsKey("update.timelogin")) {
             ServerManager.updateTimeLogin = Boolean.parseBoolean(properties.getProperty("update.timelogin"));

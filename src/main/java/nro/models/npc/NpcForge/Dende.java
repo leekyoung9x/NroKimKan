@@ -25,14 +25,14 @@ public class Dende extends Npc {
     public void openBaseMenu(Player player) {
         if (canOpenNpc(player)) {
             if (!TaskService.gI().checkDoneTaskTalkNpc(player, this)) {
-                if (player.isHoldNamecBall) {
-                    this.createOtherMenu(player, ConstNpc.ORTHER_MENU,
-                            "Ô,ngọc rồng Namek,anh thật may mắn,nếu tìm đủ 7 viên ngọc có thể triệu hồi Rồng Thần Namek,",
-                            "Gọi rồng", "Từ chối");
-                } else {
+//                if (player.isHoldNamecBall) {
+//                    this.createOtherMenu(player, ConstNpc.ORTHER_MENU,
+//                            "Ô,ngọc rồng Namek,anh thật may mắn,nếu tìm đủ 7 viên ngọc có thể triệu hồi Rồng Thần Namek,",
+//                            "Gọi rồng", "Từ chối");
+//                } else {
                     this.createOtherMenu(player, ConstNpc.BASE_MENU,
                             "Anh cần trang bị gì cứ đến chỗ em nhé", "Cửa\nhàng");
-                }
+//                }
             }
         }
     }
@@ -51,9 +51,10 @@ public class Dende extends Npc {
                         }
                         break;
                 }
-            } else if (player.iDMark.getIndexMenu() == ConstNpc.ORTHER_MENU) {
-                NamekBallWar.gI().summonDragon(player, this);
             }
+//            else if (player.iDMark.getIndexMenu() == ConstNpc.ORTHER_MENU) {
+//                NamekBallWar.gI().summonDragon(player, this);
+//            }
         }
     }
 }

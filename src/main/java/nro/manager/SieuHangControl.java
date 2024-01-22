@@ -93,7 +93,6 @@ public class SieuHangControl extends ReentrantReadWriteLock implements Runnable 
                     Service.getInstance().sendThongBao(player, "Trong 10 kẻ mạnh nhất bạn chỉ có thể vượt cấp khiêu chiến tối đa 2 hạng");
                     return;
                 }
-
             } else {
                 if (Math.abs(me.rank - other.rank) > 500) {
                     Service.getInstance().sendThongBao(player, "Rank của bạn và địch không thể cách nhau quá 500");

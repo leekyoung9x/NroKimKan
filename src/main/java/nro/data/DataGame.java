@@ -34,13 +34,28 @@ public class DataGame {
 //    public static byte vsMap = 25;
 //    public static byte vsSkill = 5;
 //    public static byte vsItem = 90;
-    public static byte vsData = 9;
-    public static byte vsMap = 5;
+    public static byte vsData = 12;
+    public static byte vsMap = 6;
     public static byte vsSkill = 6;
-    public static byte vsItem = 33;
+    public static byte vsItem = 40;
 
     public static String LINK_IP_PORT = "NRO:localhost:14445:0";
-    private static final String MOUNT_NUM = "733:1,734:2,735:3,743:4,744:5,746:6,795:7,849:8,897:9,920:10,1092:11,1135:12,1148:13,1176:14";
+    private static final String MOUNT_NUM
+            = "733:1,"
+            + "734:2,"
+            + "735:3,"
+            + "743:4,"
+            + "744:5,"
+            + "746:6,"
+            + "795:7,"
+            + "849:8,"
+            + "897:9,"
+            + "920:10,"
+            + "1092:11,"
+            + "1135:12,"
+            + "1148:13,"
+            + "1278:19,"
+            + "1176:14";
     public static final Map MAP_MOUNT_NUM = new HashMap();
 
     private static final byte[] dart = FileIO.readFile("resources/data/nro/update_data/dart");

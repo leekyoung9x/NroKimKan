@@ -181,11 +181,13 @@ public class Trade {
                 || item.template.id == 2049
                 || item.template.id == 2050
                 || item.template.id == 2051
+                || item.template.id == 574
                 || item.template.id == 611
                 || item.template.id == 1231
                 || item.template.id == 2011
                 || item.template.id == 2012
                 || item.template.id == 1143
+                || item.template.id == 1995
                 || item.template.id == 2052) {
             return true;
         }
