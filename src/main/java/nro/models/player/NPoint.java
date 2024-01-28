@@ -373,7 +373,7 @@ public class NPoint {
             case 195:
                 this.tlDameChuong = 4;
             case 231:
-                this.isKhongAnhHuongBoiLoiNguyen = false;
+                this.isKhongAnhHuongBoiLoiNguyen = true;
                 break;
         }
     }

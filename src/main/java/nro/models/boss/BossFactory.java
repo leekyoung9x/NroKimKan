@@ -21,6 +21,7 @@ import nro.models.boss.event.noel.NoelBoss;
 import nro.models.boss.event.noel.NoelBossBall;
 import nro.models.boss.event.noel.NoelBossOne;
 import nro.models.boss.event.noel.NoelBossTwo;
+import nro.models.boss.event_tet.CatGodKarin;
 import nro.models.boss.fide.*;
 import nro.models.boss.halloween.BoXuong;
 import nro.models.boss.halloween.MaTroi;
@@ -200,6 +201,7 @@ public class BossFactory {
     public static final int OMEGA_PLUS_DOUBLE = -138;
     public static final int SATAN_KING = -139;
     public static final int DRACULA_HUT_MAU = -140;
+    public static final int THAN_MEO_KARIN = -141;
 
     private static final Logger logger = Logger.getLogger(BossFactory.class);
     public static final int[] MAP_APPEARED_QILIN = {ConstMap.VACH_NUI_ARU_42, ConstMap.VACH_NUI_MOORI_43, ConstMap.VACH_NUI_KAKAROT,
@@ -243,6 +245,7 @@ public class BossFactory {
                 createBoss(DRACULA_HUT_MAU);
                 createBoss(SATAN_KING);
                 createBoss(SANTA_CLAUS);
+                createBoss(THAN_MEO_KARIN);
                 for (int i = 0; i < 20; i++) {
                     createBoss(BROLY);
                 }
@@ -446,6 +449,8 @@ public class BossFactory {
                 break;
             case FIDEGOLD:
                 boss = new FideGold();
+            case THAN_MEO_KARIN:
+                boss = new CatGodKarin();
                 break;
         }
         return boss;

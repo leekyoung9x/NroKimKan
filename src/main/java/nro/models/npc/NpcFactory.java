@@ -1038,7 +1038,7 @@ public class NpcFactory {
             case ConstEvent.SU_KIEN_NOEL:
                 return "Sự Kiện\n Giáng Sinh";
             case ConstEvent.SU_KIEN_TET:
-                return "Sự Kiện\n Tết Nguyên\nĐán 2023";
+                return "Sự Kiện\n Tết Nguyên\nĐán 2024";
             case ConstEvent.SU_KIEN_8_3:
                 return "Sự Kiện\n 8/3";
         }

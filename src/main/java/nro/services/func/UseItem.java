@@ -295,6 +295,9 @@ public class UseItem {
                         case 2020: //phiếu cải trang 20/10
                             openbox2010(pl, item);
                             break;
+                        case 2065:
+                            openboxsukien(pl, item, ConstEvent.SU_KIEN_TET);
+                            break;
                         case 2021:
                             openboxsukien(pl, item, 2);
                             break;
@@ -1341,49 +1344,86 @@ public class UseItem {
                 case ConstEvent.SU_KIEN_TET:
                     if (Manager.EVENT_SEVER == idsukien) {
                         if (InventoryService.gI().getCountEmptyBag(pl) > 0) {
-                            short[] icon = new short[2];
-                            icon[0] = item.template.iconID;
-                            RandomCollection<Integer> rd = Manager.HOP_QUA_TET;
-                            int tempID = rd.next();
-                            Item it = ItemService.gI().createNewItem((short) tempID);
-                            if (it.template.type == 11) {//FLAGBAG
-                                it.itemOptions.add(new ItemOption(50, Util.nextInt(5, 20)));
-                                it.itemOptions.add(new ItemOption(77, Util.nextInt(5, 20)));
-                                it.itemOptions.add(new ItemOption(103, Util.nextInt(5, 20)));
-                            } else if (tempID >= 1159 && tempID <= 1161) {
-                                it.itemOptions.add(new ItemOption(50, Util.nextInt(20, 30)));
-                                it.itemOptions.add(new ItemOption(77, Util.nextInt(20, 30)));
-                                it.itemOptions.add(new ItemOption(103, Util.nextInt(20, 30)));
-                                it.itemOptions.add(new ItemOption(106, 0));
-                            } else if (tempID == ConstItem.CAI_TRANG_SSJ_3_WHITE) {
-                                it.itemOptions.add(new ItemOption(50, Util.nextInt(30, 40)));
-                                it.itemOptions.add(new ItemOption(77, Util.nextInt(30, 40)));
-                                it.itemOptions.add(new ItemOption(103, Util.nextInt(30, 40)));
-                                it.itemOptions.add(new ItemOption(5, Util.nextInt(10, 25)));
-                                it.itemOptions.add(new ItemOption(104, Util.nextInt(5, 15)));
-                            }
-                            int type = it.template.type;
-                            if (type == 5 || type == 11) {// cải trang & flagbag
-                                if (Util.isTrue(199, 200)) {
-                                    it.itemOptions.add(new ItemOption(93, Util.nextInt(1, 30)));
+                            switch (item.template.id) {
+                                case 2065: {
+                                    Random random = new Random();
+                                    double randomPercentage = random.nextDouble() * 100;
+                                    // TODO: Mở lì xì tết
+                                    if (randomPercentage < 1) {
+                                        // 1% chance
+                                        if (random.nextBoolean()) {
+                                            Service.getInstance().chat(pl, "1% nè 1");
+                                        } else {
+                                            Service.getInstance().chat(pl, "1% nè 2");
+                                        }
+                                    } else if (randomPercentage < 5) {
+                                        // 5% chance
+                                        if (random.nextBoolean()) {
+                                            Service.getInstance().chat(pl, "5% nè 1");
+                                        } else {
+                                            Service.getInstance().chat(pl, "5% nè 1");
+                                        }
+                                    } else if (randomPercentage < 10) {
+                                        // 10% chance
+                                        Service.getInstance().chat(pl, "10% nè");
+                                    } else if (randomPercentage < 28) {
+                                        // 28% chance
+                                        Service.getInstance().chat(pl, "8% nè");
+                                    } else {
+                                        // 50% chance
+                                        Service.getInstance().chat(pl, "50% nè");
+                                    }
+
+                                    InventoryService.gI().subQuantityItemsBag(pl, item, 1);
+                                    InventoryService.gI().sendItemBags(pl);
+                                    break;
                                 }
-                                it.itemOptions.add(new ItemOption(199, 0));//KHÔNG THỂ GIA HẠN
-                            } else if (type == 23) {// thú cưỡi
-                                if (Util.isTrue(199, 200)) {
-                                    it.itemOptions.add(new ItemOption(93, Util.nextInt(1, 5)));
+                                default: {
+                                    short[] icon = new short[2];
+                                    icon[0] = item.template.iconID;
+                                    RandomCollection<Integer> rd = Manager.HOP_QUA_TET;
+                                    int tempID = rd.next();
+                                    Item it = ItemService.gI().createNewItem((short) tempID);
+                                    if (it.template.type == 11) {//FLAGBAG
+                                        it.itemOptions.add(new ItemOption(50, Util.nextInt(5, 20)));
+                                        it.itemOptions.add(new ItemOption(77, Util.nextInt(5, 20)));
+                                        it.itemOptions.add(new ItemOption(103, Util.nextInt(5, 20)));
+                                    } else if (tempID >= 1159 && tempID <= 1161) {
+                                        it.itemOptions.add(new ItemOption(50, Util.nextInt(20, 30)));
+                                        it.itemOptions.add(new ItemOption(77, Util.nextInt(20, 30)));
+                                        it.itemOptions.add(new ItemOption(103, Util.nextInt(20, 30)));
+                                        it.itemOptions.add(new ItemOption(106, 0));
+                                    } else if (tempID == ConstItem.CAI_TRANG_SSJ_3_WHITE) {
+                                        it.itemOptions.add(new ItemOption(50, Util.nextInt(30, 40)));
+                                        it.itemOptions.add(new ItemOption(77, Util.nextInt(30, 40)));
+                                        it.itemOptions.add(new ItemOption(103, Util.nextInt(30, 40)));
+                                        it.itemOptions.add(new ItemOption(5, Util.nextInt(10, 25)));
+                                        it.itemOptions.add(new ItemOption(104, Util.nextInt(5, 15)));
+                                    }
+                                    int type = it.template.type;
+                                    if (type == 5 || type == 11) {// cải trang & flagbag
+                                        if (Util.isTrue(199, 200)) {
+                                            it.itemOptions.add(new ItemOption(93, Util.nextInt(1, 30)));
+                                        }
+                                        it.itemOptions.add(new ItemOption(199, 0));//KHÔNG THỂ GIA HẠN
+                                    } else if (type == 23) {// thú cưỡi
+                                        if (Util.isTrue(199, 200)) {
+                                            it.itemOptions.add(new ItemOption(93, Util.nextInt(1, 5)));
+                                        }
+                                    }
+                                    if (tempID >= ConstItem.MANH_AO && tempID <= ConstItem.MANH_GANG_TAY) {
+                                        it.quantity = Util.nextInt(5, 15);
+                                    } else {
+                                        it.itemOptions.add(new ItemOption(74, 0));
+                                    }
+                                    icon[1] = it.template.iconID;
+                                    InventoryService.gI().subQuantityItemsBag(pl, item, 1);
+                                    CombineServiceNew.gI().sendEffectOpenItem(pl, icon[0], icon[1]);
+                                    InventoryService.gI().addItemBag(pl, it, 0);
+                                    InventoryService.gI().sendItemBags(pl);
+                                    break;
                                 }
                             }
-                            if (tempID >= ConstItem.MANH_AO && tempID <= ConstItem.MANH_GANG_TAY) {
-                                it.quantity = Util.nextInt(5, 15);
-                            } else {
-                                it.itemOptions.add(new ItemOption(74, 0));
-                            }
-                            icon[1] = it.template.iconID;
-                            InventoryService.gI().subQuantityItemsBag(pl, item, 1);
-                            CombineServiceNew.gI().sendEffectOpenItem(pl, icon[0], icon[1]);
-                            InventoryService.gI().addItemBag(pl, it, 0);
-                            InventoryService.gI().sendItemBags(pl);
-                            break;
                         } else {
                             Service.getInstance().sendThongBao(pl, "Hàng trang đã đầy");
                         }

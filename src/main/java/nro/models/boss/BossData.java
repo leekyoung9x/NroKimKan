@@ -2006,10 +2006,24 @@ public class BossData {
             new short[]{353, 354, 355}, //outfit
             new short[]{211}, //map join
             new int[][]{ //skill
-                {Skill.DEMON, 3, 450}, {Skill.DEMON, 6, 400}, {Skill.DRAGON, 7, 650}, {Skill.DRAGON, 1, 500}, {Skill.GALICK, 5, 480},
-                {Skill.KAMEJOKO, 7, 2000}, {Skill.KAMEJOKO, 6, 1800}, {Skill.KAMEJOKO, 4, 1500}, {Skill.KAMEJOKO, 2, 1000},
-                {Skill.ANTOMIC, 3, 1200}, {Skill.ANTOMIC, 5, 1700}, {Skill.ANTOMIC, 7, 2000},
-                {Skill.MASENKO, 1, 800}, {Skill.MASENKO, 5, 1300}, {Skill.MASENKO, 6, 1500},},
+                    {Skill.DEMON, 3, 450}, {Skill.DEMON, 6, 400}, {Skill.DRAGON, 7, 650}, {Skill.DRAGON, 1, 500}, {Skill.GALICK, 5, 480},
+                    {Skill.KAMEJOKO, 7, 2000}, {Skill.KAMEJOKO, 6, 1800}, {Skill.KAMEJOKO, 4, 1500}, {Skill.KAMEJOKO, 2, 1000},
+                    {Skill.ANTOMIC, 3, 1200}, {Skill.ANTOMIC, 5, 1700}, {Skill.ANTOMIC, 7, 2000},
+                    {Skill.MASENKO, 1, 800}, {Skill.MASENKO, 5, 1300}, {Skill.MASENKO, 6, 1500},},
             _15_PHUT
+    );
+
+    public static final BossData THAN_MEO_KARIN = new BossData(
+            "Thền mèo Karin", //name
+            ConstPlayer.XAYDA, //gender
+            Boss.DAME_NORMAL, //type dame
+            Boss.HP_NORMAL, //type hp
+            500_000, //dame
+            new int[][]{{1_500_000_000}}, //hp
+            new short[]{353, 354, 355}, //outfit
+            new short[]{5}, //map join
+            new int[][]{ //skill
+            },
+            0
     );
 }

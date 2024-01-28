@@ -147,6 +147,22 @@ public abstract class Boss extends Player implements BossInterface {
         }
     }
 
+    public Boss(long id, BossData data, boolean canPK) {
+        super();
+        this.id = id;
+        this.skillsAttack = new ArrayList<>();
+        this.skillsSpecial = new ArrayList<>();
+        this.data = data;
+        this.isBoss = true;
+        this.initTalk();
+        this.respawn();
+        setJustRest();
+        this.typePk = ConstPlayer.NON_PK;
+        if (!(this instanceof CBoss)) {
+            BossManager.gI().addBoss(this);
+        }
+    }
+
     @Override
     public void init() {
         this.name = data.name.replaceAll("%1", String.valueOf(Util.nextInt(0, 100)));
