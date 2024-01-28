@@ -1368,7 +1368,7 @@ public class UseItem {
                                         Service.getInstance().chat(pl, "10% nè");
                                     } else if (randomPercentage < 28) {
                                         // 28% chance
-                                        Service.getInstance().chat(pl, "8% nè");
+                                        Service.getInstance().chat(pl, "28% nè");
                                     } else {
                                         // 50% chance
                                         Service.getInstance().chat(pl, "50% nè");
