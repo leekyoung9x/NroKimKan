@@ -35,6 +35,8 @@ public class ItemMap {
 
     public boolean isPickedUp;
 
+    public boolean isCheckDuplicate = false;
+
     public ItemMap(Zone zone, int tempId, int quantity, int x, int y, long playerId) {
         this.zone = zone;
         this.itemMapId = zone.countItemAppeaerd++;

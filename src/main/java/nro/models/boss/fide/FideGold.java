@@ -7,11 +7,14 @@ import nro.models.boss.BossFactory;
 import nro.models.boss.BossManager;
 import nro.models.item.ItemOption;
 import nro.models.map.ItemMap;
+import nro.models.map.mabu.MabuWar;
 import nro.models.player.Player;
 import nro.server.Manager;
-import nro.services.RewardService;
-import nro.services.Service;
+import nro.services.*;
+import nro.utils.SkillUtil;
 import nro.utils.Util;
+
+import java.time.LocalTime;
 
 /**
  * @Build by Arriety
@@ -29,35 +32,39 @@ public class FideGold extends Boss {
 
     @Override
     public void rewards(Player pl) {
-        // Cải trang thỏ
-        int[] tempIds1 = new int[]{1043};
-        int[] tempIds2 = new int[]{17};
-
+        // TODO: Thêm quà đấm vào mồm con fide
         int tempId = -1;
-        if (Util.isTrue(1, 10)) {
-            tempId = tempIds1[Util.nextInt(0, tempIds1.length - 1)];
-        } else {
-            tempId = tempIds2[Util.nextInt(0, tempIds2.length - 1)];
-        }
-        if (Manager.EVENT_SEVER == 4 && tempId == -1) {
-//            tempId = ConstItem.LIST_ITEM_NLSK_TET_2023[Util.nextInt(0, ConstItem.LIST_ITEM_NLSK_TET_2023.length - 1)];
-        }
-        if (tempId != -1) {
-            ItemMap itemMap = new ItemMap(this.zone, tempId, 1,
-                    pl.location.x, this.zone.map.yPhysicInTop(pl.location.x, pl.location.y - 24), pl.id);
-            if (tempId >= 2027 && tempId <= 2038) {
-                itemMap.options.add(new ItemOption(74, 0));
-            } else if (tempId == 1043) {
-                itemMap.options.add(new ItemOption(77, Util.nextInt(20, 40)));
-                itemMap.options.add(new ItemOption(103, Util.nextInt(20, 40)));
-                itemMap.options.add(new ItemOption(50, Util.nextInt(20, 40)));
-                itemMap.options.add(new ItemOption(117, Util.nextInt(20, 30)));
-                itemMap.options.add(new ItemOption(93, Util.nextInt(1, 30)));
-            }
-            RewardService.gI().initBaseOptionClothes(itemMap.itemTemplate.id, itemMap.itemTemplate.type, itemMap.options);
-            Service.getInstance().dropItemMap(this.zone, itemMap);
-        }
+        ItemMap ao = new ItemMap(this.zone, 561, 1,
+                pl.location.x - 50, this.zone.map.yPhysicInTop(pl.location.x, pl.location.y - 24), pl.id);
+        ItemMap non = new ItemMap(this.zone, 562, 1,
+                pl.location.x - 25, this.zone.map.yPhysicInTop(pl.location.x, pl.location.y - 24), pl.id);
+        ItemMap mu = new ItemMap(this.zone, 563, 1,
+                pl.location.x, this.zone.map.yPhysicInTop(pl.location.x, pl.location.y - 24), pl.id);
+        ItemMap toc = new ItemMap(this.zone, 564, 1,
+                pl.location.x + 25, this.zone.map.yPhysicInTop(pl.location.x, pl.location.y - 24), pl.id);
+        ItemMap rada = new ItemMap(this.zone, 565, 1,
+                pl.location.x + 50, this.zone.map.yPhysicInTop(pl.location.x, pl.location.y - 24), pl.id);
+//        if (tempId >= 2027 && tempId <= 2038) {
+//            itemMap.options.add(new ItemOption(74, 0));
+//        } else if (tempId == 1043) {
+//            itemMap.options.add(new ItemOption(77, Util.nextInt(20, 40)));
+//            itemMap.options.add(new ItemOption(103, Util.nextInt(20, 40)));
+//            itemMap.options.add(new ItemOption(50, Util.nextInt(20, 40)));
+//            itemMap.options.add(new ItemOption(117, Util.nextInt(20, 30)));
+//            itemMap.options.add(new ItemOption(93, Util.nextInt(1, 30)));
+//        }
+        dropNe(ao);
+        dropNe(non);
+        dropNe(mu);
+        dropNe(toc);
+        dropNe(rada);
         generalRewards(pl);
+    }
+
+    private void dropNe(ItemMap itemMap) {
+        itemMap.isCheckDuplicate = true;
+        RewardService.gI().initBaseOptionClothes(itemMap.itemTemplate.id, itemMap.itemTemplate.type, itemMap.options);
+        Service.getInstance().dropItemMap(this.zone, itemMap);
     }
 
     @Override
@@ -78,10 +85,106 @@ public class FideGold extends Boss {
     }
 
     @Override
-    public void leaveMap() {
-        BossFactory.createBoss(BossFactory.POCTHO).setJustRest();
-        super.leaveMap();
-        BossManager.gI().removeBoss(this);
+    public int injured(Player plAtt, int damage, boolean piercing, boolean isMobAttack) {
+        try {
+            if(plAtt == null){
+                return 0;
+            }
+
+            int mstChuong = this.nPoint.mstChuong;
+            int giamst = this.nPoint.tlGiamst;
+
+            if (!this.isDie()) {
+                if (this.isMiniPet) {
+                    return 0;
+                }
+                if (plAtt != null) {
+                    if (!this.isBoss && plAtt.nPoint.xDameChuong && SkillUtil.isUseSkillChuong(plAtt)) {
+                        damage = plAtt.nPoint.tlDameChuong * damage;
+                        plAtt.nPoint.xDameChuong = false;
+                    }
+                    if (mstChuong > 0 && SkillUtil.isUseSkillChuong(plAtt)) {
+                        PlayerService.gI().hoiPhuc(this, 0, damage * mstChuong / 100);
+                        damage = 0;
+                    }
+                }
+                if (!SkillUtil.isUseSkillBoom(plAtt)) {
+                    if (!piercing && Util.isTrue(this.nPoint.tlNeDon, 100)) {
+                        return 0;
+                    }
+                }
+                if (isMobAttack && (this.charms.tdBatTu > System.currentTimeMillis() || this.itemTime.isMaTroi) && damage >= this.nPoint.hp) {
+                    damage = this.nPoint.hp - 1;
+                }
+                damage = this.nPoint.subDameInjureWithDeff(damage);
+                if (!piercing && effectSkill.isShielding) {
+                    if (damage > nPoint.hpMax) {
+                        EffectSkillService.gI().breakShield(this);
+                    }
+                    damage = 1;
+                }
+                if (isMobAttack && this.charms.tdBatTu > System.currentTimeMillis() && damage >= this.nPoint.hp) {
+                    damage = this.nPoint.hp - 1;
+                }
+                if (giamst > 0) {
+                    damage -= nPoint.calPercent(damage, giamst);
+                }
+                if (this.effectSkill.isHoldMabu) {
+                    damage = 1;
+                }
+
+                damage = damage / 5;
+
+                if (plAtt.getSession() != null && plAtt.isAdmin()) {
+                    damage = this.nPoint.hpMax;
+                }
+
+                this.nPoint.subHP(damage);
+                if (this.effectSkill.isHoldMabu && Util.isTrue(30, 150)) {
+                    Service.getInstance().removeMabuEat(this);
+                }
+                if (isDie()) {
+                    if (plAtt != null && plAtt.zone != null) {
+                        if (MapService.gI().isMapMabuWar(plAtt.zone.map.mapId) && MabuWar.gI().isTimeMabuWar()) {
+                            plAtt.addPowerPoint(5);
+                            Service.getInstance().sendPowerInfo(plAtt, "TL", plAtt.getPowerPoint());
+                        }
+                    }
+                    setDie(plAtt);
+                    rewards(plAtt);
+                    notifyPlayeKill(plAtt);
+                    die();
+                }
+                return damage;
+            } else {
+                return 0;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            return 0;
+        }
     }
 
+    @Override
+    public void respawn() {
+        boolean isInTimeRange = isCurrentTimeInRange(20, 0, 24, 0);
+
+        if (isInTimeRange) {
+            super.respawn();
+        }
+    }
+
+    public static boolean isCurrentTimeInRange(int startHour, int startMinute, int endHour, int endMinute) {
+        LocalTime currentTime = LocalTime.now();
+        LocalTime startTime = LocalTime.of(startHour, startMinute);
+        LocalTime endTime = LocalTime.of(endHour, endMinute);
+
+        if (endTime.isBefore(startTime)) {
+            // Nếu end time trước start time, kiểm tra nếu hiện tại là sau start time hoặc trước end time.
+            return !currentTime.isBefore(startTime) || !currentTime.isAfter(endTime);
+        } else {
+            // Nếu end time sau start time, kiểm tra nếu hiện tại nằm giữa start time và end time.
+            return !currentTime.isBefore(startTime) && !currentTime.isAfter(endTime);
+        }
+    }
 }

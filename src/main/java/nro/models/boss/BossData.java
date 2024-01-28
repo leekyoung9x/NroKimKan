@@ -18,6 +18,7 @@ public class BossData {
     public static final int _5_PHUT = 300;
     public static final int _10_PHUT = 600;
     public static final int _15_PHUT = 900;
+    public static final int _20_PHUT = 1200;
     public static final int _30_PHUT = 1800;
     public static final int _1_GIO = 3600;
 
@@ -1938,11 +1939,12 @@ public class BossData {
             .outfit(new short[]{502, 503, 504})
             .mapJoin(new short[]{6})
             .skillTemp(new int[][]{
+                    {Skill.KHIEN_NANG_LUONG, 7, 500},
         {Skill.DRAGON, 1, 100}, {Skill.DRAGON, 2, 200}, {Skill.DRAGON, 3, 300}, {Skill.DRAGON, 7, 700},
         {Skill.KAMEJOKO, 1, 1000}, {Skill.KAMEJOKO, 2, 1200}, {Skill.KAMEJOKO, 5, 1500}, {Skill.KAMEJOKO, 7, 1700},
         {Skill.GALICK, 1, 100}
     })
-            .secondsRest(_5_PHUT)
+            .secondsRest(_20_PHUT)
             .build();
 
     public static final BossData CUMBER = BossData.builder()

@@ -246,6 +246,7 @@ public class BossFactory {
                 createBoss(SATAN_KING);
                 createBoss(SANTA_CLAUS);
                 createBoss(THAN_MEO_KARIN);
+                createBoss(FIDEGOLD);
                 for (int i = 0; i < 20; i++) {
                     createBoss(BROLY);
                 }
@@ -449,6 +450,7 @@ public class BossFactory {
                 break;
             case FIDEGOLD:
                 boss = new FideGold();
+                break;
             case THAN_MEO_KARIN:
                 boss = new CatGodKarin();
                 break;
