@@ -40,6 +40,18 @@ public class MapService {
         return null;
     }
 
+    public WayPoint getWaypointShibaIn(Player player) {
+        for (WayPoint wp : player.zone.map.wayPoints) {
+            int xMax = Math.abs(wp.maxX - player.location.x);
+            int y = wp.maxY - player.location.y;
+
+            if (xMax <= 150 && y <= 10 && xMax > 0 && y >= 0) {
+                return wp;
+            }
+        }
+        return null;
+    }
+
     /**
      * @param tileTypeFocus tile type: top, bot, left, right...
      * @return [tileMapId][tileType]

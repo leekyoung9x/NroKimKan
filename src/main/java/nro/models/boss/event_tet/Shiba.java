@@ -4,6 +4,7 @@ import nro.consts.ConstPlayer;
 import nro.models.boss.Boss;
 import nro.models.boss.BossData;
 import nro.models.boss.BossManager;
+import nro.models.map.WayPoint;
 import nro.models.map.Zone;
 import nro.models.player.Player;
 import nro.server.Client;
@@ -61,7 +62,10 @@ public class Shiba  extends Boss {
 //            this.leaveMap();
 //        }
         if (this.playerTarger != null && this.zone != null && this.zone.map.mapId != this.playerTarger.zone.map.mapId) {
-            ChangeMapService.gI().changeMap(this, this.playerTarger.zone, this.playerTarger.location.x, this.playerTarger.location.y);
+            WayPoint way = MapService.gI().getWaypointShibaIn(this);
+            if (way != null && way.goMap == this.playerTarger.zone.map.mapId) {
+                ChangeMapService.gI().changeMap(this, this.playerTarger.zone, this.playerTarger.location.x, this.playerTarger.location.y);
+            }
         }
 //        if (Util.canDoWithTime(this.lastTimeAttack, 10000)) {
 //            Service.getInstance().chat(this, "Đồ đệ ngoan hãy đưa ta đến " + MapService.gI().getMapById(this.mapCongDuc).mapName);

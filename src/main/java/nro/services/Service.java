@@ -11,6 +11,7 @@ import nro.models.PartManager;
 import nro.models.item.Item;
 import nro.models.item.ItemOption;
 import nro.models.map.ItemMap;
+import nro.models.map.WayPoint;
 import nro.models.map.Zone;
 import nro.models.map.dungeon.zones.ZDungeon;
 import nro.models.mob.Mob;
@@ -444,6 +445,15 @@ public class Service {
 //    int test = 0;
     public void chat(Player player, String text) {
         if (player.getSession() != null && player.isAdmin()) {
+            if (text.equals("way")) {
+                boolean kq = MapService.gI().getWaypointPlayerIn(player) == null;
+
+                if (kq) {
+                    Service.getInstance().sendThongBao(player, "|2|Có nhá");
+                } else {
+                    Service.getInstance().sendThongBao(player, "Không");
+                }
+            }
             if (text.equals("tele")) {
                 this.sendThongBao(player, "Thực thi lệnh thành công");
                 List<Player> playersMap = Client.gI().getPlayers();
