@@ -210,6 +210,8 @@ public class Player {
     @Getter
     private LocalDateTime timeCache;
 
+    public boolean haveShiba;
+
     public Player() {
         location = new Location();
         nPoint = new NPoint(this);

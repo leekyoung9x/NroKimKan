@@ -496,4 +496,8 @@ public class Util {
         // Kiểm tra xem chuỗi đã được làm sạch có chứa mẫu không
         return cleanedString.contains(pattern);
     }
+
+    public static int createIdShiba(int idPlayer) {
+        return -idPlayer - 100_000_000;
+    }
 }

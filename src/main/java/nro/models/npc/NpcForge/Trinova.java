@@ -5,17 +5,23 @@
 package nro.models.npc.NpcForge;
 
 import nro.consts.ConstNpc;
+import nro.consts.ConstPlayer;
 import nro.consts.ConstTask;
 import nro.jdbc.daos.PlayerDAO;
+import nro.models.boss.Boss;
+import nro.models.boss.BossData;
+import nro.models.boss.BossManager;
+import nro.models.boss.event_tet.Shiba;
 import nro.models.npc.Npc;
 import nro.models.player.Player;
+import nro.models.skill.Skill;
 import nro.services.PetService;
 import nro.services.Service;
 import nro.services.TaskService;
 import nro.services.func.Input;
+import nro.utils.Util;
 
 /**
- *
  * @author Arriety
  */
 public class Trinova extends Npc {
@@ -32,7 +38,7 @@ public class Trinova extends Npc {
             if (!TaskService.gI().checkDoneTaskTalkNpc(player, this)) {
                 this.createOtherMenu(player, ConstNpc.BASE_MENU,
                         "|8|SERVER NRO KIMKAN\n|2|Build Server: Arriety Béo\n|2|CEO, CCO, CMO, CHRO, CFO, CPO, KOL, DEV: Put đẹp trai"
-                        + "\n|8|GIFTCODE: caitrang vatpham linhthu ngocrong saophale kimkan kichoat\n|8|phudeptrai hello tuanbeo bongcuoi bomong lixi2024 ",
+                                + "\n|8|GIFTCODE: caitrang vatpham linhthu ngocrong saophale kimkan kichoat\n|8|phudeptrai hello tuanbeo bongcuoi bomong lixi2024 ",
                         // Server đang " + Client.gI().getPlayers().size() + " người Online"
                         "Nhận quà\nMiễn phí",
                         "Nhận Vàng\nVô hạn",

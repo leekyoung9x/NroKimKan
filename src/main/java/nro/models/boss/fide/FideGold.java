@@ -167,7 +167,7 @@ public class FideGold extends Boss {
 
     @Override
     public void respawn() {
-        boolean isInTimeRange = isCurrentTimeInRange(20, 0, 24, 0);
+        boolean isInTimeRange = isCurrentTimeInRange(20, 0, 23, 59);
 
         if (isInTimeRange) {
             super.respawn();
