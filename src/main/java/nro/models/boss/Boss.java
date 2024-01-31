@@ -270,6 +270,13 @@ public abstract class Boss extends Player implements BossInterface {
 //        }
 //        this.attack();
 //    }
+
+    protected void rest() {
+        if (Util.canDoWithTime(lastTimeRest, secondTimeRestToNextTimeAppear * 1000)) {
+            this.changeStatus(JUST_JOIN_MAP);
+        }
+    }
+
     @Override
     public void update() {
         super.update();
@@ -285,9 +292,7 @@ public abstract class Boss extends Player implements BossInterface {
                         this.changeStatus(REST);
                         break;
                     case REST:
-                        if (Util.canDoWithTime(lastTimeRest, secondTimeRestToNextTimeAppear * 1000)) {
-                            this.changeStatus(JUST_JOIN_MAP);
-                        }
+                        rest();
                         break;
                     case JUST_JOIN_MAP:
                         joinMap();
