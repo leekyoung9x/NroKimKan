@@ -124,6 +124,37 @@ public class ChangeMapService {
         }
     }
 
+    public void changeZoneForBoss(Player pl, int zoneId) {
+        int mapid = pl.zone.map.mapId;
+        if ((MapService.gI().isMapDoanhTrai(mapid)
+                || MapService.gI().isMapMabuWar14H(mapid)
+                || MapService.gI().isMapBanDoKhoBau(mapid)
+                || mapid == 120 || mapid == 126
+                || pl.zone instanceof ZDungeon || MapService.gI().isMapVS(mapid))) {
+            Service.getInstance().sendThongBaoOK(pl, "Không thể đổi khu vực trong map này");
+            return;
+        }
+        if (Util.canDoWithTime(pl.lastTimeChangeZone, 10000)) {
+            pl.lastTimeChangeZone = System.currentTimeMillis();
+            Map map = pl.zone.map;
+            if (zoneId >= 0 && zoneId <= map.zones.size() - 1) {
+                Zone zoneJoin = map.zones.get(zoneId);
+                if (zoneJoin != null && (zoneJoin.getNumOfPlayers() >= zoneJoin.maxPlayer && !pl.isAdmin())) {
+                    Service.getInstance().sendThongBaoOK(pl, "Khu vực đã đầy");
+                    return;
+                }
+                if (zoneJoin != null) {
+                    changeMap(pl, zoneJoin, -1, -1, pl.location.x, pl.location.y, NON_SPACE_SHIP);
+                }
+            } else {
+                Service.getInstance().sendThongBao(pl, "Không thể thực hiện");
+            }
+        } else {
+            Service.getInstance().sendThongBaoOK(pl, "Không thể đổi khu vực lúc này, vui lòng đợi "
+                    + TimeUtil.getTimeLeft(pl.lastTimeChangeZone, 10));
+        }
+    }
+
     // capsule, tàu vũ trụ
     public void changeMapBySpaceShip(Player pl, int mapId, int zone, int x) {
         if (pl.isDie()) {

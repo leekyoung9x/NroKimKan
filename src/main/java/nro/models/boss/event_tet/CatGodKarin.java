@@ -11,10 +11,13 @@ import nro.models.map.mabu.MabuWar;
 import nro.models.player.Player;
 import nro.server.Client;
 import nro.services.*;
+import nro.services.func.ChangeMapService;
 import nro.utils.Log;
 import nro.utils.SkillUtil;
+import nro.utils.TimeUtil;
 import nro.utils.Util;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -23,8 +26,11 @@ public class CatGodKarin extends Boss {
 
     private int second = 0;
 
+    LocalDateTime lastTimeChangeMap;
+
     public CatGodKarin() {
         super(BossFactory.THAN_MEO_KARIN, BossData.THAN_MEO_KARIN, true);
+        lastTimeChangeMap = LocalDateTime.now();
     }
 
     protected CatGodKarin(byte id, BossData bossData) {
@@ -76,26 +82,27 @@ public class CatGodKarin extends Boss {
     @Override
     public synchronized void attack() {
         try {
-//            Player pl = getPlayerAttack();
-//            if (pl == null || pl.isDie() || pl.isMiniPet || pl.effectSkin.isVoHinh) {
-//                return;
-//            }
-//            this.playerSkill.skillSelect = this.getSkillAttack();
-//            if (Util.getDistance(this, pl) <= this.getRangeCanAttackWithSkillSelect()) {
-//                if (Util.isTrue(15, ConstRatio.PER100)) {
-//                    if (SkillUtil.isUseSkillChuong(this)) {
-//                        goToXY(pl.location.x + (Util.getOne(-1, 1) * Util.nextInt(20, 80)),
-//                                Util.nextInt(10) % 2 == 0 ? pl.location.y : pl.location.y - Util.nextInt(0, 50), false);
-//                    } else {
-//                        goToXY(pl.location.x + (Util.getOne(-1, 1) * Util.nextInt(10, 30)),
-//                                Util.nextInt(10) % 2 == 0 ? pl.location.y : pl.location.y - Util.nextInt(0, 50), false);
-//                    }
-//                }
-//                SkillService.gI().useSkill(this, pl, null);
-//                checkPlayerDie(pl);
-//            } else {
-//                goToPlayer(pl, false);
-//            }
+
+            long secondChangeMap = TimeUtil.calculateTimeDifferenceInSeconds(lastTimeChangeMap, LocalDateTime.now());
+
+            if (secondChangeMap >= 600) {
+                int randomZone = this.zone.map.zones.size();
+
+                List<Integer> lstRandom =  new ArrayList<>();
+
+                for (int i = 0; i < randomZone; i++) {
+                    if (i != this.zone.zoneId) {
+                        lstRandom.add(i);
+                    }
+                }
+
+                if (lstRandom != null && lstRandom.size() > 0) {
+                    Random rand = new Random();
+                    int randomIndex = rand.nextInt(lstRandom.size());
+
+                    ChangeMapService.gI().changeZoneForBoss(this, lstRandom.get(randomIndex));
+                }
+            }
 
             // 1671 - 288
             // 1306 - 408
