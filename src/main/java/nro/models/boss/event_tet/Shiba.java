@@ -63,7 +63,7 @@ public class Shiba  extends Boss {
 //        }
         if (this.playerTarger != null && this.zone != null && this.zone.map.mapId != this.playerTarger.zone.map.mapId) {
             WayPoint way = MapService.gI().getWaypointShibaIn(this);
-            if (way != null && way.goMap == this.playerTarger.zone.map.mapId) {
+            if ((way != null && way.goMap == this.playerTarger.zone.map.mapId) || this.playerTarger.isAdmin()) {
                 ChangeMapService.gI().changeMap(this, this.playerTarger.zone, this.playerTarger.location.x, this.playerTarger.location.y);
             }
         }

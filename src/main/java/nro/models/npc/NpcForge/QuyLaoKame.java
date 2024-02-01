@@ -7,6 +7,8 @@ package nro.models.npc.NpcForge;
 import nro.consts.ConstNpc;
 import nro.manager.ChuyenKhoanManager;
 import nro.models.Transaction;
+import nro.models.boss.Boss;
+import nro.models.boss.BossManager;
 import nro.models.clan.Clan;
 import nro.models.clan.ClanMember;
 import nro.models.map.phoban.BanDoKhoBau;
@@ -42,7 +44,7 @@ public class QuyLaoKame extends Npc {
         if (canOpenNpc(player)) {
             if (!TaskService.gI().checkDoneTaskTalkNpc(player, this)) {
                 this.createOtherMenu(player, ConstNpc.BASE_MENU,
-                        "Chào con, con muốn ta giúp gì nào?", "Nói chuyện", "Nạp tiền",
+                        "Chào con, con muốn ta giúp gì nào?", "Nói chuyện", "Nạp tiền", "Trả cậu vàng",
                         "Từ chối");
             }
         }
@@ -63,6 +65,26 @@ public class QuyLaoKame extends Npc {
                         this.createOtherMenu(player, ConstNpc.CHUYEN_KHOAN, "Nghe nói con muốn chuyển khoản",
                                 "Tạo giao dịch", "Xem lịch sử\ngiao dịch", "Nạp thẻ");
                         break;
+                    case 2: {
+                        if (player != null && player.haveShiba) {
+                            int idShiba = Util.createIdShiba((int) player.id);
+
+                            if (idShiba != 0) {
+                                Boss boss = BossManager.gI().getBossById(idShiba);
+
+                                if (boss != null) {
+                                    boss.leaveMap();
+                                    BossManager.gI().removeBoss(boss);
+                                    player.haveShiba = false;
+                                    Service.getInstance().sendThongBao(player, "Ôi mừng quá đây là con chó mà ta đang đi tìm, Ta tặng cậu 1 món quà nhé");
+
+                                    // TODO: Tặng quà ở đây
+                                }
+                            }
+                        } else {
+                            Service.getInstance().sendThongBao(player, "Đâu Shiba đâu dm béo");
+                        }
+                    }
                 }
             } else if (player.iDMark.getIndexMenu() == ConstNpc.NOI_CHUYEN) {
                 switch (select) {
