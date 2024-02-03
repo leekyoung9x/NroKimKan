@@ -54,6 +54,10 @@ public class Util {
                 ));
     }
 
+    public static int createIdShiba(int idPlayer) {
+        return -idPlayer - 100_000_000;
+    }
+
     public static String formatCurrency(double amount) {
         String result = "";
 
@@ -468,6 +472,7 @@ public class Util {
 
         return result.toString();
     }
+
     public static String formatLocalDateTime(LocalDateTime localDateTime) {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
         return localDateTime.format(formatter);
@@ -488,16 +493,12 @@ public class Util {
             return "Không tìm thấy giá trị";
         }
     }
-    
+
     public static boolean containsSubstring(String inputString, String pattern) {
         // Loại bỏ ký tự đặc biệt và khoảng trắng từ chuỗi
         String cleanedString = inputString.replaceAll("[^a-zA-Z0-9]", "");
 
         // Kiểm tra xem chuỗi đã được làm sạch có chứa mẫu không
         return cleanedString.contains(pattern);
-    }
-
-    public static int createIdShiba(int idPlayer) {
-        return -idPlayer - 100_000_000;
     }
 }

@@ -14,6 +14,7 @@ import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import nro.utils.Log;
 
 /**
  * @Build by Arriety
@@ -146,7 +147,7 @@ public class GiftService {
                 stmt.close();
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            Log.LogError(GiftService.class, "function use, player name: " + player.name + " code: " + code);
         }
     }
 

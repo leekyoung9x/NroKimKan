@@ -4,7 +4,9 @@ import lombok.Getter;
 import lombok.Setter;
 import nro.consts.ConstPet;
 import nro.consts.ConstPlayer;
+import nro.data.DataGame;
 import nro.models.item.CaiTrang;
+import nro.models.item.Item;
 import nro.models.mob.Mob;
 import nro.models.skill.Skill;
 import nro.server.Manager;
@@ -739,6 +741,58 @@ public class Pet extends Player {
         } else {
             return (short) (gender == ConstPlayer.NAMEC ? 60 : 58);
         }
+    }
+
+    @Override
+    public short getMount() {
+        if (this.isVersionAbove(220)) {
+            for (Item item : inventory.itemsBody) {
+                if (item.isNotNullItem()) {
+                    if (item.template.type == 24) {
+                        if (item.template.gender == 3 || item.template.gender == this.gender) {
+                            return item.template.id;
+                        } else {
+                            return -1;
+                        }
+                    }
+                    if (item.template.type == 23) {
+                        if (item.template.id < 500) {
+                            return item.template.id;
+                        } else {
+                            Object mount = DataGame.MAP_MOUNT_NUM.get(String.valueOf(item.template.id));
+                            if (mount == null) {
+                                return -1;
+                            }
+                            return (short) mount;
+                        }
+                    }
+                }
+            }
+        } else {
+            for (Item item : inventory.itemsBag) {
+                if (item.isNotNullItem()) {
+                    if (item.template.type == 24) {
+                        if (item.template.gender == 3 || item.template.gender == this.gender) {
+                            return item.template.id;
+                        } else {
+                            return -1;
+                        }
+                    }
+                    if (item.template.type == 23) {
+                        if (item.template.id < 500) {
+                            return item.template.id;
+                        } else {
+                            Object mount = DataGame.MAP_MOUNT_NUM.get(String.valueOf(item.template.id));
+                            if (mount == null) {
+                                return -1;
+                            }
+                            return (short) mount;
+                        }
+                    }
+                }
+            }
+        }
+        return -1;
     }
 
     private Mob findMobAttack() {

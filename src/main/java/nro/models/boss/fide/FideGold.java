@@ -32,27 +32,52 @@ public class FideGold extends Boss {
 
     @Override
     public void rewards(Player pl) {
-        // TODO: Thêm quà đấm vào mồm con fide
         int tempId = -1;
-        ItemMap ao = new ItemMap(this.zone, 561, 1,
+        ItemMap ao = new ItemMap(this.zone, 629, 1,
                 pl.location.x - 50, this.zone.map.yPhysicInTop(pl.location.x, pl.location.y - 24), pl.id);
-        ItemMap non = new ItemMap(this.zone, 562, 1,
+        ao.options.add(new ItemOption(50, 60));
+        ao.options.add(new ItemOption(77, 60));
+        ao.options.add(new ItemOption(103, 60));
+        ao.options.add(new ItemOption(93, 1));
+        ao.options.add(new ItemOption(106, 0));
+        ao.options.add(new ItemOption(231, 0));
+
+        ItemMap non = new ItemMap(this.zone, 629, 1,
                 pl.location.x - 25, this.zone.map.yPhysicInTop(pl.location.x, pl.location.y - 24), pl.id);
-        ItemMap mu = new ItemMap(this.zone, 563, 1,
+        non.options.add(new ItemOption(50, 60));
+        non.options.add(new ItemOption(77, 60));
+        non.options.add(new ItemOption(103, 60));
+        non.options.add(new ItemOption(93, 1));
+        non.options.add(new ItemOption(106, 0));
+        non.options.add(new ItemOption(231, 0));
+
+        ItemMap mu = new ItemMap(this.zone, 629, 1,
                 pl.location.x, this.zone.map.yPhysicInTop(pl.location.x, pl.location.y - 24), pl.id);
-        ItemMap toc = new ItemMap(this.zone, 564, 1,
+        mu.options.add(new ItemOption(50, 60));
+        mu.options.add(new ItemOption(77, 60));
+        mu.options.add(new ItemOption(103, 60));
+        mu.options.add(new ItemOption(93, 1));
+        mu.options.add(new ItemOption(106, 0));
+        mu.options.add(new ItemOption(231, 0));
+
+        ItemMap toc = new ItemMap(this.zone, 629, 1,
                 pl.location.x + 25, this.zone.map.yPhysicInTop(pl.location.x, pl.location.y - 24), pl.id);
-        ItemMap rada = new ItemMap(this.zone, 565, 1,
+        toc.options.add(new ItemOption(50, 60));
+        toc.options.add(new ItemOption(77, 60));
+        toc.options.add(new ItemOption(103, 60));
+        toc.options.add(new ItemOption(93, 1));
+        toc.options.add(new ItemOption(106, 0));
+        toc.options.add(new ItemOption(231, 0));
+
+        ItemMap rada = new ItemMap(this.zone, 629, 1,
                 pl.location.x + 50, this.zone.map.yPhysicInTop(pl.location.x, pl.location.y - 24), pl.id);
-//        if (tempId >= 2027 && tempId <= 2038) {
-//            itemMap.options.add(new ItemOption(74, 0));
-//        } else if (tempId == 1043) {
-//            itemMap.options.add(new ItemOption(77, Util.nextInt(20, 40)));
-//            itemMap.options.add(new ItemOption(103, Util.nextInt(20, 40)));
-//            itemMap.options.add(new ItemOption(50, Util.nextInt(20, 40)));
-//            itemMap.options.add(new ItemOption(117, Util.nextInt(20, 30)));
-//            itemMap.options.add(new ItemOption(93, Util.nextInt(1, 30)));
-//        }
+        rada.options.add(new ItemOption(50, 60));
+        rada.options.add(new ItemOption(77, 60));
+        rada.options.add(new ItemOption(103, 60));
+        rada.options.add(new ItemOption(93, 1));
+        rada.options.add(new ItemOption(106, 0));
+        rada.options.add(new ItemOption(231, 0));
+
         dropNe(ao);
         dropNe(non);
         dropNe(mu);
@@ -80,17 +105,16 @@ public class FideGold extends Boss {
     @Override
     public void initTalk() {
         this.textTalkMidle = new String[]{"Oải rồi hả?", "Ê cố lên nhóc",
-                "Chán", "Ta có nhầm không nhỉ"};
+            "Chán", "Ta có nhầm không nhỉ"};
 
     }
 
     @Override
     public int injured(Player plAtt, int damage, boolean piercing, boolean isMobAttack) {
         try {
-            if(plAtt == null){
+            if (plAtt == null) {
                 return 0;
             }
-
             int mstChuong = this.nPoint.mstChuong;
             int giamst = this.nPoint.tlGiamst;
 
@@ -180,10 +204,8 @@ public class FideGold extends Boss {
         LocalTime endTime = LocalTime.of(endHour, endMinute);
 
         if (endTime.isBefore(startTime)) {
-            // Nếu end time trước start time, kiểm tra nếu hiện tại là sau start time hoặc trước end time.
             return !currentTime.isBefore(startTime) || !currentTime.isAfter(endTime);
         } else {
-            // Nếu end time sau start time, kiểm tra nếu hiện tại nằm giữa start time và end time.
             return !currentTime.isBefore(startTime) && !currentTime.isAfter(endTime);
         }
     }

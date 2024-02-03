@@ -47,27 +47,38 @@ public class AccountDAO {
             try {
                 ps.close();
             } catch (SQLException ex) {
+                ex.printStackTrace();
             }
         }
     }
 
-    public static void updateAccoutLogout(Session session) {
+    public static void updateAccountLogout(Session session) {// debug
         if (session.uu != null && session.pp != null) {
+            Connection con = null;
             PreparedStatement ps = null;
-            try (Connection con = DBService.gI().getConnectionForGame();) {
-                ps = con.prepareStatement("update account set last_time_logout = ? where id = ?");
-                ps.setTimestamp(1, new Timestamp(System.currentTimeMillis()));
-                ps.setInt(2, session.userId);
-                ps.executeUpdate();
-            } catch (Exception e) {
-                Log.error(AccountDAO.class, e);
-                System.out.println("Error Account:" + session.uu);
+
+            try {
+                con = DBService.gI().getConnectionForGame();
+                if (con != null && !con.isClosed()) {
+                    ps = con.prepareStatement("update account set last_time_logout = ? where id = ?");
+                    ps.setTimestamp(1, new Timestamp(System.currentTimeMillis()));
+                    ps.setInt(2, session.userId);
+                    ps.executeUpdate();
+                } else {
+                    System.out.println("==============Error==============");
+                }
+            } catch (SQLException e) {
+                Log.LogError(AccountDAO.class, "Error account: " + session.uu);
             } finally {
                 try {
-                    if (ps != null) {
+                    if (ps != null && !ps.isClosed()) {
                         ps.close();
                     }
+                    if (con != null && !con.isClosed()) {
+                        con.close();
+                    }
                 } catch (SQLException ex) {
+                    ex.printStackTrace();
                 }
             }
         }

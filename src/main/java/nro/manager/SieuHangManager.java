@@ -253,7 +253,7 @@ public class SieuHangManager {
             rs.close();
             ps.close();
         } catch (Exception e) {
-            e.printStackTrace();
+            Log.LogError(SieuHangManager.class, "function player error: " + player.name);
         }
 
         return result;
@@ -275,9 +275,8 @@ public class SieuHangManager {
             rs.close();
             ps.close();
         } catch (Exception e) {
-            e.printStackTrace();
+            System.out.println("[Error class SieuHangManager player ID: " + player_id + "]");
         } finally {
-            // Đóng các tài nguyên (kết nối và câu lệnh)
             if (connection != null) {
                 try {
                     connection.close();

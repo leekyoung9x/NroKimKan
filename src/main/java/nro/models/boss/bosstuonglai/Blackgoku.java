@@ -23,6 +23,7 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import nro.consts.ConstMap;
 
 /**
  * @stole Arriety
@@ -61,9 +62,9 @@ public class Blackgoku extends Boss {
                 }
             }
             int dame = super.injured(plAtt, damage, piercing, isMobAttack);
-            if (this.isDie()) {
-                rewards(plAtt);
-            }
+//            if (this.isDie()) {
+//                rewards(plAtt);
+//            }
             return dame;
         }
     }
@@ -181,7 +182,7 @@ public class Blackgoku extends Boss {
     @Override
     public void rewards(Player plKill) {
         if (Util.isTrue(10, 90)) {
-            this.dropItemReward(992, (int) plKill.id);
+            this.dropItemRewardWithOption(992, (int) plKill.id, false, 1);
         } else {
             this.dropItemReward(16, (int) plKill.id);
         }
@@ -191,5 +192,24 @@ public class Blackgoku extends Boss {
     protected boolean useSpecialSkill() {
         return false;
     }
-
+    
+    public void dropItemRewardWithOption(int tempId, int playerId, boolean canTran, int... quantity) {
+        if (!this.zone.map.isMapOffline && this.zone.map.type == ConstMap.MAP_NORMAL) {
+            int x = this.location.x + Util.nextInt(-30, 30);
+            if (x < 30) {
+                x = 30;
+            } else if (x > zone.map.mapWidth - 30) {
+                x = zone.map.mapWidth - 30;
+            }
+            int y = this.location.y;
+            if (y > 24) {
+                y = this.zone.map.yPhysicInTop(x, y - 24);
+            }
+            ItemMap itemMap = new ItemMap(this.zone, tempId, (quantity != null && quantity.length == 1) ? quantity[0] : 1, x, y, playerId);
+            if (!canTran) {
+                itemMap.options.add(new ItemOption(30, 0));
+            }
+            Service.getInstance().dropItemMap(itemMap.zone, itemMap);
+        }
+    }
 }

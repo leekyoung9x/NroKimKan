@@ -63,7 +63,7 @@ public class Player {
     public long lastTimeChat;
 
     public List<Integer> idEffChar = new ArrayList<>();
-
+    public boolean haveShiba;
     public int server;
     public byte[] buyLimit;
     public boolean isLinhThuFollow;
@@ -97,6 +97,9 @@ public class Player {
 
     public int playerTradeId = -1;
     public Player playerTrade;
+
+    public int pointShiba;
+    public int diem_skien;
 
     public int mapIdBeforeLogout;
     public List<Zone> mapBlackBall;
@@ -209,8 +212,6 @@ public class Player {
     @Setter
     @Getter
     private LocalDateTime timeCache;
-
-    public boolean haveShiba;
 
     public Player() {
         location = new Location();
@@ -503,7 +504,20 @@ public class Player {
                 return (byte) card.getCardTemplate().getAura();
             }
         }
-        return -1;
+        if (this.inventory.itemsBody.isEmpty() || this.inventory.itemsBody.size() < 10) {
+            return -1;
+        }
+        Item item = this.inventory.itemsBody.get(5);
+        if (!item.isNotNullItem()) {
+            return -1;
+        }
+        switch (item.template.id) {
+            case 2064:
+                return 2;
+            default:
+                return -1;
+        }
+
     }
 
     public boolean checkSkinFusion() {

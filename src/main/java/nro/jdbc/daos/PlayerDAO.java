@@ -344,7 +344,7 @@ public class PlayerDAO {
             ps.executeUpdate();
 //            Log.success("Tạo player mới thành công!");
         } catch (Exception e) {
-            Log.error(PlayerDAO.class, e, "Lỗi tạo player mới");
+            Log.LogError(PlayerDAO.class, "createNewPlayer");
         } finally {
             try {
                 if (con != null) {
@@ -355,7 +355,7 @@ public class PlayerDAO {
                 }
                 SieuHangManager.InsertNewPlayer(userId);
             } catch (Exception e) {
-                Log.error(PlayerDAO.class, e, "Lỗi tạo player mới");
+                Log.LogError(PlayerDAO.class, "createNewPlayer");
             }
         }
     }
@@ -655,8 +655,8 @@ public class PlayerDAO {
 
                     JSONArray dataItemNew = new JSONArray();
                     dataItemNew.add(player.itemTime.isDuoiKhi ? (ItemTime.TIME_MAY_DO - (System.currentTimeMillis() - player.itemTime.lastTimeDuoiKhi)) : 0);
-                    dataItemNew.add(player.itemTime.isBanhTrungThu1Trung ? (ItemTime.TIME_ITEM - (System.currentTimeMillis() - player.itemTime.lastTimeBanhTrungThu1Trung)) : 0);
-                    dataItemNew.add(player.itemTime.isBanhTrungThu2Trung ? (ItemTime.TIME_ITEM - (System.currentTimeMillis() - player.itemTime.lastTimeBanhTrungThu2Trung)) : 0);
+                    dataItemNew.add(player.itemTime.isBanhTrungThu1Trung ? (ItemTime.TIME_MAY_DO - (System.currentTimeMillis() - player.itemTime.lastTimeBanhTrungThu1Trung)) : 0);
+                    dataItemNew.add(player.itemTime.isBanhTrungThu2Trung ? (ItemTime.TIME_MAY_DO - (System.currentTimeMillis() - player.itemTime.lastTimeBanhTrungThu2Trung)) : 0);
                     dataItemNew.add(player.itemTime.rateDragonHit ? (ItemTime.TIME_MAY_DO - (System.currentTimeMillis() - player.itemTime.lastTimerateHit)) : 0);
                     dataItemNew.add(player.itemTime.rateDame ? (ItemTime.TIME_MAY_DO - (System.currentTimeMillis() - player.itemTime.lastTimeDameDr)) : 0);
                     dataItemTime.add(player.itemTime.rateHPKI ? (ItemTime.TIME_MAY_DO - (System.currentTimeMillis() - player.itemTime.lastTimerateHPKI)) : 0);
@@ -876,7 +876,8 @@ public class PlayerDAO {
                                 + "pet_info = ?, pet_point = ?, pet_body = ?, pet_skill = ? , power = ?, pet_power = ?, "
                                 + "data_black_ball = ?, data_side_task = ?, data_charm = ?, skills = ?, skills_shortcut = ?,"
                                 + "thoi_vang = ?, 1sao = ?, 2sao = ?, 3sao = ?, collection_book = ?, event_point = ?, firstTimeLogin = ?,"
-                                + " challenge = ?, sk_tet = ?, buy_limit = ?, moc_nap = ?,achivements = ? , reward_limit = ?, item_new_time = ?, data_bill_egg = ? , data_egg_linhthu = ? , time_may_do = ? where id = ?");
+                                + " challenge = ?, sk_tet = ?, buy_limit = ?, moc_nap = ?,achivements = ? , reward_limit = ?, item_new_time = ?,"
+                                + " data_bill_egg = ? , data_egg_linhthu = ? , time_may_do = ?, pointShiba = ?, diem_skien =? where id = ?");
 
                         ps.setShort(1, player.head);
                         ps.setBoolean(2, player.haveTennisSpaceShip);
@@ -923,10 +924,12 @@ public class PlayerDAO {
                         ps.setString(43, billEgg);
                         ps.setString(44, eggLinhThu);
                         ps.setString(45, itemMayDo);
-                        ps.setInt(46, (int) player.id);
+                        ps.setInt(46, (int) player.pointShiba);
+                        ps.setInt(47, (int) player.diem_skien);
+                        ps.setInt(48, (int) player.id);
                         ps.executeUpdate();
                         if (updateTimeLogout) {
-                            AccountDAO.updateAccoutLogout(player.getSession());
+                            AccountDAO.updateAccountLogout(player.getSession());
                         }
                     } catch (Exception e) {
                         System.out.println("Thằng bị lỗi là thằng: " + player.name);

@@ -124,6 +124,28 @@ public class ChangeMapService {
         }
     }
 
+    // capsule, tàu vũ trụ
+    public void changeMapBySpaceShip(Player pl, int mapId, int zone, int x) {
+        if (pl.isDie()) {
+            if (pl.haveTennisSpaceShip) {
+                Service.getInstance().hsChar(pl, pl.nPoint.hpMax, pl.nPoint.mpMax);
+            } else {
+                Service.getInstance().hsChar(pl, 1, 1);
+            }
+        } else {
+            if (pl.haveTennisSpaceShip) {
+                pl.nPoint.setFullHpMp();
+                PlayerService.gI().sendInfoHpMp(pl);
+            }
+        }
+        if (pl.playerTask.achivements.size() > ConstAchive.KHINH_CONG_THANH_THAO) {// debug
+            pl.playerTask.achivements.get(ConstAchive.KHINH_CONG_THANH_THAO).count++;
+        } else {
+            Service.getInstance().sendThongBao(pl, "Đã có lỗi xảy ra");
+        }
+        changeMap(pl, null, mapId, zone, x, 5, AUTO_SPACE_SHIP);
+    }
+
     public void changeZoneForBoss(Player pl, int zoneId) {
         int mapid = pl.zone.map.mapId;
         if ((MapService.gI().isMapDoanhTrai(mapid)
@@ -153,28 +175,6 @@ public class ChangeMapService {
             Service.getInstance().sendThongBaoOK(pl, "Không thể đổi khu vực lúc này, vui lòng đợi "
                     + TimeUtil.getTimeLeft(pl.lastTimeChangeZone, 10));
         }
-    }
-
-    // capsule, tàu vũ trụ
-    public void changeMapBySpaceShip(Player pl, int mapId, int zone, int x) {
-        if (pl.isDie()) {
-            if (pl.haveTennisSpaceShip) {
-                Service.getInstance().hsChar(pl, pl.nPoint.hpMax, pl.nPoint.mpMax);
-            } else {
-                Service.getInstance().hsChar(pl, 1, 1);
-            }
-        } else {
-            if (pl.haveTennisSpaceShip) {
-                pl.nPoint.setFullHpMp();
-                PlayerService.gI().sendInfoHpMp(pl);
-            }
-        }
-        if (pl.playerTask.achivements.size() > ConstAchive.KHINH_CONG_THANH_THAO) {// debug
-            pl.playerTask.achivements.get(ConstAchive.KHINH_CONG_THANH_THAO).count++;
-        } else {
-            Service.getInstance().sendThongBao(pl, "Đã có lỗi xảy ra");
-        }
-        changeMap(pl, null, mapId, zone, x, 5, AUTO_SPACE_SHIP);
     }
 
     public void changeMapNonSpaceship(Player player, int mapid, int x, int y) {
@@ -217,7 +217,7 @@ public class ChangeMapService {
 
     public void changeMap(Player pl, Zone zoneJoin, int mapId, int zoneId, int x, int y, byte typeSpace) {
         boolean checkByTask = TaskService.gI().checkTaskTDST(pl);
-        
+
         if (zoneJoin != null) {
             if (checkByTask && MapService.gI().isMapQuestTDST(zoneJoin.map.mapId)) {
                 checkByTask = true;

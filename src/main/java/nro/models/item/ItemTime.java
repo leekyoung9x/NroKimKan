@@ -111,13 +111,13 @@ public class ItemTime {
             }
         }
         if (isBanhTrungThu1Trung) {
-            if (Util.canDoWithTime(lastTimeBanhTrungThu1Trung, TIME_ITEM)) {
+            if (Util.canDoWithTime(lastTimeBanhTrungThu1Trung, TIME_MAY_DO)) {
                 isBanhTrungThu1Trung = false;
                 update = true;
             }
         }
         if (isBanhTrungThu2Trung) {
-            if (Util.canDoWithTime(lastTimeBanhTrungThu2Trung, TIME_ITEM)) {
+            if (Util.canDoWithTime(lastTimeBanhTrungThu2Trung, TIME_MAY_DO)) {
                 isBanhTrungThu2Trung = false;
                 update = true;
             }

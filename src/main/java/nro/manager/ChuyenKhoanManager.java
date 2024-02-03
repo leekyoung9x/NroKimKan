@@ -467,7 +467,6 @@ public class ChuyenKhoanManager {
         if (transaction == null) {
             return;
         }
-
         if (canCheck) {
             transaction = GetTransactionById(player.id, transactionId);
             String history = GetTransactionOnline("https://api.web2m.com/historyapimb/Tuanbeo@12345/02147019062000/F3CAC210-DAC1-BD7F-7A26-A2643A5B3DD7");
@@ -480,8 +479,6 @@ public class ChuyenKhoanManager {
                 for (TransactionHistory transactionHistory : response.getData()) {
                     if (Double.parseDouble(transactionHistory.getCreditAmount()) == transaction.amount && Util.containsSubstring(transactionHistory.getDescription(), transaction.description)) {
                         double ruby = transaction.amount;
-
-                        // TODO
                         PlayerDAO.addVnd(player, (int) transaction.amount);
                         player.getSession().vnd += ruby;
                         player.getSession().poinCharging += ruby;

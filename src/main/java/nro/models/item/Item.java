@@ -170,6 +170,9 @@ public class Item {
     public boolean isItemFlagBagPet(){
         return this.template.id == 1197 || this.template.id == 2053;
     }
+    public boolean isItemMountPet(){
+        return this.template.id == 1278;
+    }
 
     public boolean isDHD() {
         if (this.template.id >= 650 && this.template.id <= 662) {

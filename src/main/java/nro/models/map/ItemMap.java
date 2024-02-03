@@ -24,6 +24,7 @@ public class ItemMap {
     public List<ItemOption> options;
 
     public long createTime;
+    public boolean isCheckDuplicate = false;
 
     private final int timeMoveToPlayer = 10000;
     private long lastTimeMoveToPlayer;
@@ -34,8 +35,6 @@ public class ItemMap {
     public byte typeHaveBallTranhDoat = -1;
 
     public boolean isPickedUp;
-
-    public boolean isCheckDuplicate = false;
 
     public ItemMap(Zone zone, int tempId, int quantity, int x, int y, long playerId) {
         this.zone = zone;

@@ -33,7 +33,7 @@ public class LinhCanh extends Npc {
             if (player.clan == null) {
                 this.createOtherMenu(player, ConstNpc.MENU_KHONG_CHO_VAO_DT,
                         "Chỉ tiếp các bang hội, miễn tiếp khách vãng lai", "Đóng");
-            } else if (player.clan.getMembers().size() < 5) {
+            } else if (player.clan.getMembers().size() < 2) {
 //                                } else if (player.clan.getMembers().size() < 1) {
                 this.createOtherMenu(player, ConstNpc.MENU_KHONG_CHO_VAO_DT,
                         "Bang hội phải có ít nhất 5 thành viên mới có thể mở", "Đóng");

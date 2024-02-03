@@ -78,7 +78,7 @@ public class LoginController {
             ps.setInt(2, id);
             ps.executeUpdate();
         } catch (Exception e) {
-            Log.error(LoginController.class, e);
+            Log.LogError(LoginController.class, "updateTimeLogout: account" + id);
         } finally {
             if (ps != null) {
                 ps.close();

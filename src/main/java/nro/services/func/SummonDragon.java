@@ -976,6 +976,9 @@ public class SummonDragon {
     }
 
     public void shenronLeave(Player pl, byte type) {
+        if (pl == null) {
+            return;
+        }
         try {
             if (type == WISHED) {
                 NpcService.gI().createTutorial(pl, -1, "Điều ước của ngươi đã trở thành sự thật\nHẹn gặp ngươi lần sau, ta đi ngủ đây, bái bai");

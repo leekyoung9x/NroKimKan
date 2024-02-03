@@ -92,6 +92,9 @@ public class NpcService {
     }
 
     public void createTutorial(Player player, int avatar, String npcSay) {
+        if (player == null) {
+            return;
+        }
         Message msg;
         try {
             msg = new Message(38);

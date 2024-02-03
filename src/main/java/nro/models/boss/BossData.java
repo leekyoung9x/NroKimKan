@@ -143,6 +143,20 @@ public class BossData {
             _MUNGEN_GIO
     );
 
+    public static final BossData THAN_MEO_KARIN = new BossData(
+            "Thền mèo Karin", //name
+            ConstPlayer.XAYDA, //gender
+            Boss.DAME_NORMAL, //type dame
+            Boss.HP_NORMAL, //type hp
+            500_000, //dame
+            new int[][]{{1_500_000_000}}, //hp
+            new short[]{89, 90, 91}, //outfit
+            new short[]{5}, //map join
+            new int[][]{ //skill
+            },
+            0
+    );
+
     public static final BossData DOI_NHI = new BossData(
             "Dơi Nhí", //name
             ConstPlayer.XAYDA, //gender
@@ -1939,7 +1953,7 @@ public class BossData {
             .outfit(new short[]{502, 503, 504})
             .mapJoin(new short[]{6})
             .skillTemp(new int[][]{
-                    {Skill.KHIEN_NANG_LUONG, 7, 500},
+        {Skill.KHIEN_NANG_LUONG, 7, 500},
         {Skill.DRAGON, 1, 100}, {Skill.DRAGON, 2, 200}, {Skill.DRAGON, 3, 300}, {Skill.DRAGON, 7, 700},
         {Skill.KAMEJOKO, 1, 1000}, {Skill.KAMEJOKO, 2, 1200}, {Skill.KAMEJOKO, 5, 1500}, {Skill.KAMEJOKO, 7, 1700},
         {Skill.GALICK, 1, 100}
@@ -2008,24 +2022,10 @@ public class BossData {
             new short[]{353, 354, 355}, //outfit
             new short[]{211}, //map join
             new int[][]{ //skill
-                    {Skill.DEMON, 3, 450}, {Skill.DEMON, 6, 400}, {Skill.DRAGON, 7, 650}, {Skill.DRAGON, 1, 500}, {Skill.GALICK, 5, 480},
-                    {Skill.KAMEJOKO, 7, 2000}, {Skill.KAMEJOKO, 6, 1800}, {Skill.KAMEJOKO, 4, 1500}, {Skill.KAMEJOKO, 2, 1000},
-                    {Skill.ANTOMIC, 3, 1200}, {Skill.ANTOMIC, 5, 1700}, {Skill.ANTOMIC, 7, 2000},
-                    {Skill.MASENKO, 1, 800}, {Skill.MASENKO, 5, 1300}, {Skill.MASENKO, 6, 1500},},
+                {Skill.DEMON, 3, 450}, {Skill.DEMON, 6, 400}, {Skill.DRAGON, 7, 650}, {Skill.DRAGON, 1, 500}, {Skill.GALICK, 5, 480},
+                {Skill.KAMEJOKO, 7, 2000}, {Skill.KAMEJOKO, 6, 1800}, {Skill.KAMEJOKO, 4, 1500}, {Skill.KAMEJOKO, 2, 1000},
+                {Skill.ANTOMIC, 3, 1200}, {Skill.ANTOMIC, 5, 1700}, {Skill.ANTOMIC, 7, 2000},
+                {Skill.MASENKO, 1, 800}, {Skill.MASENKO, 5, 1300}, {Skill.MASENKO, 6, 1500},},
             _15_PHUT
-    );
-
-    public static final BossData THAN_MEO_KARIN = new BossData(
-            "Thền mèo Karin", //name
-            ConstPlayer.XAYDA, //gender
-            Boss.DAME_NORMAL, //type dame
-            Boss.HP_NORMAL, //type hp
-            500_000, //dame
-            new int[][]{{1_500_000_000}}, //hp
-            new short[]{353, 354, 355}, //outfit
-            new short[]{5}, //map join
-            new int[][]{ //skill
-            },
-            0
     );
 }

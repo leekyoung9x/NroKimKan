@@ -76,6 +76,9 @@ public class SatanKing extends Boss {
 
     @Override
     public int injured(Player plAtt, int damage, boolean piercing, boolean isMobAttack) {
+        if (plAtt == null) {
+            return 0;
+        }
         if (!playerAttack.contains(plAtt.id)) {
             playerAttack.add(plAtt.id);
         }

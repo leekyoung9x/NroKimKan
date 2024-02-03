@@ -22,6 +22,7 @@ import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
+import nro.server.Manager;
 import nro.utils.FileIO;
 
 /**
@@ -47,6 +48,7 @@ public class Resources {
     }
 
     public void init() {
+        System.out.println("============nro.resources.Resources.init()============");
         for (AbsResources res : resourceses) {
             res.init();
         }
@@ -225,6 +227,23 @@ public class Resources {
             }
         } catch (IOException e) {
             e.printStackTrace();
+        }
+    }
+
+    public static void sendImageByName(Session session, String imgName) {
+        Message msg;
+        try {
+            msg = new Message(66);
+            msg.writer().writeUTF(imgName);
+            msg.writer().writeByte(Manager.getNFrameImageByName(imgName));
+            byte[] data = FileIO.readFile("img_by_name/x" + session.zoomLevel + "/" + imgName + ".png");
+            msg.writer().writeInt(data.length);
+            msg.writer().write(data);
+            session.sendMessage(msg);
+            msg.cleanup();
+        } catch (Exception e) {
+//            System.out.println("Thieu imgbyname: " + imgName);
+//            e.printStackTrace();
         }
     }
 

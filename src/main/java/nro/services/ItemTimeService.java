@@ -38,10 +38,10 @@ public class ItemTimeService {
                     (int) ((Fusion.TIME_FUSION - (System.currentTimeMillis() - player.fusion.lastTimeFusion)) / 1000));
         }
         if (player.itemTime.isBanhTrungThu1Trung) {
-            sendItemTime(player, 4042, (int) ((TIME_ITEM - (System.currentTimeMillis() - player.itemTime.lastTimeBanhTrungThu1Trung)) / 1000));
+            sendItemTime(player, 7079, (int) ((TIME_MAY_DO - (System.currentTimeMillis() - player.itemTime.lastTimeBanhTrungThu1Trung)) / 1000));
         }
         if (player.itemTime.isBanhTrungThu2Trung) {
-            sendItemTime(player, 4043, (int) ((TIME_ITEM - (System.currentTimeMillis() - player.itemTime.lastTimeBanhTrungThu2Trung)) / 1000));
+            sendItemTime(player, 7080, (int) ((TIME_MAY_DO - (System.currentTimeMillis() - player.itemTime.lastTimeBanhTrungThu2Trung)) / 1000));
         }
         if (player.itemTime.isDuoiKhi) {
             sendItemTime(player, 5829, (int) ((TIME_MAY_DO - (System.currentTimeMillis() - player.itemTime.lastTimeDuoiKhi)) / 1000));

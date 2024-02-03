@@ -7,8 +7,6 @@ package nro.models.npc.NpcForge;
 import nro.consts.ConstNpc;
 import nro.manager.ChuyenKhoanManager;
 import nro.models.Transaction;
-import nro.models.boss.Boss;
-import nro.models.boss.BossManager;
 import nro.models.clan.Clan;
 import nro.models.clan.ClanMember;
 import nro.models.map.phoban.BanDoKhoBau;
@@ -28,6 +26,8 @@ import nro.utils.Util;
 import java.awt.*;
 import java.net.URI;
 import java.time.LocalDateTime;
+import nro.models.boss.Boss;
+import nro.models.boss.BossManager;
 
 /**
  *
@@ -44,7 +44,7 @@ public class QuyLaoKame extends Npc {
         if (canOpenNpc(player)) {
             if (!TaskService.gI().checkDoneTaskTalkNpc(player, this)) {
                 this.createOtherMenu(player, ConstNpc.BASE_MENU,
-                        "Chào con, con muốn ta giúp gì nào?", "Nói chuyện", "Nạp tiền", "Trả cậu vàng",
+                        "Chào con, con muốn ta giúp gì nào?", "Nói chuyện", "Nạp tiền", "Trả Tó",
                         "Từ chối");
             }
         }
@@ -76,15 +76,16 @@ public class QuyLaoKame extends Npc {
                                     boss.leaveMap();
                                     BossManager.gI().removeBoss(boss);
                                     player.haveShiba = false;
-                                    Service.getInstance().sendThongBao(player, "Ôi mừng quá đây là con chó mà ta đang đi tìm, Ta tặng cậu 1 món quà nhé");
-
-                                    // TODO: Tặng quà ở đây
+                                    Service.getInstance().sendThongBao(player, "Ôi mừng quá đây là con chó mà ta đang đi tìm, Ta tặng cậu 1 điểm sự kiện tết nhé");
+                                    player.pointShiba++;
+                                    player.diem_skien++;
                                 }
                             }
                         } else {
                             Service.getInstance().sendThongBao(player, "Đâu Shiba đâu dm béo");
                         }
                     }
+                    break;
                 }
             } else if (player.iDMark.getIndexMenu() == ConstNpc.NOI_CHUYEN) {
                 switch (select) {

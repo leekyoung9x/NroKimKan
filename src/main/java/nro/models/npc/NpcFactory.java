@@ -45,11 +45,14 @@ public class NpcFactory {
         Npc npc = null;
         try {
             switch (tempId) {
+                case ConstNpc.ONG_GIA: {
+                    npc = new OngGia(mapId, status, cx, cy, tempId, avartar);
+                    break;
+                }
                 case ConstNpc.TO_SU_KAIO: {
                     npc = new ToSu(mapId, status, cx, cy, tempId, avartar);
                     break;
                 }
-
                 case ConstNpc.CUA_HANG_KY_GUI: {
                     npc = new CuaHangKyGui(mapId, status, cx, cy, tempId, avartar);
                     break;
@@ -1038,7 +1041,7 @@ public class NpcFactory {
             case ConstEvent.SU_KIEN_NOEL:
                 return "Sự Kiện\n Giáng Sinh";
             case ConstEvent.SU_KIEN_TET:
-                return "Sự Kiện\n Tết Nguyên\nĐán 2024";
+                return "Sự Kiện\n Tết Nguyên\nĐán 2023";
             case ConstEvent.SU_KIEN_8_3:
                 return "Sự Kiện\n 8/3";
         }

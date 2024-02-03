@@ -55,6 +55,8 @@ import java.util.List;
 import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * @author 💖 Arriety 💖
@@ -93,6 +95,8 @@ public class Manager {
     };
 
     public static final List<String> TOP_PLAYERS = new ArrayList<>();
+
+    public static final Map<String, Byte> IMAGES_BY_NAME = new HashMap<String, Byte>();
 
     public static MapTemplate[] MAP_TEMPLATES;
     public static final List<nro.models.map.Map> MAPS = new ArrayList<>();
@@ -640,6 +644,14 @@ public class Manager {
             }
             Log.success("Load reward lucky round thành công (" + MOB_REWARDS.size() + ")");
 
+            //load img by name
+            ps = con.prepareStatement("select name, n_frame from img_by_name");
+            rs = ps.executeQuery();
+            while (rs.next()) {
+                IMAGES_BY_NAME.put(rs.getString("name"), rs.getByte("n_frame"));
+            }
+            Log.success("Load images by name thành công (" + IMAGES_BY_NAME.size() + ")\n");
+
             //load mob template
             ps = con.prepareStatement("select * from mob_template");
             rs = ps.executeQuery();
@@ -892,7 +904,7 @@ public class Manager {
         if (properties.containsKey("login.port")) {
             loginPort = Integer.parseInt(properties.getProperty("login.port"));
         } else {
-            loginPort = 8888;
+            loginPort = 8889;
         }
         if (properties.containsKey("update.timelogin")) {
             ServerManager.updateTimeLogin = Boolean.parseBoolean(properties.getProperty("update.timelogin"));
@@ -1077,6 +1089,15 @@ public class Manager {
             } catch (SQLException ex) {
                 ex.printStackTrace();
             }
+        }
+    }
+
+    public static byte getNFrameImageByName(String name) {
+        Object n = IMAGES_BY_NAME.get(name);
+        if (n != null) {
+            return Byte.parseByte(String.valueOf(n));
+        } else {
+            return 0;
         }
     }
 }

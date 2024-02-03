@@ -38,7 +38,7 @@ public class RandomCollection<E> {
     }
     
     public RandomCollection<E> add(double weight, E result, String function) {
-        System.err.println("Add at function: " + function);
+//        System.err.println("Add at function: " + function);
         if (weight <= 0) {
             return this;
         }

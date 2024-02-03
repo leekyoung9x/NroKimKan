@@ -9,6 +9,7 @@ import nro.models.npc.Npc;
 import nro.models.player.Player;
 import nro.services.func.ChangeMapService;
 import nro.services.func.CombineServiceNew;
+import static nro.services.func.CombineServiceNew.PHA_LE_HOA_CAI_TRANG;
 import static nro.services.func.CombineServiceNew.TRADE_PET;
 import nro.services.func.ShopService;
 
@@ -34,6 +35,7 @@ public class BaHatMit extends Npc {
                             "Nâng cấp\nĐệ tử Super",
                             "Trade Black GâuKu",
                             "Pha lê hóa\nKiếm Hasakii",
+                            "Pha lê hóa\nCải trang",
                             "Hành tinh\nĐịa ngục"
                     );
                     break;
@@ -82,6 +84,9 @@ public class BaHatMit extends Npc {
                                 CombineServiceNew.gI().openTabCombine(player, CombineServiceNew.PHA_LE_HOA_DISGUISE);
                                 break;
                             case 5:
+                                CombineServiceNew.gI().openTabCombine(player, CombineServiceNew.PHA_LE_HOA_CAI_TRANG);
+                                break;
+                            case 6:
                                 if (player.playerTask.taskMain.id < 26) {
                                     this.npcChat(player, "Vui lòng hoàn thành xong nhiệm vụ Xên bọ hung mới được vào map");
                                     break;
@@ -104,6 +109,7 @@ public class BaHatMit extends Npc {
                             case CombineServiceNew.UPGRADE_PET:
                             case CombineServiceNew.TRADE_PET:
                             case CombineServiceNew.PHA_LE_HOA_DISGUISE:
+                            case CombineServiceNew.PHA_LE_HOA_CAI_TRANG:
                                 if (select == 0) {
                                     CombineServiceNew.gI().startCombine(player);
                                 }

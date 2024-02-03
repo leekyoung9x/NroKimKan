@@ -21,12 +21,12 @@ import nro.models.boss.event.noel.NoelBoss;
 import nro.models.boss.event.noel.NoelBossBall;
 import nro.models.boss.event.noel.NoelBossOne;
 import nro.models.boss.event.noel.NoelBossTwo;
-import nro.models.boss.event_tet.CatGodKarin;
 import nro.models.boss.fide.*;
 import nro.models.boss.halloween.BoXuong;
 import nro.models.boss.halloween.MaTroi;
 import nro.models.boss.hell.DraculaHutMau;
 import nro.models.boss.hell.SatanKing;
+import nro.models.boss.list_boss.CatGodKarin;
 import nro.models.boss.list_boss.NhanBan;
 import nro.models.boss.list_boss.Raity;
 import nro.models.boss.list_boss.WhisTop;
@@ -227,6 +227,7 @@ public class BossFactory {
         new Thread(() -> {
             try {
                 createBoss(BASIL);
+                createBoss(FIDEGOLD);
                 createBoss(CUMBER);
                 createBoss(BLACKGOKU);
                 createBoss(CHILL);
@@ -234,6 +235,7 @@ public class BossFactory {
                 createBoss(COOLER);
                 createBoss(XEN_BO_HUNG);
                 createBoss(KUKU);
+                createBoss(THAN_MEO_KARIN);
                 createBoss(MAP_DAU_DINH);
                 createBoss(RAMBO);
                 createBoss(TIEU_DOI_TRUONG);
@@ -245,8 +247,6 @@ public class BossFactory {
                 createBoss(DRACULA_HUT_MAU);
                 createBoss(SATAN_KING);
                 createBoss(SANTA_CLAUS);
-                createBoss(THAN_MEO_KARIN);
-                createBoss(FIDEGOLD);
                 for (int i = 0; i < 20; i++) {
                     createBoss(BROLY);
                 }
@@ -328,6 +328,9 @@ public class BossFactory {
     public static Boss createBoss(int bossId) {
         Boss boss = null;
         switch (bossId) {
+            case THAN_MEO_KARIN:
+                boss = new CatGodKarin();
+                break;
             case BROLY:
                 boss = new Broly();
                 break;
@@ -450,9 +453,6 @@ public class BossFactory {
                 break;
             case FIDEGOLD:
                 boss = new FideGold();
-                break;
-            case THAN_MEO_KARIN:
-                boss = new CatGodKarin();
                 break;
         }
         return boss;

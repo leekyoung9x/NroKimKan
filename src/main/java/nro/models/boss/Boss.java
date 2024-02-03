@@ -117,6 +117,22 @@ public abstract class Boss extends Player implements BossInterface {
         this.status = status;
     }
 
+    public Boss(long id, BossData data, boolean canPK) {
+        super();
+        this.id = id;
+        this.skillsAttack = new ArrayList<>();
+        this.skillsSpecial = new ArrayList<>();
+        this.data = data;
+        this.isBoss = true;
+        this.initTalk();
+        this.respawn();
+        setJustRest();
+        this.typePk = ConstPlayer.NON_PK;
+        if (!(this instanceof CBoss)) {
+            BossManager.gI().addBoss(this);
+        }
+    }
+
     public Boss(byte id, BossData data) {
         super();
         this.id = id;
@@ -142,22 +158,6 @@ public abstract class Boss extends Player implements BossInterface {
         this.initTalk();
         this.respawn();
         setJustRest();
-        if (!(this instanceof CBoss)) {
-            BossManager.gI().addBoss(this);
-        }
-    }
-
-    public Boss(long id, BossData data, boolean canPK) {
-        super();
-        this.id = id;
-        this.skillsAttack = new ArrayList<>();
-        this.skillsSpecial = new ArrayList<>();
-        this.data = data;
-        this.isBoss = true;
-        this.initTalk();
-        this.respawn();
-        setJustRest();
-        this.typePk = ConstPlayer.NON_PK;
         if (!(this instanceof CBoss)) {
             BossManager.gI().addBoss(this);
         }
@@ -263,6 +263,12 @@ public abstract class Boss extends Player implements BossInterface {
         }
     }
 
+    protected void rest() {
+        if (Util.canDoWithTime(lastTimeRest, secondTimeRestToNextTimeAppear * 1000)) {
+            this.changeStatus(JUST_JOIN_MAP);
+        }
+    }
+
 //    @Override
 //    public void active() {
 //        if (this.typePk == ConstPlayer.NON_PK) {
@@ -270,13 +276,6 @@ public abstract class Boss extends Player implements BossInterface {
 //        }
 //        this.attack();
 //    }
-
-    protected void rest() {
-        if (Util.canDoWithTime(lastTimeRest, secondTimeRestToNextTimeAppear * 1000)) {
-            this.changeStatus(JUST_JOIN_MAP);
-        }
-    }
-
     @Override
     public void update() {
         super.update();
@@ -463,14 +462,20 @@ public abstract class Boss extends Player implements BossInterface {
 
     @Override
     public void joinMap() {
-        if (this.zone == null) {
-            this.zone = getMapCanJoin(mapJoin[Util.nextInt(0, mapJoin.length - 1)]);
+        try {
+            if (this.zone == null) {
+                this.zone = getMapCanJoin(mapJoin[Util.nextInt(0, mapJoin.length - 1)]);
+            }
+            if (this.zone != null) {
+                ChangeMapService.gI().changeMapBySpaceShip(this, this.zone, ChangeMapService.TELEPORT_YARDRAT);
+                ServerNotify.gI().notify("Boss " + this.name + " vừa xuất hiện tại " + this.zone.map.mapName);
+                System.out.println("Boss: " + this.name + " xuất hiện mapId: " + this.zone.map.mapId + " zone: " + this.zone.zoneId);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.out.println("Boss error: " + this.name);
         }
-        if (this.zone != null) {
-            ChangeMapService.gI().changeMapBySpaceShip(this, this.zone, ChangeMapService.TELEPORT_YARDRAT);
-            ServerNotify.gI().notify("Boss " + this.name + " vừa xuất hiện tại " + this.zone.map.mapName);
-            System.out.println("Boss: " + this.name + " xuất hiện mapId: " + this.zone.map.mapId + " zone: " + this.zone.zoneId);
-        }
+
     }
 
     public Zone getMapCanJoin(int mapId) {
@@ -711,13 +716,13 @@ public abstract class Boss extends Player implements BossInterface {
     }
 
     @Override
-    public void generalRewards(Player player) {//Hmmmmm....phẩn thưởng chung (boss nào cũng rớt - boss phó bản)
+    public void generalRewards(Player player) {//All Boss
         if (player != null) {
             ItemMap itemMap = null;
             int x = this.location.x;
             int y = this.zone.map.yPhysicInTop(x, this.location.y - 24);
             RandomCollection<Integer> rd = new RandomCollection<>();
-            rd.add(1, ConstItem.NGOC_RONG_4_SAO, "DDijt nhau au au " + this.name);
+            rd.add(1, ConstItem.NGOC_RONG_4_SAO/*, "DDijt nhau au au " + this.name */);
             int rwID = rd.next();
             itemMap = new ItemMap(this.zone, rwID, Util.nextInt(1, 5), x, y, player.id);
             RewardService.gI().initBaseOptionClothes(itemMap.itemTemplate.id, itemMap.itemTemplate.type, itemMap.options);

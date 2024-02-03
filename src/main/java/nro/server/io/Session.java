@@ -325,6 +325,7 @@ public class Session {
 
             // -64 my flag bag
             Service.getInstance().sendFlagBag(player);
+//            Service.getInstance().sendFlagBag(player.pet);
 
             // -113 skill shortcut
             player.playerSkill.sendSkillShortCut();

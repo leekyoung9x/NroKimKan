@@ -371,6 +371,8 @@ public class ShopService {
     }
 
     private void learnSkill(Player player, ItemShop it) {
+        TransactionService.gI().cancelTrade(player);
+
         Message msg;
         try {
             if (it != null && (it.temp.gender == player.gender || it.temp.gender == 3)) {
@@ -423,6 +425,8 @@ public class ShopService {
     }
 
     private void buyItemShopNormal(Player player, ItemShop is) {
+        TransactionService.gI().cancelTrade(player);
+
         if (is != null) {
             if (player.iDMark.getShopId() == ConstNpc.SHOP_BILL_HUY_DIET_0) {
                 Item eat = InventoryService.gI().findMealChangeDestroyClothes(player);
@@ -663,6 +667,8 @@ public class ShopService {
     }
 
     private void getItemSideBoxLuckyRound(Player player, byte type, int index) {
+        TransactionService.gI().cancelTrade(player);
+
         if (index < 0 || index >= player.inventory.itemsBoxCrackBall.size()) {
             return;
         }
@@ -806,6 +812,7 @@ public class ShopService {
     //--------------------------------------------------------------------------
     //điều hướng mua
     public void buyItem(Player player, byte type, int tempId) {
+        TransactionService.gI().cancelTrade(player);
         switch (player.iDMark.getShopId()) {
             case ConstNpc.SIDE_BOX_LUCKY_ROUND:
                 getItemSideBoxLuckyRound(player, type, tempId);
@@ -862,6 +869,7 @@ public class ShopService {
     }
 
     public void sellItem(Player pl, int where, int index) {
+        TransactionService.gI().cancelTrade(pl);
         Item item = null;
         if (where == 0) {
             if (index < 0 || index >= pl.inventory.itemsBody.size()) {

@@ -82,9 +82,9 @@ public class CombineServiceNew {
     public static final int UPGRADE_PET = 523;
     public static final int TRADE_PET = 524;
     public static final int PHA_LE_HOA_DISGUISE = 525;
-
-    public static final int DAP_BONG_TAI_CAP_3 = 527;
     public static final int NANG_CAP_BONG_TAI_CAP3 = 526;
+    public static final int DAP_BONG_TAI_CAP_3 = 527;
+    public static final int PHA_LE_HOA_CAI_TRANG = 528;
 
     private static final int GOLD_MOCS_BONG_TAI = 500_000_000;
 
@@ -542,6 +542,60 @@ public class CombineServiceNew {
                                         + Util.numberToMoney(player.combineNew.goldCombine - player.inventory.gold)
                                         + " vàng";
                                 baHatMit.createOtherMenu(player, ConstNpc.IGNORE_MENU, npcSay, "Đóng");
+                            }
+                        } else {
+                            this.baHatMit.createOtherMenu(player, ConstNpc.IGNORE_MENU,
+                                    "Vật phẩm đã đạt tối đa sao pha lê", "Đóng");
+                        }
+                    } else {
+                        this.baHatMit.createOtherMenu(player, ConstNpc.IGNORE_MENU, "Vật phẩm này không thể đục lỗ",
+                                "Đóng");
+                    }
+                } else {
+                    this.baHatMit.createOtherMenu(player, ConstNpc.IGNORE_MENU, "Hãy hãy chọn 1 vật phẩm để pha lê hóa",
+                            "Đóng");
+                }
+                break;
+            case PHA_LE_HOA_CAI_TRANG:
+                if (player.combineNew.itemsCombine.size() == 2) {
+                    Item item = player.combineNew.itemsCombine.get(0);
+                    if (isItemCaiTrang(item)) {
+                        int star = 0;
+                        Item hoa = null;
+                        for (ItemOption io : item.itemOptions) {
+                            if (io.optionTemplate.id == 107) {
+                                star = io.param;
+                                break;
+                            }
+                        }
+                        for (Item it : player.combineNew.itemsCombine) {
+                            if (it.isNotNullItem()) {
+                                switch (it.template.id) {
+                                    case 2063:
+                                        hoa = it;
+                                        break;
+                                }
+                            }
+                        }
+                        if (star < MAX_SAO_FLAG_BAG) {
+                            int ruby = 10_000;
+                            String npcSay = item.template.name + "\n|2|";
+                            for (ItemOption io : item.itemOptions) {
+                                if (io.optionTemplate.id != 102) {
+                                    npcSay += io.getOptionString() + "\n";
+                                }
+                            }
+                            if (hoa == null || hoa.quantity < 999) {
+                                npcSay += "|1|Cần x99 Hoa cúc vàng";
+                                baHatMit.createOtherMenu(player, ConstNpc.IGNORE_MENU, npcSay,
+                                        "Đóng");
+                            } else if (player.inventory.ruby < ruby) {
+                                npcSay += "thiếu ruby";
+                                baHatMit.createOtherMenu(player, ConstNpc.IGNORE_MENU, npcSay, "Đóng");
+                            } else {
+                                npcSay += "|1|Tỉ lệ thành công 20%\nCần " + Util.numberToMoney(ruby) + " ruby";
+                                baHatMit.createOtherMenu(player, ConstNpc.MENU_START_COMBINE, npcSay,
+                                        "Nâng cấp\ncần 10k ruby");
                             }
                         } else {
                             this.baHatMit.createOtherMenu(player, ConstNpc.IGNORE_MENU,
@@ -1397,6 +1451,9 @@ public class CombineServiceNew {
                 case NANG_CAP_BONG_TAI_CAP3:
                     nangCapBongTaiCap3(player);
                     break;
+                case PHA_LE_HOA_CAI_TRANG:
+                    phaLeHoaCaiTrang(player);
+                    break;
                 case PHA_LE_HOA_DISGUISE:
                     phalehoaDisguise(player);
                     break;
@@ -1796,10 +1853,10 @@ public class CombineServiceNew {
                                 num = Util.nextInt(1, 10);
                             }
                             RandomCollection<Integer> rd = new RandomCollection<>();
-                            rd.add(50, 1, "DDijt nhau au au");
-                            rd.add(25, 2, "DDijt nhau au au");
-                            rd.add(10, 3, "DDijt nhau au au");
-                            rd.add(5, 4, "DDijt nhau au au");
+                            rd.add(50, 1 /*, "DDijt nhau au au"*/);
+                            rd.add(25, 2 /*, "DDijt nhau au au"*/);
+                            rd.add(10, 3 /*, "DDijt nhau au au"*/);
+                            rd.add(5, 4 /*, "DDijt nhau au au"*/);
                             int color = rd.next();
                             for (ItemOption io : angelClothes.itemOptions) {
                                 int optId = io.optionTemplate.id;
@@ -2418,6 +2475,63 @@ public class CombineServiceNew {
 
     public boolean isItemPhaLeHoa(Item it) {
         return it.template.id == 2053;
+    }
+
+    public boolean isItemCaiTrang(Item it) {
+        return it.template.type == 5;
+    }
+
+    private boolean phaLeHoaCaiTrang(Player player) {
+        boolean flag = false;
+        if (!player.combineNew.itemsCombine.isEmpty()) {
+            Item item = player.combineNew.itemsCombine.get(0);
+            int ruby = 10_000;
+            if (isItemCaiTrang(item)) {
+                int star = 0;
+                ItemOption optionStar = null;
+                Item hoa = null;
+                for (Item it : player.combineNew.itemsCombine) {
+                    if (it.isNotNullItem()) {
+                        switch (it.template.id) {
+                            case 2063:
+                                hoa = it;
+                                break;
+                        }
+                    }
+                }
+                for (ItemOption io : item.itemOptions) {
+                    if (io.optionTemplate.id == 107) {
+                        star = io.param;
+                        optionStar = io;
+                        break;
+                    }
+                }
+                if (hoa != null || hoa.quantity < 99) {
+                    if (player.inventory.ruby < ruby) {
+                        Service.getInstance().sendThongBao(player, "Không đủ ruby để thực hiện");
+                        return false;
+                    }
+                    if (star < MAX_SAO_FLAG_BAG) {
+                        player.inventory.ruby -= ruby;
+                        InventoryService.gI().subQuantityItemsBag(player, hoa, 99);
+                        if (Util.isTrue(20, 100)) {
+                            if (optionStar == null) {
+                                item.itemOptions.add(new ItemOption(107, 1));
+                            } else {
+                                optionStar.param++;
+                            }
+                            flag = true;
+                        } else {
+                            sendEffectFailCombine(player);
+                        }
+                    }
+                    InventoryService.gI().sendItemBags(player);
+                    Service.getInstance().sendMoney(player);
+                    reOpenItemCombine(player);
+                }
+            }
+        }
+        return flag;
     }
 
     private boolean phalehoaDisguise(Player player) {
@@ -3493,6 +3607,8 @@ public class CombineServiceNew {
     // tab combine
     private String getTextTopTabCombine(int type) {
         switch (type) {
+            case PHA_LE_HOA_CAI_TRANG:
+                return "Ta sẽ giúp ngươi làm điều đó =)))";
             case PHA_LE_HOA_DISGUISE:
                 return "Ta sẽ giúp ngươi làm điều đó =)))";
             case TRADE_PET:
@@ -3548,6 +3664,8 @@ public class CombineServiceNew {
 
     private String getTextInfoTabCombine(int type) {
         switch (type) {
+            case PHA_LE_HOA_CAI_TRANG:
+                return "Con hãy đưa cho ta 1 Cải trang bất kì\nVaf x99 Hoa cúc vàng";
             case PHA_LE_HOA_DISGUISE:
                 return "Con hãy đưa ta x1 Kiếm Hasakiiii mà muốn pha lê hóa\nVà x9 capsule 1 Sao";
             case TRADE_PET:

@@ -109,6 +109,7 @@ public class ConstNpc {
     public static final byte CADIC = 75;
     public static final byte NOEL = 76;
     public static final byte GOKU_NOEL = 78;
+    public static final byte ONG_GIA = 79;
     //----------------------index menu------------------------------------------
     //index menu base
     public static final int IGNORE_MENU = 712002;
@@ -210,7 +211,7 @@ public class ConstNpc {
     public static final int menutd = 1106;
     public static final int menunm = 1107;
     public static final int menuxd = 1108;
-    
+
     public static final int MENU_USE_ITEM_BLACK_GOKU = 1109;
 
     //index menu rong thieng
@@ -269,6 +270,8 @@ public class ConstNpc {
     public static final int MENU_OPTION_LEVEL_SIDE_TASK = 500;
     public static final int MENU_OPTION_PAY_SIDE_TASK = 501;
 
+    public static final int INDEX_MENU_ONG_GIA = 19062006;
+    public static final int INDEX_MENU_REWARD_ONG_GIA = 19062007;
     //------------------------------shop id-------------------------------------
     //npcname_shoporder
     public static final int SHOP_BUNMA_QK_0 = 500;

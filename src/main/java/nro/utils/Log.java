@@ -13,6 +13,7 @@ public class Log {
 
     /**
      * Note: System.out.print
+     *
      * @param text
      */
     public static void log(String text) {
@@ -21,14 +22,16 @@ public class Log {
 
     /**
      * Note: System.out.print
+     *
      * @param text
      */
     public static void success(String text) {
-       System.out.println(text);
+        System.out.println(text);
     }
 
     /**
      * Note: System.out.print
+     *
      * @param text
      */
     public static void warning(String text) {
@@ -37,6 +40,7 @@ public class Log {
 
     /**
      * Note: System.out.print
+     *
      * @param text
      */
     public static void error(String text) {
@@ -49,6 +53,10 @@ public class Log {
 
     public static void error(Class clazz, Exception ex) {
         logger.error(clazz.getName() + ": " + ex.getMessage(), ex);
+    }
+
+    public static void LogError(Class clazz, String status) {
+        System.out.println("[" + clazz.getName() + "] " + status);
     }
 
 }

@@ -209,13 +209,13 @@ public class BlackBallWar {
         try {
             long now = System.currentTimeMillis();
             if (now > TIME_OPEN && now < TIME_CLOSE) {
-                ChangeMapService.gI().changeMap(player,
-                        player.mapBlackBall.get(index).map.mapId, -1, 50, 50);
+                ChangeMapService.gI().changeMap(player, player.mapBlackBall.get(index).map.mapId, -1, 50, 50);
             } else {
                 Service.getInstance().sendThongBao(player, "Đại chiến ngọc rồng đen chưa mở");
                 Service.getInstance().hideWaitDialog(player);
             }
         } catch (Exception ex) {
+            ex.printStackTrace();
         }
     }
 

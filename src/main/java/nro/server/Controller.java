@@ -296,7 +296,7 @@ public class Controller {
                     Resources.getInstance().downloadIconData(_session, id);
                     break;
                 case Cmd.GET_IMG_BY_NAME:
-                    Resources.getInstance().downloadIBN(_session, _msg.reader().readUTF());
+                    Resources.sendImageByName(_session, _msg.reader().readUTF());
                     break;
                 case -66:
                     int effId = _msg.reader().readShort();

@@ -636,12 +636,12 @@ public class NPoint {
         if (this.player.itemTime != null && this.player.itemTime.isUseBoHuyet) {
             this.hpMax *= 2;
         }
-        if (this.player.itemTime != null && this.player.itemTime.isBanhTrungThu1Trung) {
-            this.hpMax += calPercent(this.hpMax, 10);
-        }
-        if (this.player.itemTime != null && this.player.itemTime.isBanhTrungThu2Trung) {
-            this.hpMax += calPercent(this.hpMax, 20);
-        }
+//        if (this.player.itemTime != null && this.player.itemTime.isBanhTrungThu1Trung) {
+//            this.hpMax += calPercent(this.hpMax, 10);
+//        }
+//        if (this.player.itemTime != null && this.player.itemTime.isBanhTrungThu2Trung) {
+//            this.hpMax += calPercent(this.hpMax, 20);
+//        }
         //bổ huyết 2
         if (this.player.itemTime != null && this.player.itemTime.isUseBoHuyet2) {
             this.hpMax += calPercent(hpMax, 120);
@@ -770,12 +770,12 @@ public class NPoint {
         if (this.player.effectFlagBag.useKiemz) {
             this.mpMax += calPercent(this.mpMax, 20);
         }
-        if (this.player.itemTime != null && this.player.itemTime.isBanhTrungThu1Trung) {
-            this.mpMax += calPercent(this.mpMax, 10);
-        }
-        if (this.player.itemTime != null && this.player.itemTime.isBanhTrungThu2Trung) {
-            this.mpMax += calPercent(this.mpMax, 20);
-        }
+//        if (this.player.itemTime != null && this.player.itemTime.isBanhTrungThu1Trung) {
+//            this.mpMax += calPercent(this.mpMax, 10);
+//        }
+//        if (this.player.itemTime != null && this.player.itemTime.isBanhTrungThu2Trung) {
+//            this.mpMax += calPercent(this.mpMax, 20);
+//        }
         if (this.player.effectFlagBag.useDieuRong) {
             this.mpMax += calPercent(this.mpMax, 30);
         }
@@ -874,12 +874,12 @@ public class NPoint {
             this.dame += calPercent(dame, 110);
         }
 
-        if (this.player.itemTime != null && this.player.itemTime.isBanhTrungThu1Trung) {
-            this.dame += calPercent(this.dame, 10);
-        }
-        if (this.player.itemTime != null && this.player.itemTime.isBanhTrungThu2Trung) {
-            this.dame += calPercent(this.dame, 20);
-        }
+//        if (this.player.itemTime != null && this.player.itemTime.isBanhTrungThu1Trung) {
+//            this.dame += calPercent(this.dame, 10);
+//        }
+//        if (this.player.itemTime != null && this.player.itemTime.isBanhTrungThu2Trung) {
+//            this.dame += calPercent(this.dame, 20);
+//        }
         //phù mabu 14h
         if (this.player.zone != null && MapService.gI().isMapMabuWar14H(this.player.zone.map.mapId)) {
             this.dame += 10000;
@@ -1400,6 +1400,12 @@ public class NPoint {
             }
             if (((this.player.isPl() && this.player.itemTime.isDuoiKhi) || (this.player.isPet && ((Pet) this.player).master.itemTime.isDuoiKhi))) {
                 tiemNang += tn * 4;
+            }
+            if (((this.player.isPl() && this.player.itemTime.isBanhTrungThu2Trung) || (this.player.isPet && ((Pet) this.player).master.itemTime.isBanhTrungThu2Trung))) {
+                tiemNang += tn * 10;
+            }
+            if (this.player.itemTime != null && this.player.itemTime.isBanhTrungThu1Trung) {
+                tiemNang += tn * 10;
             }
             tiemNang *= Manager.RATE_EXP_SERVER;
             tiemNang = calSubTNSM(tiemNang);

@@ -364,7 +364,7 @@ public class InventoryService {
                     }
                     if (forPet) {
                         Service.getInstance().sendThongBaoOK(player.isPet ? ((Pet) player).master : player, "Trang bị chỉ dành cho đệ tử!");
-                    } else if (player.isPet && type > 6 && type != 32 && type != 11) {
+                    } else if (player.isPet && type > 6 && type != 32 && type != 11 && type != 23) {
                         Service.getInstance().sendThongBaoOK(player.isPet ? ((Pet) player).master : player, "Trang bị không phù hợp!");
                     } else if (powerRequire <= player.nPoint.power) {
                         byte index = 0;
@@ -444,6 +444,16 @@ public class InventoryService {
             }
             Item item = player.inventory.itemsBag.get(index);
             if (item.isNotNullItem()) {
+                if (item.template.type == 23) {
+                    if (!item.isItemMountPet()) {
+                        Service.getInstance().sendThongBao(player, "Mount bags do not match!!");
+                        return;
+                    }
+                    if (player.pet.nPoint.power / 1_000_000_000 < 100) {
+                        Service.getInstance().sendThongBaoOK(player, "Đệ tử phải đạt 100 tỷ sức mạnh mới có thể mặc");
+                        return;
+                    }
+                }
                 if (item.template.type == 11) {
                     if (!item.isItemFlagBagPet()) {
                         Service.getInstance().sendThongBao(player, "Flag bags do not match!!");

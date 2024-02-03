@@ -361,20 +361,18 @@ public class Zone {
 
     public void pickItem(Player player, int itemMapId) {
         ItemMap itemMap = getItemMapByItemMapId(itemMapId);
-
-        if (itemMap.isCheckDuplicate) {
-            Item item = InventoryService.gI().findItemBagByTemp(player, itemMap.itemTemplate.id);
-            if (item != null) {
-                Service.getInstance().sendThongBao(player, "Bạn đã có " + itemMap.itemTemplate.name + " trong túi đồ nên không thể nhặt thêm.");
-                return;
-            }
-        }
-
         if (itemMap instanceof Satellite) {
             return;
         }
         if (itemMap != null && !itemMap.isPickedUp) {
             synchronized (itemMap) {
+                if (itemMap.isCheckDuplicate) {
+                    Item item = InventoryService.gI().findItemBagByTemp(player, itemMap.itemTemplate.id);
+                    if (item != null) {
+                        Service.getInstance().sendThongBao(player, "Bạn đã có " + itemMap.itemTemplate.name + " trong túi đồ nên không thể nhặt thêm.");
+                        return;
+                    }
+                }
                 if (!itemMap.isPickedUp) {
                     if (itemMap.playerId == player.id || itemMap.playerId == -1) {
                         if (itemMap.itemTemplate.id == 648) {

@@ -131,9 +131,9 @@ public class RewardService {
 //                }
                 if (mob.tempId == ConstMob.HIRUDEGARN) {
                     RandomCollection<Integer> rd = new RandomCollection<>();
-                    rd.add(40, 568, "DDijt nhau au au");
-                    rd.add(20, 861, "DDijt nhau au au");
-                    rd.add(40, 17, "DDijt nhau au au");
+                    rd.add(40, 568 /*, "DDijt nhau au au"*/);
+                    rd.add(20, 861/*,, "DDijt nhau au au"*/);
+                    rd.add(40, 17 /*, "DDijt nhau au au"*/);
                     for (int i = 0; i < 3; i++) {
                         int itemID = rd.next();
                         ItemMap itemMap = new ItemMap(mob.zone, itemID, 1, x + Util.nextInt(-50, 50), yEnd, player.id);

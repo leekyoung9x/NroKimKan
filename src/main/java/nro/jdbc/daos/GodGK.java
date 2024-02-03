@@ -152,6 +152,9 @@ public class GodGK {
                     int evPoint = rs.getInt("event_point");
                     player.event.setEventPoint(evPoint);
 
+                    player.pointShiba = rs.getInt("pointShiba");
+                    player.diem_skien = rs.getInt("diem_skien");
+
                     dataArray = (JSONArray) JSONValue.parse(rs.getString("sk_tet"));
                     int timeBanhTet = Integer.parseInt(dataArray.get(0).toString());
                     int timeBanhChung = Integer.parseInt(dataArray.get(1).toString());
@@ -396,8 +399,8 @@ public class GodGK {
                         timeMa = Integer.parseInt(String.valueOf(dataArray.get(6)));
                     }
                     player.itemTime.lastTimeDuoiKhi = System.currentTimeMillis() - (ItemTime.TIME_MAY_DO - duoiKhi);
-                    player.itemTime.lastTimeBanhTrungThu1Trung = System.currentTimeMillis() - (ItemTime.TIME_ITEM - timeBanh1Trung);
-                    player.itemTime.lastTimeBanhTrungThu2Trung = System.currentTimeMillis() - (ItemTime.TIME_ITEM - timeBanh2Trung);
+                    player.itemTime.lastTimeBanhTrungThu1Trung = System.currentTimeMillis() - (ItemTime.TIME_MAY_DO - timeBanh1Trung);
+                    player.itemTime.lastTimeBanhTrungThu2Trung = System.currentTimeMillis() - (ItemTime.TIME_MAY_DO - timeBanh2Trung);
                     player.itemTime.lastTimerateHit = System.currentTimeMillis() - (ItemTime.TIME_ITEM - rateDraHit);
                     player.itemTime.lastTimeDameDr = System.currentTimeMillis() - (ItemTime.TIME_MAY_DO - rateDame);
                     player.itemTime.lastTimerateHPKI = System.currentTimeMillis() - (ItemTime.TIME_MAY_DO - rateHPKI);
@@ -718,7 +721,7 @@ public class GodGK {
                             pet.inventory.itemsBody.add(item);
                         }
 
-                        if (dataArray.size() < 8) {
+                        if (dataArray.size() < 9) {
                             Item item = ItemService.gI().createItemNull();
                             pet.inventory.itemsBody.add(item);
                         }
