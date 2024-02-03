@@ -4,8 +4,10 @@
  */
 package nro.models.npc.NpcForge;
 
+import nro.consts.ConstAction;
 import nro.consts.ConstNpc;
 import nro.consts.ConstPlayer;
+import nro.manager.EventTurnManager;
 import nro.models.boss.Boss;
 import nro.models.boss.BossData;
 import nro.models.boss.BossManager;
@@ -43,13 +45,15 @@ public class OngGia extends Npc {
 
     @Override
     public void confirmMenu(Player player, int select) {
+        int turn = EventTurnManager.ManageEventShiba(ConstAction.GET_BY_ID, player.id);
+
         if (canOpenNpc(player)) {
             if (player.iDMark.isBaseMenu()) {
                 switch (select) {
                     case 0: {
                         this.createOtherMenu(player, ConstNpc.INDEX_MENU_ONG_GIA,
                                 "Ta không tin tưởng con sẽ đưa tó của ta đi đúng đường\nCon phải cọc cống phẩm",
-                                "Free 1 lượt\n1 ngày",
+                                "Free " + turn + " lượt\n1 ngày",
                                 "Dắt tó phí\n2k Ruby",
                                 "Dắt tó phí\nx99 bông hồng xanh");
                         break;
@@ -65,11 +69,26 @@ public class OngGia extends Npc {
             } else if (player.iDMark.getIndexMenu() == ConstNpc.INDEX_MENU_ONG_GIA) {
                 switch (select) {
                     case 0: {
-                        this.npcChat(player, "Chức năng đang phát triển");
+                        if (turn <= 0) {
+                            this.npcChat(player, "Bạn đã hết lượt free!");
+                        } else {
+                            try {
+                                EventTurnManager.ManageEventShiba(ConstAction.UPDATE_BY_ID, player.id);
+                                CallShiba(player);
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                                this.npcChat(player, "Có lỗi xảy ra vui lòng liên hệ Péo Ngu Học!");
+                            }
+                        }
                         break;
                     }
                     case 1: {
-                        callShibaPetRuby(player);
+                        try {
+                            callShibaPetRuby(player);
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                            this.npcChat(player, "Có lỗi xảy ra vui lòng liên hệ Péo Ngu Học!");
+                        }
                         break;
                     }
                     case 2: {
@@ -125,27 +144,7 @@ public class OngGia extends Npc {
             this.npcChat(player, "Nhà ngươi hãy tiêu diệt Boss lúc trước gọi ra đã, con boss đó đang ở khu " + oldShiba.zone.zoneId);
         } else if (hoahong != null && hoahong.quantity >= quantity) {
             InventoryService.gI().subQuantityItemsBag(player, hoahong, quantity);
-            BossData bossDataClone = new BossData(
-                    "Aaaa Shibaaa", //name
-                    ConstPlayer.XAYDA, //gender
-                    Boss.DAME_NORMAL, //type dame
-                    Boss.HP_NORMAL, //type hp
-                    500_000, //dame
-                    new int[][]{{19_062_006}}, //hp
-                    new short[]{1314, 1315, 1316}, //outfit
-                    new short[]{144},
-                    new int[][]{},
-                    60
-            );
-            try {
-                Shiba shiba = new Shiba(Util.createIdShiba((int) player.id), bossDataClone, player.zone, player.location.x - 20, player.location.y);
-                shiba.zoneFinal = player.zone;
-                shiba.playerTarger = player;
-                player.haveShiba = true;
-                shiba.joinMap();
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
+            CallShiba(player);
         } else {
             this.npcChat(player, "Thiếu hoa hồng hoặc x" + quantity + " hoa hồng");
         }
@@ -162,28 +161,32 @@ public class OngGia extends Npc {
             this.npcChat(player, "Nhà ngươi hãy tiêu diệt Boss lúc trước gọi ra đã, con boss đó đang ở khu " + oldShiba.zone.zoneId);
         } else {
             player.inventory.ruby -= 2000;
-            BossData bossDataClone = new BossData(
-                    "Aaaa Shibaaa", //name
-                    ConstPlayer.XAYDA, //gender
-                    Boss.DAME_NORMAL, //type dame
-                    Boss.HP_NORMAL, //type hp
-                    500_000, //dame
-                    new int[][]{{19_062_006}}, //hp
-                    new short[]{1314, 1315, 1316}, //outfit
-                    new short[]{144},
-                    new int[][]{},
-                    60
-            );
-            try {
-                Shiba shiba = new Shiba(Util.createIdShiba((int) player.id), bossDataClone, player.zone, player.location.x - 20, player.location.y);
-                shiba.zoneFinal = player.zone;
-                shiba.playerTarger = player;
-                player.haveShiba = true;
-                shiba.joinMap();
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
+            CallShiba(player);
         }
         Service.getInstance().sendMoney(player);
+    }
+
+    private static void CallShiba(Player player) {
+        BossData bossDataClone = new BossData(
+                "Aaaa Shibaaa", //name
+                ConstPlayer.XAYDA, //gender
+                Boss.DAME_NORMAL, //type dame
+                Boss.HP_NORMAL, //type hp
+                500_000, //dame
+                new int[][]{{19_062_006}}, //hp
+                new short[]{1314, 1315, 1316}, //outfit
+                new short[]{144},
+                new int[][]{},
+                60
+        );
+        try {
+            Shiba shiba = new Shiba(Util.createIdShiba((int) player.id), bossDataClone, player.zone, player.location.x - 20, player.location.y);
+            shiba.zoneFinal = player.zone;
+            shiba.playerTarger = player;
+            player.haveShiba = true;
+            shiba.joinMap();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }

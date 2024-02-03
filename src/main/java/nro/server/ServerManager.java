@@ -286,7 +286,18 @@ public class ServerManager {
             while (isRunning) {
                 try {
                     long start = System.currentTimeMillis();
-                    SieuHangManager.Update();
+                    try {
+                        SieuHangManager.Update();
+                    } catch (Exception e) {
+                        System.out.println("Có lỗi update bảng xếp hạng siêu hạng!");
+                        e.printStackTrace();
+                    }
+                    try {
+                        EventTurnManager.Update();
+                    } catch (Exception e) {
+                        System.out.println("Có lỗi update lượt free shiba ngày!");
+                        e.printStackTrace();
+                    }
                     long timeUpdate = System.currentTimeMillis() - start;
                     if (timeUpdate < delay) {
                         Thread.sleep(delay - timeUpdate);
@@ -295,7 +306,7 @@ public class ServerManager {
                     e.printStackTrace();
                 }
             }
-        }, "Update giai sieu hang").start();
+        }, "Update giai sieu hang, Shiba").start();
 
         new Thread(() -> {
             while (isRunning) {
