@@ -2028,4 +2028,20 @@ public class BossData {
                 {Skill.MASENKO, 1, 800}, {Skill.MASENKO, 5, 1300}, {Skill.MASENKO, 6, 1500},},
             _15_PHUT
     );
+
+    public static final BossData PICOLO_DEMON_KING = new BossData(
+            "Ma Vương Picolo", //name
+            ConstPlayer.XAYDA, //gender
+            Boss.DAME_NORMAL, //type dame
+            Boss.HP_NORMAL, //type hp
+            10_000_000, //dame
+            new int[][]{{2_000_000_000}}, //hp
+            new short[]{1311, 1312, 1313}, //outfit
+            new short[]{7}, //map join
+            new int[][]{ //skill
+                    {Skill.SOCOLA, 3, 450}, {Skill.KHIEN_NANG_LUONG, 3, 400}, {Skill.THAI_DUONG_HA_SAN, 7, 650}
+            },
+//            _20_PHUT
+            0
+    );
 }

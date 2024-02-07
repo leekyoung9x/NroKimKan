@@ -43,6 +43,7 @@ public class SetClothes {
     public boolean godClothes;
     public int ctHaiTac = -1;
     public int ctBunmaXecXi = -1;
+    public int setThienSu = 0;
 
     public void setup() {
         setDefault();
@@ -76,6 +77,22 @@ public class SetClothes {
                     break;
                 case 464:
                     this.ctBunmaXecXi = ct.template.id;
+                case 1048:
+                case 1049:
+                case 1050:
+                case 1051:
+                case 1052:
+                case 1053:
+                case 1054:
+                case 1055:
+                case 1056:
+                case 1057:
+                case 1058:
+                case 1059:
+                case 1060:
+                case 1061:
+                case 1062:
+                    this.setThienSu++;
                     break;
             }
         }
@@ -211,8 +228,8 @@ public class SetClothes {
         this.nappa2 = 0;
         this.godClothes = false;
         this.ctHaiTac = -1;
-        this.ctHaiTac = -1;
         this.ctBunmaXecXi = -1;
+        this.setThienSu = 0;
     }
 
     public void dispose() {
