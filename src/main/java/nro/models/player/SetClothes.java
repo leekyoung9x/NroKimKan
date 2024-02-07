@@ -61,6 +61,16 @@ public class SetClothes {
                 break;
             }
         }
+
+        for (int i = 0; i < this.player.inventory.itemsBody.size(); i++) {
+            Item item = this.player.inventory.itemsBody.get(i);
+            if (item.isNotNullItem()) {
+                if (isSetThienSu(item.getId())) {
+                    this.setThienSu++;
+                }
+            }
+        }
+
         Item ct = this.player.inventory.itemsBody.get(5);
         if (ct.isNotNullItem()) {
             switch (ct.template.id) {
@@ -77,23 +87,6 @@ public class SetClothes {
                     break;
                 case 464:
                     this.ctBunmaXecXi = ct.template.id;
-                case 1048:
-                case 1049:
-                case 1050:
-                case 1051:
-                case 1052:
-                case 1053:
-                case 1054:
-                case 1055:
-                case 1056:
-                case 1057:
-                case 1058:
-                case 1059:
-                case 1060:
-                case 1061:
-                case 1062:
-                    this.setThienSu++;
-                    break;
             }
         }
     }
@@ -106,6 +99,35 @@ public class SetClothes {
         }
         return false;
     }
+
+    public static boolean isSetThienSu(int itemId) {
+        boolean result = false;
+
+        switch (itemId) {
+            case 1048:
+            case 1049:
+            case 1050:
+            case 1051:
+            case 1052:
+            case 1053:
+            case 1054:
+            case 1055:
+            case 1056:
+            case 1057:
+            case 1058:
+            case 1059:
+            case 1060:
+            case 1061:
+            case 1062:
+                result = true;
+                break;
+            default:
+                break;
+        }
+
+        return result;
+    }
+
 
     private void setupSKT() {
         int[] doTD = new int[]{555, 556, 562, 563, 561};
