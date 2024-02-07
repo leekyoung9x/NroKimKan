@@ -179,7 +179,7 @@ public class MapService {
                 zoneJoin = map.zones.get(zoneId);
             }
         } catch (Exception e) {
-            Log.error(MapService.class, e);
+            e.printStackTrace();
         }
         return zoneJoin;
     }

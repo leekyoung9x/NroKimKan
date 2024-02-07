@@ -39,8 +39,8 @@ public class UpdateEffChar {
 //                    System.out.println(player.id);
                 }
                 switch (playerIdInt) {
-                    case 16803:
-                        Service.getInstance().addEffectChar(player, 80, 1, -1, -1, 1);
+                    case 38110:
+                        Service.getInstance().addEffectChar(player, 67, 1, -1, -1, 1);
                         break;
                     default:
                         break;

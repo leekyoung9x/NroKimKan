@@ -72,13 +72,18 @@ public class QuyLaoKame extends Npc {
                             if (idShiba != 0) {
                                 Boss boss = BossManager.gI().getBossById(idShiba);
 
-                                if (boss != null) {
+                                if (boss != null 
+                                        && boss.zone.map.mapId == player.zone.map.mapId 
+                                        && boss.zone.zoneId == player.zone.zoneId
+                                        && Util.getDistance(player, boss) <= 300) {
                                     boss.leaveMap();
                                     BossManager.gI().removeBoss(boss);
                                     player.haveShiba = false;
                                     Service.getInstance().sendThongBao(player, "Ôi mừng quá đây là con chó mà ta đang đi tìm, Ta tặng cậu 1 điểm sự kiện tết nhé");
                                     player.pointShiba++;
                                     player.diem_skien++;
+                                } else {
+                                    Service.getInstance().sendThongBao(player, "Đâu con béo Shiba đâu dm");
                                 }
                             }
                         } else {

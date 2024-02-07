@@ -331,6 +331,7 @@ public class Resources {
             session.sendMessage(msg);
             msg.cleanup();
         } catch (Exception e) {
+            System.out.println("Thieu Eff: " + idT);
         }
     }
 

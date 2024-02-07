@@ -282,6 +282,7 @@ public class ServerManager {
 
         this.sieuHangControl = new SieuHangControl();
         new Thread(this.sieuHangControl, "Sieu hang").start();
+        
         new Thread(() -> {
             while (isRunning) {
                 try {

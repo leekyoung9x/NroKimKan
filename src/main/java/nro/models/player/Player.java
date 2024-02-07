@@ -95,6 +95,8 @@ public class Player {
     public boolean isBoss;
     public boolean isMiniPet;
 
+    public int maintain;
+    
     public int playerTradeId = -1;
     public Player playerTrade;
 

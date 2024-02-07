@@ -187,6 +187,7 @@ public class Trade {
                 || item.template.id == 2011
                 || item.template.id == 2012
                 || item.template.id == 1143
+                || item.template.id == 2065
                 || item.template.id == 1995
                 || item.template.id == 2063
                 || item.template.id == 2052) {

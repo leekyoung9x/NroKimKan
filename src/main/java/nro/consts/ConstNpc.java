@@ -241,6 +241,7 @@ public class ConstNpc {
     public static final int QUA_TAN_THU = 500;
     public static final int MENU_PHAN_THUONG = 501;
     public static final int MENU_SHOW_TOP = 502;
+    public static final int MAINTAIN = 503;
 
     //index menu quốc vương
     public static final int OPEN_POWER_MYSEFT = 500;

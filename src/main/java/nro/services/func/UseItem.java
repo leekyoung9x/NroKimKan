@@ -2241,6 +2241,10 @@ public class UseItem {
     }
 
     private void openCapsuleUI(Player pl) {
+        if(pl.haveShiba){
+            Service.getInstance().sendThongBao(pl, "không thể thực hiện");
+            return;
+        }
         if (pl.isHoldNamecBall) {
             NamekBallWar.gI().dropBall(pl);
             Service.getInstance().sendFlagBag(pl);

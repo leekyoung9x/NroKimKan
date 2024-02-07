@@ -585,7 +585,7 @@ public class CombineServiceNew {
                                     npcSay += io.getOptionString() + "\n";
                                 }
                             }
-                            if (hoa == null || hoa.quantity < 999) {
+                            if (hoa == null || hoa.quantity < 99) {
                                 npcSay += "|1|Cần x99 Hoa cúc vàng";
                                 baHatMit.createOtherMenu(player, ConstNpc.IGNORE_MENU, npcSay,
                                         "Đóng");
@@ -593,7 +593,7 @@ public class CombineServiceNew {
                                 npcSay += "thiếu ruby";
                                 baHatMit.createOtherMenu(player, ConstNpc.IGNORE_MENU, npcSay, "Đóng");
                             } else {
-                                npcSay += "|1|Tỉ lệ thành công 20%\nCần " + Util.numberToMoney(ruby) + " ruby";
+                                npcSay += "|1|Tỉ lệ thành công 100%\nCần " + Util.numberToMoney(ruby) + " ruby";
                                 baHatMit.createOtherMenu(player, ConstNpc.MENU_START_COMBINE, npcSay,
                                         "Nâng cấp\ncần 10k ruby");
                             }
@@ -2514,16 +2514,12 @@ public class CombineServiceNew {
                     if (star < MAX_SAO_FLAG_BAG) {
                         player.inventory.ruby -= ruby;
                         InventoryService.gI().subQuantityItemsBag(player, hoa, 99);
-                        if (Util.isTrue(20, 100)) {
-                            if (optionStar == null) {
-                                item.itemOptions.add(new ItemOption(107, 1));
-                            } else {
-                                optionStar.param++;
-                            }
-                            flag = true;
+                        if (optionStar == null) {
+                            item.itemOptions.add(new ItemOption(107, 1));
                         } else {
-                            sendEffectFailCombine(player);
+                            optionStar.param++;
                         }
+                        flag = true;
                     }
                     InventoryService.gI().sendItemBags(player);
                     Service.getInstance().sendMoney(player);
@@ -3434,7 +3430,7 @@ public class CombineServiceNew {
 
     private boolean isTrangBiEpSaoPhale(Item item) {
         if (item != null && item.isNotNullItem()) {
-            if (item.template.type < 5 || item.template.type == 32 || item.template.id == 2053) {
+            if (item.template.type <= 5 || item.template.type == 32 || item.template.id == 2053) {
                 return true;
             } else {
                 return false;

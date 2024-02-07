@@ -16,7 +16,7 @@ import nro.utils.Util;
 
 /**
  *
- * @author Administrator
+ * @author Arriety
  */
 public class Fide extends Npc {
 

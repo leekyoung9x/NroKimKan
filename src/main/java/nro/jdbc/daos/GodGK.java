@@ -154,7 +154,9 @@ public class GodGK {
 
                     player.pointShiba = rs.getInt("pointShiba");
                     player.diem_skien = rs.getInt("diem_skien");
-
+                    player.maintain = rs.getInt("maintain");
+                            
+                            
                     dataArray = (JSONArray) JSONValue.parse(rs.getString("sk_tet"));
                     int timeBanhTet = Integer.parseInt(dataArray.get(0).toString());
                     int timeBanhChung = Integer.parseInt(dataArray.get(1).toString());

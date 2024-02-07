@@ -32,7 +32,7 @@ public class Trinova extends Npc {
             if (!TaskService.gI().checkDoneTaskTalkNpc(player, this)) {
                 this.createOtherMenu(player, ConstNpc.BASE_MENU,
                         "|8|SERVER NRO KIMKAN\n|2|Build Server: Arriety Béo\n|2|CEO, CCO, CMO, CHRO, CFO, CPO, KOL, DEV: Put đẹp trai"
-                        + "\n|8|GIFTCODE: caitrang vatpham linhthu ngocrong saophale kimkan kichoat\n|8|phudeptrai hello tuanbeo bongcuoi bomong lixi2024 chucmung ",
+                        + "\n|8|GIFTCODE: caitrang vatpham linhthu ngocrong saophale kimkan kichoat\n|8|phudeptrai hello tuanbeo bongcuoi\nkimkan1 kimkan2 bomong lixi2024 chucmung ",
                         // Server đang " + Client.gI().getPlayers().size() + " người Online"
                         "Nhận quà\nMiễn phí",
                         "Nhận Vàng\nVô hạn",
@@ -40,7 +40,8 @@ public class Trinova extends Npc {
                         "Bỏ qua\nnhiệm vụ",
                         "Quy đổi\nHồng ngọc",
                         "Kích hoạt\nthành viên",
-                        "Top Server");
+                        "Top Server",
+                        "Duy trì\naccount");
             }
         }
     }
@@ -194,6 +195,25 @@ public class Trinova extends Npc {
                                 "Ông sẽ cho con xem top của cả Server này!", "Top\nSức mạnh",
                                 "Top\nNạp");
                         break;
+                    case 7:
+                        this.createOtherMenu(player, ConstNpc.MAINTAIN,
+                                "Hành động tiếp theo của bạn là duy trì account\nviệc duy trì account không mất 1 thứ gì!", "Duy trì",
+                                "Từ chối");
+                        break;
+
+                }
+            } else if (player.iDMark.getIndexMenu() == ConstNpc.MAINTAIN) {
+                switch (select) {
+                    case 0:
+                        if (player.maintain < 1) {
+                            player.maintain++;
+                            Service.getInstance().sendThongBaoOK(player, "Bạn đã duy trì thành công");
+                        } else {
+                            this.npcChat(player, "Tài khoản bạn đã được gia hạn");
+                        }
+                        break;
+                    case 1:
+                        break;
                 }
             } else if (player.iDMark.getIndexMenu() == ConstNpc.MENU_SHOW_TOP) {
                 switch (select) {
@@ -233,7 +253,6 @@ public class Trinova extends Npc {
                         }
                         break;
                     case 2:
-
                         break;
 
                 }

@@ -877,7 +877,7 @@ public class PlayerDAO {
                                 + "data_black_ball = ?, data_side_task = ?, data_charm = ?, skills = ?, skills_shortcut = ?,"
                                 + "thoi_vang = ?, 1sao = ?, 2sao = ?, 3sao = ?, collection_book = ?, event_point = ?, firstTimeLogin = ?,"
                                 + " challenge = ?, sk_tet = ?, buy_limit = ?, moc_nap = ?,achivements = ? , reward_limit = ?, item_new_time = ?,"
-                                + " data_bill_egg = ? , data_egg_linhthu = ? , time_may_do = ?, pointShiba = ?, diem_skien =? where id = ?");
+                                + " data_bill_egg = ? , data_egg_linhthu = ? , time_may_do = ?, pointShiba = ?, diem_skien =?, maintain =? where id = ?");
 
                         ps.setShort(1, player.head);
                         ps.setBoolean(2, player.haveTennisSpaceShip);
@@ -926,7 +926,8 @@ public class PlayerDAO {
                         ps.setString(45, itemMayDo);
                         ps.setInt(46, (int) player.pointShiba);
                         ps.setInt(47, (int) player.diem_skien);
-                        ps.setInt(48, (int) player.id);
+                        ps.setInt(48, (int) player.maintain);
+                        ps.setInt(49, (int) player.id);
                         ps.executeUpdate();
                         if (updateTimeLogout) {
                             AccountDAO.updateAccountLogout(player.getSession());
