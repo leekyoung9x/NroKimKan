@@ -201,6 +201,10 @@ public class BossFactory {
     public static final int THAN_MEO_KARIN = -141;
     public static final int PICOLO_DEMON_KING = -142;
     public static final int MECHA_ROBOT = -143;
+    public static final int SAIBAMEN = -144;
+    public static final int SAIBAMEN_ONE = -145;
+    public static final int SAIBAMEN_TWO = -146;
+    public static final int SAIBAMEN_THREE = -147;
 
     private static final Logger logger = Logger.getLogger(BossFactory.class);
     public static final int[] MAP_APPEARED_QILIN = {ConstMap.VACH_NUI_ARU_42, ConstMap.VACH_NUI_MOORI_43, ConstMap.VACH_NUI_KAKAROT,
@@ -250,7 +254,8 @@ public class BossFactory {
 //                    createBoss(BROLY);
 //                }
 //                createBoss(PICOLO_DEMON_KING);
-                createBoss(MECHA_ROBOT);
+//                createBoss(MECHA_ROBOT);
+                createBoss(SAIBAMEN);
             } catch (Exception e) {
                 logger.error("Err initboss", e);
             }
@@ -459,6 +464,9 @@ public class BossFactory {
                 boss = new PicoloDemonKing();
             case MECHA_ROBOT:
                 boss = new MechaRobot();
+                break;
+            case SAIBAMEN:
+                boss = new Saibamen();
                 break;
         }
         return boss;
